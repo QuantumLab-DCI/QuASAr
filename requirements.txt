@@ -5,5 +5,5 @@ numpy
 scikit-learn
 matplotlib
 pandas
-keras
 tensorflow
+keras

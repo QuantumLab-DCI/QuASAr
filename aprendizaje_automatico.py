@@ -32,7 +32,7 @@ import tensorflow as tf
 import keras
 from keras.models import Sequential
 from keras.layers import Dense, Dropout, Flatten
-from keras.layers.convolutional import Conv1D, MaxPooling1D
+from keras.layers import Conv1D, MaxPooling1D
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import roc_curve, roc_auc_score
 import matplotlib.pyplot as plt
@@ -573,7 +573,17 @@ def entrenamientoPorEtapas():
 
     # Crea un nuevo modelo que utiliza estos pesos para transformar los datos
     input_data_features = Input(shape=(input_dim_grande,))
-    features = Dense(128, activation='relu', weights=hidden_layer_weights)(input_data_features)
+
+    # 1. Crea la capa Dense SIN los pesos
+    feature_layer = Dense(128, activation='relu')
+
+    # 2. Aplica la capa al tensor de entrada
+    features = feature_layer(input_data_features)
+
+    # 3. AHORA establece los pesos en la capa ya creada
+    feature_layer.set_weights(hidden_layer_weights)
+
+    # El resto del código es igual
     feature_extractor = Model(inputs=input_data_features, outputs=features)
 
     input_dim_peque = x_train_peque.shape[1]
