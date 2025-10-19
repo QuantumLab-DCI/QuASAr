@@ -2,17 +2,99 @@ from graphviz import Digraph
 import grafo_mc
 import punto_variacion
 
+# ====== Ajustes visuales reutilizables ======
+FONT_NAME = "Arial"
+EDGE_COLOR = "#4d4d4d"
+FEATURE_FILL = "#eef3ff"   # azul muy claro para el modelo
+FEATURE_BORDER = "#7aa6ff"
+
+ACTIVE_GREEN = "#33a02c"
+INACTIVE_RED = "#e31a1c"
+STATE_TEXT = "white"
+
+def _wrap_label(text: str, width: int = 18) -> str:
+    """
+    Envuelve etiquetas largas para que no desborden los nodos.
+    """
+    if not text:
+        return ""
+    words = str(text).split()
+    lines, line = [], []
+    count = 0
+    for w in words:
+        wlen = len(w)
+        if count + (1 if line else 0) + wlen <= width:
+            line.append(w)
+            count = count + (1 if line[:-1] else 0) + wlen
+        else:
+            lines.append(" ".join(line))
+            line = [w]
+            count = wlen
+    if line:
+        lines.append(" ".join(line))
+    return "\n".join(lines)
+
+
+def _base_graph(comment: str) -> Digraph:
+    """
+    Crea un grafo con atributos visuales mejorados.
+    """
+    dot = Digraph(comment=comment)
+    # Layout horizontal, más espacio entre nodos, líneas suaves
+    dot.attr(
+        rankdir="LR", splines="spline", overlap="false",
+        nodesep="0.4", ranksep="0.6", pad="0.1",
+        fontname=FONT_NAME, fontsize="11", dpi="110"
+    )
+    dot.attr("node",
+             fontname=FONT_NAME, fontsize="10",
+             shape="box", style="rounded,filled",
+             color=FEATURE_BORDER, penwidth="1.2",
+             fillcolor=FEATURE_FILL)
+    dot.attr("edge",
+             color=EDGE_COLOR, arrowsize="0.8", penwidth="1.2")
+    return dot
+
+
+def _legend(dot: Digraph, es_estado: bool = False) -> None:
+    """
+    Leyenda compacta para entender colores.
+    """
+    with dot.subgraph(name="cluster_legend") as c:
+        c.attr(label="Leyenda", style="rounded", color="#d9d9d9",
+               fontname=FONT_NAME, fontsize="10")
+        if es_estado:
+            c.node("L_ACT", "Activo", shape="box",
+                   style="rounded,filled", fillcolor=ACTIVE_GREEN,
+                   fontcolor=STATE_TEXT, color=ACTIVE_GREEN)
+            c.node("L_INA", "Inactivo", shape="box",
+                   style="rounded,filled", fillcolor=INACTIVE_RED,
+                   fontcolor=STATE_TEXT, color=INACTIVE_RED)
+            c.edge("L_ACT", "L_INA", style="invis")  # mantener compacto
+        else:
+            c.node("L_F", "Característica", shape="box",
+                   style="rounded,filled", fillcolor=FEATURE_FILL,
+                   color=FEATURE_BORDER)
+            c.node("L_R", "Requiere (dependencia)", shape="diamond",
+                   style="filled", fillcolor="#f1e4ff", color="#a47bdc",
+                   fontname=FONT_NAME)
+            c.edge("L_F", "L_R", style="invis")
+
+
 def generar_visualizacion_modelo(mc, nombre_archivo='modelo_caracteristicas'):
     """
     Genera una visualización estática del Modelo de Características completo.
+    - Layout horizontal (LR)
+    - Etiquetas envueltas
+    - Leyenda
+    - Exporta SVG y PNG
     """
-    dot = Digraph(comment='Modelo de Características')
-    dot.attr('node', shape='box', style='rounded')
-    dot.attr(rankdir='TB', splines='ortho')
+    dot = _base_graph(comment="Modelo de Características")
 
     # Añadir todas las características como nodos
     for caracteristica in mc.caracteristicas:
-        dot.node(caracteristica.getNombre, caracteristica.getNombre)
+        nombre = caracteristica.getNombre
+        dot.node(nombre, _wrap_label(nombre))
 
     # Añadir las relaciones como flechas
     for caracteristica in mc.caracteristicas:
@@ -20,57 +102,107 @@ def generar_visualizacion_modelo(mc, nombre_archivo='modelo_caracteristicas'):
         for relacion in caracteristica.getRelaciones:
             nombre_hijo, tipo_relacion = relacion[0], relacion[1]
             if tipo_relacion == "Requiere":
-                # La relación 'Requiere' es una dependencia, la dibujamos punteada
-                dot.edge(nombre_padre, nombre_hijo, style='dashed', arrowhead='normal', label=tipo_relacion, constraint='false')
+                # Dependencia punteada y color morado suave
+                dot.edge(
+                    nombre_padre, nombre_hijo,
+                    style="dashed", arrowhead="normal",
+                    label="Requiere", fontsize="9",
+                    color="#6a3d9a", fontname=FONT_NAME,
+                    constraint="false"
+                )
             else:
-                # Otras relaciones son jerárquicas
-                dot.edge(nombre_padre, nombre_hijo, label=tipo_relacion)
+                # Jerárquica normal
+                dot.edge(
+                    nombre_padre, nombre_hijo,
+                    label=_wrap_label(tipo_relacion, 14),
+                    fontsize="9", fontname=FONT_NAME
+                )
 
-    # Guarda el grafo como una imagen PNG
-    dot.render(nombre_archivo, format='png', view=False, cleanup=True)
-    print(f"✅ Visualización del modelo guardada en {nombre_archivo}.png")
+    _legend(dot, es_estado=False)
+
+    # Exportar SVG y PNG
+    dot.format = "svg"
+    dot.render(nombre_archivo, view=False, cleanup=True)
+    dot.format = "png"
+    dot.render(nombre_archivo, view=False, cleanup=True)
+    print(f"✅ Visualización del modelo guardada como {nombre_archivo}.svg y .png")
+
 
 def generar_visualizacion_estado(punto_variacion, mc, nombre_archivo='estado_actual'):
     """
-    Genera una visualización del estado actual del sistema, coloreando los nodos
-    según si están activos o inactivos.
+    Genera una visualización del estado actual del sistema:
+    - Nodos ACTIVOS en VERDE, INACTIVOS en ROJO (texto blanco)
+    - Activos con borde más grueso
+    - Layout horizontal, etiquetas envueltas, leyenda
+    - Exporta SVG y PNG
     """
-    configuracion = punto_variacion.obtenerConfiguracion()
-    dot = Digraph(comment='Estado Actual del Sistema')
-    dot.attr('node', shape='box', style='rounded,filled')
-    dot.attr(rankdir='TB', splines='ortho')
+    dot = _base_graph(comment="Estado Actual del Sistema")
 
-    # Nombres de todas las características para referencia
+    # Actualizamos esquema de colores por estado (sobrescribe defaults)
+    # Nota: para el estado, definimos nodos individualmente
+    # Obtener configuración actual desde el punto de variación
+    configuracion = {}
+    try:
+        configuracion = punto_variacion.obtenerConfiguracion()
+    except Exception:
+        configuracion = {}
+
+    # Nombres de todas las características
     nombres_caracteristicas = [c.getNombre for c in mc.caracteristicas]
-    
-    # Crea un diccionario para saber qué nodos ya fueron agregados
-    nodos_agregados = {}
-    for n in nombres_caracteristicas:
-        # Por defecto, si una característica no está en la configuración, la marcamos como inactiva
-        nodos_agregados[n] = False 
-    
+
+    # Normalizamos diccionario de estado: por defecto, inactivo
+    nodos_agregados = {n: False for n in nombres_caracteristicas}
+
+    # Mapear llaves del dict de config (que suelen venir normalizadas)
     for nombre, estado in configuracion.items():
-        nombre_formal = next((n for n in nombres_caracteristicas if n.replace(" ", "_").lower() == nombre), nombre)
-        if nombre_formal in nombres_caracteristicas:
-            nodos_agregados[nombre_formal] = estado
+        nombre_formal = next(
+            (n for n in nombres_caracteristicas
+             if n.replace(" ", "_").lower() == str(nombre).lower()),
+            None
+        )
+        if nombre_formal is not None:
+            nodos_agregados[nombre_formal] = bool(estado)
 
-    # Añadir nodos y colorearlos según su estado
-    for nombre, estado in nodos_agregados.items():
-        if estado: # Característica activada
-            dot.node(nombre, nombre, fillcolor='lightgreen')
-        else: # Característica desactivada
-            dot.node(nombre, nombre, fillcolor='#FFDDDD') # Un rojo claro
+    # Dibujar nodos según estado
+    for nombre, activo in nodos_agregados.items():
+        if activo:
+            dot.node(
+                nombre, _wrap_label(nombre),
+                fillcolor=ACTIVE_GREEN, fontcolor=STATE_TEXT,
+                color=ACTIVE_GREEN, penwidth="2.2"
+            )
+        else:
+            dot.node(
+                nombre, _wrap_label(nombre),
+                fillcolor=INACTIVE_RED, fontcolor=STATE_TEXT,
+                color=INACTIVE_RED, penwidth="1.2"
+            )
 
-    # Añadir las mismas relaciones que en el modelo estático
+    # Añadir relaciones (igual que en el modelo) para mantener coherencia
     for caracteristica in mc.caracteristicas:
         nombre_padre = caracteristica.getNombre
         for relacion in caracteristica.getRelaciones:
             nombre_hijo, tipo_relacion = relacion[0], relacion[1]
             if tipo_relacion == "Requiere":
-                dot.edge(nombre_padre, nombre_hijo, style='dashed', constraint='false')
+                dot.edge(
+                    nombre_padre, nombre_hijo,
+                    style="dashed", arrowhead="normal",
+                    label="Requiere", fontsize="9",
+                    color="#6a3d9a", fontname=FONT_NAME,
+                    constraint="false"
+                )
             else:
-                dot.edge(nombre_padre, nombre_hijo)
+                dot.edge(
+                    nombre_padre, nombre_hijo,
+                    label=_wrap_label(tipo_relacion, 14),
+                    fontsize="9", fontname=FONT_NAME
+                )
 
-    # Guarda el estado actual como una imagen PNG
-    dot.render(nombre_archivo, format='png', view=False, cleanup=True)
-    print(f"🔄 Visualización de estado actualizada y guardada en {nombre_archivo}.png")
+    _legend(dot, es_estado=True)
+
+    # Exportar SVG y PNG
+    dot.format = "svg"
+    dot.render(nombre_archivo, view=False, cleanup=True)
+    dot.format = "png"
+    dot.render(nombre_archivo, view=False, cleanup=True)
+    print(f"🔄 Visualización de estado guardada como {nombre_archivo}.svg y .png")

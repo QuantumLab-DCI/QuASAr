@@ -14,8 +14,11 @@ import docker
 import os # <-- AÑADIR
 from fastapi.responses import FileResponse, PlainTextResponse # <-- AÑADIR
 import visualizador_grafo # <-- AÑADIR NUESTRO MÓDULO
-
+from pathlib import Path  # <-- AÑADIR
 from mapek import Mapek
+
+PROJECT_ROOT = Path(__file__).resolve().parent  # <-- AÑADIR
+os.chdir(PROJECT_ROOT)  # <-- AÑADIR
 
 app = FastAPI()
 
@@ -54,6 +57,14 @@ async def iniciar_app():
     mc = grafo_mc.generarPosiblesEstados()
     #aprendizaje_automatico.guardarPredicciones(aprendizaje_automatico.predecirResultadoRedesNeuronales(aprendizaje_automatico.entrenarRedesNeuronales("data/dataset.csv"),"data/datos.csv"),"data/datos_redesneuronales.csv")
     aprendizaje_automatico.guardarPredicciones(aprendizaje_automatico.entrenamientoPorEtapas(),"data/datos_redesneuronalesprofundas.csv")
+        # --- AÑADIR: generar la imagen del MODELO en la raíz ---
+    try:
+        visualizador_grafo.generar_visualizacion_modelo(
+            mc, nombre_archivo='modelo_caracteristicas'  # se guardará modelo_caracteristicas.png en la raíz
+        )
+    except Exception as e:
+        print(f"[startup] Error al generar la visualización del modelo: {e}")
+    # -------------------------------------------------------
     asyncio.create_task(periodic_task())
 
 @app.get("/")

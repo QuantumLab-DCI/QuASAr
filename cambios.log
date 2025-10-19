@@ -20,3 +20,115 @@
 [-] Contenedor 'ambientes_abiertos' detenido.
 [+] Contenedor 'ambientes_cerrados' iniciado.
 [+] Contenedor 'visualizador_restriccion_uso_lena' iniciado.
+
+--- RECONFIGURACIÓN a las 2025-10-19 15:57:04 ---
+[-] Contenedor 'entretenimiento_adulto' detenido.
+[-] Contenedor 'entretenimiento_familiar' detenido.
+[-] Contenedor 'ambientes_cerrados' detenido.
+
+--- RECONFIGURACIÓN a las 2025-10-19 16:02:47 ---
+[+] Contenedor 'entretenimiento_familiar' iniciado.
+[-] Contenedor 'deportes' detenido.
+[-] Contenedor 'ambientes_abiertos' detenido.
+[+] Contenedor 'ambientes_cerrados' iniciado.
+
+--- RECONFIGURACIÓN a las 2025-10-19 16:04:51 ---
+[+] Contenedor 'entretenimiento_adulto' iniciado.
+[+] Contenedor 'deportes' iniciado.
+[+] Contenedor 'ambientes_abiertos' iniciado.
+[-] Contenedor 'ambientes_cerrados' detenido.
+[-] Contenedor 'visualizador_restriccion_uso_lena' detenido.
+
+--- RECONFIGURACIÓN a las 2025-10-19 16:06:54 ---
+[-] Contenedor 'entretenimiento_familiar' detenido.
+[+] Contenedor 'visualizador_restriccion_uso_lena' iniciado.
+
+--- RECONFIGURACIÓN a las 2025-10-19 16:08:56 ---
+[-] Contenedor 'entretenimiento_adulto' detenido.
+[+] Contenedor 'entretenimiento_familiar' iniciado.
+[-] Contenedor 'deportes' detenido.
+[-] Contenedor 'ambientes_abiertos' detenido.
+[+] Contenedor 'ambientes_cerrados' iniciado.
+
+--- RECONFIGURACIÓN a las 2025-10-19 16:11:01 ---
+[-] Contenedor 'entretenimiento_tercera_edad' detenido.
+[+] Contenedor 'entretenimiento_adulto' iniciado.
+
+--- RECONFIGURACIÓN a las 2025-10-19 16:37:34 ---
+[-] Contenedor 'entretenimiento_adulto' detenido.
+[-] Contenedor 'entretenimiento_familiar' detenido.
+[-] Contenedor 'entretenimiento' detenido.
+[+] Contenedor 'deportes' iniciado.
+[+] Contenedor 'ambientes_abiertos' iniciado.
+[-] Contenedor 'ambientes_cerrados' detenido.
+[-] Contenedor 'visualizador_restriccion_uso_lena' detenido.
+
+--- RECONFIGURACIÓN a las 2025-10-19 16:37:41 ---
+[+] Contenedor 'entretenimiento_tercera_edad' iniciado.
+[+] Contenedor 'entretenimiento_familiar' iniciado.
+[+] Contenedor 'entretenimiento' iniciado.
+[+] Contenedor 'visualizador_restriccion_uso_lena' iniciado.
+
+--- RECONFIGURACIÓN a las 2025-10-19 16:39:41 ---
+[-] Contenedor 'entretenimiento_familiar' detenido.
+[-] Contenedor 'deportes' detenido.
+[-] Contenedor 'ambientes_abiertos' detenido.
+[+] Contenedor 'ambientes_cerrados' iniciado.
+
+--- RECONFIGURACIÓN a las 2025-10-19 16:39:46 ---
+[+] Contenedor 'entretenimiento_adulto' iniciado.
+[+] Contenedor 'deportes' iniciado.
+
+--- RECONFIGURACIÓN a las 2025-10-19 16:41:46 ---
+[-] Contenedor 'entretenimiento_adulto' detenido.
+[+] Contenedor 'entretenimiento_familiar' iniciado.
+[+] Contenedor 'ambientes_abiertos' iniciado.
+[-] Contenedor 'ambientes_cerrados' detenido.
+
+--- RECONFIGURACIÓN a las 2025-10-19 16:41:49 ---
+[-] Contenedor 'entretenimiento_tercera_edad' detenido.
+[+] Contenedor 'entretenimiento_adulto' iniciado.
+[-] Contenedor 'entretenimiento_familiar' detenido.
+[-] Contenedor 'ambientes_abiertos' detenido.
+[+] Contenedor 'ambientes_cerrados' iniciado.
+
+--- RECONFIGURACIÓN a las 2025-10-19 16:58:51 ---
+[-] Contenedor 'entretenimiento_tercera_edad' detenido.
+[-] Contenedor 'entretenimiento_familiar' detenido.
+[-] Contenedor 'deportes' detenido.
+[-] Contenedor 'ambientes_abiertos' detenido.
+
+--- RECONFIGURACIÓN a las 2025-10-19 17:00:56 ---
+
+--- RECONFIGURACIÓN a las 2025-10-19 17:02:57 ---
+[+] Contenedor 'entretenimiento_tercera_edad' iniciado.
+[-] Contenedor 'entretenimiento_adulto' detenido.
+[+] Contenedor 'entretenimiento_familiar' iniciado.
+[+] Contenedor 'deportes' iniciado.
+[+] Contenedor 'ambientes_abiertos' iniciado.
+[-] Contenedor 'ambientes_cerrados' detenido.
+
+--- RECONFIGURACIÓN a las 2025-10-19 17:05:01 ---
+[-] Contenedor 'entretenimiento_familiar' detenido.
+
+--- RECONFIGURACIÓN a las 2025-10-19 17:07:03 ---
+[+] Contenedor 'entretenimiento_adulto' iniciado.
+[+] Contenedor 'entretenimiento_familiar' iniciado.
+[-] Contenedor 'ambientes_abiertos' detenido.
+[+] Contenedor 'ambientes_cerrados' iniciado.
+
+--- RECONFIGURACIÓN a las 2025-10-19 17:09:05 ---
+[-] Contenedor 'entretenimiento_adulto' detenido.
+
+--- RECONFIGURACIÓN a las 2025-10-19 17:11:07 ---
+[-] Contenedor 'entretenimiento_tercera_edad' detenido.
+[+] Contenedor 'entretenimiento_adulto' iniciado.
+[-] Contenedor 'entretenimiento_familiar' detenido.
+[-] Contenedor 'deportes' detenido.
+
+--- RECONFIGURACIÓN a las 2025-10-19 17:23:57 ---
+[-] Contenedor 'entretenimiento_tercera_edad' detenido.
+[-] Contenedor 'entretenimiento_adulto' detenido.
+[-] Contenedor 'entretenimiento_familiar' detenido.
+[-] Contenedor 'entretenimiento' detenido.
+[-] Contenedor 'ambientes_abiertos' detenido.
