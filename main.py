@@ -11,6 +11,9 @@ import time
 import asyncio
 import random
 import docker
+import os # <-- AÑADIR
+from fastapi.responses import FileResponse, PlainTextResponse # <-- AÑADIR
+import visualizador_grafo # <-- AÑADIR NUESTRO MÓDULO
 
 from mapek import Mapek
 
@@ -30,11 +33,16 @@ async def periodic_task():
     global puntoVariacion
     global reglaAdaptacion
     while True:
-        #agregar regla adaptacion
+        # ... (código existente del ciclo mapek) ...
         mapek = Mapek()
         mapek.monitoreo(mc)
         puntoVariacion = mapek.getConocimiento()
         reglaAdaptacion = mapek.getReglaAdaptacion()
+        
+        # Generar la visualización del estado actual en cada ciclo
+        if puntoVariacion: # <-- AÑADIR (asegurarse de que no sea nulo)
+            visualizador_grafo.generar_visualizacion_estado(puntoVariacion, mc, nombre_archivo='estado_actual')
+
         print("pasaron 2 minutos")
         await asyncio.sleep(120)
 
@@ -64,6 +72,40 @@ def get_link(name : str):
 @app.get("/reglaAdaptacion")
 def get_regla_adaptacion():
     return reglaAdaptacion
+
+# --- AÑADIR ESTOS NUEVOS ENDPOINTS AL FINAL DEL ARCHIVO ---
+
+@app.get("/visualizacion_modelo")
+async def get_visualizacion_modelo():
+    """
+    Sirve la imagen estática del modelo de características.
+    """
+    file_path = "modelo_caracteristicas.png"
+    if os.path.exists(file_path):
+        return FileResponse(file_path)
+    return {"error": "Archivo no encontrado. Espera a que la app inicie completamente."}
+
+@app.get("/visualizacion_estado")
+async def get_visualizacion_estado():
+    """
+    Sirve la imagen que muestra el estado actual del sistema.
+    Esta imagen se actualiza cada 2 minutos.
+    """
+    file_path = "estado_actual.png"
+    if os.path.exists(file_path):
+        return FileResponse(file_path)
+    return {"error": "Archivo no encontrado. Espera a que se complete el primer ciclo de adaptación."}
+
+@app.get("/log_cambios", response_class=PlainTextResponse)
+async def get_log_cambios():
+    """
+    Muestra un log de texto con el historial de cambios registrados.
+    """
+    try:
+        with open("cambios.log", "r", encoding="utf-8") as f:
+            return f.read()
+    except FileNotFoundError:
+        return "No se ha registrado ningún cambio todavía."
 
 
 
