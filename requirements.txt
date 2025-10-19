@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+docker
+numpy
+scikit-learn
+matplotlib
+pandas
+keras
+tensorflow
