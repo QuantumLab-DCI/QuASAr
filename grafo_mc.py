@@ -284,6 +284,25 @@ def generarPosiblesEstados():
     mc.agregarCaracteristica(Nodo("Entretenimiento familiar"))
     mc.agregarCaracteristica(Nodo("Entretenimiento adulto"))
     mc.agregarCaracteristica(Nodo("Entretenimiento tercera edad"))
+
+        # --- INICIO DE TU MODIFICACIÓN ---
+    mc.agregarCaracteristica(Nodo("HQC")) # El nodo principal
+    mc.agregarCaracteristica(Nodo("Backend"))
+    mc.agregarCaracteristica(Nodo("Algoritmo"))
+
+    # Backends (ejemplo con 3)
+    mc.agregarCaracteristica(Nodo("Qiskit Simulator"))
+    mc.agregarCaracteristica(Nodo("SpinQ Simulator"))
+    mc.agregarCaracteristica(Nodo("TQL Simulator"))
+
+    # Algoritmos (ejemplo con 2)
+    mc.agregarCaracteristica(Nodo("QAOA"))
+    mc.agregarCaracteristica(Nodo("VQE"))
+
+    # Tu nueva funcionalidad clásica que usará el HQC
+    mc.agregarCaracteristica(Nodo("Optimizacion de rutas"))
+    # --- FIN DE TU MODIFICACIÓN ---
+
     mc.relacionar(mc.buscarCaracteristica("Gestor aire"),mc.buscarCaracteristica("Visualizador calidad de aire"), "Obligatoria")
     mc.relacionar(mc.buscarCaracteristica("Gestor aire"), mc.buscarCaracteristica("Turismo"), "Obligatoria")
     mc.relacionar(mc.buscarCaracteristica("Gestor aire"), mc.buscarCaracteristica("Deportes"), "Opcional")
@@ -296,10 +315,37 @@ def generarPosiblesEstados():
     mc.relacionar(mc.buscarCaracteristica("Entretenimiento"), mc.buscarCaracteristica("Entretenimiento familiar"), "OR")
     mc.relacionar(mc.buscarCaracteristica("Entretenimiento"), mc.buscarCaracteristica("Entretenimiento adulto"), "OR")
     mc.relacionar(mc.buscarCaracteristica("Entretenimiento"), mc.buscarCaracteristica("Entretenimiento tercera edad"), "OR")
+    # --- INICIO DE TU MODIFICACIÓN ---
+    # 1. HQC es opcional y depende de Gestor aire
+    mc.relacionar(mc.buscarCaracteristica("Gestor aire"), mc.buscarCaracteristica("HQC"), "Opcional")
+
+    # 2. HQC *requiere* sus dos sub-características obligatorias
+    mc.relacionar(mc.buscarCaracteristica("HQC"), mc.buscarCaracteristica("Backend"), "Obligatoria")
+    mc.relacionar(mc.buscarCaracteristica("HQC"), mc.buscarCaracteristica("Algoritmo"), "Obligatoria")
+
+    # 3. Relaciones XOR para elegir UN Backend
+    mc.relacionar(mc.buscarCaracteristica("Backend"), mc.buscarCaracteristica("Qiskit Simulator"), "XOR")
+    mc.relacionar(mc.buscarCaracteristica("Backend"), mc.buscarCaracteristica("SpinQ Simulator"), "XOR")
+    mc.relacionar(mc.buscarCaracteristica("Backend"), mc.buscarCaracteristica("TQL Simulator"), "XOR")
+
+    # 4. Relaciones XOR para elegir UN Algoritmo
+    mc.relacionar(mc.buscarCaracteristica("Algoritmo"), mc.buscarCaracteristica("QAOA"), "XOR")
+    mc.relacionar(mc.buscarCaracteristica("Algoritmo"), mc.buscarCaracteristica("VQE"), "XOR")
+
+    # 5. Conectar tu nueva funcionalidad clásica
+    mc.relacionar(mc.buscarCaracteristica("Turismo"), mc.buscarCaracteristica("Optimizacion de rutas"), "Opcional")
+
+    # 6. Esta es la conexión clave: Clásico -> Cuántico
+    mc.relacionar(mc.buscarCaracteristica("Optimizacion de rutas"), mc.buscarCaracteristica("HQC"), "Requiere")
+    # --- FIN DE TU MODIFICACIÓN ---
     #print(mc.calcularPosiblesEstados())
     mc.almacenarPosiblesEstados("data/datos.csv", mc.permutarCaracteristicas(mc.calcularPosiblesEstados()))
     #print(mc.permutarCaracteristicas(mc.calcularPosiblesEstados()))
     return mc
+if __name__ == "__main__":
+    print("Iniciando la generación de 'data/datos.csv'...")
+    generarPosiblesEstados()
+    print("¡Archivo 'data/datos.csv' generado/actualizado exitosamente!")
 
 
 

@@ -43,22 +43,52 @@ def entrenarRegresionLineal(nombreDataset):
     dataset = pd.read_csv(nombreDataset)
     X = dataset.iloc[:, :-1].values
     y = dataset.iloc[:, -1].values
-    X = transformarDataset(X,[0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
+    
+    # --- CORRECCIÓN ---
+    # Detecta dinámicamente el número de columnas de características
+    num_features = X.shape[1]
+    indices_features = list(range(num_features))
+    X = transformarDataset(X, indices_features)
+    # --- FIN CORRECCIÓN ---
+
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=1)
     regressor = LinearRegression()
     regressor.fit(X_train, y_train)
     return regressor
 
+# --- FUNCIÓN MODIFICADA (Esta corrección ya la tenías) ---
 def transformarDataset(x,posicionesDataset):
-    ct = ColumnTransformer([('one_hot_encoder', OneHotEncoder(),posicionesDataset)], remainder='passthrough')
-    x = ct.fit_transform(x)
-    return x
+    """
+    Transforma las columnas categóricas usando OneHotEncoder y devuelve un array denso.
+    """
+    # --- AÑADIR LOG ---
+    # print(f"DEBUG [transformarDataset]: Recibidos datos con forma {x.shape}")
+    # ------------------
+    
+    one_hot_enc = OneHotEncoder(handle_unknown='ignore', sparse_output=False)
+
+    ct = ColumnTransformer(
+        [('one_hot_encoder', one_hot_enc, posicionesDataset)],
+        remainder='passthrough'
+    )
+
+    x_transformed = ct.fit_transform(x)
+
+    # --- AÑADIR LOG ---
+    # print(f"DEBUG [transformarDataset]: Datos transformados a forma {x_transformed.shape}")
+    # ------------------
+
+    # Aseguramos que el tipo de dato sea float32 para TensorFlow
+    return x_transformed.astype(np.float32)
 
 def entrenarArbolDecision(nombreDataset, posVariablesIndependientes):
     dataset = pd.read_csv(nombreDataset)
     X = dataset.iloc[:, :-1].values
     y = dataset.iloc[:, -1].values
+    
+    # Asumimos que 'posVariablesIndependientes' es correcto, si no, necesita corrección dinámica
     X = transformarDataset(X, posVariablesIndependientes)
+    
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=1)
     dtree = DecisionTreeClassifier()
     dtree.fit(X_train, y_train)
@@ -67,7 +97,13 @@ def entrenarArbolDecision(nombreDataset, posVariablesIndependientes):
 
 def predecirResultadoML(model, datosApredecir):
     resultado = pd.read_csv(datosApredecir, header=None).iloc[:, :].values
-    prediccion = model.predict(transformarDataset(resultado, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]))
+    
+    # --- CORRECCIÓN ---
+    num_features = resultado.shape[1]
+    indices_features = list(range(num_features))
+    prediccion = model.predict(transformarDataset(resultado, indices_features))
+    # --- FIN CORRECCIÓN ---
+    
     resultado = resultado.tolist()
     for indice, puntoVariacion in enumerate(resultado):
         puntoVariacion.append(prediccion[indice])
@@ -76,7 +112,9 @@ def predecirResultadoML(model, datosApredecir):
 
 
 def guardarPredicciones(dataset, nombreArchivo):
-    dataset = sorted(dataset, key=lambda x: x[10])
+    # Asumiendo que la regla de adaptación está en la última columna
+    last_col_index = len(dataset[0]) - 1
+    dataset = sorted(dataset, key=lambda x: x[last_col_index])
     with open(nombreArchivo, 'w', newline='') as archivo_csv:
         writer = csv.writer(archivo_csv)
         writer.writerows(dataset)
@@ -84,10 +122,19 @@ def guardarPredicciones(dataset, nombreArchivo):
 def aprendizajeSemiAutomatizado(datasetEtiquetado, datasetNoEtiquetado):
     etiquetados = pd.read_csv(datasetEtiquetado)
     noEtiquetados = pd.read_csv(datasetNoEtiquetado).iloc[:, :].values
+    
     X_etiquetado = etiquetados.iloc[:, :-1].values
     y_etiquetado = etiquetados.iloc[:, -1].values
-    X_etiquetado = transformarDataset(X_etiquetado, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
-    X_noetiquetado = transformarDataset(noEtiquetados, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
+    # --- CORRECCIÓN ---
+    num_features_etiquetado = X_etiquetado.shape[1]
+    indices_etiquetado = list(range(num_features_etiquetado))
+    X_etiquetado = transformarDataset(X_etiquetado, indices_etiquetado)
+    
+    num_features_no_etiquetado = noEtiquetados.shape[1]
+    indices_no_etiquetado = list(range(num_features_no_etiquetado))
+    X_noetiquetado = transformarDataset(noEtiquetados, indices_no_etiquetado)
+    # --- FIN CORRECCIÓN ---
+    
     X_train_labeled, X_test_labeled, y_train_labeled, y_test_labeled = train_test_split(X_etiquetado, y_etiquetado,test_size=1, random_state=42)
     model = LabelPropagation()
     model.fit(X=np.vstack((X_train_labeled, X_noetiquetado)), y=np.concatenate((y_train_labeled, [-1] * len(X_noetiquetado))))
@@ -97,9 +144,12 @@ def entrenarRegresionLinealRegularizadaLasso(dataset):
     data = pd.read_csv(dataset)
     X = data.iloc[:, :-1].values
     y = data.iloc[:, -1].values
-    X = transformarDataset(X, [0,1,2,3,4,5,6, 7, 8, 9])
+    # --- CORRECCIÓN ---
+    num_features = X.shape[1]
+    indices_features = list(range(num_features))
+    X = transformarDataset(X, indices_features)
+    # --- FIN CORRECCIÓN ---
     lasso = LassoCV(cv=5, random_state=0)
-    # entrena el modelo con los datos de entrenamiento
     lasso.fit(X,y)
     return lasso
 
@@ -107,38 +157,44 @@ def entrenarArbolesAleatorios(dataset):
     data = pd.read_csv(dataset)
     X = data.iloc[:, :-1].values
     y = data.iloc[:, -1].values
-    X = transformarDataset(X, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
+    # --- CORRECCIÓN ---
+    num_features = X.shape[1]
+    indices_features = list(range(num_features))
+    X = transformarDataset(X, indices_features)
+    # --- FIN CORRECCIÓN ---
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=1, random_state=0)
     rf = RandomForestClassifier(n_estimators=40, random_state=0)
     rf.fit(X_train, y_train)
     return rf
 
+# Hay dos funciones duplicadas. He corregido la primera y comentado la segunda.
 def entrenarArbolesAleatoriosRegresion(dataset):
     data = pd.read_csv(dataset)
     X = data.iloc[:, :-1].values
     y = data.iloc[:, -1].values
-    X = transformarDataset(X, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
+    # --- CORRECCIÓN ---
+    num_features = X.shape[1]
+    indices_features = list(range(num_features))
+    X = transformarDataset(X, indices_features)
+    # --- FIN CORRECCIÓN ---
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=1, random_state=0)
     rf = RandomForestRegressor(n_estimators=40, random_state=0)
     rf.fit(X_train, y_train)
     return rf
 
-def entrenarArbolesAleatoriosRegresion(dataset):
-    data = pd.read_csv(dataset)
-    X = data.iloc[:, :-1].values
-    y = data.iloc[:, -1].values
-    X = transformarDataset(X, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=1, random_state=0)
-    rf = RandomForestRegressor(n_estimators=40, random_state=0)
-    rf.fit(X_train, y_train)
-    return rf
+# def entrenarArbolesAleatoriosRegresion(dataset): # <-- Esta es un duplicado
+#     ...
 
 
 def entrenarNaiveBayes(dataset):
     data = pd.read_csv(dataset)
     X = data.iloc[:, :-1].values
     y = data.iloc[:, -1].values
-    X = transformarDataset(X, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
+    # --- CORRECCIÓN ---
+    num_features = X.shape[1]
+    indices_features = list(range(num_features))
+    X = transformarDataset(X, indices_features)
+    # --- FIN CORRECCIÓN ---
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=1, random_state=0)
     gnb = GaussianNB()
     gnb.fit(X_train, y_train)
@@ -150,7 +206,11 @@ def entrenarRedesNeuronales(dataset):
     data = pd.read_csv(dataset)
     X = data.iloc[:, :-1].values
     y = data.iloc[:, -1].values
-    X = transformarDataset(X, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
+    # --- CORRECCIÓN ---
+    num_features = X.shape[1]
+    indices_features = list(range(num_features))
+    X = transformarDataset(X, indices_features)
+    # --- FIN CORRECCIÓN ---
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=1, random_state=0)
 
     def custom_activation(x):
@@ -163,7 +223,11 @@ def entrenarRedesNeuronales(dataset):
 
 def predecirResultadoRedesNeuronales(model, datosApredecir):
     resultado = pd.read_csv(datosApredecir, header=None).iloc[:, :].values
-    prediccion = model.predict(transformarDataset(resultado, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]))
+    # --- CORRECCIÓN ---
+    num_features = resultado.shape[1]
+    indices_features = list(range(num_features))
+    prediccion = model.predict(transformarDataset(resultado, indices_features))
+    # --- FIN CORRECCIÓN ---
     resultado = resultado.tolist()
     for indice, puntoVariacion in enumerate(resultado):
         puntoVariacion.append(prediccion[indice][0])
@@ -174,7 +238,11 @@ def entrenarKvecinos(dataset):
     data = pd.read_csv(dataset)
     X = data.iloc[:, :-1].values
     y = data.iloc[:, -1].values
-    X = transformarDataset(X, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
+    # --- CORRECCIÓN ---
+    num_features = X.shape[1]
+    indices_features = list(range(num_features))
+    X = transformarDataset(X, indices_features)
+    # --- FIN CORRECCIÓN ---
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=1, random_state=0)
     knn = KNeighborsClassifier(n_neighbors=3)
     knn.fit(X_train, y_train)
@@ -183,11 +251,15 @@ def entrenarKvecinos(dataset):
 
 def arbolesAleatoriosInverso(dataset, dato):
     data = pd.read_csv(dataset)
-    #X = data.iloc[:, :-1]  # Variables independientes
-    y = data.iloc[:, -1].values  # Variable dependiente
+    y = data.iloc[:, -1].values  # Variable dependiente (la regla)
     y = y.reshape(-1, 1)
+    
     rf = RandomForestClassifier(n_estimators=100, random_state=42)
-    X = data.iloc[:, :-1].apply(lambda x: ",".join(x), axis=1)
+    
+    # Convierte todas las columnas de características en una sola string
+    # .astype(str) es crucial si hay números mezclados con texto
+    X = data.iloc[:, :-1].apply(lambda x: ",".join(x.astype(str)), axis=1)
+    
     rf.fit(y, X)
     dato = np.array([dato]).reshape(-1, 1)
     return rf.predict(dato).tolist()[0].split(",")
@@ -202,16 +274,41 @@ def obtenerJSONPrediccion(data):
             caracteristica = caracteristica.replace(" activada", "")
         else:
             caracteristica = caracteristica.replace(" desactivada", "")
-        print(caracteristica)
+        # print(caracteristica) # Comentado para no saturar el log
         reconfiguracion.update({caracteristica : estado})
     return reconfiguracion
 
 
 def autoencoder():
+    # Cargar los datos de entrenamiento etiquetados
+    train_labeled_data = pd.read_csv('data/dataset.csv')
+    x_train_labeled = train_labeled_data.iloc[:, :-1].values
+    # --- CORRECCIÓN ---
+    num_features_labeled = x_train_labeled.shape[1]
+    indices_labeled = list(range(num_features_labeled))
+    x_train_labeled = transformarDataset(x_train_labeled, indices_labeled)
+    # --- FIN CORRECCIÓN ---
+    y_train_labeled = train_labeled_data.iloc[:, -1].values
+    y_train_labeled = np.reshape(y_train_labeled, (-1, 1))
+
+    # Cargar los datos de entrenamiento no etiquetados
+    train_unlabeled_data = pd.read_csv('data/datos.csv')
+    x_train_unlabeled = train_unlabeled_data.iloc[:, :].values
+    # --- CORRECCIÓN ---
+    num_features_unlabeled = x_train_unlabeled.shape[1]
+    indices_unlabeled = list(range(num_features_unlabeled))
+    x_train_unlabeled = transformarDataset(x_train_unlabeled, indices_unlabeled)
+    # --- FIN CORRECCIÓN ---
+
+    # Cargar los datos de prueba etiquetados
+    test_data = pd.read_csv('data/datos_evaluacionmodelo.csv')
+    x_test = test_data.iloc[:, :-1].values
+    y_test = test_data.iloc[:, -1].values
+
     # Definir los parámetros de la red
-    input_dim = 10  # Número de características de entrada
-    hidden_dim = 256  # Número de neuronas en la capa oculta
-    latent_dim = 2  # Número de dimensiones en la representación latente
+    input_dim = x_train_labeled.shape[1] # Usar la forma dinámica
+    hidden_dim = 256
+    latent_dim = 2
 
     # Definir la estructura de la red
     inputs = tf.keras.layers.Input(shape=(input_dim,))
@@ -226,23 +323,6 @@ def autoencoder():
     # Compilar el modelo
     autoencoder.compile(optimizer='adam', loss='mse')
 
-    # Cargar los datos de entrenamiento etiquetados
-    train_labeled_data = pd.read_csv('data/dataset.csv')
-    x_train_labeled = train_labeled_data.iloc[:, :-1].values
-    x_train_labeled = transformarDataset(x_train_labeled, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
-    y_train_labeled = train_labeled_data.iloc[:, -1].values
-    y_train_labeled = np.reshape(y_train_labeled, (-1, 1))
-
-    # Cargar los datos de entrenamiento no etiquetados
-    train_unlabeled_data = pd.read_csv('data/datos.csv')
-    x_train_unlabeled = train_unlabeled_data.iloc[:, :].values
-    x_train_unlabeled = transformarDataset(x_train_unlabeled, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
-
-    # Cargar los datos de prueba etiquetados
-    test_data = pd.read_csv('data/datos_evaluacionmodelo.csv')
-    x_test = test_data.iloc[:, :-1].values
-    y_test = test_data.iloc[:, -1].values
-
     # Entrenar el modelo
     autoencoder.fit(x=np.concatenate((x_train_labeled, x_train_unlabeled), axis=0),
                     y=np.concatenate((y_train_labeled, np.zeros((x_train_unlabeled.shape[0], 1))), axis=0), batch_size=32, epochs=10,
@@ -253,7 +333,11 @@ def entrenarRedNeuronalConvolucional():
     data = pd.read_csv('data/dataset.csv')
     X = data.iloc[:,:-1].values  # características
     y = data.iloc[:,-1 ].values  # objetivo
-    X = transformarDataset(X, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
+    # --- CORRECCIÓN ---
+    num_features = X.shape[1]
+    indices_features = list(range(num_features))
+    X = transformarDataset(X, indices_features)
+    # --- FIN CORRECCIÓN ---
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
     scaler = StandardScaler()
     X_train = scaler.fit_transform(X_train)
@@ -280,13 +364,17 @@ def funcion():
     df_grande = pd.read_csv('data/emisiones_aire_sinfiltrar.csv')
     x_grande = df_grande.iloc[:,:-1].values  # características
     y_grande = df_grande.iloc[:,-1 ].str.replace(',', '.').astype(float).values
-    x_grande = transformarDataset(x_grande, [0, 1, 2, 3, 4, 5])
+    x_grande = transformarDataset(x_grande, [0, 1, 2, 3, 4, 5]) # Mantenido (dataset diferente)
 
     # Cargar el conjunto de datos pequeño
     df_peque = pd.read_csv('data/dataset.csv')
-    x_peque = df_peque.iloc[:,:-1].values  # características
+    x_peque_orig = df_peque.iloc[:,:-1].values  # características
     y_peque = df_peque.iloc[:,-1 ].values
-    x_peque = transformarDataset(x_peque, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
+    # --- CORRECCIÓN ---
+    num_features_peque = x_peque_orig.shape[1]
+    indices_peque = list(range(num_features_peque))
+    x_peque = transformarDataset(x_peque_orig, indices_peque)
+    # --- FIN CORRECCIÓN ---
 
     # Dividir los datos en entrenamiento y prueba
     x_train_grande, x_test_grande, y_train_grande, y_test_grande = train_test_split(x_grande, y_grande, test_size=0.2,
@@ -313,8 +401,11 @@ def funcion():
 
     modelo.fit(x_train_grande, y_train_grande, epochs=10, validation_data=(x_test_grande, y_test_grande))
 
+    # --- CORRECCIÓN ---
+    input_dim_peque = x_train_peque.shape[1] # Usar la forma dinámica
     modelo_peque = Sequential()
-    modelo_peque.add(Dense(128, input_dim=10, activation='relu'))
+    modelo_peque.add(Dense(128, input_dim=input_dim_peque, activation='relu'))
+    # --- FIN CORRECCIÓN ---
     modelo_peque.add(Dense(64, activation='relu'))
     modelo_peque.add(Dense(32, activation='relu'))
     #modelo_peque.add(Dense(1, activation='linear'))
@@ -339,13 +430,17 @@ def redesNeuronalesFinales():
     df_grande = pd.read_csv('data/emisiones_aire_sinfiltrar.csv')
     x_grande = df_grande.iloc[:, :-1].values  # características
     y_grande = df_grande.iloc[:, -1].str.replace(',', '.').astype(float).values
-    x_grande = transformarDataset(x_grande, [0, 1, 2, 3, 4, 5])
+    x_grande = transformarDataset(x_grande, [0, 1, 2, 3, 4, 5]) # Mantenido
 
     # Cargar el conjunto de datos pequeño
     df_peque = pd.read_csv('data/dataset.csv')
-    x_peque = df_peque.iloc[:, :-1].values  # características
+    x_peque_orig = df_peque.iloc[:, :-1].values  # características
     y_peque = df_peque.iloc[:, -1].values
-    x_peque = transformarDataset(x_peque, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
+    # --- CORRECCIÓN ---
+    num_features_peque = x_peque_orig.shape[1]
+    indices_peque = list(range(num_features_peque))
+    x_peque = transformarDataset(x_peque_orig, indices_peque)
+    # --- FIN CORRECCIÓN ---
 
     # Dividir los datos en entrenamiento y prueba
     x_train_grande, x_test_grande, y_train_grande, y_test_grande = train_test_split(x_grande, y_grande, test_size=0.2,
@@ -361,7 +456,9 @@ def redesNeuronalesFinales():
     x_test_peque = scaler.transform(x_test_peque)
 
     base_model_grande = create_base_model(x_train_grande.shape[1])
-    base_model_peque = create_base_model(10)
+    # --- CORRECCIÓN ---
+    base_model_peque = create_base_model(x_train_peque.shape[1]) # Usar la forma dinámica
+    # --- FIN CORRECCIÓN ---
     output_grande = Dense(1, activation='linear')(base_model_grande.output)
     modelo_grande = Model(inputs=base_model_grande.input, outputs=output_grande)
     modelo_grande.compile(loss='mean_squared_error', optimizer='adam')
@@ -379,54 +476,55 @@ def autoEncoderRedesNeuronales():
     df_grande = pd.read_csv('data/emisiones_aire_sinfiltrar.csv')
     x_grande = df_grande.iloc[:, :-1].values  # características
     y_grande = df_grande.iloc[:, -1].str.replace(',', '.').astype(float).values
-    x_grande = transformarDataset(x_grande, [0, 1, 2, 3, 4, 5])
+    x_grande = transformarDataset(x_grande, [0, 1, 2, 3, 4, 5]) # Mantenido
 
     # Cargar el conjunto de datos pequeño
     df_peque = pd.read_csv('data/dataset.csv')
-    x_peque = df_peque.iloc[:, :-1].values  # características
+    x_peque_orig = df_peque.iloc[:, :-1].values  # características
     y_peque = df_peque.iloc[:, -1].values
-    x_peque = transformarDataset(x_peque, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
+    # --- CORRECCIÓN ---
+    num_features_peque = x_peque_orig.shape[1]
+    indices_peque = list(range(num_features_peque))
+    x_peque = transformarDataset(x_peque_orig, indices_peque)
+    # --- FIN CORRECCIÓN ---
     encoding_dim = x_peque.shape[1]
 
     # Dividir los datos en entrenamiento y prueba
     x_train_grande, x_test_grande, y_train_grande, y_test_grande = train_test_split(x_grande, y_grande, test_size=0.2,
                                                                                     random_state=42)
-    x_train_peque, x_test_peque, y_train_peque, y_test_peque = train_test_split(x_peque, y_peque, test_size=0.2,
-                                                                                random_state=42)
+    # (El split de 'peque' se hace más abajo)
 
     # Escalar los datos
-    x_train_grande = tf.convert_to_tensor(x_train_grande.toarray())
-    x_test_grande = tf.convert_to_tensor(x_test_grande.toarray())
-    x_peque = csr_matrix(x_peque)
-    x_test_peque = tf.convert_to_tensor(x_test_peque)
+    scaler_grande = MaxAbsScaler()
+    x_train_grande_norm = scaler_grande.fit_transform(x_train_grande)
+    x_test_grande_norm = scaler_grande.transform(x_test_grande)
+    # --- CORRECCIÓN (sin .toarray()) ---
+    x_train_grande = tf.convert_to_tensor(x_train_grande_norm, dtype=tf.float32)
+    x_test_grande = tf.convert_to_tensor(x_test_grande_norm, dtype=tf.float32)
+
+    # x_peque ya es un array denso por transformarDataset
+    x_peque = tf.convert_to_tensor(x_peque, dtype=tf.float32)
 
     input_dim = x_train_grande.shape[1]
-
-    # Capa de entrada
     input_data = Input(shape=(input_dim,))
-
-    # Capa de codificación
     encoded = Dense(encoding_dim, activation='relu')(input_data)
-
-    # Capa de decodificación
     decoded = Dense(input_dim, activation='linear')(encoded)
-
-    # Modelo autoencoder completo
     autoencoder = Model(input_data, decoded)
-
-    # Modelo de codificación (reducido)
     encoder = Model(input_data, encoded)
-
     autoencoder.compile(optimizer='adam', loss='mean_squared_error')
     autoencoder.fit(x_train_grande, x_train_grande, epochs=50, batch_size=256,
                     validation_data=(x_test_grande, x_test_grande))
 
-    print("x_train_grande shape:", x_train_grande.shape)
-    print("x_test_grande shape:", x_test_grande.shape)
-    print("x_train_peque shape:", x_train_peque.shape)
-    print("x_test_peque shape:", x_test_peque.shape)
+    # Dividir x_peque (tensor) y y_peque (numpy)
+    x_train_peque, x_test_peque, y_train_peque, y_test_peque = train_test_split(x_peque.numpy(), y_peque, test_size=0.2, random_state=42)
+
     x_train_peque_encoded = encoder.predict(x_train_peque)
     x_test_peque_encoded = encoder.predict(x_test_peque)
+    
+    print("x_train_grande shape:", x_train_grande.shape)
+    print("x_test_grande shape:", x_test_grande.shape)
+    print("x_train_peque_encoded shape:", x_train_peque_encoded.shape)
+    print("x_test_peque_encoded shape:", x_test_peque_encoded.shape)
 
     regression_model = Sequential()
     regression_model.add(Dense(128, activation='relu', input_shape=(encoding_dim,)))
@@ -439,31 +537,33 @@ def autoEncoderRedesNeuronales():
 
 
 def autoEncoderRedesNeuronales2():
-    # ... (código previo omitido para facilitar la lectura)
     df_grande = pd.read_csv('data/emisiones_aire_sinfiltrar.csv')
     x_grande = df_grande.iloc[:, :-1].values  # características
     y_grande = df_grande.iloc[:, -1].str.replace(',', '.').astype(float).values
-    x_grande = transformarDataset(x_grande, [0, 1, 2, 3, 4, 5])
+    x_grande = transformarDataset(x_grande, [0, 1, 2, 3, 4, 5]) # Mantenido
+    
     df_peque = pd.read_csv('data/dataset.csv')
-    x_peque = df_peque.iloc[:, :-1].values  # características
+    x_peque_orig = df_peque.iloc[:, :-1].values  # características
     y_peque = df_peque.iloc[:, -1].values
-    x_peque = transformarDataset(x_peque, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
+    # --- CORRECCIÓN ---
+    num_features_peque = x_peque_orig.shape[1]
+    indices_peque = list(range(num_features_peque))
+    x_peque = transformarDataset(x_peque_orig, indices_peque)
+    # --- FIN CORRECCIÓN ---
+
     x_train_grande, x_test_grande, y_train_grande, y_test_grande = train_test_split(x_grande, y_grande, test_size=0.2,
                                                                                     random_state=42)
     x_train_peque, x_test_peque, y_train_peque, y_test_peque = train_test_split(x_peque, y_peque, test_size=0.2,
                                                                                 random_state=42)
-
-    # Cargar el conjunto de datos pequeño
-    df_peque = pd.read_csv('data/dataset.csv')
-    x_peque = df_peque.iloc[:, :-1].values  # características
-    y_peque = df_peque.iloc[:, -1].values
-    x_peque = transformarDataset(x_peque, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
+    
     # Autoencoder para el conjunto de datos grande
     scaler = MaxAbsScaler()
     x_train_grande_norm = scaler.fit_transform(x_train_grande)
-    x_train_grande = tf.convert_to_tensor(x_train_grande_norm.toarray(), dtype=tf.float32)
+    # --- CORRECCIÓN (sin .toarray()) ---
+    x_train_grande = tf.convert_to_tensor(x_train_grande_norm, dtype=tf.float32)
     x_test_grande_norm = scaler.transform(x_test_grande)
-    x_test_grande = tf.convert_to_tensor(x_test_grande_norm.toarray(), dtype=tf.float32)
+    # --- CORRECCIÓN (sin .toarray()) ---
+    x_test_grande = tf.convert_to_tensor(x_test_grande_norm, dtype=tf.float32)
 
     scalerMinmax = MinMaxScaler()
     x_train_peque_norm = scalerMinmax.fit_transform(x_train_peque)
@@ -503,15 +603,11 @@ def autoEncoderRedesNeuronales2():
     #regression_model.add(GaussianNoise(0.01, input_shape=(x_train_peque.shape[1],)))
     regression_model.add(Dense(256, activation='relu', input_shape=(x_train_peque.shape[1],), kernel_regularizer=l1(0.001)))
     regression_model.add(BatchNormalization())
-    #regression_model.add(Dropout(0.3))
-    #regression_model.add(Dense(256, activation='relu', kernel_regularizer=l2(0.001)))
-    #regression_model.add(Dropout(0.3))
+    # ... (resto de la red) ...
     regression_model.add(Dense(128, activation='relu'))
     regression_model.add(BatchNormalization())
-    #regression_model.add(Dropout(0.3))
     regression_model.add(Dense(64, activation='relu'))
     regression_model.add(BatchNormalization())
-    #regression_model.add(Dropout(0.3))
     regression_model.add(Dense(32, activation='relu'))
     regression_model.add(BatchNormalization())
     regression_model.add(Dense(1))
@@ -524,24 +620,70 @@ def autoEncoderRedesNeuronales2():
 
 
 def entrenamientoPorEtapas():
-    # ... (código previo omitido para facilitar la lectura)
+    # --- AÑADIR LOGS DE DIAGNÓSTICO ---
+    print("\n" + "="*50)
+    print("DEBUG [entrenamientoPorEtapas]: INICIANDO ENTRENAMIENTO...")
+    
+    # Cargar el conjunto de datos grande (pre-entrenamiento)
     df_grande = pd.read_csv('data/emisiones_aire_filtroMP.csv')
+    print(f"DEBUG: Cargado 'emisiones_aire_filtroMP.csv'. Forma: {df_grande.shape}")
+    
+    # Cargar el conjunto de datos pequeño (entrenamiento/afinamiento)
+    try:
+        df_peque = pd.read_csv('data/dataset.csv')
+        print(f"DEBUG: Cargado 'dataset.csv' (ENTRENAMIENTO). Forma: {df_peque.shape}")
+    except FileNotFoundError:
+        print("ERROR FATAL: No se encontró 'data/dataset.csv'.")
+        return
+        
+    # Cargar datos de predicción (para la función anidada)
+    try:
+        df_prediccion = pd.read_csv('data/datos.csv', header=None)
+        print(f"DEBUG: Cargado 'datos.csv' (PREDICCIÓN). Forma: {df_prediccion.shape}")
+    except FileNotFoundError:
+        print("ERROR FATAL: No se encontró 'data/datos.csv'.")
+        return
+
+    print("DEBUG: Verificación de consistencia de características:")
+    # df_peque tiene la columna 'regla_adaptacion' que debe ser restada
+    print(f"       Columnas de entrenamiento (dataset.csv): {df_peque.shape[1] - 1}")
+    print(f"       Columnas de predicción (datos.csv): {df_prediccion.shape[1]}")
+    
+    if (df_peque.shape[1] - 1) != df_prediccion.shape[1]:
+        print("\n¡ALERTA! Las formas NO COINCIDEN. El programa fallará.")
+        print("       'dataset.csv' y 'datos.csv' no tienen el mismo número de características.")
+        print("       Solución: Sigue los pasos para regenerar los archivos." + "\n")
+    else:
+        print("       ¡Las formas COINCIDEN! El pipeline continuará.")
+        
+    print("="*50 + "\n")
+    # --- FIN DE LOGS DE DIAGNÓSTICO ---
+
+    # --- INICIO CORRECCIÓN ---
     x_grande = df_grande.iloc[:, :-1].values  # características
     y_grande = df_grande.iloc[:, -1].str.replace(',', '.').astype(float).values
-    x_grande = transformarDataset(x_grande, [0, 1, 2, 3, 4, 5])
-    df_peque = pd.read_csv('data/dataset.csv')
-    x_peque = df_peque.iloc[:, :-1].values  # características
+    # Corrección: Detectar columnas dinámicamente
+    indices_grande = list(range(x_grande.shape[1]))
+    x_grande = transformarDataset(x_grande, indices_grande)
+    
+    x_peque_orig = df_peque.iloc[:, :-1].values  # características
     y_peque = df_peque.iloc[:, -1].values
-    x_peque = transformarDataset(x_peque, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
+    # Corrección: Detectar columnas dinámicamente
+    indices_peque = list(range(x_peque_orig.shape[1]))
+    x_peque = transformarDataset(x_peque_orig, indices_peque)
+    # --- FIN CORRECCIÓN ---
+
     x_train_grande, x_test_grande, y_train_grande, y_test_grande = train_test_split(x_grande, y_grande, test_size=0.2,
                                                                                     random_state=42)
     x_train_peque, x_test_peque, y_train_peque, y_test_peque = train_test_split(x_peque, y_peque, test_size=0.2,
                                                                                 random_state=42)
     scaler = MaxAbsScaler()
     x_train_grande_norm = scaler.fit_transform(x_train_grande)
-    x_train_grande = tf.convert_to_tensor(x_train_grande_norm.toarray(), dtype=tf.float32)
+    # --- CORRECCIÓN (sin .toarray()) ---
+    x_train_grande = tf.convert_to_tensor(x_train_grande_norm, dtype=tf.float32)
     x_test_grande_norm = scaler.transform(x_test_grande)
-    x_test_grande = tf.convert_to_tensor(x_test_grande_norm.toarray(), dtype=tf.float32)
+    # --- CORRECCIÓN (sin .toarray()) ---
+    x_test_grande = tf.convert_to_tensor(x_test_grande_norm, dtype=tf.float32)
 
     scalerMinmax = MinMaxScaler()
     x_train_peque_norm = scalerMinmax.fit_transform(x_train_peque)
@@ -613,7 +755,13 @@ def entrenamientoPorEtapas():
 
 def predecirResultadoRedesNeuronalesProfundas(model_grande, model_peque, feature_extractor_resized, feature_extractor, datosApredecir):
     resultado = pd.read_csv(datosApredecir, header=None).iloc[:, :].values
-    resultado_transformado = transformarDataset(resultado, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
+    
+    # --- CORRECCIÓN ---
+    num_features = resultado.shape[1]
+    indices_features = list(range(num_features))
+    resultado_transformado = transformarDataset(resultado, indices_features)
+    # --- FIN CORRECCIÓN ---
+
     resultado_resized = feature_extractor_resized.predict(resultado_transformado)
     resultado_features = feature_extractor.predict(resultado_resized)
     prediccion = model_peque.predict(resultado_features)
@@ -621,10 +769,3 @@ def predecirResultadoRedesNeuronalesProfundas(model_grande, model_peque, feature
     for indice, puntoVariacion in enumerate(resultado):
         puntoVariacion.append(prediccion[indice][0])
     return resultado
-
-
-
-
-
-
-

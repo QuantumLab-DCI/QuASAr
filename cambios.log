@@ -132,3 +132,260 @@
 [-] Contenedor 'entretenimiento_familiar' detenido.
 [-] Contenedor 'entretenimiento' detenido.
 [-] Contenedor 'ambientes_abiertos' detenido.
+
+--- RECONFIGURACIÓN a las 2025-10-22 10:45:31 ---
+[-] Contenedor 'entretenimiento_familiar' detenido.
+[-] Contenedor 'deportes' detenido.
+[-] Contenedor 'ambientes_abiertos' detenido.
+
+--- RECONFIGURACIÓN a las 2025-10-22 10:47:36 ---
+[-] Contenedor 'entretenimiento_tercera_edad' detenido.
+[+] Contenedor 'deportes' iniciado.
+[+] Contenedor 'ambientes_abiertos' iniciado.
+[-] Contenedor 'ambientes_cerrados' detenido.
+[-] Contenedor 'visualizador_restriccion_uso_lena' detenido.
+
+--- RECONFIGURACIÓN a las 2025-11-05 15:47:05 ---
+Regla de Adaptación (Complejidad): 214
+[-] Contenedor 'entretenimiento_tercera_edad' detenido.
+[-] Contenedor 'entretenimiento_adulto' detenido.
+[-] Contenedor 'entretenimiento_familiar' detenido.
+[-] Contenedor 'entretenimiento' detenido.
+[-] Contenedor 'ambientes_abiertos' detenido.
+
+--- RECONFIGURACIÓN a las 2025-11-05 15:49:12 ---
+Regla de Adaptación (Complejidad): 142
+[+] Contenedor 'ambientes_abiertos' iniciado.
+[-] Contenedor 'ambientes_cerrados' detenido.
+
+--- RECONFIGURACIÓN a las 2025-11-05 15:51:15 ---
+Regla de Adaptación (Complejidad): 46
+[+] Contenedor 'entretenimiento_tercera_edad' iniciado.
+[+] Contenedor 'entretenimiento_familiar' iniciado.
+[+] Contenedor 'entretenimiento' iniciado.
+[-] Contenedor 'visualizador_restriccion_uso_lena' detenido.
+
+--- RECONFIGURACIÓN a las 2025-11-05 15:53:18 ---
+Regla de Adaptación (Complejidad): 82
+
+--- RECONFIGURACIÓN a las 2025-11-05 15:55:19 ---
+Regla de Adaptación (Complejidad): 166
+[-] Contenedor 'entretenimiento_tercera_edad' detenido.
+[+] Contenedor 'entretenimiento_adulto' iniciado.
+[-] Contenedor 'entretenimiento_familiar' detenido.
+[+] Contenedor 'visualizador_restriccion_uso_lena' iniciado.
+
+--- RECONFIGURACIÓN a las 2025-11-05 15:57:24 ---
+Regla de Adaptación (Complejidad): 143
+[-] Contenedor 'entretenimiento_adulto' detenido.
+[-] Contenedor 'entretenimiento' detenido.
+
+--- RECONFIGURACIÓN a las 2025-11-05 15:59:27 ---
+Regla de Adaptación (Complejidad): 304
+[-] Contenedor 'vqe' detenido.
+[-] Contenedor 'tql_simulator' detenido.
+[-] Contenedor 'qiskit_simulator' detenido.
+[+] Contenedor 'entretenimiento_tercera_edad' iniciado.
+[+] Contenedor 'entretenimiento' iniciado.
+[-] Contenedor 'deportes' detenido.
+[-] Contenedor 'ambientes_abiertos' detenido.
+[+] Contenedor 'ambientes_cerrados' iniciado.
+[⚛️] Trabajo cuántico (QAOA en Spinq Simulator) ejecutado.
+
+--- RECONFIGURACIÓN a las 2025-11-05 16:01:35 ---
+Regla de Adaptación (Complejidad): 92
+[+] Contenedor 'entretenimiento_familiar' iniciado.
+[+] Contenedor 'deportes' iniciado.
+[+] Contenedor 'ambientes_abiertos' iniciado.
+[-] Contenedor 'ambientes_cerrados' detenido.
+[-] Contenedor 'visualizador_restriccion_uso_lena' detenido.
+
+--- RECONFIGURACIÓN a las 2025-11-05 17:46:05 ---
+Regla de Adaptación (Complejidad): 346
+[+] Contenedor 'tql_simulator' iniciado.
+[-] Contenedor 'spinq_simulator' detenido.
+[-] Contenedor 'entretenimiento_tercera_edad' detenido.
+[-] Contenedor 'deportes' detenido.
+[-] Contenedor 'ambientes_abiertos' detenido.
+[+] Contenedor 'ambientes_cerrados' iniciado.
+[+] Contenedor 'visualizador_restriccion_uso_lena' iniciado.
+[⚛️] Trabajo cuántico (QAOA en Tql Simulator) ejecutado.
+
+--- RECONFIGURACIÓN a las 2025-11-05 17:48:12 ---
+Regla de Adaptación (Complejidad): 323
+[-] Contenedor 'entretenimiento_familiar' detenido.
+[-] Contenedor 'entretenimiento' detenido.
+[⚛️] Trabajo cuántico (QAOA en Tql Simulator) ejecutado.
+
+--- RECONFIGURACIÓN a las 2025-11-05 17:50:16 ---
+Regla de Adaptación (Complejidad): 78
+[+] Contenedor 'vqe' iniciado.
+[-] Contenedor 'qaoa' detenido.
+[⚛️] Trabajo cuántico (VQE en Tql Simulator) ejecutado.
+
+--- RECONFIGURACIÓN a las 2025-11-05 17:52:18 ---
+Regla de Adaptación (Complejidad): 143
+[⚛️] Trabajo cuántico (VQE en Tql Simulator) ejecutado.
+
+--- RECONFIGURACIÓN a las 2025-11-05 17:54:19 ---
+Regla de Adaptación (Complejidad): 157
+[⚛️] Trabajo cuántico (VQE en Tql Simulator) ejecutado.
+
+--- RECONFIGURACIÓN a las 2025-11-05 17:56:20 ---
+Regla de Adaptación (Complejidad): 340
+[-] Contenedor 'vqe' detenido.
+[+] Contenedor 'qaoa' iniciado.
+[⚛️] Trabajo cuántico (QAOA en Tql Simulator) ejecutado.
+
+--- RECONFIGURACIÓN a las 2025-11-05 17:58:23 ---
+Regla de Adaptación (Complejidad): 163
+[+] Contenedor 'vqe' iniciado.
+[-] Contenedor 'qaoa' detenido.
+[⚛️] Trabajo cuántico (VQE en Tql Simulator) ejecutado.
+
+--- RECONFIGURACIÓN a las 2025-11-05 18:00:25 ---
+Regla de Adaptación (Complejidad): 239
+[⚛️] Trabajo cuántico (VQE en Tql Simulator) ejecutado.
+
+--- RECONFIGURACIÓN a las 2025-11-05 18:02:27 ---
+Regla de Adaptación (Complejidad): 126
+[⚛️] Trabajo cuántico (VQE en Tql Simulator) ejecutado.
+
+--- RECONFIGURACIÓN a las 2025-11-05 18:13:46 ---
+Regla de Adaptación (Complejidad): 310
+[-] Contenedor 'vqe' detenido.
+[+] Contenedor 'qaoa' iniciado.
+[+] Contenedor 'deportes' iniciado.
+[+] Contenedor 'ambientes_abiertos' iniciado.
+[-] Contenedor 'ambientes_cerrados' detenido.
+[⚛️] Trabajo cuántico (QAOA en Tql Simulator) ejecutado.
+
+--- RECONFIGURACIÓN a las 2025-11-05 18:15:50 ---
+Regla de Adaptación (Complejidad): 253
+[-] Contenedor 'qaoa' detenido.
+[-] Contenedor 'tql_simulator' detenido.
+[-] Contenedor 'algoritmo' detenido.
+[-] Contenedor 'backend' detenido.
+[-] Contenedor 'hqc' detenido.
+[-] Contenedor 'optimizacion_de_rutas' detenido.
+
+--- RECONFIGURACIÓN a las 2025-11-05 18:17:59 ---
+Regla de Adaptación (Complejidad): 187
+
+--- RECONFIGURACIÓN a las 2025-11-05 18:20:00 ---
+Regla de Adaptación (Complejidad): 150
+
+--- RECONFIGURACIÓN a las 2025-11-05 18:22:02 ---
+Regla de Adaptación (Complejidad): 208
+
+--- RECONFIGURACIÓN a las 2025-11-05 18:24:04 ---
+Regla de Adaptación (Complejidad): 323
+[+] Contenedor 'qaoa' iniciado.
+[+] Contenedor 'spinq_simulator' iniciado.
+[+] Contenedor 'algoritmo' iniciado.
+[+] Contenedor 'backend' iniciado.
+[+] Contenedor 'hqc' iniciado.
+[+] Contenedor 'optimizacion_de_rutas' iniciado.
+[+] Contenedor 'entretenimiento_tercera_edad' iniciado.
+[+] Contenedor 'entretenimiento_adulto' iniciado.
+[+] Contenedor 'entretenimiento_familiar' iniciado.
+[+] Contenedor 'entretenimiento' iniciado.
+[-] Contenedor 'visualizador_restriccion_uso_lena' detenido.
+[⚛️] Trabajo cuántico (QAOA en Spinq Simulator) ejecutado.
+
+--- RECONFIGURACIÓN a las 2025-11-05 18:26:08 ---
+Regla de Adaptación (Complejidad): 127
+[-] Contenedor 'qaoa' detenido.
+[-] Contenedor 'spinq_simulator' detenido.
+[-] Contenedor 'algoritmo' detenido.
+[-] Contenedor 'backend' detenido.
+[-] Contenedor 'hqc' detenido.
+[-] Contenedor 'optimizacion_de_rutas' detenido.
+[-] Contenedor 'entretenimiento_tercera_edad' detenido.
+[-] Contenedor 'entretenimiento_adulto' detenido.
+[-] Contenedor 'entretenimiento_familiar' detenido.
+[-] Contenedor 'entretenimiento' detenido.
+[+] Contenedor 'visualizador_restriccion_uso_lena' iniciado.
+
+--- RECONFIGURACIÓN a las 2025-11-05 18:28:22 ---
+Regla de Adaptación (Complejidad): 9
+
+--- RECONFIGURACIÓN a las 2025-11-05 18:30:24 ---
+Regla de Adaptación (Complejidad): 131
+
+--- RECONFIGURACIÓN a las 2025-11-05 18:32:25 ---
+Regla de Adaptación (Complejidad): 346
+[+] Contenedor 'qaoa' iniciado.
+[+] Contenedor 'spinq_simulator' iniciado.
+[+] Contenedor 'algoritmo' iniciado.
+[+] Contenedor 'backend' iniciado.
+[+] Contenedor 'hqc' iniciado.
+[+] Contenedor 'optimizacion_de_rutas' iniciado.
+[⚛️] Trabajo cuántico (QAOA en Spinq Simulator) ejecutado.
+
+--- RECONFIGURACIÓN a las 2025-11-05 18:34:28 ---
+Regla de Adaptación (Complejidad): 336
+[+] Contenedor 'tql_simulator' iniciado.
+[-] Contenedor 'spinq_simulator' detenido.
+[+] Contenedor 'entretenimiento_adulto' iniciado.
+[+] Contenedor 'entretenimiento_familiar' iniciado.
+[+] Contenedor 'entretenimiento' iniciado.
+[-] Contenedor 'visualizador_restriccion_uso_lena' detenido.
+[⚛️] Trabajo cuántico (QAOA en Tql Simulator) ejecutado.
+
+--- RECONFIGURACIÓN a las 2025-11-05 18:36:33 ---
+Regla de Adaptación (Complejidad): 309
+[-] Contenedor 'entretenimiento_adulto' detenido.
+[-] Contenedor 'entretenimiento_familiar' detenido.
+[-] Contenedor 'entretenimiento' detenido.
+[+] Contenedor 'visualizador_restriccion_uso_lena' iniciado.
+[⚛️] Trabajo cuántico (QAOA en Tql Simulator) ejecutado.
+
+--- RECONFIGURACIÓN a las 2025-11-05 18:38:39 ---
+Regla de Adaptación (Complejidad): 89
+[-] Contenedor 'qaoa' detenido.
+[-] Contenedor 'tql_simulator' detenido.
+[-] Contenedor 'algoritmo' detenido.
+[-] Contenedor 'backend' detenido.
+[-] Contenedor 'hqc' detenido.
+[-] Contenedor 'optimizacion_de_rutas' detenido.
+
+--- RECONFIGURACIÓN a las 2025-11-05 18:40:48 ---
+Regla de Adaptación (Complejidad): 34
+
+--- RECONFIGURACIÓN a las 2025-11-05 18:42:50 ---
+Regla de Adaptación (Complejidad): 194
+
+--- RECONFIGURACIÓN a las 2025-11-05 18:44:51 ---
+Regla de Adaptación (Complejidad): 126
+
+--- RECONFIGURACIÓN a las 2025-11-05 18:46:54 ---
+Regla de Adaptación (Complejidad): 240
+
+--- RECONFIGURACIÓN a las 2025-11-05 18:48:56 ---
+Regla de Adaptación (Complejidad): 197
+
+--- RECONFIGURACIÓN a las 2025-11-05 18:50:58 ---
+Regla de Adaptación (Complejidad): 34
+
+--- RECONFIGURACIÓN a las 2025-11-05 18:53:00 ---
+Regla de Adaptación (Complejidad): 299
+
+--- RECONFIGURACIÓN a las 2025-11-05 18:55:01 ---
+Regla de Adaptación (Complejidad): 300
+[+] Contenedor 'qaoa' iniciado.
+[+] Contenedor 'tql_simulator' iniciado.
+[+] Contenedor 'algoritmo' iniciado.
+[+] Contenedor 'backend' iniciado.
+[+] Contenedor 'hqc' iniciado.
+[+] Contenedor 'optimizacion_de_rutas' iniciado.
+[⚛️] Trabajo cuántico (QAOA en Tql Simulator) ejecutado.
+
+--- RECONFIGURACIÓN a las 2025-11-05 18:57:04 ---
+Regla de Adaptación (Complejidad): 245
+[-] Contenedor 'qaoa' detenido.
+[-] Contenedor 'tql_simulator' detenido.
+[-] Contenedor 'algoritmo' detenido.
+[-] Contenedor 'backend' detenido.
+[-] Contenedor 'hqc' detenido.
+[-] Contenedor 'optimizacion_de_rutas' detenido.
