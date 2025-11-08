@@ -1,6 +1,7 @@
 import itertools
 import numpy as np
 import csv
+
 class Nodo:
     def __init__(self, nombre):
         self._nombre = nombre
@@ -33,6 +34,7 @@ class ModeloCaracteristicas:
             if(rama.getNombre == nombreCaracteristica):
                 return rama
         return None
+    
     def buscarCaracteristicaPadre(self, nombreCaracteristica, nombreRelacion):
         for rama in self.caracteristicas:
             for relaciones in rama.getRelaciones:
@@ -52,20 +54,25 @@ class ModeloCaracteristicas:
     def estadoTipoRelacion(self,nodo):
         nodoArbol = []
         if (nodo[1] == "Obligatoria"):
-            nodoArbol.append([nodo[0] + " activada"])
+            # CORRECCIÓN: Debe generar AMBOS estados.
+            # El filtro (removerRelacionesInvalidas) decidirá si es válido.
+            nodoArbol.append([nodo[0] + " activada", nodo[0] + " desactivada"])
         if (nodo[1] == "Opcional"):
             nodoArbol.append([nodo[0] + " activada", nodo[0] + " desactivada"])
         if (nodo[1] == "XOR"):
             caracteristicas = self.buscarRelacionesXOR(nodo[0])
             for combo in itertools.product([True, False], repeat=len(caracteristicas)):
-                if combo.count(True) != 1:
-                    continue
-                resultado = []
-                for i, activado in enumerate(combo):
-                    estado = "activada" if activado else "desactivada"
-                    resultado.append(f"{caracteristicas[i]} {estado}")
-                #print(resultado)
-                nodoArbol.append(resultado)
+                
+                # --- INICIO DE CORRECCIÓN (XOR) ---
+                # Debe permitir 1 activo (para XOR) o 0 activos (para padre inactivo)
+                if combo.count(True) == 1 or combo.count(True) == 0:
+                    resultado = []
+                    for i, activado in enumerate(combo):
+                        estado = "activada" if activado else "desactivada"
+                        resultado.append(f"{caracteristicas[i]} {estado}")
+                    nodoArbol.append(resultado)
+                # --- FIN DE CORRECCIÓN ---
+                
         if (nodo[1] == "OR"):
             caracteristicas = self.buscarRelacionesOR(nodo[0])
             combinaciones = list(itertools.product(["activada", "desactivada"], repeat=len(caracteristicas)))
@@ -93,64 +100,149 @@ class ModeloCaracteristicas:
                 caracteristicasOR.append(ramas[0])
         return caracteristicasOR
 
-    def removerRelacionesInvalidas(self,reconfiguraciones):
-        posiblesEstados= []
-        print("reconfiguraciones iniciales",len(reconfiguraciones))
+    def removerRelacionesInvalidas(self, reconfiguraciones):
+        posiblesEstados = []
+        print("reconfiguraciones iniciales", len(reconfiguraciones))
+        
         for nodo in reconfiguraciones:
             relacionInvalida = False
-            for caracteristica in nodo:
-                nombreCaracteristica = caracteristica.replace(" desactivada", "")
-                caracteristicaBuscada = self.buscarCaracteristica(nombreCaracteristica)
-                if caracteristicaBuscada != None:
+            
+            # 1. Convertimos la fila en un diccionario para búsquedas fáciles
+            config_dict = {}
+            for item in nodo:
+                if " activada" in item:
+                    config_dict[item.replace(" activada", "")] = True
+                elif " desactivada" in item:
+                    config_dict[item.replace(" desactivada", "")] = False
+
+            # --- INICIO DE CORRECCIÓN (Lógica del Nodo Raíz) ---
+            #
+            # El nodo raíz ("Gestor aire") está implícitamente ACTIVO.
+            # Debemos validar a sus hijos obligatorios ANTES del bucle principal.
+            #
+            raiz_caracteristicaBuscada = self.buscarCaracteristica("Gestor aire")
+            if raiz_caracteristicaBuscada:
+                for relacion in raiz_caracteristicaBuscada.getRelaciones:
+                    # REGLA: Si la raíz está activa, sus hijos OBLIGATORIOS deben estar ACTIVOS.
+                    if relacion[1] == "Obligatoria" and config_dict.get(relacion[0]) == False:
+                        relacionInvalida = True
+                        # print(f"INVALIDADO (Raíz): Hijo Obligatorio '{relacion[0]}' está inactivo.")
+                        break # Esta permutación es inválida
+            
+            if relacionInvalida:
+                # Opcional: print(f"FILTRADO (Raíz): {nodo}")
+                continue # Saltar al siguiente 'nodo' en reconfiguraciones
+            #
+            # --- FIN DE CORRECCIÓN ---
+
+
+            # 2. Iteramos por las características HIJO (sin el hack de "Gestor aire")
+            for nombre_caracteristica, estado_activo in config_dict.items():
+                caracteristicaBuscada = self.buscarCaracteristica(nombre_caracteristica)
+                
+                # Si no se encuentra, es un nodo hoja (ej. "QAOA"), lo saltamos
+                if caracteristicaBuscada is None:
+                    continue
+
+                # Encontrado: Es un nodo padre (ej. "HQC", "Backend", "Turismo")
+                
+                # REGLA 1: Si un padre está INACTIVO, sus hijos OBLIGATORIOS/XOR/OR deben estar INACTIVOS.
+                if not estado_activo: # Si el padre (ej. HQC) está Falso (desactivado)
                     for relacion in caracteristicaBuscada.getRelaciones:
-                        dato = relacion[0] +" activada"
-                        #print(dato)
-                        if dato in nodo and relacion[1] != "Requiere":
+                        # Si un hijo (que no sea 'Requiere') está ACTIVO
+                        if relacion[1] != "Requiere" and config_dict.get(relacion[0]) == True:
                             relacionInvalida = True
-                else:
-                    nombreCaracteristicaActivada = caracteristica.replace(" activada", "")
-                    caracteristicaBuscada = self.buscarCaracteristica(nombreCaracteristicaActivada)
-                    existeOR = any("OR" in arreglo for arreglo in caracteristicaBuscada.getRelaciones)
-                    if existeOR:
-                        contadorCaracteristicasActivadas = 0
-                        for relacion in caracteristicaBuscada.getRelaciones:
-                            if relacion[1] == "OR":
-                                dato = relacion[0] + " activada"
-                                if dato in nodo:
-                                    contadorCaracteristicasActivadas+=1
-                        if contadorCaracteristicasActivadas == 0:
+                            # print(f"INVALIDADO (Regla 1): Padre '{nombre_caracteristica}' inactivo, pero hijo '{relacion[0]}' activo.")
+                            break # Salir del bucle de relaciones
+                
+                # REGLA 2: Si un padre está ACTIVO, sus hijos deben cumplir sus reglas.
+                elif estado_activo: # Si el padre (ej. HQC) está Cierto (activado)
+                    
+                    # --- Lógica para OBLIGATORIA (Corregida) ---
+                    for relacion in caracteristicaBuscada.getRelaciones:
+                        if relacion[1] == "Obligatoria" and config_dict.get(relacion[0]) == False:
                             relacionInvalida = True
+                            # print(f"INVALIDADO (Regla 2-Oblig): Padre '{nombre_caracteristica}' activo, pero hijo Obligatorio '{relacion[0]}' inactivo.")
+                            break # Salir del bucle de relaciones
+                    
+                    if relacionInvalida:
+                        break # Salir del bucle de características
+                    
+                    # --- Lógica de validación para XOR/OR ---
+                    hijos_xor = [r[0] for r in caracteristicaBuscada.getRelaciones if r[1] == "XOR"]
+                    hijos_or = [r[0] for r in caracteristicaBuscada.getRelaciones if r[1] == "OR"]
+
+                    if hijos_xor:
+                        # Si es un grupo XOR, DEBE tener exactamente 1 hijo activo
+                        activos_xor = sum(1 for h in hijos_xor if config_dict.get(h) == True)
+                        if activos_xor != 1:
+                            relacionInvalida = True
+                            # print(f"INVALIDADO (Regla 2-XOR): Padre '{nombre_caracteristica}' activo, pero grupo XOR no tiene 1 hijo activo.")
+                            break
+
+                    if hijos_or:
+                        # Si es un grupo OR, DEBE tener AL MENOS 1 hijo activo
+                        activos_or = sum(1 for h in hijos_or if config_dict.get(h) == True)
+                        if activos_or == 0: 
+                            relacionInvalida = True
+                            # print(f"INVALIDADO (Regla 2-OR): Padre '{nombre_caracteristica}' activo, pero grupo OR no tiene hijos activos.")
+                            break
+                
+                if relacionInvalida:
+                    break # Salir del bucle de características
+
             if not relacionInvalida:
                 posiblesEstados.append(nodo)
-            else:
-                print(nodo)
-        print("reconfiguraciones finales sin excluir require",len(posiblesEstados))
+            # else:
+                # Opcional: Descomenta esto para ver las filas que se están filtrando
+                # print(f"FILTRADO: {nodo}") 
+
+        print("reconfiguraciones finales sin excluir require", len(posiblesEstados))
         return self.filtrarRelacionesRequire(posiblesEstados)
 
 
 
     def filtrarRelacionesRequire(self, reconfiguraciones):
         posiblesEstados = []
+        
+        # 1. Encontrar todas las reglas "Requiere" del modelo
+        reglas_requiere = []
+        for caracteristica in self.caracteristicas:
+            for relacion in caracteristica.getRelaciones:
+                if relacion[1] == "Requiere":
+                    # Guardamos la regla como (quien_requiere, quien_es_requerido)
+                    # Ej: ('Optimizacion de rutas', 'HQC')
+                    reglas_requiere.append((caracteristica.getNombre, relacion[0]))
+
+        print(f"Reglas 'Requiere' detectadas: {reglas_requiere}")
+
+        # 2. Iterar por cada configuración y validarla
         for nodo in reconfiguraciones:
-            caracteristicasRequeridas = []
-            condicion = True
-            for caracteristica in nodo:
-                nombreCaracteristica = caracteristica.replace(" activada","")
-                caracteristicaBuscada = self.buscarCaracteristica(nombreCaracteristica)
-                if caracteristicaBuscada != None:
-                    #print(caracteristicaBuscada.nombre)
-                    for ramas in caracteristicaBuscada.getRelaciones:
-                        #print(ramas[1])
-                        if(ramas[1]== "Requiere"):
-                            caracteristicasRequeridas.append(ramas[0] + " activada")
-                            #print("llego a requerida")
-            for requeridas in caracteristicasRequeridas:
-                if not requeridas in nodo:
-                    condicion = False
-                    #print("llego a falso")
-            if condicion:
+            condicion_valida = True
+            
+            # Convertir la fila a un diccionario para búsquedas fáciles
+            config_dict = {}
+            for item in nodo:
+                if " activada" in item:
+                    config_dict[item.replace(" activada", "")] = True
+                elif " desactivada" in item:
+                    config_dict[item.replace(" desactivada", "")] = False
+            
+            # 3. Aplicar cada regla
+            for (quien_requiere, quien_es_requerido) in reglas_requiere:
+                
+                # Esta es la única condición que invalida la fila:
+                # Si el que requiere está ACTIVO, pero el requerido está INACTIVO
+                if config_dict.get(quien_requiere) == True and config_dict.get(quien_es_requerido) == False:
+                    condicion_valida = False
+                    # print(f"FILTRADO: '{quien_requiere}' activo REQUIERE '{quien_es_requerido}' activo.")
+                    break # Esta fila es inválida, no seguir revisando
+            
+            if condicion_valida:
                 posiblesEstados.append(nodo)
-        print(len(posiblesEstados))
+        
+        # Este número ahora debería ser 768
+        print(f"reconfiguraciones finales (con 'Requiere' validado): {len(posiblesEstados)}")
         return posiblesEstados
 
     def ordenarPosiblesEstados(self, arrays):
@@ -160,6 +252,7 @@ class ModeloCaracteristicas:
             for subarray in array:
                 subarray.sort()
         return arrays
+    
     def buscarPosibleEstado(self, reconfiguraciones, nodo):
         condicion = False
         for rama in reconfiguraciones:
@@ -172,7 +265,7 @@ class ModeloCaracteristicas:
     def eliminarDuplicados(self, posiblesEstados):
         posiblesEstados = self.ordenarPosiblesEstados(posiblesEstados)
         print("posibles estados",len(posiblesEstados))
-        print(posiblesEstados)
+        # print(posiblesEstados) # Descomentado para no saturar la consola
         reconfiguraciones = []
         for rama in posiblesEstados:
             condicion = False
@@ -184,7 +277,7 @@ class ModeloCaracteristicas:
                 else:
                     reconfiguraciones.append(rama)
         print("estados finales ",len(reconfiguraciones))
-        print(reconfiguraciones)
+        # print(reconfiguraciones) # Descomentado para no saturar la consola
         return reconfiguraciones
 
     def buscarCaracteristicaOR(self, nodo):
@@ -249,6 +342,7 @@ class ModeloCaracteristicas:
                 if subCaracteristica[1] != "Requiere" and subCaracteristica[1] != "Excluye":
                     subCaracteristicas.append(subCaracteristica[0])
         return subCaracteristicas
+    
     def obtenerRelacionesMC(self):
         relacionesMC = {}
         for caracteristica in self.caracteristicas:
@@ -342,10 +436,8 @@ def generarPosiblesEstados():
     mc.almacenarPosiblesEstados("data/datos.csv", mc.permutarCaracteristicas(mc.calcularPosiblesEstados()))
     #print(mc.permutarCaracteristicas(mc.calcularPosiblesEstados()))
     return mc
+
 if __name__ == "__main__":
     print("Iniciando la generación de 'data/datos.csv'...")
     generarPosiblesEstados()
     print("¡Archivo 'data/datos.csv' generado/actualizado exitosamente!")
-
-
-

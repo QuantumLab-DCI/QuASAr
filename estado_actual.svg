@@ -49,27 +49,27 @@
 <!-- Deportes -->
 <g id="node7" class="node">
 <title>Deportes</title>
-<path fill="#33a02c" stroke="#33a02c" stroke-width="2.2" d="M222,-418C222,-418 190.25,-418 190.25,-418 184.25,-418 178.25,-412 178.25,-406 178.25,-406 178.25,-394 178.25,-394 178.25,-388 184.25,-382 190.25,-382 190.25,-382 222,-382 222,-382 228,-382 234,-388 234,-394 234,-394 234,-406 234,-406 234,-412 228,-418 222,-418"/>
+<path fill="#e31a1c" stroke="#e31a1c" stroke-width="1.2" d="M222,-418C222,-418 190.25,-418 190.25,-418 184.25,-418 178.25,-412 178.25,-406 178.25,-406 178.25,-394 178.25,-394 178.25,-388 184.25,-382 190.25,-382 190.25,-382 222,-382 222,-382 228,-382 234,-388 234,-394 234,-394 234,-406 234,-406 234,-412 228,-418 222,-418"/>
 <text xml:space="preserve" text-anchor="middle" x="206.12" y="-396.5" font-family="Arial" font-size="10.00" fill="white">Deportes</text>
 </g>
 <!-- Gestor aire&#45;&gt;Deportes -->
 <g id="edge3" class="edge">
 <title>Gestor aire&#45;&gt;Deportes</title>
-<path fill="none" stroke="#4d4d4d" stroke-width="1.2" d="M75.83,-400C102.22,-400 139.77,-400 167.61,-400"/>
-<polygon fill="#4d4d4d" stroke="#4d4d4d" stroke-width="1.2" points="167.57,-402.8 175.57,-400 167.57,-397.2 167.57,-402.8"/>
+<path fill="none" stroke="#4d4d4d" stroke-width="1.2" d="M75.83,-400C102.38,-400 140.23,-400 168.12,-400"/>
+<polygon fill="#4d4d4d" stroke="#4d4d4d" stroke-width="1.2" points="168.09,-402.8 176.09,-400 168.09,-397.2 168.09,-402.8"/>
 <text xml:space="preserve" text-anchor="middle" x="119.5" y="-401.95" font-family="Arial" font-size="9.00">Opcional</text>
 </g>
 <!-- Entretenimiento -->
 <g id="node8" class="node">
 <title>Entretenimiento</title>
-<path fill="#e31a1c" stroke="#e31a1c" stroke-width="1.2" d="M236.25,-343C236.25,-343 176,-343 176,-343 170,-343 164,-337 164,-331 164,-331 164,-319 164,-319 164,-313 170,-307 176,-307 176,-307 236.25,-307 236.25,-307 242.25,-307 248.25,-313 248.25,-319 248.25,-319 248.25,-331 248.25,-331 248.25,-337 242.25,-343 236.25,-343"/>
+<path fill="#33a02c" stroke="#33a02c" stroke-width="2.2" d="M236.25,-343C236.25,-343 176,-343 176,-343 170,-343 164,-337 164,-331 164,-331 164,-319 164,-319 164,-313 170,-307 176,-307 176,-307 236.25,-307 236.25,-307 242.25,-307 248.25,-313 248.25,-319 248.25,-319 248.25,-331 248.25,-331 248.25,-337 242.25,-343 236.25,-343"/>
 <text xml:space="preserve" text-anchor="middle" x="206.12" y="-321.5" font-family="Arial" font-size="10.00" fill="white">Entretenimiento</text>
 </g>
 <!-- Gestor aire&#45;&gt;Entretenimiento -->
 <g id="edge4" class="edge">
 <title>Gestor aire&#45;&gt;Entretenimiento</title>
-<path fill="none" stroke="#4d4d4d" stroke-width="1.2" d="M75.83,-385.18C98.9,-374.44 130.52,-359.73 156.71,-347.54"/>
-<polygon fill="#4d4d4d" stroke="#4d4d4d" stroke-width="1.2" points="157.64,-350.19 163.71,-344.28 155.28,-345.11 157.64,-350.19"/>
+<path fill="none" stroke="#4d4d4d" stroke-width="1.2" d="M75.83,-385.18C98.57,-374.6 129.62,-360.15 155.58,-348.06"/>
+<polygon fill="#4d4d4d" stroke="#4d4d4d" stroke-width="1.2" points="156.46,-350.74 162.53,-344.83 154.09,-345.67 156.46,-350.74"/>
 <text xml:space="preserve" text-anchor="middle" x="119.5" y="-375.55" font-family="Arial" font-size="9.00">Opcional</text>
 </g>
 <!-- HQC -->
@@ -103,27 +103,27 @@
 <!-- Ambientes cerrados -->
 <g id="node5" class="node">
 <title>Ambientes cerrados</title>
-<path fill="#e31a1c" stroke="#e31a1c" stroke-width="1.2" d="M428.25,-588C428.25,-588 349.25,-588 349.25,-588 343.25,-588 337.25,-582 337.25,-576 337.25,-576 337.25,-564 337.25,-564 337.25,-558 343.25,-552 349.25,-552 349.25,-552 428.25,-552 428.25,-552 434.25,-552 440.25,-558 440.25,-564 440.25,-564 440.25,-576 440.25,-576 440.25,-582 434.25,-588 428.25,-588"/>
+<path fill="#33a02c" stroke="#33a02c" stroke-width="2.2" d="M428.25,-588C428.25,-588 349.25,-588 349.25,-588 343.25,-588 337.25,-582 337.25,-576 337.25,-576 337.25,-564 337.25,-564 337.25,-558 343.25,-552 349.25,-552 349.25,-552 428.25,-552 428.25,-552 434.25,-552 440.25,-558 440.25,-564 440.25,-564 440.25,-576 440.25,-576 440.25,-582 434.25,-588 428.25,-588"/>
 <text xml:space="preserve" text-anchor="middle" x="388.75" y="-566.5" font-family="Arial" font-size="10.00" fill="white">Ambientes cerrados</text>
 </g>
 <!-- Turismo&#45;&gt;Ambientes cerrados -->
 <g id="edge7" class="edge">
 <title>Turismo&#45;&gt;Ambientes cerrados</title>
-<path fill="none" stroke="#4d4d4d" stroke-width="1.2" d="M234.14,-495.3C245.31,-500.8 258.4,-507.22 270.25,-513 293.44,-524.32 319.24,-536.84 340.74,-547.26"/>
-<polygon fill="#4d4d4d" stroke="#4d4d4d" stroke-width="1.2" points="339.31,-549.68 347.73,-550.64 341.75,-544.64 339.31,-549.68"/>
+<path fill="none" stroke="#4d4d4d" stroke-width="1.2" d="M234.14,-495.3C245.31,-500.8 258.4,-507.22 270.25,-513 293.08,-524.14 318.44,-536.45 339.74,-546.77"/>
+<polygon fill="#4d4d4d" stroke="#4d4d4d" stroke-width="1.2" points="338.24,-549.16 346.66,-550.13 340.68,-544.12 338.24,-549.16"/>
 <text xml:space="preserve" text-anchor="middle" x="292.75" y="-535.38" font-family="Arial" font-size="9.00">XOR</text>
 </g>
 <!-- Ambientes abiertos -->
 <g id="node6" class="node">
 <title>Ambientes abiertos</title>
-<path fill="#33a02c" stroke="#33a02c" stroke-width="2.2" d="M426.75,-523C426.75,-523 350.75,-523 350.75,-523 344.75,-523 338.75,-517 338.75,-511 338.75,-511 338.75,-499 338.75,-499 338.75,-493 344.75,-487 350.75,-487 350.75,-487 426.75,-487 426.75,-487 432.75,-487 438.75,-493 438.75,-499 438.75,-499 438.75,-511 438.75,-511 438.75,-517 432.75,-523 426.75,-523"/>
+<path fill="#e31a1c" stroke="#e31a1c" stroke-width="1.2" d="M426.75,-523C426.75,-523 350.75,-523 350.75,-523 344.75,-523 338.75,-517 338.75,-511 338.75,-511 338.75,-499 338.75,-499 338.75,-493 344.75,-487 350.75,-487 350.75,-487 426.75,-487 426.75,-487 432.75,-487 438.75,-493 438.75,-499 438.75,-499 438.75,-511 438.75,-511 438.75,-517 432.75,-523 426.75,-523"/>
 <text xml:space="preserve" text-anchor="middle" x="388.75" y="-501.5" font-family="Arial" font-size="10.00" fill="white">Ambientes abiertos</text>
 </g>
 <!-- Turismo&#45;&gt;Ambientes abiertos -->
 <g id="edge8" class="edge">
 <title>Turismo&#45;&gt;Ambientes abiertos</title>
-<path fill="none" stroke="#4d4d4d" stroke-width="1.2" d="M234.17,-485.44C258.96,-488.6 296.54,-493.39 328.32,-497.43"/>
-<polygon fill="#4d4d4d" stroke="#4d4d4d" stroke-width="1.2" points="327.89,-500.2 336.18,-498.43 328.59,-494.64 327.89,-500.2"/>
+<path fill="none" stroke="#4d4d4d" stroke-width="1.2" d="M234.17,-485.44C259.05,-488.61 296.81,-493.42 328.66,-497.48"/>
+<polygon fill="#4d4d4d" stroke="#4d4d4d" stroke-width="1.2" points="328.25,-500.25 336.54,-498.48 328.95,-494.69 328.25,-500.25"/>
 <text xml:space="preserve" text-anchor="middle" x="292.75" y="-497.51" font-family="Arial" font-size="9.00">XOR</text>
 </g>
 <!-- Optimizacion de rutas -->
@@ -143,29 +143,29 @@
 <!-- Ambientes cerrados&#45;&gt;Visualizador restriccion uso lena -->
 <g id="edge10" class="edge">
 <title>Ambientes cerrados&#45;&gt;Visualizador restriccion uso lena</title>
-<path fill="none" stroke="#6a3d9a" stroke-width="1.2" stroke-dasharray="5,2" d="M388.75,-588.43C388.75,-601.75 388.75,-620.08 388.75,-635.79"/>
-<polygon fill="#6a3d9a" stroke="#6a3d9a" stroke-width="1.2" points="385.95,-635.35 388.75,-643.35 391.55,-635.35 385.95,-635.35"/>
+<path fill="none" stroke="#6a3d9a" stroke-width="1.2" stroke-dasharray="5,2" d="M388.75,-588.9C388.75,-602.04 388.75,-619.89 388.75,-635.31"/>
+<polygon fill="#6a3d9a" stroke="#6a3d9a" stroke-width="1.2" points="385.95,-635.21 388.75,-643.21 391.55,-635.21 385.95,-635.21"/>
 <text xml:space="preserve" text-anchor="middle" x="380.5" y="-613.7" font-family="Arial" font-size="9.00">Requiere</text>
 </g>
 <!-- Ambientes abiertos&#45;&gt;Deportes -->
 <g id="edge11" class="edge">
 <title>Ambientes abiertos&#45;&gt;Deportes</title>
-<path fill="none" stroke="#6a3d9a" stroke-width="1.2" stroke-dasharray="5,2" d="M353.39,-486.04C347.68,-482.12 342.06,-477.73 337.25,-473 324.55,-460.51 329.21,-450.56 315.25,-439.5 294.65,-423.18 266.67,-413.2 244.34,-407.36"/>
-<polygon fill="#6a3d9a" stroke="#6a3d9a" stroke-width="1.2" points="245.04,-404.64 236.6,-405.46 243.7,-410.08 245.04,-404.64"/>
+<path fill="none" stroke="#6a3d9a" stroke-width="1.2" stroke-dasharray="5,2" d="M353.92,-486.4C348.03,-482.39 342.21,-477.88 337.25,-473 324.55,-460.51 329.21,-450.56 315.25,-439.5 294.51,-423.07 266.3,-413.07 243.89,-407.24"/>
+<polygon fill="#6a3d9a" stroke="#6a3d9a" stroke-width="1.2" points="244.57,-404.52 236.14,-405.35 243.25,-409.96 244.57,-404.52"/>
 <text xml:space="preserve" text-anchor="middle" x="292.75" y="-441.45" font-family="Arial" font-size="9.00">Requiere</text>
 </g>
 <!-- Entretenimiento familiar -->
 <g id="node9" class="node">
 <title>Entretenimiento familiar</title>
-<path fill="#e31a1c" stroke="#e31a1c" stroke-width="1.2" d="M418.88,-393C418.88,-393 358.62,-393 358.62,-393 352.62,-393 346.62,-387 346.62,-381 346.62,-381 346.62,-369 346.62,-369 346.62,-363 352.62,-357 358.62,-357 358.62,-357 418.88,-357 418.88,-357 424.88,-357 430.88,-363 430.88,-369 430.88,-369 430.88,-381 430.88,-381 430.88,-387 424.88,-393 418.88,-393"/>
+<path fill="#33a02c" stroke="#33a02c" stroke-width="2.2" d="M418.88,-393C418.88,-393 358.62,-393 358.62,-393 352.62,-393 346.62,-387 346.62,-381 346.62,-381 346.62,-369 346.62,-369 346.62,-363 352.62,-357 358.62,-357 358.62,-357 418.88,-357 418.88,-357 424.88,-357 430.88,-363 430.88,-369 430.88,-369 430.88,-381 430.88,-381 430.88,-387 424.88,-393 418.88,-393"/>
 <text xml:space="preserve" text-anchor="middle" x="388.75" y="-377.5" font-family="Arial" font-size="10.00" fill="white">Entretenimiento</text>
 <text xml:space="preserve" text-anchor="middle" x="388.75" y="-365.5" font-family="Arial" font-size="10.00" fill="white">familiar</text>
 </g>
 <!-- Entretenimiento&#45;&gt;Entretenimiento familiar -->
 <g id="edge12" class="edge">
 <title>Entretenimiento&#45;&gt;Entretenimiento familiar</title>
-<path fill="none" stroke="#4d4d4d" stroke-width="1.2" d="M248.56,-336.47C274.86,-343.75 309.06,-353.22 336.98,-360.95"/>
-<polygon fill="#4d4d4d" stroke="#4d4d4d" stroke-width="1.2" points="335.98,-363.58 344.44,-363.01 337.48,-358.18 335.98,-363.58"/>
+<path fill="none" stroke="#4d4d4d" stroke-width="1.2" d="M249.02,-336.6C275.14,-343.83 308.94,-353.18 336.63,-360.85"/>
+<polygon fill="#4d4d4d" stroke="#4d4d4d" stroke-width="1.2" points="335.56,-363.46 344.02,-362.9 337.06,-358.06 335.56,-363.46"/>
 <text xml:space="preserve" text-anchor="middle" x="292.75" y="-356.43" font-family="Arial" font-size="9.00">OR</text>
 </g>
 <!-- Entretenimiento adulto -->
@@ -178,22 +178,22 @@
 <!-- Entretenimiento&#45;&gt;Entretenimiento adulto -->
 <g id="edge13" class="edge">
 <title>Entretenimiento&#45;&gt;Entretenimiento adulto</title>
-<path fill="none" stroke="#4d4d4d" stroke-width="1.2" d="M248.56,-321.56C274.74,-319.38 308.77,-316.56 336.62,-314.25"/>
-<polygon fill="#4d4d4d" stroke="#4d4d4d" stroke-width="1.2" points="336.64,-317.05 344.38,-313.6 336.18,-311.47 336.64,-317.05"/>
+<path fill="none" stroke="#4d4d4d" stroke-width="1.2" d="M249.02,-321.52C275.12,-319.35 308.89,-316.55 336.57,-314.25"/>
+<polygon fill="#4d4d4d" stroke="#4d4d4d" stroke-width="1.2" points="336.53,-317.06 344.27,-313.61 336.07,-311.48 336.53,-317.06"/>
 <text xml:space="preserve" text-anchor="middle" x="292.75" y="-321.67" font-family="Arial" font-size="9.00">OR</text>
 </g>
 <!-- Entretenimiento tercera edad -->
 <g id="node11" class="node">
 <title>Entretenimiento tercera edad</title>
-<path fill="#e31a1c" stroke="#e31a1c" stroke-width="1.2" d="M418.88,-263C418.88,-263 358.62,-263 358.62,-263 352.62,-263 346.62,-257 346.62,-251 346.62,-251 346.62,-239 346.62,-239 346.62,-233 352.62,-227 358.62,-227 358.62,-227 418.88,-227 418.88,-227 424.88,-227 430.88,-233 430.88,-239 430.88,-239 430.88,-251 430.88,-251 430.88,-257 424.88,-263 418.88,-263"/>
+<path fill="#33a02c" stroke="#33a02c" stroke-width="2.2" d="M418.88,-263C418.88,-263 358.62,-263 358.62,-263 352.62,-263 346.62,-257 346.62,-251 346.62,-251 346.62,-239 346.62,-239 346.62,-233 352.62,-227 358.62,-227 358.62,-227 418.88,-227 418.88,-227 424.88,-227 430.88,-233 430.88,-239 430.88,-239 430.88,-251 430.88,-251 430.88,-257 424.88,-263 418.88,-263"/>
 <text xml:space="preserve" text-anchor="middle" x="388.75" y="-247.5" font-family="Arial" font-size="10.00" fill="white">Entretenimiento</text>
 <text xml:space="preserve" text-anchor="middle" x="388.75" y="-235.5" font-family="Arial" font-size="10.00" fill="white">tercera edad</text>
 </g>
 <!-- Entretenimiento&#45;&gt;Entretenimiento tercera edad -->
 <g id="edge14" class="edge">
 <title>Entretenimiento&#45;&gt;Entretenimiento tercera edad</title>
-<path fill="none" stroke="#4d4d4d" stroke-width="1.2" d="M248.56,-306.65C274.97,-294.95 309.36,-279.72 337.35,-267.32"/>
-<polygon fill="#4d4d4d" stroke="#4d4d4d" stroke-width="1.2" points="338.35,-269.94 344.53,-264.14 336.08,-264.82 338.35,-269.94"/>
+<path fill="none" stroke="#4d4d4d" stroke-width="1.2" d="M249.02,-306.45C275.25,-294.82 309.23,-279.78 336.99,-267.48"/>
+<polygon fill="#4d4d4d" stroke="#4d4d4d" stroke-width="1.2" points="337.93,-270.13 344.11,-264.33 335.66,-265.01 337.93,-270.13"/>
 <text xml:space="preserve" text-anchor="middle" x="292.75" y="-298.79" font-family="Arial" font-size="9.00">OR</text>
 </g>
 <!-- Backend -->

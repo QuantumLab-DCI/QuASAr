@@ -268,14 +268,19 @@ def arbolesAleatoriosInverso(dataset, dato):
 def obtenerJSONPrediccion(data):
     reconfiguracion = {}
     for caracteristica in data:
-        estado =False
+        estado = False
         if " activada" in caracteristica:
             estado = True
             caracteristica = caracteristica.replace(" activada", "")
         else:
             caracteristica = caracteristica.replace(" desactivada", "")
-        # print(caracteristica) # Comentado para no saturar el log
-        reconfiguracion.update({caracteristica : estado})
+
+        # --- INICIO DE LA MODIFICACIÓN ---
+        # Normalizamos la clave para que coincida con el resto del sistema
+        key_normalizada = caracteristica.replace(" ", "_").lower()
+        reconfiguracion.update({key_normalizada : estado})
+        # --- FIN DE LA MODIFICACIÓN ---
+
     return reconfiguracion
 
 

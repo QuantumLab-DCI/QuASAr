@@ -3,154 +3,144 @@ import aprendizaje_automatico
 import punto_variacion
 import docker
 import datetime
-import hqc_module  # <-- MODIFICACIÓN: Importa tu nuevo módulo cuántico
+import hqc_module
 
 class Mapek:
     def __init__(self):
         self._puntoVariacion = None
-        self._reglaAdaptacion = None # Almacenará la 'complejidad_problema'
+        # Almacenamos ambas reglas por separado
+        self._reglaAdaptacion_ICA = None 
+        self._reglaAdaptacion_CP = None
 
-    # --- MONITOREO MODIFICADO ---
-    # Ahora monitorea el entorno clásico Y el cuántico.
     def monitoreo(self, mc):
         """
-        Paso 1: MONITOREAR
-        - Monitorea el entorno clásico (simula complejidad del problema).
-        - Monitorea el entorno cuántico (simula métricas NISQ de los backends).
+        Paso 1: MONITOREAR (Lógica de Tesis Combinada)
+        - Simula los DOS contextos de adaptación.
         """
-        # 1. Monitor Clásico: Simula la complejidad del problema
-        complejidad_problema = random.randint(1, 350)
-        print(f"MONITOR: Complejidad del problema detectada: {complejidad_problema}")
+        
+        # --- 1. Simulación del Contexto Clásico (Tesis de Oscar) ---
+        # El ICA (Índice de Calidad del Aire)
+        # Valores de ejemplo: 50 (Bueno), 150 (Regular), 250 (Malo)
+        ica_simulado = random.choice([50, 150, 250])
+        print(f"MONITOR (Clásico): Calidad del Aire (ICA) detectada: {ica_simulado}")
+        
+        # --- 2. Simulación del Contexto Cuántico (Tu Tesis) ---
+        # La Complejidad del Problema (CP) de optimización
+        # Valores de ejemplo: 10 (Simple), 350 (Complejo)
+        cp_simulado = random.choice([10, 350])
+        print(f"MONITOR (Cuántico): Complejidad de Problema (CP) detectada: {cp_simulado}")
 
-        # 2. Monitor Cuántico: Llama al HQC para obtener métricas NISQ
-        metricas_nisq = hqc_module.monitor_backends()
-        print(f"MONITOR: Métricas NISQ recibidas: {metricas_nisq}")
+        # 3. Pasa ambos contextos al paso de Análisis
+        self.analizar(mc, ica_simulado, cp_simulado)
 
-        # Pasa todos los datos monitoreados al paso de Análisis
-        self.analizar(mc, complejidad_problema, metricas_nisq)
-
-    # --- ANÁLISIS MODIFICADO ---
-    # Contiene la nueva lógica de decisión híbrida.
-    def analizar(self, mc, complejidad, metricas_nisq):
+    def analizar(self, mc, ica, complejidad_problema):
         """
         Paso 2: ANALIZAR
-        - Decide si se necesita el HQC basado en la complejidad.
-        - Si es HQC, selecciona el mejor backend basado en métricas NISQ.
-        - Obtiene la configuración de software final.
+        - Aplica reglas de adaptación para AMBOS contextos.
         """
-        configuracion_final = []
-        regla_adaptacion_ml = complejidad  # Usamos la complejidad para el ML de Oscar
+        print(f"ANALYZE: Iniciando análisis con ICA={ica} y CP={complejidad_problema}")
+        
+        # Obtenemos la config base del ML (para Turismo, Entretenimiento, etc.)
+        # Usamos el ICA como la regla para el ML clásico
+        config_clasica_lista = aprendizaje_automatico.arbolesAleatoriosInverso(
+            "data/datos_redesneuronalesprofundas.csv", ica
+        )
+        config_dict = aprendizaje_automatico.obtenerJSONPrediccion(config_clasica_lista)
+        
+        # --- INICIO LÓGICA DE ADAPTACIÓN (TESIS DE OSCAR) ---
+        UMBRAL_ICA_PELIGROSO = 100 # ej: Si ICA > 100, no hacer deporte
 
-        UMBRAL_HQC = 300  # Umbral para decidir si se usa el HQC
+        if ica > UMBRAL_ICA_PELIGROSO:
+            print(f"ANALYZE (Clásico): ICA={ica} es peligroso. Desactivando features de exterior.")
+            # Forzamos apagado de features de exterior por salud
+            config_dict["deportes"] = False
+            config_dict["ambientes_abiertos"] = False
+            # Forzamos encendido de features de interior
+            config_dict["ambientes_cerrados"] = True
+        else:
+            print(f"ANALYZE (Clásico): ICA={ica} es seguro. Features de exterior permitidas.")
+            # La configuración del ML (que ya tiene 'deportes' y 'ambientes_abiertos')
+            # se mantiene como está.
+        
+        # --- FIN LÓGICA CLÁSICA ---
 
-        if complejidad < UMBRAL_HQC:
-            # --- CASO CLÁSICO ---
-            print(f"ANALYZE: Problema simple (<{UMBRAL_HQC}). Forzando configuración clásica.")
-            
-            # 1. Obtenemos la config base del ML (que puede traer HQC por error)
-            config_clasica_lista = aprendizaje_automatico.arbolesAleatoriosInverso(
-                "data/datos_redesneuronalesprofundas.csv", regla_adaptacion_ml
-            )
-            # 2. Convertimos a dict para manipularla
-            config_dict = aprendizaje_automatico.obtenerJSONPrediccion(config_clasica_lista)
 
-            # 3. FORZAMOS el apagado de HQC y todos sus componentes
+        # --- INICIO LÓGICA DE ADAPTACIÓN (TU TESIS) ---
+        UMBRAL_HQC = 300 # Regla de tu tesis
+
+        if complejidad_problema < UMBRAL_HQC:
+            # --- CASO CLÁSICO (Lógica Explícita) ---
+            print(f"ANALYZE (Cuántico): CP={complejidad_problema} es simple. Forzando APAGADO de HQC.")
+
             config_dict["hqc"] = False
             config_dict["backend"] = False
             config_dict["algoritmo"] = False
-            config_dict["optimizacion_de_rutas"] = False # La funcionalidad que lo requiere
+            config_dict["optimizacion_de_rutas"] = False
             
-            # Apagamos todos los backends y algoritmos
             for backend_key in ["qiskit_simulator", "spinq_simulator", "tql_simulator"]:
-                 config_dict[backend_key] = False
+                 if backend_key in config_dict: config_dict[backend_key] = False
             for algo_key in ["qaoa", "vqe"]:
-                config_dict[algo_key] = False
+                if algo_key in config_dict: config_dict[algo_key] = False
 
-            # 4. Convertir el dict modificado de nuevo a la lista de strings
-            configuracion_final = []
-            for key, value in config_dict.items():
-                estado = "activada" if value else "desactivada"
-                # Formato esperado por punto_variacion.py: "hqc activada"
-                configuracion_final.append(f"{key} {estado}")
-        
         else:
-            # --- CASO HÍBRIDO (CLÁSICO + CUÁNTICO) ---
-            print(f"ANALYZE: Problema complejo (>{UMBRAL_HQC}). Activando HQC.")
+            # --- CASO HÍBRIDO (Lógica Explícita) ---
+            print(f"ANALYZE (Cuántico): CP={complejidad_problema} es complejo. Activando HQC.")
 
-            # 1. Obtener la configuración base (clásica) del ML de Oscar
-            config_clasica_lista = aprendizaje_automatico.arbolesAleatoriosInverso(
-                "data/datos_redesneuronalesprofundas.csv", regla_adaptacion_ml
-            )
-            # Convertirla a un dict para poder modificarla
-            config_dict = aprendizaje_automatico.obtenerJSONPrediccion(config_clasica_lista)
-
-            # 2. Seleccionar el mejor backend cuántico (Lógica de decisión)
-            # Fórmula de costo simple: tiempo de cola + (tasa de error * 100)
+            metricas_nisq = hqc_module.monitor_backends()
+            print(f"ANALYZE: Métricas NISQ recibidas: {metricas_nisq}")
+            
             mejor_backend = min(
                 metricas_nisq,
-                key=lambda b: metricas_nisq[b]['queue_time_sec'] + (metricas_nisq[b]['error_rate'] * 1000) # Ponderamos más el error
+                key=lambda b: metricas_nisq[b]['queue_time_sec'] + (metricas_nisq[b]['error_rate'] * 1000)
             )
-            print(f"ANALYZE: Mejor backend seleccionado: {mejor_backend}")
+            print(f"ANALYZE: Mejor backend HQC seleccionado: {mejor_backend}")
 
-            # 3. Forzar la configuración HQC en el dict
-            # (Asume que las claves del dict son 'hqc', 'qaoa', 'qiskit_simulator', etc.)
             config_dict["hqc"] = True
             config_dict["backend"] = True
             config_dict["algoritmo"] = True
-            config_dict["optimizacion_de_rutas"] = True # La funcionalidad que disparó la necesidad
+            config_dict["optimizacion_de_rutas"] = True 
 
-            # Activa el backend elegido y desactiva los otros
             for backend_name in metricas_nisq.keys():
-                # Normaliza el nombre del backend (ej: "Qiskit Simulator" -> "qiskit_simulator")
                 backend_key = backend_name.replace(" ", "_").lower()
-                config_dict[backend_key] = (backend_name == mejor_backend)
+                if backend_key in config_dict:
+                    config_dict[backend_key] = (backend_name == mejor_backend)
 
-            # Elige un algoritmo por defecto (ej. QAOA)
             config_dict["qaoa"] = True
             config_dict["vqe"] = False
-            
-            # 4. Convertir el dict modificado de nuevo a la lista de strings
-            configuracion_final = []
-            for key, value in config_dict.items():
-                estado = "activada" if value else "desactivada"
-                # Formato esperado por punto_variacion.py: "hqc activada"
-                configuracion_final.append(f"{key} {estado}")
+        
+        # --- FIN LÓGICA CUÁNTICA ---
 
-            print(f"ANALYZE: Configuración híbrida final generada.")
+        
+        # 4. Convertir a lista de strings
+        configuracion_final = []
+        for key, value in config_dict.items():
+            estado = "activada" if value else "desactivada"
+            configuracion_final.append(f"{key} {estado}")
 
         # 5. Pasa al paso de Conocimiento y Planificación
-        self.conocimiento(configuracion_final, mc, complejidad)
-        self.planificar()
+        self.conocimiento(configuracion_final, mc, ica, complejidad_problema)
+        self.planificar() 
 
-    # --- PLANIFICAR (Sin cambios) ---
+    # ... (planificar() y ejecutar() no necesitan cambios) ...
+
     def planificar(self):
-        """
-        Paso 3: PLANIFICAR
-        - Obtiene la configuración de contenedores desde el conocimiento.
-        """
+        """ Paso 3: PLANIFICAR """
         contenedores = self._puntoVariacion.obtenerConfiguracion()
         print(f"PLAN: Plan de reconfiguración Docker listo: {contenedores}")
         self.ejecutar(contenedores)
 
-    # --- EJECUTAR MODIFICADO ---
-    # Ahora maneja la ejecución clásica (Docker) Y la cuántica (HQC).
     def ejecutar(self, contenedores):
-        """
-        Paso 4: EJECUTAR
-        - Ejecuta el plan para contenedores Docker (parte clásica).
-        - Ejecuta el plan para el HQC (parte cuántica).
-        """
+        """ Paso 4: EJECUTAR """
         client = docker.from_env()
         
-        # --- 1. Ejecución Clásica (Contenedores Docker) ---
         print("EXECUTE: Iniciando ejecución de contenedores Docker...")
         with open("cambios.log", "a", encoding="utf-8") as log_file:
             timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             log_file.write(f"\n--- RECONFIGURACIÓN a las {timestamp} ---\n")
-            log_file.write(f"Regla de Adaptación (Complejidad): {self._reglaAdaptacion}\n")
+            log_file.write(f"Regla de Adaptación (ICA): {self._reglaAdaptacion_ICA}\n")
+            log_file.write(f"Regla de Adaptación (CP): {self._reglaAdaptacion_CP}\n")
             
             for container in client.containers.list(all=True):
-                # Solo afecta a los contenedores Docker definidos en el plan
                 if (container.name in contenedores):
                     cont = client.containers.get(container.id)
                     if (contenedores[container.name] == True and cont.status == "exited"):
@@ -164,31 +154,24 @@ class Mapek:
                         print(f"[-] {mensaje}")
                         log_file.write(f"[-] {mensaje}\n")
 
-        # --- 2. Ejecución Cuántica (Llamada al módulo HQC) ---
-        # Verificamos si la característica HQC está activa en el plan
+        # --- Ejecución Cuántica ---
         if contenedores.get("hqc") == True:
             print("EXECUTE: HQC está activo. Verificando trabajo cuántico...")
             
-            # Si la funcionalidad que lo requiere está activa, se ejecuta
             if contenedores.get("optimizacion_de_rutas") == True:
                 try:
-                    # Extraemos la configuración cuántica del plan
                     backend_activo = next(
                         b for b in ["qiskit_simulator", "spinq_simulator", "tql_simulator"] if contenedores.get(b)
                     )
                     algoritmo_activo = next(
                         a.upper() for a in ["qaoa", "vqe"] if contenedores.get(a)
                     )
-
-                    # Normaliza los nombres para la función
-                    backend_nombre_formal = backend_activo.replace("_", " ").title() # ej: "Qiskit Simulator"
+                    backend_nombre_formal = backend_activo.replace("_", " ").title()
                     
                     print(f"EXECUTE: Delegando trabajo cuántico -> Algoritmo: {algoritmo_activo}, Backend: {backend_nombre_formal}")
-
-                    # (Opcional) Pasa parámetros del problema
-                    params = {"problema_id": "ruta_123", "complejidad": self._reglaAdaptacion}
+                    # Pasamos la complejidad del problema al job cuántico
+                    params = {"problema_id": "ruta_123", "complejidad": self._reglaAdaptacion_CP} 
                     
-                    # Delegamos la ejecución al módulo cuántico
                     resultado_cuantico = hqc_module.ejecutar_quantum_job(
                         algoritmo=algoritmo_activo,
                         backend=backend_nombre_formal,
@@ -205,17 +188,19 @@ class Mapek:
         else:
             print("EXECUTE: HQC está inactivo. Omitiendo ejecución cuántica.")
 
-    # --- CONOCIMIENTO (Sin cambios) ---
-    def conocimiento(self, configuracion, mc, reglaAdaptacion):
-        """
-        Paso 5: CONOCIMIENTO
-        - Almacena el estado actual del sistema (el punto de variación).
-        """
+    def conocimiento(self, configuracion, mc, ica, complejidad_problema):
+        """ Paso 5: CONOCIMIENTO """
         self._puntoVariacion = punto_variacion.PuntoVariacion(configuracion, mc, "gestor_aire")
-        self._reglaAdaptacion = reglaAdaptacion # Guardamos la regla de adaptación (complejidad)
+        # Guardamos ambas reglas
+        self._reglaAdaptacion_ICA = ica
+        self._reglaAdaptacion_CP = complejidad_problema
 
     def getConocimiento(self):
         return self._puntoVariacion
 
     def getReglaAdaptacion(self):
-        return self._reglaAdaptacion
+        # Devolvemos un dict con ambas reglas
+        return {
+            "calidad_aire_ica": self._reglaAdaptacion_ICA,
+            "complejidad_problema_cp": self._reglaAdaptacion_CP
+        }
