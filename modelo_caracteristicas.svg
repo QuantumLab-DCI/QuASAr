@@ -19,16 +19,16 @@
 <path fill="#eef3ff" stroke="#7aa6ff" stroke-width="1.2" d="M74.75,-418C74.75,-418 34.75,-418 34.75,-418 28.75,-418 22.75,-412 22.75,-406 22.75,-406 22.75,-394 22.75,-394 22.75,-388 28.75,-382 34.75,-382 34.75,-382 74.75,-382 74.75,-382 80.75,-382 86.75,-388 86.75,-394 86.75,-394 86.75,-406 86.75,-406 86.75,-412 80.75,-418 74.75,-418"/>
 <text xml:space="preserve" text-anchor="middle" x="54.75" y="-396.5" font-family="Arial" font-size="10.00">Gestor aire</text>
 </g>
-<!-- Visualizador calidad de aire -->
+<!-- Visualizador calidad aire -->
 <g id="node2" class="node">
-<title>Visualizador calidad de aire</title>
-<path fill="#eef3ff" stroke="#7aa6ff" stroke-width="1.2" d="M310.99,-600C310.99,-600 255.99,-600 255.99,-600 249.99,-600 243.99,-594 243.99,-588 243.99,-588 243.99,-576 243.99,-576 243.99,-570 249.99,-564 255.99,-564 255.99,-564 310.99,-564 310.99,-564 316.99,-564 322.99,-570 322.99,-576 322.99,-576 322.99,-588 322.99,-588 322.99,-594 316.99,-600 310.99,-600"/>
+<title>Visualizador calidad aire</title>
+<path fill="#eef3ff" stroke="#7aa6ff" stroke-width="1.2" d="M306.11,-600C306.11,-600 260.86,-600 260.86,-600 254.86,-600 248.86,-594 248.86,-588 248.86,-588 248.86,-576 248.86,-576 248.86,-570 254.86,-564 260.86,-564 260.86,-564 306.11,-564 306.11,-564 312.11,-564 318.11,-570 318.11,-576 318.11,-576 318.11,-588 318.11,-588 318.11,-594 312.11,-600 306.11,-600"/>
 <text xml:space="preserve" text-anchor="middle" x="283.49" y="-584.5" font-family="Arial" font-size="10.00">Visualizador</text>
-<text xml:space="preserve" text-anchor="middle" x="283.49" y="-572.5" font-family="Arial" font-size="10.00">calidad de aire</text>
+<text xml:space="preserve" text-anchor="middle" x="283.49" y="-572.5" font-family="Arial" font-size="10.00">calidad aire</text>
 </g>
-<!-- Gestor aire&#45;&gt;Visualizador calidad de aire -->
+<!-- Gestor aire&#45;&gt;Visualizador calidad aire -->
 <g id="edge1" class="edge">
-<title>Gestor aire&#45;&gt;Visualizador calidad de aire</title>
+<title>Gestor aire&#45;&gt;Visualizador calidad aire</title>
 <path fill="none" stroke="#4d4d4d" stroke-width="1.2" d="M74.31,-418.44C98.36,-441.95 142.01,-483.34 182.5,-515 202.14,-530.36 225.2,-545.96 244.22,-558.24"/>
 <polygon fill="#4d4d4d" stroke="#4d4d4d" stroke-width="1.2" points="242.6,-560.52 250.85,-562.48 245.62,-555.81 242.6,-560.52"/>
 <text xml:space="preserve" text-anchor="middle" x="138" y="-496.27" font-family="Arial" font-size="9.00">Obligatoria</text>
@@ -93,10 +93,10 @@
 <text xml:space="preserve" text-anchor="middle" x="524.97" y="-664.5" font-family="Arial" font-size="10.00">restriccion uso</text>
 <text xml:space="preserve" text-anchor="middle" x="524.97" y="-652.5" font-family="Arial" font-size="10.00">lena</text>
 </g>
-<!-- Visualizador calidad de aire&#45;&gt;Visualizador restriccion uso lena -->
+<!-- Visualizador calidad aire&#45;&gt;Visualizador restriccion uso lena -->
 <g id="edge6" class="edge">
-<title>Visualizador calidad de aire&#45;&gt;Visualizador restriccion uso lena</title>
-<path fill="none" stroke="#4d4d4d" stroke-width="1.2" d="M323.53,-592.53C344.19,-598.37 369.88,-606.04 392.47,-614 420.46,-623.86 451.17,-636.37 475.86,-646.87"/>
+<title>Visualizador calidad aire&#45;&gt;Visualizador restriccion uso lena</title>
+<path fill="none" stroke="#4d4d4d" stroke-width="1.2" d="M318.33,-591.08C339.76,-597.06 367.95,-605.35 392.47,-614 420.46,-623.86 451.17,-636.37 475.86,-646.87"/>
 <polygon fill="#4d4d4d" stroke="#4d4d4d" stroke-width="1.2" points="474.55,-649.35 483,-649.92 476.75,-644.2 474.55,-649.35"/>
 <text xml:space="preserve" text-anchor="middle" x="428.97" y="-638.32" font-family="Arial" font-size="9.00">Opcional</text>
 </g>

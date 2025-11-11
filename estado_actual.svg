@@ -19,16 +19,16 @@
 <path fill="#33a02c" stroke="#33a02c" stroke-width="2.2" d="M63,-418C63,-418 23,-418 23,-418 17,-418 11,-412 11,-406 11,-406 11,-394 11,-394 11,-388 17,-382 23,-382 23,-382 63,-382 63,-382 69,-382 75,-388 75,-394 75,-394 75,-406 75,-406 75,-412 69,-418 63,-418"/>
 <text xml:space="preserve" text-anchor="middle" x="43" y="-396.5" font-family="Arial" font-size="10.00" fill="white">Gestor aire</text>
 </g>
-<!-- Visualizador calidad de aire -->
+<!-- Visualizador calidad aire -->
 <g id="node2" class="node">
-<title>Visualizador calidad de aire</title>
-<path fill="#33a02c" stroke="#33a02c" stroke-width="2.2" d="M233.62,-600C233.62,-600 178.62,-600 178.62,-600 172.62,-600 166.62,-594 166.62,-588 166.62,-588 166.62,-576 166.62,-576 166.62,-570 172.62,-564 178.62,-564 178.62,-564 233.62,-564 233.62,-564 239.62,-564 245.62,-570 245.62,-576 245.62,-576 245.62,-588 245.62,-588 245.62,-594 239.62,-600 233.62,-600"/>
+<title>Visualizador calidad aire</title>
+<path fill="#33a02c" stroke="#33a02c" stroke-width="2.2" d="M228.75,-600C228.75,-600 183.5,-600 183.5,-600 177.5,-600 171.5,-594 171.5,-588 171.5,-588 171.5,-576 171.5,-576 171.5,-570 177.5,-564 183.5,-564 183.5,-564 228.75,-564 228.75,-564 234.75,-564 240.75,-570 240.75,-576 240.75,-576 240.75,-588 240.75,-588 240.75,-594 234.75,-600 228.75,-600"/>
 <text xml:space="preserve" text-anchor="middle" x="206.12" y="-584.5" font-family="Arial" font-size="10.00" fill="white">Visualizador</text>
-<text xml:space="preserve" text-anchor="middle" x="206.12" y="-572.5" font-family="Arial" font-size="10.00" fill="white">calidad de aire</text>
+<text xml:space="preserve" text-anchor="middle" x="206.12" y="-572.5" font-family="Arial" font-size="10.00" fill="white">calidad aire</text>
 </g>
-<!-- Gestor aire&#45;&gt;Visualizador calidad de aire -->
+<!-- Gestor aire&#45;&gt;Visualizador calidad aire -->
 <g id="edge1" class="edge">
-<title>Gestor aire&#45;&gt;Visualizador calidad de aire</title>
+<title>Gestor aire&#45;&gt;Visualizador calidad aire</title>
 <path fill="none" stroke="#4d4d4d" stroke-width="1.2" d="M58.72,-419.08C69.16,-432.42 83.63,-450.55 97,-466 124.59,-497.88 157.87,-533.14 180.16,-556.31"/>
 <polygon fill="#4d4d4d" stroke="#4d4d4d" stroke-width="1.2" points="177.87,-557.98 185.44,-561.8 181.9,-554.09 177.87,-557.98"/>
 <text xml:space="preserve" text-anchor="middle" x="119.5" y="-516.51" font-family="Arial" font-size="9.00">Obligatoria</text>
@@ -62,14 +62,14 @@
 <!-- Entretenimiento -->
 <g id="node8" class="node">
 <title>Entretenimiento</title>
-<path fill="#33a02c" stroke="#33a02c" stroke-width="2.2" d="M236.25,-343C236.25,-343 176,-343 176,-343 170,-343 164,-337 164,-331 164,-331 164,-319 164,-319 164,-313 170,-307 176,-307 176,-307 236.25,-307 236.25,-307 242.25,-307 248.25,-313 248.25,-319 248.25,-319 248.25,-331 248.25,-331 248.25,-337 242.25,-343 236.25,-343"/>
+<path fill="#e31a1c" stroke="#e31a1c" stroke-width="1.2" d="M236.25,-343C236.25,-343 176,-343 176,-343 170,-343 164,-337 164,-331 164,-331 164,-319 164,-319 164,-313 170,-307 176,-307 176,-307 236.25,-307 236.25,-307 242.25,-307 248.25,-313 248.25,-319 248.25,-319 248.25,-331 248.25,-331 248.25,-337 242.25,-343 236.25,-343"/>
 <text xml:space="preserve" text-anchor="middle" x="206.12" y="-321.5" font-family="Arial" font-size="10.00" fill="white">Entretenimiento</text>
 </g>
 <!-- Gestor aire&#45;&gt;Entretenimiento -->
 <g id="edge4" class="edge">
 <title>Gestor aire&#45;&gt;Entretenimiento</title>
-<path fill="none" stroke="#4d4d4d" stroke-width="1.2" d="M75.83,-385.18C98.57,-374.6 129.62,-360.15 155.58,-348.06"/>
-<polygon fill="#4d4d4d" stroke="#4d4d4d" stroke-width="1.2" points="156.46,-350.74 162.53,-344.83 154.09,-345.67 156.46,-350.74"/>
+<path fill="none" stroke="#4d4d4d" stroke-width="1.2" d="M75.83,-385.18C98.9,-374.44 130.52,-359.73 156.71,-347.54"/>
+<polygon fill="#4d4d4d" stroke="#4d4d4d" stroke-width="1.2" points="157.64,-350.19 163.71,-344.28 155.28,-345.11 157.64,-350.19"/>
 <text xml:space="preserve" text-anchor="middle" x="119.5" y="-375.55" font-family="Arial" font-size="9.00">Opcional</text>
 </g>
 <!-- HQC -->
@@ -93,11 +93,11 @@
 <text xml:space="preserve" text-anchor="middle" x="388.75" y="-664.5" font-family="Arial" font-size="10.00" fill="white">restriccion uso</text>
 <text xml:space="preserve" text-anchor="middle" x="388.75" y="-652.5" font-family="Arial" font-size="10.00" fill="white">lena</text>
 </g>
-<!-- Visualizador calidad de aire&#45;&gt;Visualizador restriccion uso lena -->
+<!-- Visualizador calidad aire&#45;&gt;Visualizador restriccion uso lena -->
 <g id="edge6" class="edge">
-<title>Visualizador calidad de aire&#45;&gt;Visualizador restriccion uso lena</title>
-<path fill="none" stroke="#4d4d4d" stroke-width="1.2" d="M246.32,-600.66C273.59,-613.64 310.13,-631.04 339.23,-644.9"/>
-<polygon fill="#4d4d4d" stroke="#4d4d4d" stroke-width="1.2" points="337.94,-647.39 346.37,-648.3 340.35,-642.33 337.94,-647.39"/>
+<title>Visualizador calidad aire&#45;&gt;Visualizador restriccion uso lena</title>
+<path fill="none" stroke="#4d4d4d" stroke-width="1.2" d="M241.52,-598.38C269.22,-611.56 308.48,-630.26 339.34,-644.95"/>
+<polygon fill="#4d4d4d" stroke="#4d4d4d" stroke-width="1.2" points="337.74,-647.29 346.17,-648.2 340.15,-642.24 337.74,-647.29"/>
 <text xml:space="preserve" text-anchor="middle" x="292.75" y="-634.65" font-family="Arial" font-size="9.00">Opcional</text>
 </g>
 <!-- Ambientes cerrados -->
@@ -157,15 +157,15 @@
 <!-- Entretenimiento familiar -->
 <g id="node9" class="node">
 <title>Entretenimiento familiar</title>
-<path fill="#33a02c" stroke="#33a02c" stroke-width="2.2" d="M418.88,-393C418.88,-393 358.62,-393 358.62,-393 352.62,-393 346.62,-387 346.62,-381 346.62,-381 346.62,-369 346.62,-369 346.62,-363 352.62,-357 358.62,-357 358.62,-357 418.88,-357 418.88,-357 424.88,-357 430.88,-363 430.88,-369 430.88,-369 430.88,-381 430.88,-381 430.88,-387 424.88,-393 418.88,-393"/>
+<path fill="#e31a1c" stroke="#e31a1c" stroke-width="1.2" d="M418.88,-393C418.88,-393 358.62,-393 358.62,-393 352.62,-393 346.62,-387 346.62,-381 346.62,-381 346.62,-369 346.62,-369 346.62,-363 352.62,-357 358.62,-357 358.62,-357 418.88,-357 418.88,-357 424.88,-357 430.88,-363 430.88,-369 430.88,-369 430.88,-381 430.88,-381 430.88,-387 424.88,-393 418.88,-393"/>
 <text xml:space="preserve" text-anchor="middle" x="388.75" y="-377.5" font-family="Arial" font-size="10.00" fill="white">Entretenimiento</text>
 <text xml:space="preserve" text-anchor="middle" x="388.75" y="-365.5" font-family="Arial" font-size="10.00" fill="white">familiar</text>
 </g>
 <!-- Entretenimiento&#45;&gt;Entretenimiento familiar -->
 <g id="edge12" class="edge">
 <title>Entretenimiento&#45;&gt;Entretenimiento familiar</title>
-<path fill="none" stroke="#4d4d4d" stroke-width="1.2" d="M249.02,-336.6C275.14,-343.83 308.94,-353.18 336.63,-360.85"/>
-<polygon fill="#4d4d4d" stroke="#4d4d4d" stroke-width="1.2" points="335.56,-363.46 344.02,-362.9 337.06,-358.06 335.56,-363.46"/>
+<path fill="none" stroke="#4d4d4d" stroke-width="1.2" d="M248.56,-336.47C274.86,-343.75 309.06,-353.22 336.98,-360.95"/>
+<polygon fill="#4d4d4d" stroke="#4d4d4d" stroke-width="1.2" points="335.98,-363.58 344.44,-363.01 337.48,-358.18 335.98,-363.58"/>
 <text xml:space="preserve" text-anchor="middle" x="292.75" y="-356.43" font-family="Arial" font-size="9.00">OR</text>
 </g>
 <!-- Entretenimiento adulto -->
@@ -178,22 +178,22 @@
 <!-- Entretenimiento&#45;&gt;Entretenimiento adulto -->
 <g id="edge13" class="edge">
 <title>Entretenimiento&#45;&gt;Entretenimiento adulto</title>
-<path fill="none" stroke="#4d4d4d" stroke-width="1.2" d="M249.02,-321.52C275.12,-319.35 308.89,-316.55 336.57,-314.25"/>
-<polygon fill="#4d4d4d" stroke="#4d4d4d" stroke-width="1.2" points="336.53,-317.06 344.27,-313.61 336.07,-311.48 336.53,-317.06"/>
+<path fill="none" stroke="#4d4d4d" stroke-width="1.2" d="M248.56,-321.56C274.74,-319.38 308.77,-316.56 336.62,-314.25"/>
+<polygon fill="#4d4d4d" stroke="#4d4d4d" stroke-width="1.2" points="336.64,-317.05 344.38,-313.6 336.18,-311.47 336.64,-317.05"/>
 <text xml:space="preserve" text-anchor="middle" x="292.75" y="-321.67" font-family="Arial" font-size="9.00">OR</text>
 </g>
 <!-- Entretenimiento tercera edad -->
 <g id="node11" class="node">
 <title>Entretenimiento tercera edad</title>
-<path fill="#33a02c" stroke="#33a02c" stroke-width="2.2" d="M418.88,-263C418.88,-263 358.62,-263 358.62,-263 352.62,-263 346.62,-257 346.62,-251 346.62,-251 346.62,-239 346.62,-239 346.62,-233 352.62,-227 358.62,-227 358.62,-227 418.88,-227 418.88,-227 424.88,-227 430.88,-233 430.88,-239 430.88,-239 430.88,-251 430.88,-251 430.88,-257 424.88,-263 418.88,-263"/>
+<path fill="#e31a1c" stroke="#e31a1c" stroke-width="1.2" d="M418.88,-263C418.88,-263 358.62,-263 358.62,-263 352.62,-263 346.62,-257 346.62,-251 346.62,-251 346.62,-239 346.62,-239 346.62,-233 352.62,-227 358.62,-227 358.62,-227 418.88,-227 418.88,-227 424.88,-227 430.88,-233 430.88,-239 430.88,-239 430.88,-251 430.88,-251 430.88,-257 424.88,-263 418.88,-263"/>
 <text xml:space="preserve" text-anchor="middle" x="388.75" y="-247.5" font-family="Arial" font-size="10.00" fill="white">Entretenimiento</text>
 <text xml:space="preserve" text-anchor="middle" x="388.75" y="-235.5" font-family="Arial" font-size="10.00" fill="white">tercera edad</text>
 </g>
 <!-- Entretenimiento&#45;&gt;Entretenimiento tercera edad -->
 <g id="edge14" class="edge">
 <title>Entretenimiento&#45;&gt;Entretenimiento tercera edad</title>
-<path fill="none" stroke="#4d4d4d" stroke-width="1.2" d="M249.02,-306.45C275.25,-294.82 309.23,-279.78 336.99,-267.48"/>
-<polygon fill="#4d4d4d" stroke="#4d4d4d" stroke-width="1.2" points="337.93,-270.13 344.11,-264.33 335.66,-265.01 337.93,-270.13"/>
+<path fill="none" stroke="#4d4d4d" stroke-width="1.2" d="M248.56,-306.65C274.97,-294.95 309.36,-279.72 337.35,-267.32"/>
+<polygon fill="#4d4d4d" stroke="#4d4d4d" stroke-width="1.2" points="338.35,-269.94 344.53,-264.14 336.08,-264.82 338.35,-269.94"/>
 <text xml:space="preserve" text-anchor="middle" x="292.75" y="-298.79" font-family="Arial" font-size="9.00">OR</text>
 </g>
 <!-- Backend -->

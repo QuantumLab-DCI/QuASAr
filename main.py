@@ -1,6 +1,6 @@
 import grafo_mc
 import punto_variacion
-import aprendizaje_automatico
+# import aprendizaje_automatico  <--- ELIMINADO
 
 # --- IMPORTS RESTAURADOS ---
 from fastapi import FastAPI, BackgroundTasks
@@ -40,6 +40,7 @@ puntoVariacion = None
 reglaAdaptacion = None
 
 # --- TAREA PERIÓDICA RESTAURADA ---
+# (No se necesitan cambios aquí, la lógica de Mapek está abstraída)
 async def periodic_task():
     global puntoVariacion
     global reglaAdaptacion
@@ -63,6 +64,8 @@ async def periodic_task():
         # 4. Generar la visualización del estado actual en cada ciclo
         if puntoVariacion: 
             visualizador_grafo.generar_visualizacion_estado(puntoVariacion, mc, nombre_archivo='estado_actual')
+        else:
+            print("Ciclo omitido (posiblemente error del LLM).")
 
         print(f"CICLO COMPLETO. Durmiendo por 120 segundos...")
         print("="*50 + "\n")
@@ -78,23 +81,11 @@ async def iniciar_app():
     global reglaAdaptacion
     
     print("Iniciando aplicación...")
-    # Esta línea ahora lee el 'datos.csv' de 648 filas que acabas de generar
+    # Esta línea ahora solo carga las REGLAS del modelo
     mc = grafo_mc.generarPosiblesEstados() 
     
-    # --- INICIO DE LA LÍNEA ESENCIAL QUE FALTABA ---
-    # Esta línea CREA el archivo 'datos_redesneuronalesprofundas.csv'
-    # que tu bucle necesita para LEER.
-    print("Creando/Actualizando la tabla de búsqueda de ML (datos_redesneuronalesprofundas.csv)...")
-    try:
-        aprendizaje_automatico.guardarPredicciones(
-            aprendizaje_automatico.entrenamientoPorEtapas(),
-            "data/datos_redesneuronalesprofundas.csv"
-        )
-        print("Tabla de búsqueda de ML generada exitosamente.")
-    except Exception as e:
-        print(f"[ERROR FATAL] No se pudo crear el archivo de ML. Error: {e}")
-        return # Detener el inicio si esto falla
-    # --- FIN DE LA LÍNEA ESENCIAL ---
+    # --- BLOQUE DE ENTRENAMIENTO DE ML ELIMINADO ---
+    # Ya no necesitamos crear el archivo 'datos_redesneuronalesprofundas.csv'
     
     # Generar la imagen del MODELO en la raíz
     try:
@@ -115,8 +106,8 @@ async def iniciar_app():
 def read_root():
     return {"Hello": "World"}
 
-# --- ENDPOINT /optimizar-ruta ELIMINADO ---
-# Ya no existe el disparador manual
+# --- LOS ENDPOINTS SIGUEN SIENDO VÁLIDOS ---
+# (Leen las variables globales que el bucle sigue actualizando)
 
 @app.get("/links")
 def get_links(name : str):
@@ -135,7 +126,8 @@ def get_link(name : str):
 def get_regla_adaptacion():
     if reglaAdaptacion is None:
          return {"regla_adaptacion_actual": "N/A (esperando primer ciclo)"}
-    return {"regla_adaptacion_actual": reglaAdaptacion}
+    # Esto ahora mostrará el CONTEXTO que se envió al LLM
+    return {"contexto_de_entrada": reglaAdaptacion}
 
 
 @app.get("/visualizacion_modelo")

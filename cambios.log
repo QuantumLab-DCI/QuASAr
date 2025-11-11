@@ -1055,3 +1055,365 @@ Regla de Adaptación (CP): 10
 [-] Contenedor 'backend' detenido.
 [-] Contenedor 'hqc' detenido.
 [-] Contenedor 'optimizacion_de_rutas' detenido.
+
+--- RECONFIGURACIÓN a las 2025-11-09 17:06:54 ---
+Regla de Adaptación (ICA): 150
+Regla de Adaptación (CP): 10
+[-] Contenedor 'vqe' detenido.
+[-] Contenedor 'qaoa' detenido.
+[-] Contenedor 'tql_simulator' detenido.
+[-] Contenedor 'spinq_simulator' detenido.
+[-] Contenedor 'qiskit_simulator' detenido.
+[-] Contenedor 'algoritmo' detenido.
+[-] Contenedor 'backend' detenido.
+[-] Contenedor 'hqc' detenido.
+[-] Contenedor 'optimizacion_de_rutas' detenido.
+[-] Contenedor 'entretenimiento_adulto' detenido.
+[-] Contenedor 'deportes' detenido.
+[-] Contenedor 'ambientes_abiertos' detenido.
+
+--- RECONFIGURACIÓN a las 2025-11-09 17:09:09 ---
+Regla de Adaptación (ICA): 50
+Regla de Adaptación (CP): 350
+[+] Contenedor 'qaoa' iniciado.
+[+] Contenedor 'spinq_simulator' iniciado.
+[+] Contenedor 'algoritmo' iniciado.
+[+] Contenedor 'backend' iniciado.
+[+] Contenedor 'hqc' iniciado.
+[+] Contenedor 'optimizacion_de_rutas' iniciado.
+[⚛️] Trabajo cuántico (QAOA en Spinq Simulator) ejecutado.
+
+--- RECONFIGURACIÓN a las 2025-11-09 17:09:37 ---
+Regla de Adaptación (ICA): 50
+Regla de Adaptación (CP): 10
+[-] Contenedor 'qaoa' detenido.
+[-] Contenedor 'spinq_simulator' detenido.
+[-] Contenedor 'algoritmo' detenido.
+[-] Contenedor 'backend' detenido.
+[-] Contenedor 'hqc' detenido.
+[-] Contenedor 'optimizacion_de_rutas' detenido.
+
+--- RECONFIGURACIÓN a las 2025-11-09 17:15:56 ---
+Regla de Adaptación (ICA): 250
+Regla de Adaptación (CP): 10
+
+--- RECONFIGURACIÓN a las 2025-11-09 17:18:05 ---
+Regla de Adaptación (ICA): 150
+Regla de Adaptación (CP): 350
+
+--- RECONFIGURACIÓN a las 2025-11-09 17:36:16 ---
+Regla de Adaptación (ICA): 250
+Regla de Adaptación (CP): 10
+[-] Contenedor 'vqe' detenido.
+[-] Contenedor 'qaoa' detenido.
+[-] Contenedor 'tql_simulator' detenido.
+[-] Contenedor 'spinq_simulator' detenido.
+[-] Contenedor 'qiskit_simulator' detenido.
+[-] Contenedor 'algoritmo' detenido.
+[-] Contenedor 'backend' detenido.
+[-] Contenedor 'hqc' detenido.
+[-] Contenedor 'optimizacion_de_rutas' detenido.
+[-] Contenedor 'entretenimiento_tercera_edad' detenido.
+[-] Contenedor 'entretenimiento_adulto' detenido.
+[-] Contenedor 'entretenimiento_familiar' detenido.
+[-] Contenedor 'entretenimiento' detenido.
+[-] Contenedor 'deportes' detenido.
+[-] Contenedor 'ambientes_abiertos' detenido.
+[-] Contenedor 'visualizador_restriccion_uso_lena' detenido.
+
+--- RECONFIGURACIÓN a las 2025-11-09 17:38:43 ---
+Regla de Adaptación (ICA): 50
+Regla de Adaptación (CP): 10
+[+] Contenedor 'deportes' iniciado.
+[-] Contenedor 'ambientes_cerrados' detenido.
+
+--- RECONFIGURACIÓN a las 2025-11-09 17:40:52 ---
+Regla de Adaptación (ICA): 250
+Regla de Adaptación (CP): 10
+[-] Contenedor 'deportes' detenido.
+[+] Contenedor 'ambientes_cerrados' iniciado.
+
+--- RECONFIGURACIÓN a las 2025-11-09 17:43:05 ---
+Regla de Adaptación (ICA): 250
+Regla de Adaptación (CP): 350
+[+] Contenedor 'qaoa' iniciado.
+[+] Contenedor 'qiskit_simulator' iniciado.
+[+] Contenedor 'algoritmo' iniciado.
+[+] Contenedor 'backend' iniciado.
+[+] Contenedor 'hqc' iniciado.
+
+--- RECONFIGURACIÓN a las 2025-11-09 17:45:13 ---
+Regla de Adaptación (ICA): 50
+Regla de Adaptación (CP): 10
+[-] Contenedor 'qaoa' detenido.
+[-] Contenedor 'qiskit_simulator' detenido.
+[-] Contenedor 'algoritmo' detenido.
+[-] Contenedor 'backend' detenido.
+[-] Contenedor 'hqc' detenido.
+[+] Contenedor 'deportes' iniciado.
+[+] Contenedor 'ambientes_abiertos' iniciado.
+[-] Contenedor 'ambientes_cerrados' detenido.
+
+--- RECONFIGURACIÓN a las 2025-11-09 17:47:29 ---
+Regla de Adaptación (ICA): 250
+Regla de Adaptación (CP): 350
+[+] Contenedor 'qaoa' iniciado.
+[+] Contenedor 'tql_simulator' iniciado.
+[+] Contenedor 'algoritmo' iniciado.
+[+] Contenedor 'backend' iniciado.
+[+] Contenedor 'hqc' iniciado.
+[-] Contenedor 'deportes' detenido.
+[-] Contenedor 'ambientes_abiertos' detenido.
+[+] Contenedor 'ambientes_cerrados' iniciado.
+
+--- RECONFIGURACIÓN a las 2025-11-09 17:49:40 ---
+Regla de Adaptación (ICA): 250
+Regla de Adaptación (CP): 350
+[-] Contenedor 'tql_simulator' detenido.
+[+] Contenedor 'spinq_simulator' iniciado.
+
+--- RECONFIGURACIÓN a las 2025-11-09 17:51:51 ---
+Regla de Adaptación (ICA): 150
+Regla de Adaptación (CP): 350
+[+] Contenedor 'tql_simulator' iniciado.
+[-] Contenedor 'spinq_simulator' detenido.
+
+--- RECONFIGURACIÓN a las 2025-11-09 17:54:00 ---
+Regla de Adaptación (ICA): 250
+Regla de Adaptación (CP): 10
+[-] Contenedor 'qaoa' detenido.
+[-] Contenedor 'tql_simulator' detenido.
+[-] Contenedor 'algoritmo' detenido.
+[-] Contenedor 'backend' detenido.
+[-] Contenedor 'hqc' detenido.
+
+--- RECONFIGURACIÓN a las 2025-11-09 17:56:13 ---
+Regla de Adaptación (ICA): 50
+Regla de Adaptación (CP): 350
+[+] Contenedor 'qiskit_simulator' iniciado.
+[+] Contenedor 'algoritmo' iniciado.
+[+] Contenedor 'backend' iniciado.
+[+] Contenedor 'hqc' iniciado.
+[+] Contenedor 'visualizador_restriccion_uso_lena' iniciado.
+
+--- RECONFIGURACIÓN a las 2025-11-09 17:58:22 ---
+Regla de Adaptación (ICA): 150
+Regla de Adaptación (CP): 350
+[+] Contenedor 'qaoa' iniciado.
+[-] Contenedor 'visualizador_restriccion_uso_lena' detenido.
+
+--- RECONFIGURACIÓN a las 2025-11-09 18:00:33 ---
+Regla de Adaptación (ICA): 150
+Regla de Adaptación (CP): 10
+[-] Contenedor 'qaoa' detenido.
+[-] Contenedor 'qiskit_simulator' detenido.
+[-] Contenedor 'algoritmo' detenido.
+[-] Contenedor 'backend' detenido.
+[-] Contenedor 'hqc' detenido.
+
+--- RECONFIGURACIÓN a las 2025-11-09 18:02:47 ---
+Regla de Adaptación (ICA): 250
+Regla de Adaptación (CP): 10
+
+--- RECONFIGURACIÓN a las 2025-11-09 18:04:57 ---
+Regla de Adaptación (ICA): 50
+Regla de Adaptación (CP): 350
+[+] Contenedor 'qaoa' iniciado.
+[+] Contenedor 'tql_simulator' iniciado.
+[+] Contenedor 'algoritmo' iniciado.
+[+] Contenedor 'backend' iniciado.
+[+] Contenedor 'hqc' iniciado.
+[+] Contenedor 'optimizacion_de_rutas' iniciado.
+[+] Contenedor 'deportes' iniciado.
+[+] Contenedor 'ambientes_abiertos' iniciado.
+[-] Contenedor 'ambientes_cerrados' detenido.
+[⚛️] Trabajo cuántico (QAOA en Tql Simulator) ejecutado.
+
+--- RECONFIGURACIÓN a las 2025-11-09 18:23:33 ---
+Regla de Adaptación (ICA): 150
+Regla de Adaptación (CP): 10
+[-] Contenedor 'vqe' detenido.
+[-] Contenedor 'qaoa' detenido.
+[-] Contenedor 'tql_simulator' detenido.
+[-] Contenedor 'spinq_simulator' detenido.
+[-] Contenedor 'qiskit_simulator' detenido.
+[-] Contenedor 'algoritmo' detenido.
+[-] Contenedor 'backend' detenido.
+[-] Contenedor 'hqc' detenido.
+[-] Contenedor 'optimizacion_de_rutas' detenido.
+[-] Contenedor 'entretenimiento_tercera_edad' detenido.
+[-] Contenedor 'entretenimiento_adulto' detenido.
+[-] Contenedor 'deportes' detenido.
+[-] Contenedor 'ambientes_abiertos' detenido.
+
+--- RECONFIGURACIÓN a las 2025-11-09 18:25:52 ---
+Regla de Adaptación (ICA): 50
+Regla de Adaptación (CP): 10
+[-] Contenedor 'entretenimiento_familiar' detenido.
+[-] Contenedor 'entretenimiento' detenido.
+[+] Contenedor 'deportes' iniciado.
+[+] Contenedor 'ambientes_abiertos' iniciado.
+[-] Contenedor 'ambientes_cerrados' detenido.
+[-] Contenedor 'visualizador_restriccion_uso_lena' detenido.
+
+--- RECONFIGURACIÓN a las 2025-11-09 18:50:21 ---
+Regla de Adaptación (ICA): 250
+Regla de Adaptación (CP): 350
+[+] Contenedor 'qaoa' iniciado.
+[+] Contenedor 'spinq_simulator' iniciado.
+[+] Contenedor 'algoritmo' iniciado.
+[+] Contenedor 'backend' iniciado.
+[+] Contenedor 'hqc' iniciado.
+[-] Contenedor 'deportes' detenido.
+[-] Contenedor 'ambientes_abiertos' detenido.
+[+] Contenedor 'ambientes_cerrados' iniciado.
+[+] Contenedor 'visualizador_restriccion_uso_lena' iniciado.
+
+--- RECONFIGURACIÓN a las 2025-11-09 18:52:45 ---
+Regla de Adaptación (ICA): 50
+Regla de Adaptación (CP): 10
+[-] Contenedor 'qaoa' detenido.
+[-] Contenedor 'spinq_simulator' detenido.
+[-] Contenedor 'algoritmo' detenido.
+[-] Contenedor 'backend' detenido.
+[-] Contenedor 'hqc' detenido.
+[+] Contenedor 'entretenimiento_tercera_edad' iniciado.
+[+] Contenedor 'entretenimiento_adulto' iniciado.
+[+] Contenedor 'entretenimiento_familiar' iniciado.
+[+] Contenedor 'entretenimiento' iniciado.
+[+] Contenedor 'deportes' iniciado.
+[+] Contenedor 'ambientes_abiertos' iniciado.
+[-] Contenedor 'ambientes_cerrados' detenido.
+[-] Contenedor 'visualizador_restriccion_uso_lena' detenido.
+
+--- RECONFIGURACIÓN a las 2025-11-09 18:55:11 ---
+Regla de Adaptación (ICA): 250
+Regla de Adaptación (CP): 10
+[-] Contenedor 'entretenimiento_tercera_edad' detenido.
+[-] Contenedor 'entretenimiento_adulto' detenido.
+[-] Contenedor 'entretenimiento_familiar' detenido.
+[-] Contenedor 'entretenimiento' detenido.
+[-] Contenedor 'deportes' detenido.
+[-] Contenedor 'ambientes_abiertos' detenido.
+[+] Contenedor 'ambientes_cerrados' iniciado.
+[+] Contenedor 'visualizador_restriccion_uso_lena' iniciado.
+
+--- RECONFIGURACIÓN a las 2025-11-09 18:57:45 ---
+Regla de Adaptación (ICA): 250
+Regla de Adaptación (CP): 10
+
+--- RECONFIGURACIÓN a las 2025-11-09 19:49:21 ---
+Regla de Adaptación (ICA): 250
+Regla de Adaptación (CP): 350
+[-] Contenedor 'vqe' detenido.
+[-] Contenedor 'tql_simulator' detenido.
+[-] Contenedor 'qiskit_simulator' detenido.
+[-] Contenedor 'entretenimiento_tercera_edad' detenido.
+[-] Contenedor 'entretenimiento_adulto' detenido.
+[-] Contenedor 'entretenimiento_familiar' detenido.
+[-] Contenedor 'entretenimiento' detenido.
+[-] Contenedor 'deportes' detenido.
+[-] Contenedor 'ambientes_abiertos' detenido.
+[⚛️] Trabajo cuántico (QAOA en Spinq Simulator) ejecutado.
+
+--- RECONFIGURACIÓN a las 2025-11-09 19:54:49 ---
+Regla de Adaptación (ICA): 250
+Regla de Adaptación (CP): 350
+[⚛️] Trabajo cuántico (QAOA en Spinq Simulator) ejecutado.
+
+--- RECONFIGURACIÓN a las 2025-11-09 19:58:25 ---
+Regla de Adaptación (ICA): 50
+Regla de Adaptación (CP): 10
+[-] Contenedor 'vqe' detenido.
+[-] Contenedor 'qaoa' detenido.
+[-] Contenedor 'tql_simulator' detenido.
+[-] Contenedor 'spinq_simulator' detenido.
+[-] Contenedor 'qiskit_simulator' detenido.
+[-] Contenedor 'algoritmo' detenido.
+[-] Contenedor 'backend' detenido.
+[-] Contenedor 'hqc' detenido.
+[-] Contenedor 'optimizacion_de_rutas' detenido.
+[-] Contenedor 'ambientes_cerrados' detenido.
+[-] Contenedor 'visualizador_restriccion_uso_lena' detenido.
+
+--- RECONFIGURACIÓN a las 2025-11-11 20:31:39 ---
+Regla de Adaptación (ICA): 150
+Regla de Adaptación (CP): 350
+[-] Contenedor 'vqe' detenido.
+[-] Contenedor 'tql_simulator' detenido.
+[-] Contenedor 'qiskit_simulator' detenido.
+[-] Contenedor 'optimizacion_de_rutas' detenido.
+[-] Contenedor 'entretenimiento_tercera_edad' detenido.
+[-] Contenedor 'entretenimiento_adulto' detenido.
+[-] Contenedor 'entretenimiento_familiar' detenido.
+[-] Contenedor 'entretenimiento' detenido.
+[-] Contenedor 'deportes' detenido.
+[-] Contenedor 'ambientes_abiertos' detenido.
+
+--- RECONFIGURACIÓN a las 2025-11-11 20:34:21 ---
+Regla de Adaptación (ICA): 50
+Regla de Adaptación (CP): 10
+[-] Contenedor 'qaoa' detenido.
+[-] Contenedor 'spinq_simulator' detenido.
+[-] Contenedor 'algoritmo' detenido.
+[-] Contenedor 'backend' detenido.
+[-] Contenedor 'hqc' detenido.
+[+] Contenedor 'deportes' iniciado.
+[+] Contenedor 'ambientes_abiertos' iniciado.
+[-] Contenedor 'ambientes_cerrados' detenido.
+[-] Contenedor 'visualizador_restriccion_uso_lena' detenido.
+
+--- RECONFIGURACIÓN a las 2025-11-11 20:36:52 ---
+Regla de Adaptación (ICA): 250
+Regla de Adaptación (CP): 10
+[-] Contenedor 'deportes' detenido.
+[-] Contenedor 'ambientes_abiertos' detenido.
+[+] Contenedor 'ambientes_cerrados' iniciado.
+[+] Contenedor 'visualizador_restriccion_uso_lena' iniciado.
+
+--- RECONFIGURACIÓN a las 2025-11-11 20:39:21 ---
+Regla de Adaptación (ICA): 250
+Regla de Adaptación (CP): 350
+[+] Contenedor 'qaoa' iniciado.
+[+] Contenedor 'spinq_simulator' iniciado.
+[+] Contenedor 'algoritmo' iniciado.
+[+] Contenedor 'backend' iniciado.
+[+] Contenedor 'hqc' iniciado.
+
+--- RECONFIGURACIÓN a las 2025-11-11 20:41:49 ---
+Regla de Adaptación (ICA): 50
+Regla de Adaptación (CP): 10
+[-] Contenedor 'qaoa' detenido.
+[-] Contenedor 'spinq_simulator' detenido.
+[-] Contenedor 'algoritmo' detenido.
+[-] Contenedor 'backend' detenido.
+[-] Contenedor 'hqc' detenido.
+[+] Contenedor 'deportes' iniciado.
+[+] Contenedor 'ambientes_abiertos' iniciado.
+[-] Contenedor 'ambientes_cerrados' detenido.
+[-] Contenedor 'visualizador_restriccion_uso_lena' detenido.
+
+--- RECONFIGURACIÓN a las 2025-11-11 20:44:26 ---
+Regla de Adaptación (ICA): 50
+Regla de Adaptación (CP): 350
+[+] Contenedor 'qaoa' iniciado.
+[+] Contenedor 'spinq_simulator' iniciado.
+[+] Contenedor 'algoritmo' iniciado.
+[+] Contenedor 'backend' iniciado.
+[+] Contenedor 'hqc' iniciado.
+[+] Contenedor 'optimizacion_de_rutas' iniciado.
+[⚛️] Trabajo cuántico (QAOA en Spinq Simulator) ejecutado.
+
+--- RECONFIGURACIÓN a las 2025-11-11 20:46:52 ---
+Regla de Adaptación (ICA): 150
+Regla de Adaptación (CP): 10
+[-] Contenedor 'qaoa' detenido.
+[-] Contenedor 'spinq_simulator' detenido.
+[-] Contenedor 'algoritmo' detenido.
+[-] Contenedor 'backend' detenido.
+[-] Contenedor 'hqc' detenido.
+[-] Contenedor 'optimizacion_de_rutas' detenido.
+[-] Contenedor 'deportes' detenido.
+[-] Contenedor 'ambientes_abiertos' detenido.
+[+] Contenedor 'ambientes_cerrados' iniciado.
+[+] Contenedor 'visualizador_restriccion_uso_lena' iniciado.
