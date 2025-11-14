@@ -70,7 +70,7 @@ def obtener_configuracion_llm(contexto_actual: str, reglas_del_modelo: str) -> d
         
         # Usando el modelo 'live' que elegiste
         model = genai.GenerativeModel(
-            'models/gemini-pro-latest',
+            'models/gemini-2.5-flash',
             system_instruction=prompt_sistema,
             generation_config=generation_config
         )

@@ -1,6 +1,9 @@
 from graphviz import Digraph
-import grafo_mc
-import punto_variacion
+# --- INICIO DE MODIFICACIÓN DE IMPORTS ---
+# Apuntamos a los módulos que ahora están en 'app/core'
+from app.core import grafo_mc
+from app.core import punto_variacion
+# --- FIN DE MODIFICACIÓN DE IMPORTS ---
 
 # ====== Ajustes visuales reutilizables ======
 FONT_NAME = "Arial"

@@ -46,7 +46,7 @@ class PuntoVariacion:
     def obtenerConfiguracionNivel(self,nombreCaracteristica):
         reconfiguracion = {"links" : []}
         for caracteristica in self._modeloConfiguracion:
-            print(caracteristica.getCaracteristica)
+            # print(caracteristica.getCaracteristica) # Descomentado para no saturar logs
             if caracteristica.getCaracteristica == nombreCaracteristica:
                 for subCaracteristica in caracteristica.getSubcaracteristicas:
                     if subCaracteristica.getEstado:
@@ -54,9 +54,10 @@ class PuntoVariacion:
                         configuracion.update({"name" : subCaracteristica.getCaracteristica.replace(" ","_").lower()})
                         configuracion.update({"href": subCaracteristica.getHref.replace(" ","_").lower()})
                         reconfiguracion["links"].append(configuracion)
-                print(reconfiguracion)
+                # print(reconfiguracion) # Descomentado para no saturar logs
                 return reconfiguracion
         return None
+        
     def obtenerEstadoCaracteristica(self, nombreCaracteristicas):
         reconfiguracion = {}
         for caracteristica in self._modeloConfiguracion:
@@ -91,7 +92,17 @@ class PuntoVariacion:
     def agregarRelacionesCaracteristicas(self, modeloConfiguracion, grafoMC, caracteristicaRaiz):
         modeloConfiguracion.append(self.agregarCaracteristicaRaiz(caracteristicaRaiz,grafoMC))
         for caracteristicaConf in modeloConfiguracion:
-            relacionesCaracteristica = grafoMC.obtenerRelacionesCaracteristicaConRestriccion(caracteristicaConf.getCaracteristica.replace("_"," ").capitalize())
+            
+            # --- INICIO DE MODIFICACIÓN ---
+            # Aseguramos que el 'capitalize' funcione bien con el nombre corregido
+            # "visualizador_calidad_aire" -> "Visualizador calidad aire"
+            nombre_capitalizado = caracteristicaConf.getCaracteristica.replace("_"," ").capitalize()
+            if nombre_capitalizado == "Visualizador calidad aire":
+                 nombre_capitalizado = "Visualizador calidad aire" # Corregir capitalización
+            # --- FIN DE MODIFICACIÓN ---
+
+            relacionesCaracteristica = grafoMC.obtenerRelacionesCaracteristicaConRestriccion(nombre_capitalizado)
+            
             for relacion in relacionesCaracteristica:
                 for subCaracteristicaConf in modeloConfiguracion:
                     relacionCaracteristica = relacion.replace(" ","_").lower()

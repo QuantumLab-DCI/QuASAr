@@ -1,10 +1,19 @@
+# app/core/mapek.py (Versión CORRECTA)
+
 import random
-import punto_variacion
 import docker
 import datetime
-import hqc_module
-import agente_llm  # <--- NUEVA IMPORTACIÓN
-# import aprendizaje_automatico <-- ELIMINADO
+import os
+
+# --- INICIO DE MODIFICACIÓN DE IMPORTS ---
+# Imports relativos para módulos en el mismo paquete (core)
+from . import punto_variacion
+# Imports absolutos para módulos en otros paquetes (services)
+from app.services import agente_llm
+from app.services import hqc_module # <--- AHORA ES LA FÁBRICA
+from app import app_path # Importamos la ruta raíz del backend
+# --- FIN DE MODIFICACIÓN DE IMPORTS ---
+
 
 class Mapek:
     def __init__(self):
@@ -102,6 +111,8 @@ class Mapek:
         """
         Paso 1: MONITOREAR (Lógica de Tesis Combinada)
         """
+        # (Dejamos esto aleatorio por ahora. Lo cambiaremos en el siguiente paso
+        # cuando implementemos los 4 escenarios controlados).
         ica_simulado = random.choice([50, 150, 250])
         print(f"MONITOR (Clásico): Calidad del Aire (ICA) detectada: {ica_simulado}")
         cp_simulado = random.choice([10, 350])
@@ -139,7 +150,6 @@ class Mapek:
 
         # --- INICIO DE VALIDACIÓN ---
         # Añadir 'gestor_aire: True' para que la validación funcione
-        # ya que el LLM no lo incluye (porque siempre está activo)
         config_plana_con_raiz = config_plana.copy()
         config_plana_con_raiz['gestor_aire'] = True 
         
@@ -174,10 +184,12 @@ class Mapek:
         self.ejecutar(contenedores)
 
     def ejecutar(self, contenedores):
-        """ Paso 4: EJECUTAR """
+        """ Paso 4: EJECUTAR (Ahora usando la Fábrica HQC) """
         client = docker.from_env()
         print("EXECUTE: Iniciando ejecución de contenedores Docker...")
-        with open("cambios.log", "a", encoding="utf-8") as log_file:
+        
+        log_path = os.path.join(app_path, "data", "cambios.log")
+        with open(log_path, "a", encoding="utf-8") as log_file:
             timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             log_file.write(f"\n--- RECONFIGURACIÓN a las {timestamp} ---\n")
             log_file.write(f"Regla de Adaptación (ICA): {self._reglaAdaptacion_ICA}\n")
@@ -198,26 +210,48 @@ class Mapek:
                         print(f"[-] {mensaje}")
                         log_file.write(f"[-] {mensaje}\n")
         
+        # --- INICIO DE MODIFICACIÓN DE EJECUCIÓN CUÁNTICA ---
+        
         # --- Ejecución Cuántica ---
         if contenedores.get("hqc") == True:
             print("EXECUTE: HQC está activo. Verificando trabajo cuántico...")
+            
             if contenedores.get("optimizacion_de_rutas") == True:
                 try:
-                    backend_activo = next(b for b in ["qiskit_simulator", "spinq_simulator", "tql_simulator"] if contenedores.get(b))
+                    # 1. Obtener las decisiones del LLM (del plan)
+                    backend_activo_key = next(b for b in ["qiskit_simulator", "spinq_simulator", "tql_simulator"] if contenedores.get(b))
                     algoritmo_activo = next(a.upper() for a in ["qaoa", "vqe"] if contenedores.get(a))
-                    backend_nombre_formal = backend_activo.replace("_", " ").title()
+                    
+                    # Convertir el nombre clave (ej. 'qiskit_simulator') al nombre formal (ej. 'Qiskit Simulator')
+                    backend_nombre_formal = backend_activo_key.replace("_", " ").title()
+
                     print(f"EXECUTE: Delegando trabajo cuántico -> Algoritmo: {algoritmo_activo}, Backend: {backend_nombre_formal}")
-                    params = {"problema_id": "ruta_123", "complejidad": self._reglaAdaptacion_CP} 
-                    resultado_cuantico = hqc_module.ejecutar_quantum_job(algoritmo=algoritmo_activo, backend=backend_nombre_formal, params=params)
-                    print(f"EXECUTE: Resultado cuántico recibido: {resultado_cuantico}")
-                    with open("cambios.log", "a", encoding="utf-8") as log_file:
-                         log_file.write(f"[⚛️] Trabajo cuántico ({algoritmo_activo} en {backend_nombre_formal}) ejecutado.\n")
+                    
+                    # 2. Usar la FÁBRICA de HQC para obtener el adaptador correcto
+                    backend_adapter = hqc_module.get_backend_adapter(backend_nombre_formal)
+
+                    if backend_adapter:
+                        # 3. Ejecutar el trabajo usando la interfaz estándar
+                        params = {"problema_id": "ruta_123", "complejidad": self._reglaAdaptacion_CP} 
+                        resultado_cuantico = backend_adapter.execute_job(algoritmo=algoritmo_activo, params=params)
+                        
+                        print(f"EXECUTE: Resultado cuántico recibido: {resultado_cuantico}")
+                        with open(log_path, "a", encoding="utf-8") as log_file:
+                             log_file.write(f"[⚛️] Trabajo cuántico ({algoritmo_activo} en {backend_nombre_formal}) ejecutado.\n")
+                    else:
+                        msg = f"No se encontró un adaptador para el backend '{backend_nombre_formal}'."
+                        print(f"EXECUTE_ERROR: {msg}")
+                        with open(log_path, "a", encoding="utf-8") as log_file:
+                            log_file.write(f"[❌] ERROR: {msg}\n")
+
                 except StopIteration:
                     print("EXECUTE_ERROR: HQC activo, pero no se encontró backend o algoritmo válido en el plan.")
             else:
                 print("EXECUTE: HQC activo, pero 'optimizacion_de_rutas' no. En espera.")
         else:
             print("EXECUTE: HQC está inactivo. Omitiendo ejecución cuántica.")
+
+    # --- FIN DE MODIFICACIÓN DE EJECUCIÓN CUÁNTICA ---
 
     def conocimiento(self, configuracion, mc, ica, complejidad_problema):
         """ Paso 5: CONOCIMIENTO """
