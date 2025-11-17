@@ -1,9 +1,24 @@
-fastapi
-uvicorn
-docker
-numpy
-scikit-learn
-matplotlib
-pandas
+# Framework Web
+flask 
+flask-cors 
+
+# IA Generativa (Google)
+google-generativeai 
+
+# Visualización de Grafos
+graphviz 
+
+# Contenedores
+docker 
+
+# Ecosistema Qiskit (IBM)
+numpy 
+qiskit-aer 
+qiskit-algorithms 
+qiskit-optimization 
+
+# Ecosistema Cirq (Google) - Para el adaptador placeholder
+cirq
 tensorflow
-keras
+tensorflow-quantum
+python-dotenv

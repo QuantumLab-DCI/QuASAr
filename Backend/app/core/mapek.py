@@ -1,4 +1,4 @@
-# app/core/mapek.py (Versión CORRECTA)
+# app/core/mapek.py (Versión Corregida)
 
 import random
 import docker
@@ -111,12 +111,17 @@ class Mapek:
         """
         Paso 1: MONITOREAR (Lógica de Tesis Combinada)
         """
-        # (Dejamos esto aleatorio por ahora. Lo cambiaremos en el siguiente paso
-        # cuando implementemos los 4 escenarios controlados).
         ica_simulado = random.choice([50, 150, 250])
         print(f"MONITOR (Clásico): Calidad del Aire (ICA) detectada: {ica_simulado}")
         cp_simulado = random.choice([10, 350])
         print(f"MONITOR (Cuántico): Complejidad de Problema (CP) detectada: {cp_simulado}")
+        
+        # --- CORRECCIÓN LÓGICA ---
+        # Guardar reglas para el log ANTES de llamar a analizar
+        self._reglaAdaptacion_ICA = ica_simulado
+        self._reglaAdaptacion_CP = cp_simulado
+        # --- FIN CORRECCIÓN ---
+
         self.analizar(mc, ica_simulado, cp_simulado)
 
     def analizar(self, mc, ica, complejidad_problema):
@@ -127,14 +132,19 @@ class Mapek:
         
         reglas_del_modelo = mc.exportar_reglas_texto()
         metricas_nisq = hqc_module.monitor_backends()
+        
+        # --- INICIO DE MODIFICACIÓN DEL PROMPT ---
         contexto_actual = f"""
         - Calidad del Aire (ICA) = {ica}. 
           (Regla de negocio: Si ICA > 100, se deben priorizar ambientes cerrados y evitar deportes).
+        
         - Complejidad del Problema (CP) = {complejidad_problema}. 
-          (Regla de negocio: Si CP > 300, HQC debe estar activo. Si es menor, HQC debe estar inactivo).
+          (Regla de negocio: Si CP > 300, 'Optimizacion de rutas' DEBE activarse y usar 'HQC'. Si CP es menor, 'HQC' debe estar inactivo).
+
         - Métricas NISQ: {metricas_nisq} 
           (Regla de negocio: Usar para elegir el *mejor* backend HQC (menor cola+error) si HQC se activa).
         """
+        # --- FIN DE MODIFICACIÓN DEL PROMPT ---
         
         config_dict_llm = agente_llm.obtener_configuracion_llm(
             contexto_actual, 
@@ -170,8 +180,11 @@ class Mapek:
 
         print(f"ANALYZE: Configuración final (VÁLIDA) decidida por el LLM: {configuracion_final}")
         
+        # --- CORRECCIÓN DE FLUJO LÓGICO ---
+        # Llamar a conocimiento() ANTES de planificar()
         self.conocimiento(configuracion_final, mc, ica, complejidad_problema)
-        self.planificar() 
+        self.planificar()
+        # --- FIN CORRECCIÓN --- 
 
     def planificar(self):
         """ Paso 3: PLANIFICAR """
@@ -184,7 +197,13 @@ class Mapek:
         self.ejecutar(contenedores)
 
     def ejecutar(self, contenedores):
-        """ Paso 4: EJECUTAR (Ahora usando la Fábrica HQC) """
+        """ Paso 4: EJECUTAR (Ahora usando la Fábrica HQC y el trigger correcto) """
+        
+        # Añadir comprobación de seguridad
+        if contenedores is None:
+            print("EXECUTE: Plan de contenedores vacío. Omitiendo ejecución.")
+            return
+
         client = docker.from_env()
         print("EXECUTE: Iniciando ejecución de contenedores Docker...")
         
@@ -195,20 +214,25 @@ class Mapek:
             log_file.write(f"Regla de Adaptación (ICA): {self._reglaAdaptacion_ICA}\n")
             log_file.write(f"Regla de Adaptación (CP): {self._reglaAdaptacion_CP}\n")
             
-            for container in client.containers.list(all=True):
-                estado_deseado = contenedores.get(container.name)
-                if estado_deseado is not None:
-                    cont = client.containers.get(container.id)
-                    if (estado_deseado == True and cont.status == "exited"):
-                        cont.start()
-                        mensaje = f"Contenedor '{container.name}' iniciado."
-                        print(f"[+] {mensaje}")
-                        log_file.write(f"[+] {mensaje}\n")
-                    elif (estado_deseado == False and cont.status == "running"):
-                        cont.stop()
-                        mensaje = f"Contenedor '{container.name}' detenido."
-                        print(f"[-] {mensaje}")
-                        log_file.write(f"[-] {mensaje}\n")
+            try:
+                for container in client.containers.list(all=True):
+                    estado_deseado = contenedores.get(container.name)
+                    if estado_deseado is not None:
+                        cont = client.containers.get(container.id)
+                        if (estado_deseado == True and cont.status == "exited"):
+                            cont.start()
+                            mensaje = f"Contenedor '{container.name}' iniciado."
+                            print(f"[+] {mensaje}")
+                            log_file.write(f"[+] {mensaje}\n")
+                        elif (estado_deseado == False and cont.status == "running"):
+                            cont.stop()
+                            mensaje = f"Contenedor '{container.name}' detenido."
+                            print(f"[-] {mensaje}")
+                            log_file.write(f"[-] {mensaje}\n")
+            except Exception as e:
+                print(f"EXECUTE_ERROR: Fallo al interactuar con Docker. ¿Está corriendo? Error: {e}")
+                log_file.write(f"[❌] ERROR Docker: {e}\n")
+
         
         # --- INICIO DE MODIFICACIÓN DE EJECUCIÓN CUÁNTICA ---
         
@@ -216,13 +240,19 @@ class Mapek:
         if contenedores.get("hqc") == True:
             print("EXECUTE: HQC está activo. Verificando trabajo cuántico...")
             
-            if contenedores.get("optimizacion_de_rutas") == True:
+            # ¡LÓGICA CORREGIDA!
+            # El trigger es que un algoritmo (QAOA o VQE) esté activo.
+            algoritmo_qaoa_activo = contenedores.get("qaoa") == True
+            algoritmo_vqe_activo = contenedores.get("vqe") == True
+
+            if algoritmo_qaoa_activo or algoritmo_vqe_activo:
                 try:
                     # 1. Obtener las decisiones del LLM (del plan)
-                    backend_activo_key = next(b for b in ["qiskit_simulator", "spinq_simulator", "tql_simulator"] if contenedores.get(b))
-                    algoritmo_activo = next(a.upper() for a in ["qaoa", "vqe"] if contenedores.get(a))
+                    backend_activo_key = next(b for b in ["qiskit_simulator", "cirq_simulator"] if contenedores.get(b))
                     
-                    # Convertir el nombre clave (ej. 'qiskit_simulator') al nombre formal (ej. 'Qiskit Simulator')
+                    # Determinar el algoritmo (ya lo sabemos, pero lo confirmamos)
+                    algoritmo_activo = "QAOA" if algoritmo_qaoa_activo else "VQE"
+                    
                     backend_nombre_formal = backend_activo_key.replace("_", " ").title()
 
                     print(f"EXECUTE: Delegando trabajo cuántico -> Algoritmo: {algoritmo_activo}, Backend: {backend_nombre_formal}")
@@ -242,12 +272,16 @@ class Mapek:
                         msg = f"No se encontró un adaptador para el backend '{backend_nombre_formal}'."
                         print(f"EXECUTE_ERROR: {msg}")
                         with open(log_path, "a", encoding="utf-8") as log_file:
-                            log_file.write(f"[❌] ERROR: {msg}\n")
+                            log_file.write(f"[❌] ERROR HQC: {msg}\n")
 
                 except StopIteration:
-                    print("EXECUTE_ERROR: HQC activo, pero no se encontró backend o algoritmo válido en el plan.")
+                    print("EXECUTE_ERROR: HQC activo, pero no se encontró backend válido en el plan.")
+                except Exception as e:
+                    print(f"EXECUTE_ERROR: Falla inesperada en la ejecución cuántica. Error: {e}")
+            
             else:
-                print("EXECUTE: HQC activo, pero 'optimizacion_de_rutas' no. En espera.")
+                # Esto pasará si el LLM activa 'hqc' pero no 'qaoa' ni 'vqe' (lo cual violaría el XOR)
+                print("EXECUTE: HQC activo, pero ningún algoritmo (QAOA/VQE) fue seleccionado. En espera.")
         else:
             print("EXECUTE: HQC está inactivo. Omitiendo ejecución cuántica.")
 
@@ -255,9 +289,9 @@ class Mapek:
 
     def conocimiento(self, configuracion, mc, ica, complejidad_problema):
         """ Paso 5: CONOCIMIENTO """
+        print("KNOWLEDGE: Actualizando Punto de Variación.")
         self._puntoVariacion = punto_variacion.PuntoVariacion(configuracion, mc, "gestor_aire")
-        self._reglaAdaptacion_ICA = ica
-        self._reglaAdaptacion_CP = complejidad_problema
+        # Los valores de las reglas ya se establecieron en monitoreo()
 
     def getConocimiento(self):
         return self._puntoVariacion

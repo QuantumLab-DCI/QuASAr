@@ -1,5 +1,7 @@
 import os
 import sys # <-- Importación necesaria
+from dotenv import load_dotenv
+load_dotenv() # <-- AÑADIDO: Carga las variables del .env
 from app import create_app, setup_startup_tasks, setup_background_tasks 
 from pathlib import Path
 

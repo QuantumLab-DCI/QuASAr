@@ -122,8 +122,7 @@ def generarPosiblesEstados():
 
     # Backends (ejemplo con 3)
     mc.agregarCaracteristica(Nodo("Qiskit Simulator"))
-    mc.agregarCaracteristica(Nodo("SpinQ Simulator"))
-    mc.agregarCaracteristica(Nodo("TQL Simulator"))
+    mc.agregarCaracteristica(Nodo("Cirq Simulator")) # <--- NUEVO
 
     # Algoritmos (ejemplo con 2)
     mc.agregarCaracteristica(Nodo("QAOA"))
@@ -155,8 +154,7 @@ def generarPosiblesEstados():
 
     # 3. Relaciones XOR para elegir UN Backend
     mc.relacionar(mc.buscarCaracteristica("Backend"), mc.buscarCaracteristica("Qiskit Simulator"), "XOR")
-    mc.relacionar(mc.buscarCaracteristica("Backend"), mc.buscarCaracteristica("SpinQ Simulator"), "XOR")
-    mc.relacionar(mc.buscarCaracteristica("Backend"), mc.buscarCaracteristica("TQL Simulator"), "XOR")
+    mc.relacionar(mc.buscarCaracteristica("Backend"), mc.buscarCaracteristica("Cirq Simulator"), "XOR") # <--- NUEVO
 
     # 4. Relaciones XOR para elegir UN Algoritmo
     mc.relacionar(mc.buscarCaracteristica("Algoritmo"), mc.buscarCaracteristica("QAOA"), "XOR")

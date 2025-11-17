@@ -1,81 +1,128 @@
-# app/services/hqc_backends/qiskit_adapter.py
+# app/services/hqc_backends/qiskit_adapter.py (Versión Robusta)
 from .base_backend import QuantumBackend
 import numpy as np
 
-# Dependencias cuánticas específicas de Qiskit
+# Mover los imports que fallan a un bloque 'try'
+# y mantener solo los imports seguros en el nivel superior.
 try:
-    from qiskit import Aer
-    from qiskit.algorithms import QAOA
-    from qiskit.utils import QuantumInstance
-    from qiskit_optimization.algorithms import MinimumEigenOptimizer
-    from qiskit_optimization import QuadraticProgram
-    from qiskit_optimization.problems import TravelingSalesperson
-    QISKIT_DISPONIBLE = True
+    from qiskit_algorithms.utils import algorithm_globals
+    QISKIT_BASE_DISPONIBLE = True
 except ImportError:
-    print("HQC_ERROR: Qiskit o Qiskit_Optimization no están instalados.")
-    print("HQC_ERROR: Ejecuta: pip install qiskit qiskit_optimization")
-    QISKIT_DISPONIBLE = False
+    print("HQC_WARN: qiskit-algorithms no está instalado o no es compatible.")
+    QISKIT_BASE_DISPONIBLE = False
 
 class QiskitAdapter(QuantumBackend):
     """
     Adaptador específico para Qiskit.
-    Implementa la lógica real de optimización de rutas usando QAOA.
+    Implementa la lógica real de optimización de rutas usando QAOA o VQE.
+    Los imports se realizan dentro de los métodos para permitir
+    que la app se inicie incluso si Qiskit no está instalado.
     """
 
     def __init__(self):
-        if not QISKIT_DISPONIBLE:
-            raise ImportError("Dependencias de Qiskit no encontradas.")
+        if not QISKIT_BASE_DISPONIBLE:
+            raise ImportError("Dependencias base de Qiskit no encontradas o incompatibles.")
         
-        # Configurar la instancia de Qiskit (simulador)
-        self.q_instance = QuantumInstance(
-            backend=Aer.get_backend('aer_simulator_statevector'),
-            seed_simulator=123,
-            seed_transpiler=123
-        )
-        print("   ...Adaptador Qiskit inicializado.")
+        # Mover los imports al constructor
+        try:
+            from qiskit_aer import AerSimulator
+            self.aer_backend = AerSimulator()
+            algorithm_globals.random_seed = 123
+            print("   ...Adaptador Qiskit inicializado (con QAOA y VQE).")
+        except Exception as e:
+            print(f"HQC_ERROR: Fallo al inicializar el backend de Qiskit Aer. {e}")
+            raise ImportError(f"Fallo en Qiskit Aer: {e}")
 
-    def _solve_tsp_qaoa(self, params: dict) -> dict:
-        """
-        Lógica de negocio: Resuelve un problema de TSP (Optimización de Rutas) con QAOA.
-        """
-        # 1. Definir el problema (Toy problem de 3 nodos)
+    def _get_tsp_problem(self) -> ('TravelingSalesperson', int):
+        """Función auxiliar para crear el problema de TSP."""
+        # Importar aquí
+        from qiskit_optimization.problems import TravelingSalesperson
+        
         n_ciudades = 3
         distancias = np.array([
             [0, 10, 25],
             [10, 0, 15],
             [25, 15, 0]
         ])
-        
         print(f"   ...Definiendo Problema TSP con {n_ciudades} nodos.")
         tsp = TravelingSalesperson(distancias)
-        qp = tsp.to_quadratic_program()
+        return tsp, n_ciudades
+
+    def _solve_tsp(self, solver_instance, tsp_problem):
+        """
+        Función genérica que resuelve un TSP usando el solver (QAOA o VQE)
+        que le pasen como argumento.
+        """
+        # Importar aquí
+        from qiskit_optimization.algorithms import MinimumEigenOptimizer
+        
+        qp = tsp_problem.to_quadratic_program()
         print(f"   ...Problema mapeado a QuadraticProgram (QUBO).")
 
-        # 2. Configurar el optimizador QAOA
-        qaoa_mes = QAOA(quantum_instance=self.q_instance, reps=1) 
-        qaoa_optimizer = MinimumEigenOptimizer(qaoa_mes)
-
-        # 3. Resolver
-        print(f"   ...Ejecutando QAOA en simulador Aer...")
-        result = qaoa_optimizer.solve(qp)
+        print("   ...[PRUEBA DE CÓMPUTO] Generando el circuito (Ansatz)...")
+        operator, offset = qp.to_ising()
         
-        # 4. Interpretar y devolver
-        ruta_optima = tsp.interpret(result)
+        ansatz = None
+        # Usamos nombres de clase como strings para evitar errores de import
+        if solver_instance.__class__.__name__ == 'QAOA':
+            ansatz = solver_instance.construct_circuit(operator)[0]
+        elif solver_instance.__class__.__name__ == 'VQE':
+            ansatz = solver_instance.ansatz
+            
+        if ansatz:
+            try:
+                print(f"   ...Circuito (Ansatz) construido ({ansatz.num_qubits} qubits, {ansatz.depth()} profundidad):\n")
+                print(ansatz.draw(output='text', fold=-1))
+                print("\n   ...[PRUEBA DE CÓMPUTO] Fin del circuito.")
+            except Exception as e:
+                print(f"   ...No se pudo dibujar el circuito: {e}")
+        else:
+            print("   ...No se pudo extraer el circuito (ansatz) del solver.")
+
+        optimizer = MinimumEigenOptimizer(solver_instance)
+
+        print(f"   ...Ejecutando {solver_instance.__class__.__name__} en simulador Aer...")
+        result = optimizer.solve(qp)
+        
+        ruta_optima = tsp_problem.interpret(result)
         
         return {
-            "backend": "Qiskit (QAOA)",
-            "problema": f"TSP de {n_ciudades} nodos",
+            "backend": "Qiskit",
+            "algoritmo": solver_instance.__class__.__name__,
+            "problema": f"TSP de {tsp_problem.dim} nodos",
             "ruta_optima": ruta_optima,
-            "distancia_optima": tsp.get_optimal_cost(),
+            "distancia_optima": tsp_problem.get_optimal_cost(),
         }
 
     def execute_job(self, algoritmo: str, params: dict) -> dict:
         print(f"⚛️  QiskitAdapter: Ejecutando trabajo (Algoritmo: {algoritmo.upper()}).")
         
-        if "QAOA" in algoritmo.upper() or "VQE" in algoritmo.upper():
-            # Para la PoC, ambos algoritmos de optimización llaman a la misma función
-            return self._solve_tsp_qaoa(params)
+        # Importar aquí
+        try:
+            from qiskit_algorithms import QAOA, VQE
+            from qiskit_algorithms.optimizers import SLSQP
+            from qiskit.circuit.library import TwoLocal
+        except ImportError as e:
+            msg = f"Faltan dependencias de Qiskit (QAOA/VQE) o son incompatibles: {e}"
+            print(f"   ...ERROR: {msg}")
+            return {"error": msg}
+
+        tsp_problem, num_nodos = self._get_tsp_problem()
+        
+        solver = None
+        if "QAOA" in algoritmo.upper():
+            print("   ...Instanciando solver QAOA...")
+            solver = QAOA(optimizer=SLSQP(), reps=1, quantum_instance=self.aer_backend)
+            
+        elif "VQE" in algoritmo.upper():
+            print("   ...Instanciando solver VQE...")
+            num_qubits_qubo = num_nodos * num_nodos
+            ansatz = TwoLocal(num_qubits_qubo, 'ry', 'cz', reps=1)
+            solver = VQE(optimizer=SLSQP(), ansatz=ansatz, quantum_instance=self.aer_backend)
+            
         else:
             msg = f"Algoritmo {algoritmo} no soportado en QiskitAdapter."
             print(f"   ...ERROR: {msg}")
             return {"error": msg}
+
+        return self._solve_tsp(solver, tsp_problem)
