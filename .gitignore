@@ -1,3 +1,6 @@
+.gitignore
 Frontend/node_modules
 Backend/.env
 venv/*
+Backend/data/*
+Backend/data/*

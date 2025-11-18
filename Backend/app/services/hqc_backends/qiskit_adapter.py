@@ -1,4 +1,3 @@
-# app/services/hqc_backends/qiskit_adapter.py (Versión Robusta)
 from .base_backend import QuantumBackend
 import numpy as np
 
@@ -63,7 +62,7 @@ class QiskitAdapter(QuantumBackend):
         operator, offset = qp.to_ising()
         
         ansatz = None
-        # Usamos nombres de clase como strings para evitar errores de import
+        # Usamos nombres de clase como strings para evitar errores de import si las clases no están cargadas globalmente
         if solver_instance.__class__.__name__ == 'QAOA':
             ansatz = solver_instance.construct_circuit(operator)[0]
         elif solver_instance.__class__.__name__ == 'VQE':
@@ -72,6 +71,7 @@ class QiskitAdapter(QuantumBackend):
         if ansatz:
             try:
                 print(f"   ...Circuito (Ansatz) construido ({ansatz.num_qubits} qubits, {ansatz.depth()} profundidad):\n")
+                # Imprimir el circuito en formato texto para los logs
                 print(ansatz.draw(output='text', fold=-1))
                 print("\n   ...[PRUEBA DE CÓMPUTO] Fin del circuito.")
             except Exception as e:
@@ -116,6 +116,7 @@ class QiskitAdapter(QuantumBackend):
             
         elif "VQE" in algoritmo.upper():
             print("   ...Instanciando solver VQE...")
+            # VQE necesita una "forma variacional" (el circuito/ansatz)
             num_qubits_qubo = num_nodos * num_nodos
             ansatz = TwoLocal(num_qubits_qubo, 'ry', 'cz', reps=1)
             solver = VQE(optimizer=SLSQP(), ansatz=ansatz, quantum_instance=self.aer_backend)
