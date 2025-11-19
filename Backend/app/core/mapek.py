@@ -1,4 +1,4 @@
-# app/core/mapek.py (Versión Corregida)
+# app/core/mapek.py (Versión Corregida con Lógica de Priorización)
 
 import random
 import docker
@@ -21,6 +21,7 @@ class Mapek:
         # Almacenamos ambas reglas por separado
         self._reglaAdaptacion_ICA = None 
         self._reglaAdaptacion_CP = None
+        self._reglaAdaptacion_SLA = None # Nueva regla para guardar en el log
 
     # --- INICIO DE NUEVA FUNCIÓN ---
     def _find_features_in_json(self, data: dict) -> dict:
@@ -109,40 +110,54 @@ class Mapek:
 
     def monitoreo(self, mc):
         """
-        Paso 1: MONITOREAR (Lógica de Tesis Combinada)
+        Paso 1: MONITOREAR (Lógica de Tesis Combinada con Trade-off)
         """
+        # 1. Sensores de Entorno Físico
         ica_simulado = random.choice([50, 150, 250])
-        print(f"MONITOR (Clásico): Calidad del Aire (ICA) detectada: {ica_simulado}")
         cp_simulado = random.choice([10, 350])
-        print(f"MONITOR (Cuántico): Complejidad de Problema (CP) detectada: {cp_simulado}")
         
-        # --- CORRECCIÓN LÓGICA ---
-        # Guardar reglas para el log ANTES de llamar a analizar
+        # 2. Sensor de Política de Negocio (NUEVO)
+        # Esto simula que el usuario a veces quiere respuesta ya (RAPIDEZ)
+        # y a veces necesita el cálculo exacto (PRECISION).
+        prioridad_negocio = random.choice(["RAPIDEZ", "PRECISION"])
+
+        print(f"\n🔎 MONITOR: Contexto Detectado")
+        print(f"   - Calidad Aire (ICA): {ica_simulado}")
+        print(f"   - Complejidad (CP):   {cp_simulado}")
+        print(f"   - Prioridad SLA:      {prioridad_negocio} <--- Clave para la decisión")
+        
+        # Guardar reglas para el log
         self._reglaAdaptacion_ICA = ica_simulado
         self._reglaAdaptacion_CP = cp_simulado
-        # --- FIN CORRECCIÓN ---
+        self._reglaAdaptacion_SLA = prioridad_negocio # Guardamos para el log
+        
+        # Pasamos la prioridad al análisis
+        self.analizar(mc, ica_simulado, cp_simulado, prioridad_negocio)
 
-        self.analizar(mc, ica_simulado, cp_simulado)
-
-    def analizar(self, mc, ica, complejidad_problema):
+    def analizar(self, mc, ica, complejidad_problema, prioridad):
         """
-        Paso 2: ANALIZAR (usando el Agente LLM)
+        Paso 2: ANALIZAR (usando el Agente LLM con Prompt Mejorado)
         """
-        print(f"ANALYZE: Iniciando análisis con ICA={ica} y CP={complejidad_problema}")
+        print(f"🧠 ANALYZE: Razonando configuración óptima con prioridad {prioridad}...")
         
         reglas_del_modelo = mc.exportar_reglas_texto()
         metricas_nisq = hqc_module.monitor_backends()
         
         # --- INICIO DE MODIFICACIÓN DEL PROMPT ---
         contexto_actual = f"""
-        - Calidad del Aire (ICA) = {ica}. 
-          (Regla de negocio: Si ICA > 100, se deben priorizar ambientes cerrados y evitar deportes).
+        DATOS DEL ENTORNO:
+        1. Calidad del Aire (ICA) = {ica}. 
+           (Regla de negocio: Si ICA > 100, se deben priorizar ambientes cerrados y evitar deportes).
         
-        - Complejidad del Problema (CP) = {complejidad_problema}. 
-          (Regla de negocio: Si CP > 300, 'Optimizacion de rutas' DEBE activarse y usar 'HQC'. Si CP es menor, 'HQC' debe estar inactivo).
+        2. Complejidad del Problema (CP) = {complejidad_problema}. 
+           (Regla de negocio: Si CP > 300, 'Optimizacion de rutas' DEBE activarse y usar 'HQC'. Si CP es menor, 'HQC' debe estar inactivo).
 
-        - Métricas NISQ: {metricas_nisq} 
-          (Regla de negocio: Usar para elegir el *mejor* backend HQC (menor cola+error) si HQC se activa).
+        3. Prioridad del Momento (SLA) = {prioridad}.
+           - Si es RAPIDEZ: Debes elegir el backend con MENOR tiempo de cola (queue_time_sec).
+           - Si es PRECISION: Debes elegir el backend con MENOR tasa de error (error_rate).
+
+        4. Estado de los Backends Cuánticos:
+           {metricas_nisq} 
         """
         # --- FIN DE MODIFICACIÓN DEL PROMPT ---
         
@@ -180,11 +195,9 @@ class Mapek:
 
         print(f"ANALYZE: Configuración final (VÁLIDA) decidida por el LLM: {configuracion_final}")
         
-        # --- CORRECCIÓN DE FLUJO LÓGICO ---
         # Llamar a conocimiento() ANTES de planificar()
         self.conocimiento(configuracion_final, mc, ica, complejidad_problema)
         self.planificar()
-        # --- FIN CORRECCIÓN --- 
 
     def planificar(self):
         """ Paso 3: PLANIFICAR """
@@ -213,6 +226,8 @@ class Mapek:
             log_file.write(f"\n--- RECONFIGURACIÓN a las {timestamp} ---\n")
             log_file.write(f"Regla de Adaptación (ICA): {self._reglaAdaptacion_ICA}\n")
             log_file.write(f"Regla de Adaptación (CP): {self._reglaAdaptacion_CP}\n")
+            # Registrar la nueva regla SLA
+            log_file.write(f"Regla de Adaptación (SLA): {self._reglaAdaptacion_SLA}\n")
             
             try:
                 for container in client.containers.list(all=True):
@@ -240,7 +255,6 @@ class Mapek:
         if contenedores.get("hqc") == True:
             print("EXECUTE: HQC está activo. Verificando trabajo cuántico...")
             
-            # ¡LÓGICA CORREGIDA!
             # El trigger es que un algoritmo (QAOA o VQE) esté activo.
             algoritmo_qaoa_activo = contenedores.get("qaoa") == True
             algoritmo_vqe_activo = contenedores.get("vqe") == True
@@ -299,5 +313,6 @@ class Mapek:
     def getReglaAdaptacion(self):
         return {
             "calidad_aire_ica": self._reglaAdaptacion_ICA,
-            "complejidad_problema_cp": self._reglaAdaptacion_CP
+            "complejidad_problema_cp": self._reglaAdaptacion_CP,
+            "prioridad_sla": self._reglaAdaptacion_SLA # Agregado al estado global
         }
