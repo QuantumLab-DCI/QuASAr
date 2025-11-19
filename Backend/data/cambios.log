@@ -807,3 +807,135 @@ Regla de Adaptación (CP): 350
 [+] Contenedor 'ambientes_abiertos' iniciado.
 [-] Contenedor 'ambientes_cerrados' detenido.
 [-] Contenedor 'visualizador_restriccion_uso_lena' detenido.
+
+--- RECONFIGURACIÓN a las 2025-11-19 15:36:54 ---
+Regla de Adaptación (ICA): 50
+Regla de Adaptación (CP): 10
+[-] Contenedor 'qaoa' detenido.
+[-] Contenedor 'qiskit_simulator' detenido.
+[-] Contenedor 'algoritmo' detenido.
+[-] Contenedor 'backend' detenido.
+[-] Contenedor 'hqc' detenido.
+[-] Contenedor 'optimizacion_de_rutas' detenido.
+
+--- RECONFIGURACIÓN a las 2025-11-19 15:39:17 ---
+Regla de Adaptación (ICA): 50
+Regla de Adaptación (CP): 350
+[+] Contenedor 'cirq_simulator' iniciado.
+[+] Contenedor 'qaoa' iniciado.
+[+] Contenedor 'algoritmo' iniciado.
+[+] Contenedor 'backend' iniciado.
+[+] Contenedor 'hqc' iniciado.
+[+] Contenedor 'optimizacion_de_rutas' iniciado.
+[⚛️] Trabajo cuántico (QAOA en Cirq Simulator) ejecutado.
+
+--- RECONFIGURACIÓN a las 2025-11-19 15:41:34 ---
+Regla de Adaptación (ICA): 250
+Regla de Adaptación (CP): 350
+[-] Contenedor 'deportes' detenido.
+[-] Contenedor 'ambientes_abiertos' detenido.
+[+] Contenedor 'ambientes_cerrados' iniciado.
+[+] Contenedor 'visualizador_restriccion_uso_lena' iniciado.
+[⚛️] Trabajo cuántico (QAOA en Cirq Simulator) ejecutado.
+
+--- RECONFIGURACIÓN a las 2025-11-19 15:44:16 ---
+Regla de Adaptación (ICA): 50
+Regla de Adaptación (CP): 10
+[-] Contenedor 'cirq_simulator' detenido.
+[-] Contenedor 'vqe' detenido.
+[-] Contenedor 'qaoa' detenido.
+[-] Contenedor 'qiskit_simulator' detenido.
+[-] Contenedor 'algoritmo' detenido.
+[-] Contenedor 'backend' detenido.
+[-] Contenedor 'hqc' detenido.
+[-] Contenedor 'optimizacion_de_rutas' detenido.
+[-] Contenedor 'entretenimiento_tercera_edad' detenido.
+[-] Contenedor 'entretenimiento_adulto' detenido.
+[-] Contenedor 'entretenimiento_familiar' detenido.
+[-] Contenedor 'entretenimiento' detenido.
+[-] Contenedor 'ambientes_cerrados' detenido.
+[-] Contenedor 'visualizador_restriccion_uso_lena' detenido.
+
+--- RECONFIGURACIÓN a las 2025-11-19 15:46:48 ---
+Regla de Adaptación (ICA): 250
+Regla de Adaptación (CP): 350
+[+] Contenedor 'cirq_simulator' iniciado.
+[+] Contenedor 'qaoa' iniciado.
+[+] Contenedor 'algoritmo' iniciado.
+[+] Contenedor 'backend' iniciado.
+[+] Contenedor 'hqc' iniciado.
+[+] Contenedor 'optimizacion_de_rutas' iniciado.
+[-] Contenedor 'deportes' detenido.
+[-] Contenedor 'ambientes_abiertos' detenido.
+[+] Contenedor 'ambientes_cerrados' iniciado.
+[+] Contenedor 'visualizador_restriccion_uso_lena' iniciado.
+[⚛️] Trabajo cuántico (QAOA en Cirq Simulator) ejecutado.
+
+--- RECONFIGURACIÓN a las 2025-11-19 15:49:11 ---
+Regla de Adaptación (ICA): 150
+Regla de Adaptación (CP): 350
+[⚛️] Trabajo cuántico (QAOA en Cirq Simulator) ejecutado.
+
+--- RECONFIGURACIÓN a las 2025-11-19 15:51:27 ---
+Regla de Adaptación (ICA): 150
+Regla de Adaptación (CP): 350
+[⚛️] Trabajo cuántico (QAOA en Cirq Simulator) ejecutado.
+
+--- RECONFIGURACIÓN a las 2025-11-19 15:53:44 ---
+Regla de Adaptación (ICA): 50
+Regla de Adaptación (CP): 10
+[-] Contenedor 'cirq_simulator' detenido.
+[-] Contenedor 'qaoa' detenido.
+[-] Contenedor 'algoritmo' detenido.
+[-] Contenedor 'backend' detenido.
+[-] Contenedor 'hqc' detenido.
+[-] Contenedor 'optimizacion_de_rutas' detenido.
+[+] Contenedor 'deportes' iniciado.
+[+] Contenedor 'ambientes_abiertos' iniciado.
+[-] Contenedor 'ambientes_cerrados' detenido.
+[-] Contenedor 'visualizador_restriccion_uso_lena' detenido.
+
+--- RECONFIGURACIÓN a las 2025-11-19 15:56:10 ---
+Regla de Adaptación (ICA): 50
+Regla de Adaptación (CP): 10
+
+--- RECONFIGURACIÓN a las 2025-11-19 15:58:24 ---
+Regla de Adaptación (ICA): 250
+Regla de Adaptación (CP): 350
+[+] Contenedor 'cirq_simulator' iniciado.
+[+] Contenedor 'qaoa' iniciado.
+[+] Contenedor 'algoritmo' iniciado.
+[+] Contenedor 'backend' iniciado.
+[+] Contenedor 'hqc' iniciado.
+[+] Contenedor 'optimizacion_de_rutas' iniciado.
+[-] Contenedor 'deportes' detenido.
+[-] Contenedor 'ambientes_abiertos' detenido.
+[+] Contenedor 'ambientes_cerrados' iniciado.
+[+] Contenedor 'visualizador_restriccion_uso_lena' iniciado.
+[⚛️] Trabajo cuántico (QAOA en Cirq Simulator) ejecutado.
+
+--- RECONFIGURACIÓN a las 2025-11-19 16:00:43 ---
+Regla de Adaptación (ICA): 150
+Regla de Adaptación (CP): 10
+[-] Contenedor 'cirq_simulator' detenido.
+[-] Contenedor 'qaoa' detenido.
+[-] Contenedor 'algoritmo' detenido.
+[-] Contenedor 'backend' detenido.
+[-] Contenedor 'hqc' detenido.
+[-] Contenedor 'optimizacion_de_rutas' detenido.
+
+--- RECONFIGURACIÓN a las 2025-11-19 16:03:07 ---
+Regla de Adaptación (ICA): 50
+Regla de Adaptación (CP): 10
+[+] Contenedor 'deportes' iniciado.
+[+] Contenedor 'ambientes_abiertos' iniciado.
+[-] Contenedor 'ambientes_cerrados' detenido.
+[-] Contenedor 'visualizador_restriccion_uso_lena' detenido.
+
+--- RECONFIGURACIÓN a las 2025-11-19 16:05:21 ---
+Regla de Adaptación (ICA): 250
+Regla de Adaptación (CP): 10
+[-] Contenedor 'deportes' detenido.
+[-] Contenedor 'ambientes_abiertos' detenido.
+[+] Contenedor 'ambientes_cerrados' iniciado.
+[+] Contenedor 'visualizador_restriccion_uso_lena' iniciado.
