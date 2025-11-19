@@ -1,5 +1,7 @@
 from .base_backend import QuantumBackend
 import numpy as np
+import matplotlib.pyplot as plt  # <--- NUEVO: Para graficar
+import os                        # <--- NUEVO: Para manejo de rutas
 
 # Mover los imports que fallan a un bloque 'try'
 # y mantener solo los imports seguros en el nivel superior.
@@ -67,17 +69,45 @@ class QiskitAdapter(QuantumBackend):
             ansatz = solver_instance.construct_circuit(operator)[0]
         elif solver_instance.__class__.__name__ == 'VQE':
             ansatz = solver_instance.ansatz
-            
+        
+        # --- INICIO MODIFICACIÓN: GENERACIÓN DE EVIDENCIA VISUAL ---
+        evidence_path = "No generado"
+
         if ansatz:
             try:
-                print(f"   ...Circuito (Ansatz) construido ({ansatz.num_qubits} qubits, {ansatz.depth()} profundidad):\n")
-                # Imprimir el circuito en formato texto para los logs
+                # 1. Definir la ruta de guardado (carpeta 'data' en la raíz del proyecto)
+                # Subimos niveles desde: app/services/hqc_backends/qiskit_adapter.py
+                base_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../../data'))
+                
+                # Asegurar que la carpeta exista
+                if not os.path.exists(base_path):
+                    os.makedirs(base_path, exist_ok=True)
+
+                img_filename = "qiskit_circuit_evidence.png"
+                full_path = os.path.join(base_path, img_filename)
+
+                # 2. Dibujar el circuito usando Matplotlib
+                # Nota: Requiere 'pip install matplotlib pylatexenc'
+                print(f"   ...[EVIDENCIA] Generando imagen del circuito en: {full_path}")
+                ansatz.draw(output='mpl', filename=full_path)
+                
+                # 3. Establecer la URL relativa para el frontend
+                evidence_path = f"/api/static/{img_filename}"
+                
+                # Opcional: Imprimir también en texto para el log de consola
                 print(ansatz.draw(output='text', fold=-1))
                 print("\n   ...[PRUEBA DE CÓMPUTO] Fin del circuito.")
+
             except Exception as e:
-                print(f"   ...No se pudo dibujar el circuito: {e}")
+                print(f"   ...WARN: No se pudo generar imagen del circuito (falta matplotlib/pylatexenc?): {e}")
+                # Fallback: Solo texto en consola si falla la imagen
+                try:
+                    print(ansatz.draw(output='text', fold=-1))
+                except:
+                    pass
         else:
             print("   ...No se pudo extraer el circuito (ansatz) del solver.")
+        # --- FIN MODIFICACIÓN ---
 
         optimizer = MinimumEigenOptimizer(solver_instance)
 
@@ -92,6 +122,7 @@ class QiskitAdapter(QuantumBackend):
             "problema": f"TSP de {tsp_problem.dim} nodos",
             "ruta_optima": ruta_optima,
             "distancia_optima": tsp_problem.get_optimal_cost(),
+            "evidencia_visual": evidence_path  # <--- NUEVO CAMPO EN LA RESPUESTA
         }
 
     def execute_job(self, algoritmo: str, params: dict) -> dict:

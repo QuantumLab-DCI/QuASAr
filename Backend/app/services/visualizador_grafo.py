@@ -3,6 +3,7 @@ from graphviz import Digraph
 # Apuntamos a los módulos que ahora están en 'app/core'
 from app.core import grafo_mc
 from app.core import punto_variacion
+import os  # <--- NUEVO: Necesario para verificar si existe evidencia física
 # --- FIN DE MODIFICACIÓN DE IMPORTS ---
 
 # ====== Ajustes visuales reutilizables ======
@@ -13,6 +14,7 @@ FEATURE_BORDER = "#7aa6ff"
 
 ACTIVE_GREEN = "#33a02c"
 INACTIVE_RED = "#e31a1c"
+EVIDENCE_PURPLE = "#984ea3" # <--- NUEVO: Color para nodos con evidencia cuántica
 STATE_TEXT = "white"
 
 def _wrap_label(text: str, width: int = 18) -> str:
@@ -73,7 +75,12 @@ def _legend(dot: Digraph, es_estado: bool = False) -> None:
             c.node("L_INA", "Inactivo", shape="box",
                    style="rounded,filled", fillcolor=INACTIVE_RED,
                    fontcolor=STATE_TEXT, color=INACTIVE_RED)
+            # --- NUEVO ITEM DE LEYENDA ---
+            c.node("L_EVI", "Con Evidencia Cuántica", shape="box",
+                   style="rounded,filled", fillcolor=EVIDENCE_PURPLE,
+                   fontcolor=STATE_TEXT, color=EVIDENCE_PURPLE)
             c.edge("L_ACT", "L_INA", style="invis")  # mantener compacto
+            c.edge("L_INA", "L_EVI", style="invis")
         else:
             c.node("L_F", "Característica", shape="box",
                    style="rounded,filled", fillcolor=FEATURE_FILL,
@@ -135,6 +142,7 @@ def generar_visualizacion_estado(punto_variacion, mc, nombre_archivo='estado_act
     """
     Genera una visualización del estado actual del sistema:
     - Nodos ACTIVOS en VERDE, INACTIVOS en ROJO (texto blanco)
+    - Si hay evidencia cuántica real (archivos generados), el nodo HQC se pinta PÚRPURA.
     - Activos con borde más grueso
     - Layout horizontal, etiquetas envueltas, leyenda
     - Exporta SVG y PNG
@@ -166,20 +174,37 @@ def generar_visualizacion_estado(punto_variacion, mc, nombre_archivo='estado_act
         if nombre_formal is not None:
             nodos_agregados[nombre_formal] = bool(estado)
 
+    # --- INICIO DE MODIFICACIÓN: DETECCIÓN DE EVIDENCIA ---
+    # Verificamos si existen los archivos de evidencia generados por los adaptadores.
+    # La ruta es relativa a este archivo: app/services/visualizador_grafo.py -> ../../data
+    base_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../data'))
+    tiene_evidencia = False
+    if os.path.exists(os.path.join(base_path, "qiskit_circuit_evidence.png")) or \
+       os.path.exists(os.path.join(base_path, "cirq_convergence_evidence.png")):
+        tiene_evidencia = True
+    # --- FIN DE MODIFICACIÓN ---
+
     # Dibujar nodos según estado
     for nombre, activo in nodos_agregados.items():
+        color_fill = INACTIVE_RED
+        color_font = STATE_TEXT
+        pen_width = "1.2"
+        
         if activo:
-            dot.node(
-                nombre, _wrap_label(nombre),
-                fillcolor=ACTIVE_GREEN, fontcolor=STATE_TEXT,
-                color=ACTIVE_GREEN, penwidth="2.2"
-            )
-        else:
-            dot.node(
-                nombre, _wrap_label(nombre),
-                fillcolor=INACTIVE_RED, fontcolor=STATE_TEXT,
-                color=INACTIVE_RED, penwidth="1.2"
-            )
+            color_fill = ACTIVE_GREEN
+            pen_width = "2.2"
+            
+            # --- INICIO DE MODIFICACIÓN: COLOR PÚRPURA PARA HQC ---
+            # Si hay evidencia física y el nodo es relevante (HQC o Simuladores), usar púrpura
+            if tiene_evidencia and (nombre == "HQC" or "Simulator" in nombre):
+                color_fill = EVIDENCE_PURPLE
+            # --- FIN DE MODIFICACIÓN ---
+
+        dot.node(
+            nombre, _wrap_label(nombre),
+            fillcolor=color_fill, fontcolor=color_font,
+            color=color_fill, penwidth=pen_width
+        )
 
     # Añadir relaciones (igual que en el modelo) para mantener coherencia
     for caracteristica in mc.caracteristicas:

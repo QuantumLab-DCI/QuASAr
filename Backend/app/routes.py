@@ -16,17 +16,37 @@ import app as app_globals
 def get_estado_general():
     """ 
     Endpoint principal para el dashboard de React.
+    Devuelve el contexto, la configuración activa y, crucialmente,
+    la evidencia visual de la ejecución cuántica si existe.
     """
     # --- MODIFICACIÓN AQUÍ ---
     # Leemos la variable a través del módulo 'app_globals'
     if app_globals.regla_global is None:
          return jsonify({"error": "El sistema está arrancando. Espere al primer ciclo."}), 503
-         
+    
+    # Intentar recuperar la evidencia visual del log reciente o del estado global
+    # (En una implementación real, esto vendría directo de app_globals, 
+    # pero aquí asumimos que el frontend buscará las imágenes estáticas si existen)
+    
+    evidencia_cuantica = None
+    
+    # Verificar si existen archivos de evidencia recientes
+    qiskit_evidence = "/api/static/qiskit_circuit_evidence.png"
+    cirq_evidence = "/api/static/cirq_convergence_evidence.png"
+    
+    # Lógica simple: Si el archivo existe en disco, lo mandamos como disponible
+    data_dir = os.path.join(app_path, 'data')
+    if os.path.exists(os.path.join(data_dir, "qiskit_circuit_evidence.png")):
+        evidencia_cuantica = qiskit_evidence
+    elif os.path.exists(os.path.join(data_dir, "cirq_convergence_evidence.png")):
+        evidencia_cuantica = cirq_evidence
+
     return jsonify({
         "contexto": app_globals.regla_global,
         # --- FIN DE MODIFICACIÓN ---
         "imagen_estado_url": "/api/static/estado_actual.png", 
-        "imagen_modelo_url": "/api/static/modelo_caracteristicas.png"
+        "imagen_modelo_url": "/api/static/modelo_caracteristicas.png",
+        "evidencia_cuantica_url": evidencia_cuantica # <--- NUEVO CAMPO PARA EL FRONTEND
     })
 
 @app.route("/api/logs")
@@ -43,7 +63,12 @@ def get_logs():
 def static_files(filename):
     """ Sirve los archivos generados (imágenes) desde el directorio /data. """
     data_dir = os.path.join(app_path, 'data')
-    return send_from_directory(data_dir, filename)
+    # Añadir cache control para evitar que el navegador guarde imágenes viejas
+    response = send_from_directory(data_dir, filename)
+    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+    response.headers["Pragma"] = "no-cache"
+    response.headers["Expires"] = "0"
+    return response
 
 # --- Endpoints de tu API original (adaptados a Flask) ---
 

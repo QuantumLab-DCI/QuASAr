@@ -1,6 +1,8 @@
 # app/services/hqc_backends/cirq_adapter.py (Implementación Real con TFQ)
 from .base_backend import QuantumBackend
 import numpy as np
+import matplotlib.pyplot as plt  # <--- NUEVO: Para graficar la convergencia
+import os                        # <--- NUEVO: Para manejo de rutas
 
 # --- Dependencias de Cirq y TensorFlow Quantum ---
 try:
@@ -158,13 +160,48 @@ class CirqAdapter(QuantumBackend):
             # Calcular gradientes y actualizar parámetros (Backward pass)
             grads = tape.gradient(loss, params_var)
             optimizer.apply_gradients([(grads, params_var)])
-            losses.append(loss.numpy())
+            
+            # Guardar valor numérico para graficar
+            loss_val = loss.numpy()
+            losses.append(loss_val)
             
             if step % 10 == 0:
-                print(f"      Paso {step}: Energía = {loss.numpy():.4f}")
+                print(f"      Paso {step}: Energía = {loss_val:.4f}")
 
         costo_final = losses[-1]
         print(f"   ...Optimización completada. Energía mínima: {costo_final:.4f}")
+
+        # --- INICIO MODIFICACIÓN: GENERACIÓN DE EVIDENCIA VISUAL (GRÁFICA) ---
+        evidence_path = "No generado"
+        try:
+            # Configurar ruta de guardado
+            # Subimos niveles desde: app/services/hqc_backends/cirq_adapter.py
+            base_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../../data'))
+            if not os.path.exists(base_path):
+                os.makedirs(base_path, exist_ok=True)
+
+            img_filename = "cirq_convergence_evidence.png"
+            full_path = os.path.join(base_path, img_filename)
+
+            # Crear gráfico de convergencia
+            plt.figure(figsize=(10, 6))
+            plt.plot(losses, label='Energía del Sistema (Función de Costo)', color='blue', linewidth=2)
+            plt.title(f'Convergencia Híbrida {algoritmo} (Optimización Variacional en TFQ)')
+            plt.xlabel('Iteraciones (Bucle Clásico-Cuántico)')
+            plt.ylabel('Energía (Valor Esperado <H>)')
+            plt.grid(True, linestyle='--', alpha=0.7)
+            plt.legend()
+            
+            # Guardar y cerrar
+            plt.savefig(full_path)
+            plt.close()
+            
+            print(f"   ...[EVIDENCIA] Gráfico de convergencia guardado en: {full_path}")
+            evidence_path = f"/api/static/{img_filename}"
+            
+        except Exception as e:
+            print(f"   ...WARN: No se pudo generar gráfico de convergencia: {e}")
+        # --- FIN MODIFICACIÓN ---
 
         return {
             "backend": "Cirq/TensorFlow Quantum",
@@ -172,7 +209,8 @@ class CirqAdapter(QuantumBackend):
             "problema": f"Max-Cut {len(qubits)} nodos",
             "costo_optimo": float(costo_final),
             "parametros_optimos": params_var.numpy().tolist()[0],
-            "info": "Circuito ejecutado y optimizado mediante gradientes en TFQ."
+            "info": "Circuito ejecutado y optimizado mediante gradientes en TFQ.",
+            "evidencia_visual": evidence_path # <--- NUEVO CAMPO
         }
 
     def execute_job(self, algoritmo: str, params: dict) -> dict:
