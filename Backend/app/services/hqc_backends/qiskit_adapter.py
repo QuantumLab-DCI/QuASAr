@@ -1,10 +1,9 @@
 from .base_backend import QuantumBackend
 import numpy as np
-import matplotlib.pyplot as plt  # <--- NUEVO: Para graficar
-import os                        # <--- NUEVO: Para manejo de rutas
+import matplotlib.pyplot as plt
+import os
 
 # Mover los imports que fallan a un bloque 'try'
-# y mantener solo los imports seguros en el nivel superior.
 try:
     from qiskit_algorithms.utils import algorithm_globals
     QISKIT_BASE_DISPONIBLE = True
@@ -16,15 +15,12 @@ class QiskitAdapter(QuantumBackend):
     """
     Adaptador específico para Qiskit.
     Implementa la lógica real de optimización de rutas usando QAOA o VQE.
-    Los imports se realizan dentro de los métodos para permitir
-    que la app se inicie incluso si Qiskit no está instalado.
     """
 
     def __init__(self):
         if not QISKIT_BASE_DISPONIBLE:
             raise ImportError("Dependencias base de Qiskit no encontradas o incompatibles.")
         
-        # Mover los imports al constructor
         try:
             from qiskit_aer import AerSimulator
             self.aer_backend = AerSimulator()
@@ -34,111 +30,131 @@ class QiskitAdapter(QuantumBackend):
             print(f"HQC_ERROR: Fallo al inicializar el backend de Qiskit Aer. {e}")
             raise ImportError(f"Fallo en Qiskit Aer: {e}")
 
-    def _get_tsp_problem(self) -> ('TravelingSalesperson', int):
-        """Función auxiliar para crear el problema de TSP."""
-        # Importar aquí
-        from qiskit_optimization.problems import TravelingSalesperson
+    def _create_tsp_qubo(self, n, distance_matrix):
+        """
+        Crea manualmente el programa cuadrático (QUBO) para el TSP.
+        Esto reemplaza a la clase 'TravelingSalesperson' que fue eliminada.
+        """
+        from qiskit_optimization import QuadraticProgram
         
-        n_ciudades = 3
-        distancias = np.array([
-            [0, 10, 25],
-            [10, 0, 15],
-            [25, 15, 0]
-        ])
-        print(f"   ...Definiendo Problema TSP con {n_ciudades} nodos.")
-        tsp = TravelingSalesperson(distancias)
-        return tsp, n_ciudades
+        qp = QuadraticProgram()
+        
+        # Variables binarias x_ij: ciudad i en la posición j
+        # n ciudades, n pasos de tiempo -> n^2 variables
+        for i in range(n):
+            for j in range(n):
+                qp.binary_var(name=f'x_{i}_{j}')
+        
+        # Función Objetivo: Minimizar distancia total
+        # Sum_{i,j} dist(i,j) * Sum_{p} x_{i,p} * x_{j,p+1}
+        linear = {}
+        quadratic = {}
+        
+        for i in range(n):
+            for j in range(n):
+                if i != j:
+                    d = distance_matrix[i][j]
+                    for p in range(n):
+                        next_p = (p + 1) % n
+                        # Término cuadrático: x_{i,p} * x_{j,next_p}
+                        key = (f'x_{i}_{p}', f'x_{j}_{next_p}')
+                        quadratic[key] = d
 
-    def _solve_tsp(self, solver_instance, tsp_problem):
+        qp.minimize(linear=linear, quadratic=quadratic)
+        
+        # Restricciones (Penalty terms se agregan automáticamente al convertir a Ising,
+        # pero aquí definimos las restricciones lineales explícitas)
+        
+        # 1. Cada ciudad debe visitarse exactamente una vez
+        for i in range(n):
+            qp.linear_constraint(linear={f'x_{i}_{p}': 1 for p in range(n)}, sense='==', rhs=1, name=f'city_{i}')
+            
+        # 2. Cada posición de tiempo debe tener exactamente una ciudad
+        for p in range(n):
+            qp.linear_constraint(linear={f'x_{i}_{p}': 1 for i in range(n)}, sense='==', rhs=1, name=f'time_{p}')
+            
+        return qp
+
+    def _solve_tsp(self, solver_instance, qp, n_ciudades):
         """
-        Función genérica que resuelve un TSP usando el solver (QAOA o VQE)
-        que le pasen como argumento.
+        Función genérica que resuelve un TSP (formato QuadraticProgram) usando el solver.
         """
-        # Importar aquí
         from qiskit_optimization.algorithms import MinimumEigenOptimizer
         
-        qp = tsp_problem.to_quadratic_program()
-        print(f"   ...Problema mapeado a QuadraticProgram (QUBO).")
+        print(f"   ...Problema TSP mapeado a QuadraticProgram (QUBO) manualmente.")
 
         print("   ...[PRUEBA DE CÓMPUTO] Generando el circuito (Ansatz)...")
         operator, offset = qp.to_ising()
         
         ansatz = None
-        # Usamos nombres de clase como strings para evitar errores de import si las clases no están cargadas globalmente
         if solver_instance.__class__.__name__ == 'QAOA':
             ansatz = solver_instance.construct_circuit(operator)[0]
         elif solver_instance.__class__.__name__ == 'VQE':
             ansatz = solver_instance.ansatz
         
-        # --- INICIO MODIFICACIÓN: GENERACIÓN DE EVIDENCIA VISUAL ---
+        # --- GENERACIÓN DE EVIDENCIA VISUAL ---
         evidence_path = "No generado"
 
         if ansatz:
             try:
-                # 1. Definir la ruta de guardado (carpeta 'data' en la raíz del proyecto)
-                # Subimos niveles desde: app/services/hqc_backends/qiskit_adapter.py
                 base_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../../data'))
-                
-                # Asegurar que la carpeta exista
                 if not os.path.exists(base_path):
                     os.makedirs(base_path, exist_ok=True)
 
                 img_filename = "qiskit_circuit_evidence.png"
                 full_path = os.path.join(base_path, img_filename)
 
-                # 2. Dibujar el circuito usando Matplotlib
-                # Nota: Requiere 'pip install matplotlib pylatexenc'
                 print(f"   ...[EVIDENCIA] Generando imagen del circuito en: {full_path}")
+                # Usar 'mpl' style si está disponible, sino fallback
                 ansatz.draw(output='mpl', filename=full_path)
-                
-                # 3. Establecer la URL relativa para el frontend
                 evidence_path = f"/api/static/{img_filename}"
                 
-                # Opcional: Imprimir también en texto para el log de consola
-                print(ansatz.draw(output='text', fold=-1))
-                print("\n   ...[PRUEBA DE CÓMPUTO] Fin del circuito.")
-
             except Exception as e:
-                print(f"   ...WARN: No se pudo generar imagen del circuito (falta matplotlib/pylatexenc?): {e}")
-                # Fallback: Solo texto en consola si falla la imagen
-                try:
-                    print(ansatz.draw(output='text', fold=-1))
-                except:
-                    pass
+                print(f"   ...WARN: No se pudo generar imagen del circuito: {e}")
         else:
             print("   ...No se pudo extraer el circuito (ansatz) del solver.")
-        # --- FIN MODIFICACIÓN ---
+        # --- FIN EVIDENCIA ---
 
         optimizer = MinimumEigenOptimizer(solver_instance)
 
         print(f"   ...Ejecutando {solver_instance.__class__.__name__} en simulador Aer...")
         result = optimizer.solve(qp)
         
-        ruta_optima = tsp_problem.interpret(result)
+        # Interpretación simple del resultado (x_i_p = 1)
+        # Como lo hicimos manual, parseamos las variables activas
+        ruta_raw = [v.name for v in result.variables if v.as_tuple()[1] > 0.9]
         
         return {
             "backend": "Qiskit",
             "algoritmo": solver_instance.__class__.__name__,
-            "problema": f"TSP de {tsp_problem.dim} nodos",
-            "ruta_optima": ruta_optima,
-            "distancia_optima": tsp_problem.get_optimal_cost(),
-            "evidencia_visual": evidence_path  # <--- NUEVO CAMPO EN LA RESPUESTA
+            "problema": f"TSP de {n_ciudades} nodos (QUBO Manual)",
+            "variables_activas": ruta_raw,
+            "costo_optimo": result.fval,
+            "evidencia_visual": evidence_path
         }
 
     def execute_job(self, algoritmo: str, params: dict) -> dict:
         print(f"⚛️  QiskitAdapter: Ejecutando trabajo (Algoritmo: {algoritmo.upper()}).")
         
-        # Importar aquí
         try:
             from qiskit_algorithms import QAOA, VQE
             from qiskit_algorithms.optimizers import SLSQP
             from qiskit.circuit.library import TwoLocal
         except ImportError as e:
-            msg = f"Faltan dependencias de Qiskit (QAOA/VQE) o son incompatibles: {e}"
+            msg = f"Faltan dependencias de Qiskit: {e}"
             print(f"   ...ERROR: {msg}")
             return {"error": msg}
 
-        tsp_problem, num_nodos = self._get_tsp_problem()
+        # Definir problema (3 ciudades)
+        n_ciudades = 3
+        distancias = np.array([
+            [0, 10, 25],
+            [10, 0, 15],
+            [25, 15, 0]
+        ])
+        
+        # Crear QUBO manualmente
+        qp = self._create_tsp_qubo(n_ciudades, distancias)
         
         solver = None
         if "QAOA" in algoritmo.upper():
@@ -147,9 +163,9 @@ class QiskitAdapter(QuantumBackend):
             
         elif "VQE" in algoritmo.upper():
             print("   ...Instanciando solver VQE...")
-            # VQE necesita una "forma variacional" (el circuito/ansatz)
-            num_qubits_qubo = num_nodos * num_nodos
-            ansatz = TwoLocal(num_qubits_qubo, 'ry', 'cz', reps=1)
+            # Num qubits = n^2 para TSP con encoding One-Hot
+            num_qubits = n_ciudades * n_ciudades 
+            ansatz = TwoLocal(num_qubits, 'ry', 'cz', reps=1)
             solver = VQE(optimizer=SLSQP(), ansatz=ansatz, quantum_instance=self.aer_backend)
             
         else:
@@ -157,4 +173,4 @@ class QiskitAdapter(QuantumBackend):
             print(f"   ...ERROR: {msg}")
             return {"error": msg}
 
-        return self._solve_tsp(solver, tsp_problem)
+        return self._solve_tsp(solver, qp, n_ciudades)
