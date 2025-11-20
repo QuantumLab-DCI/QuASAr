@@ -1,5 +1,6 @@
 import os
-from flask import jsonify, send_from_directory
+import json
+from flask import jsonify, send_from_directory, request # <--- Importar request y json
 
 # --- INICIO DE MODIFICACIÓN ---
 # Importamos el objeto 'app' global y la ruta
@@ -42,8 +43,6 @@ def get_estado_general():
     data_dir = os.path.join(app_path, 'data')
 
     # Prioridad de visualización
-    evidencia_cuantica = None
-    
     if os.path.exists(os.path.join(data_dir, "qiskit_circuit_evidence.png")):
         evidencia_cuantica = qiskit_evidence
     # Priorizamos el circuito PNG de Cirq si existe
@@ -55,11 +54,47 @@ def get_estado_general():
 
     return jsonify({
         "contexto": app_globals.regla_global,
+        "escenario_actual_id": app_globals.escenario_activo_id, # <--- Informamos al frontend qué escenario corre
         # --- FIN DE MODIFICACIÓN ---
         "imagen_estado_url": "/api/static/estado_actual.png", 
         "imagen_modelo_url": "/api/static/modelo_caracteristicas.png",
-        "evidencia_cuantica_url": evidencia_cuantica # <--- NUEVO CAMPO PARA EL FRONTEND
+        "evidencia_cuantica_url": evidencia_cuantica
     })
+
+# --- NUEVOS ENDPOINTS PARA INTERACTIVIDAD ---
+
+@app.route("/api/escenarios", methods=['GET'])
+def get_escenarios():
+    """ Devuelve la lista de escenarios disponibles desde el JSON. """
+    try:
+        json_path = os.path.join(app_path, 'data', 'scenarios.json')
+        # Verificar si existe
+        if not os.path.exists(json_path):
+            return jsonify([]) # Retornar lista vacía si no hay archivo
+            
+        with open(json_path, 'r', encoding='utf-8') as f:
+            scenarios = json.load(f)
+        return jsonify(scenarios)
+    except Exception as e:
+        return jsonify({"error": f"No se pudo cargar scenarios.json: {e}"}), 500
+
+@app.route("/api/seleccionar_escenario", methods=['POST'])
+def set_escenario():
+    """ Permite al usuario elegir qué escenario ejecutar. """
+    data = request.json
+    nuevo_id = data.get('id')
+    
+    if nuevo_id is not None:
+        try:
+            app_globals.escenario_activo_id = int(nuevo_id)
+            print(f"🕹️ INTERACCIÓN: Usuario seleccionó Escenario ID {nuevo_id}")
+            return jsonify({"status": "ok", "mensaje": f"Cambiando a escenario {nuevo_id}...", "id": nuevo_id})
+        except ValueError:
+            return jsonify({"error": "ID debe ser un número"}), 400
+    else:
+        return jsonify({"error": "Falta el ID"}), 400
+
+# --- Endpoints de soporte y legacy ---
 
 @app.route("/api/logs")
 def get_logs():

@@ -15,7 +15,7 @@ def setup_background_tasks(mc):
     """
     Inicia el bucle MAPE-K en un hilo de fondo.
     """
-    print("Iniciando bucle de adaptación periódica (cada 120s)...")
+    print("Iniciando bucle de adaptación periódica (cada 10s)...")
     mapek_thread = threading.Thread(target=periodic_task_sync, args=(mc,), daemon=True)
     mapek_thread.start()
 
@@ -26,12 +26,12 @@ def periodic_task_sync(mc):
     
     while True:
         print("\n" + "="*50)
-        print(f"INICIANDO NUEVO CICLO DE ADAPTACIÓN (espera de 120s)")
+        print(f"INICIANDO NUEVO CICLO DE ADAPTACIÓN")
         
         # 1. Instanciar Mapek
         mapek = Mapek()
         
-        # 2. Llamar a monitoreo (que dispara el ciclo completo)
+        # 2. Llamar a monitoreo (que ahora lee el escenario seleccionado)
         mapek.monitoreo(mc)
         
         # --- INICIO DE MODIFICACIÓN ---
@@ -47,8 +47,7 @@ def periodic_task_sync(mc):
         else:
             print("Ciclo omitido (posiblemente error del LLM).")
 
-        print(f"CICLO COMPLETO. Durmiendo por 120 segundos...")
+        # 5. Esperar solo 10 segundos para demos interactivas
+        print(f"CICLO COMPLETO. Durmiendo por 10 segundos...")
         print("="*50 + "\n")
-        
-        # 5. Esperar 2 minutos
-        time.sleep(120)
+        time.sleep(10)

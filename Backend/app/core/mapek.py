@@ -1,16 +1,18 @@
-# app/core/mapek.py
-
-import random
+# app/core/mapek.py (Versión Interactiva Controlada por Usuario)
+import json
 import docker
 import datetime
 import os
+import time
 
-# --- IMPORTS ---
+# Importamos el módulo 'app' para leer la variable global de selección
+import app as app_globals 
+
+# Imports del sistema
 from . import punto_variacion
 from app.services import agente_llm
 from app.services import hqc_module
-from app import app_path
-
+from app import app_path 
 
 class Mapek:
     def __init__(self):
@@ -18,9 +20,19 @@ class Mapek:
         self._reglaAdaptacion_ICA = None 
         self._reglaAdaptacion_CP = None
         self._reglaAdaptacion_SLA = None
+        
+        # Cargar escenarios en memoria al iniciar
+        self.scenarios = []
+        try:
+            json_path = os.path.join(app_path, 'data', 'scenarios.json')
+            if os.path.exists(json_path):
+                with open(json_path, 'r', encoding='utf-8') as f:
+                    self.scenarios = json.load(f)
+                print(f"✅ MAPE-K: Cargados {len(self.scenarios)} escenarios para modo interactivo.")
+        except Exception as e:
+            print(f"⚠️ MAPE-K: Error cargando scenarios.json: {e}")
 
     def _find_features_in_json(self, data: dict) -> dict:
-        """ Recorre un JSON y extrae claves con valores booleanos. """
         features = {}
         if isinstance(data, dict):
             for k, v in data.items():
@@ -32,10 +44,9 @@ class Mapek:
         return features
 
     def _validar_configuracion(self, config_dict: dict, mc) -> bool:
-        """ Valida que la configuración respete las reglas del Feature Model. """
         print("VALIDATE: Verificando la configuración del LLM...")
         
-        # 1. Validar 'Requiere'
+        # Validar 'Requiere'
         reglas_requiere = []
         for c in mc.caracteristicas:
             for rel in c.getRelaciones:
@@ -49,7 +60,7 @@ class Mapek:
                 print(f"VALIDATE_ERROR: Regla 'Requiere' violada. '{quien_requiere}' activo sin '{quien_es_requerido}'.")
                 return False
 
-        # 2. Validar Jerarquía (Padre-Hijo, XOR, OR, Obligatoria)
+        # Validar Jerarquía
         for c in mc.caracteristicas:
             nombre_padre = c.getNombre.replace(" ", "_").lower()
             
@@ -57,7 +68,6 @@ class Mapek:
                 hijos_xor = [r[0].replace(" ", "_").lower() for r in c.getRelaciones if r[1] == "XOR"]
                 hijos_or = [r[0].replace(" ", "_").lower() for r in c.getRelaciones if r[1] == "OR"]
 
-                # Obligatoria
                 for rel in c.getRelaciones:
                     if rel[1] == "Obligatoria":
                         hijo_key = rel[0].replace(" ", "_").lower()
@@ -65,14 +75,12 @@ class Mapek:
                             print(f"VALIDATE_ERROR: Regla 'Obligatoria' violada en '{nombre_padre}'.")
                             return False
                 
-                # XOR
                 if hijos_xor:
                     activos_xor = sum(1 for h in hijos_xor if config_dict.get(h) == True)
                     if activos_xor != 1:
                         print(f"VALIDATE_ERROR: Regla 'XOR' violada en '{nombre_padre}'. Activos: {activos_xor}")
                         return False
                 
-                # OR
                 if hijos_or:
                     activos_or = sum(1 for h in hijos_or if config_dict.get(h) == True)
                     if activos_or == 0:
@@ -84,49 +92,70 @@ class Mapek:
                     if rel[1] != "Requiere":
                         hijo_key = rel[0].replace(" ", "_").lower()
                         if config_dict.get(hijo_key) == True:
-                            print(f"VALIDATE_ERROR: Jerarquía violada. Padre '{nombre_padre}' inactivo, hijo '{hijo_key}' activo.")
+                            print(f"VALIDATE_ERROR: Jerarquía violada. Padre '{nombre_padre}' inactivo.")
                             return False
 
         print("VALIDATE: Configuración del LLM es VÁLIDA.")
         return True
 
     def monitoreo(self, mc):
-        """ Paso 1: MONITOREAR """
-        ica_simulado = random.choice([50, 150, 250])
-        cp_simulado = random.choice([10, 350])
-        prioridad_negocio = random.choice(["RAPIDEZ", "PRECISION"])
-
-        print(f"\n🔎 MONITOR: Contexto Detectado")
-        print(f"   - Calidad Aire (ICA): {ica_simulado}")
-        print(f"   - Complejidad (CP):   {cp_simulado}")
-        print(f"   - Prioridad SLA:      {prioridad_negocio}")
+        """ Paso 1: MONITOREAR (Controlado por Usuario) """
         
-        self._reglaAdaptacion_ICA = ica_simulado
-        self._reglaAdaptacion_CP = cp_simulado
-        self._reglaAdaptacion_SLA = prioridad_negocio
+        # 1. Leer qué escenario quiere el usuario desde la variable global
+        # Esta variable se actualiza vía API POST /api/seleccionar_escenario
+        target_id = app_globals.escenario_activo_id
         
-        self.analizar(mc, ica_simulado, cp_simulado, prioridad_negocio)
+        # 2. Buscar ese escenario en la lista cargada
+        escenario_actual = next((s for s in self.scenarios if s['id'] == target_id), None)
 
-    def analizar(self, mc, ica, complejidad_problema, prioridad):
+        if escenario_actual:
+            print(f"\n🕹️ [INTERACTIVO] Ejecutando Escenario ID {target_id}: {escenario_actual['nombre']}")
+            
+            ica = escenario_actual['ica']
+            cp = escenario_actual['cp']
+            prioridad = escenario_actual['sla']
+            # Detectar si el escenario requiere forzar cola en Qiskit
+            cola_simulada_qiskit = escenario_actual.get('qiskit_cola', 5)
+            
+        else:
+            # Fallback (si no hay JSON o el ID no existe)
+            print(f"⚠️ Escenario ID {target_id} no encontrado. Usando valores por defecto (Base).")
+            ica = 50; cp = 10; prioridad = "RAPIDEZ"; cola_simulada_qiskit = 5
+
+        print(f"🔎 MONITOR: Contexto Detectado -> ICA:{ica} | CP:{cp} | SLA:{prioridad}")
+        
+        self._reglaAdaptacion_ICA = ica
+        self._reglaAdaptacion_CP = cp
+        self._reglaAdaptacion_SLA = prioridad
+        
+        self.analizar(mc, ica, cp, prioridad, cola_simulada_qiskit)
+
+    def analizar(self, mc, ica, complejidad_problema, prioridad, cola_forzada=None):
         """ Paso 2: ANALIZAR """
-        print(f"🧠 ANALYZE: Razonando configuración óptima con prioridad {prioridad}...")
+        print(f"🧠 ANALYZE: Consultando al LLM con el contexto seleccionado...")
         
         reglas_del_modelo = mc.exportar_reglas_texto()
         metricas_nisq = hqc_module.monitor_backends()
         
+        # INYECCIÓN DE ESTADO PARA DEMO (Ej. Simular cola saturada en Escenario 4)
+        if cola_forzada is not None:
+            metricas_nisq["Qiskit Simulator"]["queue_time_sec"] = cola_forzada
+            if cola_forzada > 60:
+                 print(f"   ⚠️ [DEMO] Inyectando congestión simulada en Qiskit: {cola_forzada}s")
+
         contexto_actual = f"""
-        DATOS DEL ENTORNO:
+        DATOS DEL ENTORNO (Simulación Interactiva - Escenario {app_globals.escenario_activo_id}):
         1. Calidad del Aire (ICA) = {ica}. 
-           (Regla: Si ICA > 100, priorizar ambientes cerrados).
+           (Regla: Si ICA > 100, priorizar 'Ambientes cerrados' y prohibir 'Deportes').
         
         2. Complejidad del Problema (CP) = {complejidad_problema}. 
-           (Regla: Si CP > 300, 'Optimizacion de rutas' DEBE activarse y usar 'HQC'. Si CP es menor, 'HQC' debe estar inactivo).
+           (Regla: Si CP > 100, activar 'HQC' y 'Optimizacion de rutas'. Si CP <= 100, 'HQC' inactivo).
 
-        3. Prioridad (SLA) = {prioridad}.
-           - RAPIDEZ: Elegir backend con MENOR cola.
-           - PRECISION: Elegir backend con MENOR error.
+        3. Prioridad de Negocio (SLA) = {prioridad}.
+           - RAPIDEZ: Elige backend con MENOR cola.
+           - PRECISION: Elige backend más robusto (Qiskit), salvo que la cola sea extrema (>60s).
 
-        4. Estado Backends:
+        4. Estado Infraestructura Cuántica:
            {metricas_nisq} 
         """
         
@@ -137,14 +166,13 @@ class Mapek:
             return 
 
         config_plana = self._find_features_in_json(config_dict_llm)
-        print(f"ANALYZE: Configuración plana: {config_plana}")
-
+        
         # Validación
         config_plana_con_raiz = config_plana.copy()
         config_plana_con_raiz['gestor_aire'] = True 
         
         if not self._validar_configuracion(config_plana_con_raiz, mc):
-            print("ANALYZE_ERROR: Configuración INVÁLIDA.")
+            print("ANALYZE_ERROR: Configuración INVÁLIDA rechazada por el sistema.")
             return
 
         configuracion_final = []
@@ -157,35 +185,35 @@ class Mapek:
             estado = "activada" if value else "desactivada"
             configuracion_final.append(f"{nombre_formal} {estado}")
 
-        print(f"ANALYZE: Configuración final aceptada: {configuracion_final}")
+        print(f"ANALYZE: Configuración decidida: {config_plana}")
         
         self.conocimiento(configuracion_final, mc, ica, complejidad_problema)
         self.planificar()
 
     def planificar(self):
         """ Paso 3: PLANIFICAR """
-        if self._puntoVariacion is None:
-            print("PLAN: No hay Punto de Variación válido.")
-            return
-
-        contenedores = self._puntoVariacion.obtenerConfiguracion()
-        print(f"PLAN: Plan Docker listo: {contenedores}")
-        self.ejecutar(contenedores)
+        if self._puntoVariacion:
+            print(f"PLAN: Plan de despliegue generado.")
+            self.ejecutar(self._puntoVariacion.obtenerConfiguracion())
 
     def ejecutar(self, contenedores):
-        """ Paso 4: EJECUTAR (Con Adaptación de Carga de Trabajo Cuántica) """
+        """ Paso 4: EJECUTAR (Con Adaptación de Carga y Protección) """
         
-        if contenedores is None:
-            print("EXECUTE: Plan vacío.")
-            return
+        if not contenedores: return
 
         client = docker.from_env()
-        print("EXECUTE: Reconfigurando Docker...")
+        print("EXECUTE: Aplicando cambios en infraestructura...")
         
         log_path = os.path.join(app_path, "data", "cambios.log")
         with open(log_path, "a", encoding="utf-8") as log_file:
             timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             log_file.write(f"\n--- RECONFIGURACIÓN {timestamp} ---\n")
+            
+            # Registrar nombre del escenario en el log
+            escenario_actual = next((s for s in self.scenarios if s['id'] == app_globals.escenario_activo_id), None)
+            nombre_escenario = escenario_actual['nombre'] if escenario_actual else f"ID {app_globals.escenario_activo_id}"
+            
+            log_file.write(f"Escenario Activo: {nombre_escenario}\n")
             log_file.write(f"Contexto: ICA={self._reglaAdaptacion_ICA}, CP={self._reglaAdaptacion_CP}, SLA={self._reglaAdaptacion_SLA}\n")
             
             try:
@@ -210,7 +238,7 @@ class Mapek:
         
         # --- EJECUCIÓN CUÁNTICA ADAPTATIVA ---
         if contenedores.get("hqc") == True:
-            print("EXECUTE: HQC activo. Analizando parámetros de trabajo...")
+            print("EXECUTE: HQC activo. Orquestando carga de trabajo cuántica...")
             
             algoritmo_qaoa_activo = contenedores.get("qaoa") == True
             algoritmo_vqe_activo = contenedores.get("vqe") == True
@@ -221,46 +249,44 @@ class Mapek:
                     algoritmo = "QAOA" if algoritmo_qaoa_activo else "VQE"
                     backend_nombre = backend_key.replace("_", " ").title()
 
-                    # --- NUEVA LÓGICA: Mapeo de Complejidad (CP) a Configuración Cuántica ---
+                    # --- WORKLOAD ADAPTATION (Protección de Recursos) ---
                     cp = self._reglaAdaptacion_CP
                     
-                    # Definir Tamaño del Problema (Qubits/Ciudades)
-                    # AJUSTE DE SEGURIDAD: Limitamos a máximo 4 ciudades (16 qubits)
-                    # para evitar crash por falta de RAM con 5 ciudades (25 qubits).
-                    
+                    # Lógica de seguridad para la Demo:
+                    # CP < 100 -> 3 Ciudades (9 qubits)
+                    # CP >= 100 -> 4 Ciudades (16 qubits) [Tope máximo para no crashear]
                     if cp < 100:
-                        problem_size = 3  # 9 Qubits (Rápido)
+                        problem_size = 3
                     else:
-                        # Para cualquier CP medio/alto, usamos 4 ciudades.
-                        # 16 Qubits es suficiente para demostrar alta carga sin colapsar Docker.
                         problem_size = 4 
 
-                    # Definir Profundidad del Circuito (Capas/Reps)
-                    # Mantenemos la profundidad dinámica, eso impacta CPU pero menos memoria
+                    # Profundidad dinámica
                     circuit_depth = 1
                     if cp > 200:
                         circuit_depth = 2
                     
-                    print(f"   >>> WORKLOAD ADAPTATION (SAFE): CP={cp} -> Tamaño={problem_size}, Profundidad={circuit_depth}")
+                    print(f"   >>> ADAPTACIÓN DE CARGA: CP={cp} detectado.")
+                    print(f"   >>> ESTRATEGIA: Escalar a {problem_size} ciudades, Profundidad {circuit_depth}.")
 
                     # Instanciar adaptador
                     backend_adapter = hqc_module.get_backend_adapter(backend_nombre)
 
                     if backend_adapter:
-                        # Pasamos los parámetros dinámicos
+                        # Pasamos ID único para evitar caché si el usuario repite el mismo escenario
+                        unique_id = f"{app_globals.escenario_activo_id}_{int(time.time())}"
                         params = {
-                            "problema_id": f"job_auto_{cp}",
+                            "problema_id": unique_id,
                             "complejidad_cp": cp,
-                            "size": problem_size,    # Nro de Ciudades o Nodos
-                            "depth": circuit_depth   # Repeticiones del ansatz
+                            "size": problem_size,    
+                            "depth": circuit_depth   
                         }
                         
-                        print(f"EXECUTE: Enviando trabajo a {backend_nombre} ({algoritmo})...")
+                        print(f"EXECUTE: Enviando trabajo a {backend_nombre}...")
                         resultado = backend_adapter.execute_job(algoritmo=algoritmo, params=params)
                         
-                        print(f"EXECUTE: Resultado: {resultado}")
+                        print(f"EXECUTE: Trabajo finalizado. Costo: {resultado.get('costo_optimo')}")
                         with open(log_path, "a", encoding="utf-8") as log_file:
-                             log_file.write(f"[⚛️] Job HQC ({algoritmo} en {backend_nombre}): Tamaño={problem_size}, Depth={circuit_depth}\n")
+                             log_file.write(f"[⚛️] Job HQC ({algoritmo} en {backend_nombre}): N={problem_size}, Depth={circuit_depth}, Costo={resultado.get('costo_optimo')}\n")
                     else:
                         print(f"EXECUTE_ERROR: Sin adaptador para {backend_nombre}")
 
@@ -271,11 +297,11 @@ class Mapek:
             else:
                 print("EXECUTE: HQC activo pero sin algoritmo seleccionado.")
         else:
-            print("EXECUTE: HQC inactivo.")
+            print("EXECUTE: HQC inactivo (Ahorro de energía).")
 
     def conocimiento(self, configuracion, mc, ica, complejidad_problema):
         """ Paso 5: CONOCIMIENTO """
-        print("KNOWLEDGE: Actualizando Punto de Variación.")
+        print("KNOWLEDGE: Actualizando base de conocimiento y estado global.")
         self._puntoVariacion = punto_variacion.PuntoVariacion(configuracion, mc, "gestor_aire")
 
     def getConocimiento(self):

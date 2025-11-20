@@ -12,6 +12,11 @@ mc_global = None
 pv_global = None
 regla_global = None
 
+# --- NUEVO: ID del Escenario Seleccionado por el Usuario ---
+# Por defecto iniciamos en el Escenario 1 (Base) para que el sistema no parta vacío.
+# Esta variable será modificada desde routes.py y leída desde mapek.py
+escenario_activo_id = 1 
+
 # --- Objeto App Global ---
 # Definido globalmente para que 'routes.py' pueda importarlo
 app = Flask(__name__)

@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "nombre": "Escenario 1: Mañana Tranquila (Línea Base)",
+    "descripcion": "Aire limpio y baja demanda. El sistema prioriza turismo al aire libre y ahorra recursos (HQC apagado).",
+    "ica": 50,
+    "cp": 10,
+    "sla": "RAPIDEZ",
+    "qiskit_cola": 5
+  },
+  {
+    "id": 2,
+    "nombre": "Escenario 2: Preemergencia Ambiental (Dominio)",
+    "descripcion": "Contaminación alta. El sistema bloquea deportes y sugiere ambientes cerrados por salud.",
+    "ica": 180,
+    "cp": 50,
+    "sla": "RAPIDEZ",
+    "qiskit_cola": 5
+  },
+  {
+    "id": 3,
+    "nombre": "Escenario 3: Turista Exigente (HQC Precisión)",
+    "descripcion": "Problema complejo. Usuario pide PRECISIÓN. Se activa Qiskit (limitado a 4 ciudades).",
+    "ica": 120,
+    "cp": 350,
+    "sla": "PRECISION",
+    "qiskit_cola": 10
+  },
+  {
+    "id": 4,
+    "nombre": "Escenario 4: Hora Punta (HQC Rapidez)",
+    "descripcion": "Problema complejo pero usuario tiene prisa. Nube saturada. Se cambia a Cirq (Local/Edge).",
+    "ica": 100,
+    "cp": 150,
+    "sla": "RAPIDEZ",
+    "qiskit_cola": 120
+  }
+]
