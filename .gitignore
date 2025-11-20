@@ -1,5 +1,5 @@
 .gitignore
-Frontend/node_modules
+Frontend/node_modules/* 
 Backend/.env
 venv/*
 data/*
