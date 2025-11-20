@@ -30,16 +30,28 @@ def get_estado_general():
     
     evidencia_cuantica = None
     
-    # Verificar si existen archivos de evidencia recientes
+    # Rutas esperadas
     qiskit_evidence = "/api/static/qiskit_circuit_evidence.png"
-    cirq_evidence = "/api/static/cirq_convergence_evidence.png"
     
-    # Lógica simple: Si el archivo existe en disco, lo mandamos como disponible
+    # CAMBIO: Ahora buscamos el PNG del circuito de Cirq (generado con Matplotlib)
+    cirq_circuit_png = "/api/static/cirq_circuit_evidence.png"
+    
+    # (Opcional) Mantener soporte para la gráfica antigua de convergencia si existe
+    cirq_convergence_png = "/api/static/cirq_convergence_evidence.png"
+    
     data_dir = os.path.join(app_path, 'data')
+
+    # Prioridad de visualización
+    evidencia_cuantica = None
+    
     if os.path.exists(os.path.join(data_dir, "qiskit_circuit_evidence.png")):
         evidencia_cuantica = qiskit_evidence
+    # Priorizamos el circuito PNG de Cirq si existe
+    elif os.path.exists(os.path.join(data_dir, "cirq_circuit_evidence.png")):
+        evidencia_cuantica = cirq_circuit_png
+    # Fallback a la gráfica de convergencia antigua
     elif os.path.exists(os.path.join(data_dir, "cirq_convergence_evidence.png")):
-        evidencia_cuantica = cirq_evidence
+        evidencia_cuantica = cirq_convergence_png
 
     return jsonify({
         "contexto": app_globals.regla_global,

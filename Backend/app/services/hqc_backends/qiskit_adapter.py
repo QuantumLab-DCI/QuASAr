@@ -1,4 +1,4 @@
-# app/services/hqc_backends/qiskit_adapter.py (Versión Corregida para Qiskit Aer 0.15+ / Primitivas V2)
+# app/services/hqc_backends/qiskit_adapter.py (Ruta Corregida: Backend/data)
 from .base_backend import QuantumBackend
 import numpy as np
 import matplotlib.pyplot as plt
@@ -24,21 +24,17 @@ class QiskitAdapter(QuantumBackend):
             raise ImportError("Dependencias base de Qiskit no encontradas o incompatibles.")
         
         try:
-            # --- CORRECCIÓN CRÍTICA: Usar Primitivas V2 ---
-            # Qiskit Algorithms moderno espera la interfaz V2 (Pubs)
+            # Primitivas V2
             from qiskit_aer.primitives import SamplerV2, EstimatorV2
             
-            # Instanciamos las primitivas V2
             self.sampler = SamplerV2() 
             self.estimator = EstimatorV2()
             
-            # Configuración de semilla (para V2 se maneja distinto, pero mantenemos esto para utils)
             algorithm_globals.random_seed = 123
             print("   ...Adaptador Qiskit inicializado (con Primitivas Aer V2).")
             
         except ImportError:
-            # Fallback si el usuario tiene una versión muy antigua de Aer (aunque el log dice que tiene la 0.15)
-            print("   ...WARN: Primitivas V2 no encontradas. Intentando con V1 (puede fallar)...")
+            print("   ...WARN: Primitivas V2 no encontradas. Intentando con V1...")
             from qiskit_aer.primitives import Sampler, Estimator
             self.sampler = Sampler()
             self.estimator = Estimator()
@@ -46,19 +42,15 @@ class QiskitAdapter(QuantumBackend):
             raise ImportError(f"Fallo crítico al inicializar Qiskit Aer: {e}")
 
     def _create_tsp_qubo(self, n, distance_matrix):
-        """
-        Crea manualmente el programa cuadrático (QUBO) para el TSP.
-        """
+        """ Crea manualmente el programa cuadrático (QUBO) para el TSP. """
         from qiskit_optimization import QuadraticProgram
         
         qp = QuadraticProgram()
         
-        # Variables binarias x_ij: ciudad i en la posición j
         for i in range(n):
             for j in range(n):
                 qp.binary_var(name=f'x_{i}_{j}')
         
-        # Función Objetivo: Minimizar distancia total
         linear = {}
         quadratic = {}
         
@@ -84,13 +76,12 @@ class QiskitAdapter(QuantumBackend):
     def _solve_tsp(self, solver_instance, qp, n_ciudades):
         """
         Función genérica que resuelve un TSP.
-        CORREGIDA: Usa SamplingVQE (con Sampler) en lugar de VQE (con Estimator) para obtener bitstrings.
+        CORREGIDA: Ruta de evidencia apunta a Backend/data (../../../data).
         """
         from qiskit_optimization.algorithms import MinimumEigenOptimizer
         from qiskit_optimization.converters import QuadraticProgramToQubo 
         from qiskit.circuit.library import QAOAAnsatz
         from qiskit import transpile
-        # [CAMBIO CRÍTICO] Importamos SamplingVQE
         from qiskit_algorithms import SamplingVQE 
         
         print(f"   ...Problema TSP mapeado a QuadraticProgram (Constraints explícitos).")
@@ -111,17 +102,13 @@ class QiskitAdapter(QuantumBackend):
             print("   ...[QAOA BUILDER] Construyendo circuito QAOAAnsatz explícito...")
             reps = solver_instance["reps"]
             
-            # Construir Ansatz
             raw_ansatz = QAOAAnsatz(cost_operator=operator, reps=reps, name="QAOA")
             
-            # Transpilar para Aer
             print("      -> Transpilando circuito (resolviendo PauliEvolution)...")
             ansatz = transpile(raw_ansatz, basis_gates=['rx', 'ry', 'rz', 'cx', 'h'])
 
-            # [CAMBIO CRÍTICO] Usamos SamplingVQE con el Sampler
-            # SamplingVQE es necesario para que MinimumEigenOptimizer pueda leer la solución (bitstrings)
             real_solver = SamplingVQE(
-                sampler=self.sampler, # Usamos el SamplerV2
+                sampler=self.sampler,
                 optimizer=solver_instance["optimizer"],
                 ansatz=ansatz
             )
@@ -136,7 +123,9 @@ class QiskitAdapter(QuantumBackend):
                 ansatz_to_draw = real_solver.ansatz
             
             if ansatz_to_draw:
-                base_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../../data'))
+                # CORRECCIÓN DE RUTA: 3 niveles arriba (app/services/hqc_backends -> app/services -> app -> Backend)
+                base_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../data'))
+                
                 if not os.path.exists(base_path):
                     os.makedirs(base_path, exist_ok=True)
 
@@ -157,10 +146,8 @@ class QiskitAdapter(QuantumBackend):
         optimizer = MinimumEigenOptimizer(real_solver)
         print(f"   ...Ejecutando optimización (Sampling)...")
         
-        # Resolvemos el QUBO
         result = optimizer.solve(qubo)
         
-        # Parseo de resultado
         ruta_raw = [v.name for v in result.variables if v.as_tuple()[1] > 0.9]
         
         return {
@@ -176,7 +163,7 @@ class QiskitAdapter(QuantumBackend):
         print(f"⚛️  QiskitAdapter: Ejecutando Job Adaptativo ({algoritmo.upper()}).")
         
         try:
-            from qiskit_algorithms import VQE
+            from qiskit_algorithms import SamplingVQE
             from qiskit_algorithms.optimizers import SLSQP
             from qiskit.circuit.library import TwoLocal
         except ImportError as e:
@@ -184,14 +171,12 @@ class QiskitAdapter(QuantumBackend):
             print(f"   ...ERROR: {msg}")
             return {"error": msg}
 
-        # 1. Extraer parámetros dinámicos
         n_ciudades = params.get("size", 3)
         depth = params.get("depth", 1)
         seed_cp = params.get("complejidad_cp", 123)
 
         print(f"   ...Configuración Dinámica: TSP {n_ciudades} ciudades, Profundidad {depth}.")
 
-        # 2. Generar problema
         np.random.seed(seed_cp)
         distancias = np.random.randint(1, 100, size=(n_ciudades, n_ciudades))
         np.fill_diagonal(distancias, 0)
@@ -205,7 +190,7 @@ class QiskitAdapter(QuantumBackend):
             solver = {
                 "type": "QAOA",
                 "reps": depth,
-                "sampler": self.sampler, # Pasamos sampler V2 (aunque usamos estimator en _solve_tsp)
+                "sampler": self.sampler,
                 "optimizer": SLSQP()
             }
             
@@ -213,7 +198,8 @@ class QiskitAdapter(QuantumBackend):
             print(f"   ...Configurando VQE (reps={depth})...")
             num_qubits = n_ciudades * n_ciudades 
             ansatz = TwoLocal(num_qubits, 'ry', 'cz', reps=depth, entanglement='linear')
-            solver = VQE(estimator=self.estimator, optimizer=SLSQP(), ansatz=ansatz)
+            # Usamos SamplingVQE también para VQE estándar para mantener consistencia
+            solver = SamplingVQE(sampler=self.sampler, optimizer=SLSQP(), ansatz=ansatz)
             
         else:
             msg = f"Algoritmo {algoritmo} no soportado en QiskitAdapter."

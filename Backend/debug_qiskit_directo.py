@@ -28,8 +28,8 @@ def test_qiskit_force():
     params_simulados = {
         "problema_id": "debug_manual_001",
         "complejidad_cp": 100, # Complejidad media
-        "size": 4,             # <--- CAMBIO: 3 Ciudades (9 Qubits = Muy rápido)
-        "depth": 2             # <--- CAMBIO: Profundidad 1 (Circuito más corto)
+        "size": 3,             # <--- CAMBIO: 3 Ciudades (9 Qubits = Muy rápido)
+        "depth": 1             # <--- CAMBIO: Profundidad 1 (Circuito más corto)
     }
     
     algoritmo = "QAOA"
