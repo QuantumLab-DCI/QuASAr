@@ -1,14 +1,10 @@
-# app/core/mapek.py (Versión Interactiva Controlada por Usuario)
 import json
 import docker
 import datetime
 import os
 import time
 
-# Importamos el módulo 'app' para leer la variable global de selección
 import app as app_globals 
-
-# Imports del sistema
 from . import punto_variacion
 from app.services import agente_llm
 from app.services import hqc_module
@@ -21,7 +17,6 @@ class Mapek:
         self._reglaAdaptacion_CP = None
         self._reglaAdaptacion_SLA = None
         
-        # Cargar escenarios en memoria al iniciar
         self.scenarios = []
         try:
             json_path = os.path.join(app_path, 'data', 'scenarios.json')
@@ -46,7 +41,7 @@ class Mapek:
     def _validar_configuracion(self, config_dict: dict, mc) -> bool:
         print("VALIDATE: Verificando la configuración del LLM...")
         
-        # Validar 'Requiere'
+        # 1. Validar 'Requiere'
         reglas_requiere = []
         for c in mc.caracteristicas:
             for rel in c.getRelaciones:
@@ -60,7 +55,7 @@ class Mapek:
                 print(f"VALIDATE_ERROR: Regla 'Requiere' violada. '{quien_requiere}' activo sin '{quien_es_requerido}'.")
                 return False
 
-        # Validar Jerarquía
+        # 2. Validar Jerarquía
         for c in mc.caracteristicas:
             nombre_padre = c.getNombre.replace(" ", "_").lower()
             
@@ -98,14 +93,12 @@ class Mapek:
         print("VALIDATE: Configuración del LLM es VÁLIDA.")
         return True
 
-    def monitoreo(self, mc):
-        """ Paso 1: MONITOREAR (Controlado por Usuario) """
-        
-        # 1. Leer qué escenario quiere el usuario desde la variable global
-        # Esta variable se actualiza vía API POST /api/seleccionar_escenario
-        target_id = app_globals.escenario_activo_id
-        
-        # 2. Buscar ese escenario en la lista cargada
+    # --- MÉTODO RENOMBRADO Y ADAPTADO PARA TASK.PY ---
+    def ejecutar_escenario_manual(self, mc, target_id):
+        """ 
+        Paso 1: MONITOREAR (Bajo demanda)
+        Recibe un ID de escenario y ejecuta el ciclo para ese contexto.
+        """
         escenario_actual = next((s for s in self.scenarios if s['id'] == target_id), None)
 
         if escenario_actual:
@@ -114,12 +107,10 @@ class Mapek:
             ica = escenario_actual['ica']
             cp = escenario_actual['cp']
             prioridad = escenario_actual['sla']
-            # Detectar si el escenario requiere forzar cola en Qiskit
             cola_simulada_qiskit = escenario_actual.get('qiskit_cola', 5)
             
         else:
-            # Fallback (si no hay JSON o el ID no existe)
-            print(f"⚠️ Escenario ID {target_id} no encontrado. Usando valores por defecto (Base).")
+            print(f"⚠️ Escenario ID {target_id} no encontrado. Usando valores por defecto.")
             ica = 50; cp = 10; prioridad = "RAPIDEZ"; cola_simulada_qiskit = 5
 
         print(f"🔎 MONITOR: Contexto Detectado -> ICA:{ica} | CP:{cp} | SLA:{prioridad}")
@@ -131,13 +122,12 @@ class Mapek:
         self.analizar(mc, ica, cp, prioridad, cola_simulada_qiskit)
 
     def analizar(self, mc, ica, complejidad_problema, prioridad, cola_forzada=None):
-        """ Paso 2: ANALIZAR """
-        print(f"🧠 ANALYZE: Consultando al LLM con el contexto seleccionado...")
+        """ Paso 2: ANALIZAR (Con Auto-Reparación) """
+        print(f"🧠 ANALYZE: Consultando al LLM...")
         
         reglas_del_modelo = mc.exportar_reglas_texto()
         metricas_nisq = hqc_module.monitor_backends()
         
-        # INYECCIÓN DE ESTADO PARA DEMO (Ej. Simular cola saturada en Escenario 4)
         if cola_forzada is not None:
             metricas_nisq["Qiskit Simulator"]["queue_time_sec"] = cola_forzada
             if cola_forzada > 60:
@@ -167,7 +157,16 @@ class Mapek:
 
         config_plana = self._find_features_in_json(config_dict_llm)
         
-        # Validación
+        # --- AUTO-REPARACIÓN (SELF-HEALING) ---
+        # Corrige inconsistencias del LLM antes de validar (Ej: Padre OFF, Hijo ON)
+        if config_plana.get('hqc') == False:
+            nodos_cuanticos = ['backend', 'algoritmo', 'qiskit_simulator', 'cirq_simulator', 'qaoa', 'vqe']
+            for nodo in nodos_cuanticos:
+                if config_plana.get(nodo) == True:
+                    print(f"   🔧 SELF-HEALING: Forzando apagado de '{nodo}' porque HQC está inactivo.")
+                    config_plana[nodo] = False
+        
+        # Validación formal
         config_plana_con_raiz = config_plana.copy()
         config_plana_con_raiz['gestor_aire'] = True 
         
@@ -209,7 +208,6 @@ class Mapek:
             timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             log_file.write(f"\n--- RECONFIGURACIÓN {timestamp} ---\n")
             
-            # Registrar nombre del escenario en el log
             escenario_actual = next((s for s in self.scenarios if s['id'] == app_globals.escenario_activo_id), None)
             nombre_escenario = escenario_actual['nombre'] if escenario_actual else f"ID {app_globals.escenario_activo_id}"
             
@@ -249,18 +247,14 @@ class Mapek:
                     algoritmo = "QAOA" if algoritmo_qaoa_activo else "VQE"
                     backend_nombre = backend_key.replace("_", " ").title()
 
-                    # --- WORKLOAD ADAPTATION (Protección de Recursos) ---
+                    # --- WORKLOAD ADAPTATION ---
                     cp = self._reglaAdaptacion_CP
                     
-                    # Lógica de seguridad para la Demo:
-                    # CP < 100 -> 3 Ciudades (9 qubits)
-                    # CP >= 100 -> 4 Ciudades (16 qubits) [Tope máximo para no crashear]
                     if cp < 100:
                         problem_size = 3
                     else:
                         problem_size = 4 
 
-                    # Profundidad dinámica
                     circuit_depth = 1
                     if cp > 200:
                         circuit_depth = 2
@@ -268,11 +262,9 @@ class Mapek:
                     print(f"   >>> ADAPTACIÓN DE CARGA: CP={cp} detectado.")
                     print(f"   >>> ESTRATEGIA: Escalar a {problem_size} ciudades, Profundidad {circuit_depth}.")
 
-                    # Instanciar adaptador
                     backend_adapter = hqc_module.get_backend_adapter(backend_nombre)
 
                     if backend_adapter:
-                        # Pasamos ID único para evitar caché si el usuario repite el mismo escenario
                         unique_id = f"{app_globals.escenario_activo_id}_{int(time.time())}"
                         params = {
                             "problema_id": unique_id,

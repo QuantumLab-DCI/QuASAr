@@ -1,53 +1,43 @@
-import time
-import threading
 import os
 from app.core.mapek import Mapek
 from app.services import visualizador_grafo
 from app import app_path
 
-# --- INICIO DE MODIFICACIÓN ---
-# Importamos el módulo 'app' (que contiene las variables)
+# Importamos el módulo 'app' para actualizar las variables globales
 import app as app_globals
-# --- FIN DE MODIFICACIÓN ---
 
-
-def setup_background_tasks(mc):
+def ejecutar_ciclo_bajo_demanda(mc, escenario_id):
     """
-    Inicia el bucle MAPE-K en un hilo de fondo.
+    Ejecuta UNA sola iteración del ciclo MAPE-K para el escenario solicitado.
+    Esta función es llamada por el endpoint '/api/seleccionar_escenario' en un hilo.
     """
-    print("Iniciando bucle de adaptación periódica (cada 10s)...")
-    mapek_thread = threading.Thread(target=periodic_task_sync, args=(mc,), daemon=True)
-    mapek_thread.start()
-
-def periodic_task_sync(mc):
-    """
-    El bucle principal de MAPE-K.
-    """
+    print("\n" + "="*50)
+    print(f"⚡ EVENTO RECIBIDO: Iniciando ciclo único para Escenario ID {escenario_id}")
     
-    while True:
-        print("\n" + "="*50)
-        print(f"INICIANDO NUEVO CICLO DE ADAPTACIÓN")
-        
+    try:
         # 1. Instanciar Mapek
         mapek = Mapek()
         
-        # 2. Llamar a monitoreo (que ahora lee el escenario seleccionado)
-        mapek.monitoreo(mc)
+        # 2. Ejecutar la lógica manual pasando el ID del escenario
+        # (Este método 'ejecutar_escenario_manual' lo definimos en el paso anterior en mapek.py)
+        mapek.ejecutar_escenario_manual(mc, escenario_id)
         
-        # --- INICIO DE MODIFICACIÓN ---
-        # 3. Actualizar el estado global usando la referencia del módulo
+        # 3. Actualizar el estado global para que el frontend pueda leerlo
         app_globals.pv_global = mapek.getConocimiento()
         app_globals.regla_global = mapek.getReglaAdaptacion()
-        # --- FIN DE MODIFICACIÓN ---
         
-        # 4. Generar la visualización del estado actual en cada ciclo
+        # 4. Generar la visualización del estado actual (Grafo verde/rojo)
         if app_globals.pv_global: 
             img_path = os.path.join(app_path, 'data', 'estado_actual')
             visualizador_grafo.generar_visualizacion_estado(app_globals.pv_global, mc, nombre_archivo=img_path)
+            print("✅ Visualización de estado actualizada.")
         else:
-            print("Ciclo omitido (posiblemente error del LLM).")
+            print("⚠️ Ciclo finalizado sin configuración válida (posible error del LLM).")
 
-        # 5. Esperar solo 10 segundos para demos interactivas
-        print(f"CICLO COMPLETO. Durmiendo por 10 segundos...")
-        print("="*50 + "\n")
-        time.sleep(10)
+    except Exception as e:
+        print(f"❌ ERROR CRÍTICO EN TAREA DE FONDO: {e}")
+        import traceback
+        traceback.print_exc()
+
+    print(f"✅ CICLO COMPLETADO. El sistema vuelve a estado de espera.")
+    print("="*50 + "\n")

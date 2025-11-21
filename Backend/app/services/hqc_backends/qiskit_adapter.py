@@ -1,7 +1,12 @@
 # app/services/hqc_backends/qiskit_adapter.py (Ruta Corregida: Backend/data)
 from .base_backend import QuantumBackend
 import numpy as np
+# --- CORRECCIÓN CRÍTICA: Backend No Interactivo ---
+import matplotlib
+# Forzamos el backend 'Agg' para evitar errores de GUI en hilos secundarios
+matplotlib.use('Agg') 
 import matplotlib.pyplot as plt
+# --------------------------------------------------
 import os
 
 # Mover los imports que fallan a un bloque 'try'

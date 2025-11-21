@@ -1685,3 +1685,314 @@ Contexto: ICA=50, CP=10, SLA=PRECISION
 [-] Contenedor 'entretenimiento' detenido.
 [-] Contenedor 'ambientes_cerrados' detenido.
 [-] Contenedor 'visualizador_restriccion_uso_lena' detenido.
+
+--- RECONFIGURACIÓN 2025-11-20 19:46:37 ---
+Escenario Activo: Escenario 1: Mañana Tranquila (Línea Base)
+Contexto: ICA=50, CP=10, SLA=RAPIDEZ
+[-] Contenedor 'cirq_simulator' detenido.
+[-] Contenedor 'vqe' detenido.
+[-] Contenedor 'qaoa' detenido.
+[-] Contenedor 'qiskit_simulator' detenido.
+[-] Contenedor 'algoritmo' detenido.
+[-] Contenedor 'backend' detenido.
+[-] Contenedor 'hqc' detenido.
+[-] Contenedor 'optimizacion_de_rutas' detenido.
+[-] Contenedor 'entretenimiento_tercera_edad' detenido.
+[-] Contenedor 'entretenimiento_adulto' detenido.
+[-] Contenedor 'entretenimiento_familiar' detenido.
+[-] Contenedor 'entretenimiento' detenido.
+[-] Contenedor 'ambientes_cerrados' detenido.
+[-] Contenedor 'visualizador_restriccion_uso_lena' detenido.
+
+--- RECONFIGURACIÓN 2025-11-20 19:47:20 ---
+Escenario Activo: Escenario 1: Mañana Tranquila (Línea Base)
+Contexto: ICA=50, CP=10, SLA=RAPIDEZ
+
+--- RECONFIGURACIÓN 2025-11-20 19:47:43 ---
+Escenario Activo: Escenario 3: Turista Exigente (HQC Precisión)
+Contexto: ICA=180, CP=50, SLA=RAPIDEZ
+[-] Contenedor 'deportes' detenido.
+[-] Contenedor 'ambientes_abiertos' detenido.
+[+] Contenedor 'ambientes_cerrados' iniciado.
+[+] Contenedor 'visualizador_restriccion_uso_lena' iniciado.
+
+--- RECONFIGURACIÓN 2025-11-20 19:48:09 ---
+Escenario Activo: Escenario 3: Turista Exigente (HQC Precisión)
+Contexto: ICA=120, CP=350, SLA=PRECISION
+[+] Contenedor 'qaoa' iniciado.
+[+] Contenedor 'qiskit_simulator' iniciado.
+[+] Contenedor 'algoritmo' iniciado.
+[+] Contenedor 'backend' iniciado.
+[+] Contenedor 'hqc' iniciado.
+[+] Contenedor 'optimizacion_de_rutas' iniciado.
+[⚛️] Job HQC (QAOA en Qiskit Simulator): N=4, Depth=2, Costo=8578.0
+
+--- RECONFIGURACIÓN 2025-11-20 19:49:46 ---
+Escenario Activo: Escenario 4: Hora Punta (HQC Rapidez)
+Contexto: ICA=100, CP=150, SLA=RAPIDEZ
+[+] Contenedor 'cirq_simulator' iniciado.
+[-] Contenedor 'qiskit_simulator' detenido.
+[+] Contenedor 'deportes' iniciado.
+[+] Contenedor 'ambientes_abiertos' iniciado.
+[-] Contenedor 'ambientes_cerrados' detenido.
+[-] Contenedor 'visualizador_restriccion_uso_lena' detenido.
+[⚛️] Job HQC (QAOA en Cirq Simulator): N=4, Depth=1, Costo=-2.0
+
+--- RECONFIGURACIÓN 2025-11-20 19:50:20 ---
+Escenario Activo: Escenario 4: Hora Punta (HQC Rapidez)
+Contexto: ICA=100, CP=150, SLA=RAPIDEZ
+[⚛️] Job HQC (QAOA en Cirq Simulator): N=4, Depth=1, Costo=-2.0
+
+--- RECONFIGURACIÓN 2025-11-20 19:50:48 ---
+Escenario Activo: Escenario 4: Hora Punta (HQC Rapidez)
+Contexto: ICA=100, CP=150, SLA=RAPIDEZ
+[⚛️] Job HQC (QAOA en Cirq Simulator): N=4, Depth=1, Costo=-2.0
+
+--- RECONFIGURACIÓN 2025-11-20 19:51:13 ---
+Escenario Activo: Escenario 4: Hora Punta (HQC Rapidez)
+Contexto: ICA=100, CP=150, SLA=RAPIDEZ
+[⚛️] Job HQC (QAOA en Cirq Simulator): N=4, Depth=1, Costo=-2.0
+
+--- RECONFIGURACIÓN 2025-11-20 19:51:39 ---
+Escenario Activo: Escenario 4: Hora Punta (HQC Rapidez)
+Contexto: ICA=100, CP=150, SLA=RAPIDEZ
+[⚛️] Job HQC (QAOA en Cirq Simulator): N=4, Depth=1, Costo=-2.0
+
+--- RECONFIGURACIÓN 2025-11-20 19:56:33 ---
+Escenario Activo: Escenario 1: Mañana Tranquila (Línea Base)
+Contexto: ICA=50, CP=10, SLA=RAPIDEZ
+[-] Contenedor 'cirq_simulator' detenido.
+[-] Contenedor 'qaoa' detenido.
+[-] Contenedor 'algoritmo' detenido.
+[-] Contenedor 'backend' detenido.
+[-] Contenedor 'hqc' detenido.
+[-] Contenedor 'optimizacion_de_rutas' detenido.
+
+--- RECONFIGURACIÓN 2025-11-20 19:57:55 ---
+Escenario Activo: Escenario 1: Mañana Tranquila (Línea Base)
+Contexto: ICA=50, CP=10, SLA=RAPIDEZ
+
+--- RECONFIGURACIÓN 2025-11-20 19:58:23 ---
+Escenario Activo: Escenario 1: Mañana Tranquila (Línea Base)
+Contexto: ICA=50, CP=10, SLA=RAPIDEZ
+[-] Contenedor 'deportes' detenido.
+[-] Contenedor 'ambientes_abiertos' detenido.
+[+] Contenedor 'ambientes_cerrados' iniciado.
+[+] Contenedor 'visualizador_restriccion_uso_lena' iniciado.
+
+--- RECONFIGURACIÓN 2025-11-20 19:59:16 ---
+Escenario Activo: Escenario 1: Mañana Tranquila (Línea Base)
+Contexto: ICA=50, CP=10, SLA=RAPIDEZ
+[+] Contenedor 'deportes' iniciado.
+[+] Contenedor 'ambientes_abiertos' iniciado.
+[-] Contenedor 'ambientes_cerrados' detenido.
+[-] Contenedor 'visualizador_restriccion_uso_lena' detenido.
+
+--- RECONFIGURACIÓN 2025-11-20 20:00:13 ---
+Escenario Activo: Escenario 1: Mañana Tranquila (Línea Base)
+Contexto: ICA=50, CP=10, SLA=RAPIDEZ
+
+--- RECONFIGURACIÓN 2025-11-20 20:00:39 ---
+Escenario Activo: Escenario 1: Mañana Tranquila (Línea Base)
+Contexto: ICA=50, CP=10, SLA=RAPIDEZ
+
+--- RECONFIGURACIÓN 2025-11-20 20:01:30 ---
+Escenario Activo: Escenario 1: Mañana Tranquila (Línea Base)
+Contexto: ICA=50, CP=10, SLA=RAPIDEZ
+
+--- RECONFIGURACIÓN 2025-11-20 20:17:16 ---
+Escenario Activo: Escenario 1: Mañana Tranquila (Línea Base)
+Contexto: ICA=50, CP=10, SLA=RAPIDEZ
+[+] Contenedor 'cirq_simulator' iniciado.
+[+] Contenedor 'backend' iniciado.
+
+--- RECONFIGURACIÓN 2025-11-20 20:18:58 ---
+Escenario Activo: Escenario 1: Mañana Tranquila (Línea Base)
+Contexto: ICA=50, CP=10, SLA=RAPIDEZ
+[-] Contenedor 'cirq_simulator' detenido.
+[-] Contenedor 'vqe' detenido.
+[-] Contenedor 'qaoa' detenido.
+[-] Contenedor 'qiskit_simulator' detenido.
+[-] Contenedor 'algoritmo' detenido.
+[-] Contenedor 'backend' detenido.
+[-] Contenedor 'hqc' detenido.
+[-] Contenedor 'optimizacion_de_rutas' detenido.
+[-] Contenedor 'entretenimiento_tercera_edad' detenido.
+[-] Contenedor 'entretenimiento_adulto' detenido.
+[-] Contenedor 'entretenimiento_familiar' detenido.
+[-] Contenedor 'entretenimiento' detenido.
+[-] Contenedor 'ambientes_cerrados' detenido.
+[-] Contenedor 'visualizador_restriccion_uso_lena' detenido.
+
+--- RECONFIGURACIÓN 2025-11-20 20:20:09 ---
+Escenario Activo: Escenario 2: Preemergencia Ambiental (Dominio)
+Contexto: ICA=180, CP=50, SLA=RAPIDEZ
+[+] Contenedor 'cirq_simulator' iniciado.
+[+] Contenedor 'backend' iniciado.
+[-] Contenedor 'deportes' detenido.
+[-] Contenedor 'ambientes_abiertos' detenido.
+[+] Contenedor 'ambientes_cerrados' iniciado.
+[+] Contenedor 'visualizador_restriccion_uso_lena' iniciado.
+
+--- RECONFIGURACIÓN 2025-11-20 20:31:35 ---
+Escenario Activo: Escenario 1: Mañana Tranquila (Línea Base)
+Contexto: ICA=50, CP=10, SLA=RAPIDEZ
+[-] Contenedor 'cirq_simulator' detenido.
+[-] Contenedor 'backend' detenido.
+[+] Contenedor 'deportes' iniciado.
+[+] Contenedor 'ambientes_abiertos' iniciado.
+[-] Contenedor 'ambientes_cerrados' detenido.
+[-] Contenedor 'visualizador_restriccion_uso_lena' detenido.
+
+--- RECONFIGURACIÓN 2025-11-20 20:32:03 ---
+Escenario Activo: Escenario 2: Preemergencia Ambiental (Dominio)
+Contexto: ICA=180, CP=50, SLA=RAPIDEZ
+[-] Contenedor 'deportes' detenido.
+[-] Contenedor 'ambientes_abiertos' detenido.
+[+] Contenedor 'ambientes_cerrados' iniciado.
+[+] Contenedor 'visualizador_restriccion_uso_lena' iniciado.
+
+--- RECONFIGURACIÓN 2025-11-20 20:32:48 ---
+Escenario Activo: Escenario 3: Turista Exigente (HQC Precisión)
+Contexto: ICA=120, CP=350, SLA=PRECISION
+[+] Contenedor 'qaoa' iniciado.
+[+] Contenedor 'qiskit_simulator' iniciado.
+[+] Contenedor 'algoritmo' iniciado.
+[+] Contenedor 'backend' iniciado.
+[+] Contenedor 'hqc' iniciado.
+[+] Contenedor 'optimizacion_de_rutas' iniciado.
+
+--- RECONFIGURACIÓN 2025-11-20 20:34:15 ---
+Escenario Activo: Escenario 3: Turista Exigente (HQC Precisión)
+Contexto: ICA=120, CP=350, SLA=PRECISION
+[⚛️] Job HQC (QAOA en Qiskit Simulator): N=4, Depth=2, Costo=8620.0
+
+--- RECONFIGURACIÓN 2025-11-20 20:36:35 ---
+Escenario Activo: Escenario 3: Turista Exigente (HQC Precisión)
+Contexto: ICA=120, CP=350, SLA=PRECISION
+[⚛️] Job HQC (QAOA en Qiskit Simulator): N=4, Depth=2, Costo=4268.0
+
+--- RECONFIGURACIÓN 2025-11-20 20:38:37 ---
+Escenario Activo: Escenario 4: Hora Punta (HQC Rapidez)
+Contexto: ICA=100, CP=150, SLA=RAPIDEZ
+[+] Contenedor 'cirq_simulator' iniciado.
+[-] Contenedor 'qiskit_simulator' detenido.
+[+] Contenedor 'deportes' iniciado.
+[+] Contenedor 'ambientes_abiertos' iniciado.
+[-] Contenedor 'ambientes_cerrados' detenido.
+[-] Contenedor 'visualizador_restriccion_uso_lena' detenido.
+[⚛️] Job HQC (QAOA en Cirq Simulator): N=4, Depth=1, Costo=-2.0
+
+--- RECONFIGURACIÓN 2025-11-20 20:50:48 ---
+Escenario Activo: Escenario 3: Turista Exigente (HQC Precisión)
+Contexto: ICA=120, CP=350, SLA=PRECISION
+[-] Contenedor 'cirq_simulator' detenido.
+[+] Contenedor 'qiskit_simulator' iniciado.
+[-] Contenedor 'deportes' detenido.
+[-] Contenedor 'ambientes_abiertos' detenido.
+[+] Contenedor 'ambientes_cerrados' iniciado.
+[+] Contenedor 'visualizador_restriccion_uso_lena' iniciado.
+[⚛️] Job HQC (QAOA en Qiskit Simulator): N=4, Depth=2, Costo=8574.0
+
+--- RECONFIGURACIÓN 2025-11-20 20:57:06 ---
+Escenario Activo: Escenario 4: Hora Punta (HQC Rapidez)
+Contexto: ICA=100, CP=150, SLA=RAPIDEZ
+[+] Contenedor 'cirq_simulator' iniciado.
+[-] Contenedor 'qiskit_simulator' detenido.
+[+] Contenedor 'deportes' iniciado.
+[+] Contenedor 'ambientes_abiertos' iniciado.
+[-] Contenedor 'ambientes_cerrados' detenido.
+[-] Contenedor 'visualizador_restriccion_uso_lena' detenido.
+[⚛️] Job HQC (QAOA en Cirq Simulator): N=4, Depth=1, Costo=-2.0
+
+--- RECONFIGURACIÓN 2025-11-20 21:32:29 ---
+Escenario Activo: Escenario 1: Mañana Tranquila (Línea Base)
+Contexto: ICA=50, CP=10, SLA=RAPIDEZ
+[-] Contenedor 'cirq_simulator' detenido.
+[-] Contenedor 'vqe' detenido.
+[-] Contenedor 'qaoa' detenido.
+[-] Contenedor 'qiskit_simulator' detenido.
+[-] Contenedor 'algoritmo' detenido.
+[-] Contenedor 'backend' detenido.
+[-] Contenedor 'hqc' detenido.
+[-] Contenedor 'optimizacion_de_rutas' detenido.
+[-] Contenedor 'entretenimiento_tercera_edad' detenido.
+[-] Contenedor 'entretenimiento_adulto' detenido.
+[-] Contenedor 'entretenimiento_familiar' detenido.
+[-] Contenedor 'entretenimiento' detenido.
+[-] Contenedor 'ambientes_cerrados' detenido.
+[-] Contenedor 'visualizador_restriccion_uso_lena' detenido.
+
+--- RECONFIGURACIÓN 2025-11-20 21:33:22 ---
+Escenario Activo: Escenario 2: Preemergencia Ambiental (Dominio)
+Contexto: ICA=180, CP=50, SLA=RAPIDEZ
+[-] Contenedor 'deportes' detenido.
+[-] Contenedor 'ambientes_abiertos' detenido.
+[+] Contenedor 'ambientes_cerrados' iniciado.
+[+] Contenedor 'visualizador_restriccion_uso_lena' iniciado.
+
+--- RECONFIGURACIÓN 2025-11-20 21:33:57 ---
+Escenario Activo: Escenario 3: Turista Exigente (HQC Precisión)
+Contexto: ICA=120, CP=350, SLA=PRECISION
+[+] Contenedor 'qaoa' iniciado.
+[+] Contenedor 'qiskit_simulator' iniciado.
+[+] Contenedor 'algoritmo' iniciado.
+[+] Contenedor 'backend' iniciado.
+[+] Contenedor 'hqc' iniciado.
+[+] Contenedor 'optimizacion_de_rutas' iniciado.
+[⚛️] Job HQC (QAOA en Qiskit Simulator): N=4, Depth=2, Costo=12618.0
+
+--- RECONFIGURACIÓN 2025-11-20 21:35:38 ---
+Escenario Activo: Escenario 4: Hora Punta (HQC Rapidez)
+Contexto: ICA=100, CP=150, SLA=RAPIDEZ
+[+] Contenedor 'cirq_simulator' iniciado.
+[-] Contenedor 'qiskit_simulator' detenido.
+[⚛️] Job HQC (QAOA en Cirq Simulator): N=4, Depth=1, Costo=-2.0
+
+--- RECONFIGURACIÓN 2025-11-20 21:39:47 ---
+Escenario Activo: Escenario 1: Mañana Tranquila (Línea Base)
+Contexto: ICA=50, CP=10, SLA=RAPIDEZ
+[-] Contenedor 'cirq_simulator' detenido.
+[-] Contenedor 'vqe' detenido.
+[-] Contenedor 'qaoa' detenido.
+[-] Contenedor 'qiskit_simulator' detenido.
+[-] Contenedor 'algoritmo' detenido.
+[-] Contenedor 'backend' detenido.
+[-] Contenedor 'hqc' detenido.
+[-] Contenedor 'optimizacion_de_rutas' detenido.
+[-] Contenedor 'entretenimiento_tercera_edad' detenido.
+[-] Contenedor 'entretenimiento_adulto' detenido.
+[-] Contenedor 'entretenimiento_familiar' detenido.
+[-] Contenedor 'entretenimiento' detenido.
+[-] Contenedor 'ambientes_cerrados' detenido.
+[-] Contenedor 'visualizador_restriccion_uso_lena' detenido.
+
+--- RECONFIGURACIÓN 2025-11-20 21:42:44 ---
+Escenario Activo: Escenario 2: Preemergencia Ambiental (Dominio)
+Contexto: ICA=180, CP=50, SLA=RAPIDEZ
+[-] Contenedor 'deportes' detenido.
+[-] Contenedor 'ambientes_abiertos' detenido.
+[+] Contenedor 'ambientes_cerrados' iniciado.
+[+] Contenedor 'visualizador_restriccion_uso_lena' iniciado.
+
+--- RECONFIGURACIÓN 2025-11-20 21:43:20 ---
+Escenario Activo: Escenario 3: Turista Exigente (HQC Precisión)
+Contexto: ICA=120, CP=350, SLA=PRECISION
+[+] Contenedor 'qaoa' iniciado.
+[+] Contenedor 'qiskit_simulator' iniciado.
+[+] Contenedor 'algoritmo' iniciado.
+[+] Contenedor 'backend' iniciado.
+[+] Contenedor 'hqc' iniciado.
+[+] Contenedor 'optimizacion_de_rutas' iniciado.
+[⚛️] Job HQC (QAOA en Qiskit Simulator): N=4, Depth=2, Costo=4241.0
+
+--- RECONFIGURACIÓN 2025-11-20 21:45:03 ---
+Escenario Activo: Escenario 4: Hora Punta (HQC Rapidez)
+Contexto: ICA=100, CP=150, SLA=RAPIDEZ
+[+] Contenedor 'cirq_simulator' iniciado.
+[-] Contenedor 'qiskit_simulator' detenido.
+[+] Contenedor 'deportes' iniciado.
+[+] Contenedor 'ambientes_abiertos' iniciado.
+[-] Contenedor 'ambientes_cerrados' detenido.
+[-] Contenedor 'visualizador_restriccion_uso_lena' detenido.
+[⚛️] Job HQC (QAOA en Cirq Simulator): N=4, Depth=1, Costo=-2.0
