@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import ScenarioSelector from './components/ScenarioSelector';
-import { RefreshCw, Zap, Network, Terminal, Info, Brain, Download, Maximize2, ExternalLink, X } from 'lucide-react';
+import { RefreshCw, Zap, Network, Terminal, Info, Brain, Download, Maximize2, ExternalLink, X, Activity, GitMerge, Box, CheckCircle } from 'lucide-react';
 import './App.css';
 
 const API_URL = 'http://127.0.0.1:8000';
@@ -68,7 +68,8 @@ function App() {
       contexto: {
         ...prevState?.contexto,
         razonamiento: "🔄 Recalculando estrategia con Agente LLM..."
-      }
+      },
+      mapek_trace: [] // Limpiamos la traza visual
     }));
     // Forzamos estado de ocupado localmente para respuesta inmediata en UI
     setIsProcessing(true);
@@ -93,6 +94,16 @@ function App() {
     } catch (error) {
       console.error("Error descargando imagen:", error);
     }
+  };
+
+  // Helper para icono según fase MAPE-K
+  const getPhaseIcon = (fase) => {
+    if (fase.includes("MONITOR")) return <Activity size={16} />;
+    if (fase.includes("ANÁLISIS")) return <Brain size={16} />;
+    if (fase.includes("PLAN")) return <GitMerge size={16} />;
+    if (fase.includes("EJECUCIÓN")) return <Box size={16} />;
+    if (fase.includes("FIN")) return <CheckCircle size={16} />;
+    return <Info size={16} />;
   };
 
   return (
@@ -224,12 +235,43 @@ function App() {
           {/* COLUMNA DERECHA */}
           <div className="right-col">
 
-            {/* Panel 3: Contexto y Razonamiento (Cerebro) */}
+            {/* Panel 3: Trace MAPE-K en Vivo (NUEVO) */}
+            <div className="panel mapek-panel">
+              <h2 className="panel-title">🔄 Ciclo de Adaptación (Paso a Paso)</h2>
+              <div className="mapek-timeline">
+                {estado?.mapek_trace && estado.mapek_trace.length > 0 ? (
+                  estado.mapek_trace.map((paso, index) => (
+                    <div key={index} className="mapek-step">
+                      <div className="step-header">
+                        <div className="step-meta">
+                          {getPhaseIcon(paso.fase)}
+                          <span className="step-time">{paso.timestamp}</span>
+                        </div>
+                        <span className={`step-badge phase-${paso.fase.split(' ')[0].toLowerCase()}`}>
+                          {paso.fase}
+                        </span>
+                      </div>
+                      <p className="step-msg">{paso.mensaje}</p>
+                      {paso.detalles && (
+                        <div className="step-details">
+                          <pre>{JSON.stringify(paso.detalles, null, 2)}</pre>
+                        </div>
+                      )}
+                    </div>
+                  ))
+                ) : (
+                  <div className="p-4 text-center text-gray-400 text-sm">
+                    Esperando inicio del ciclo...
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Panel 4: Contexto y Razonamiento */}
             <div className="panel context-panel">
               <h2 className="panel-title">Análisis Inteligente</h2>
               {isSystemReady && estado?.contexto ? (
                 <div>
-                  {/* Métricas de Sensores */}
                   <div className="metrics-list mb-4">
                     <div className="metric-item">
                       <span className="metric-label">Calidad Aire (ICA)</span>
@@ -245,7 +287,6 @@ function App() {
                     </div>
                   </div>
 
-                  {/* Caja de Razonamiento del LLM (Explicabilidad) */}
                   {estado.contexto.razonamiento && (
                     <div className="reasoning-box">
                       <h4 className="reasoning-title">
@@ -263,19 +304,7 @@ function App() {
               )}
             </div>
 
-            {/* Panel 4: Modelo Estático */}
-            <div className="panel">
-              <h2 className="panel-title">Modelo de Características Base</h2>
-              <div className="image-container">
-                <img
-                  src={`${API_URL}/api/static/modelo_caracteristicas.png`}
-                  onError={(e) => e.target.style.display = 'none'}
-                  alt="Modelo Estático"
-                />
-              </div>
-            </div>
-
-            {/* Panel 5: Logs en tiempo real */}
+            {/* Panel 5: Logs */}
             <div className="panel log-panel">
               <h2 className="panel-title"><Terminal className="icon" /> Logs del Sistema</h2>
               <pre className="log-box">{logs}</pre>
