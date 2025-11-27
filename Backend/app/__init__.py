@@ -10,11 +10,12 @@ app_path = Path(__file__).resolve().parent.parent
 mc_global = None
 pv_global = None
 regla_global = None
+trace_global = [] # <--- ¡NUEVO! Aquí se guardará el historial del ciclo MAPE-K
 
 # --- Variable de Control Interactivo ---
 escenario_activo_id = 1 
 
-# --- NUEVO: Semáforo de Estado ---
+# --- Semáforo de Estado ---
 # Indica si el sistema está procesando una solicitud MAPE-K actualmente
 en_ejecucion = False 
 # ---------------------------------

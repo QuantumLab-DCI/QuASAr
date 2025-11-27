@@ -14,7 +14,8 @@ from app import task
 def get_estado_general():
     """ 
     Endpoint principal para el dashboard.
-    Devuelve el contexto, la configuración activa y la evidencia visual.
+    Devuelve el contexto, la configuración activa, la evidencia visual
+    y, AHORA, la TRAZA DETALLADA del ciclo MAPE-K.
     """
     if app_globals.regla_global is None:
          return jsonify({"error": "El sistema está arrancando. Seleccione un escenario."}), 503
@@ -43,9 +44,11 @@ def get_estado_general():
         "imagen_estado_url": "/api/static/estado_actual.png", 
         "imagen_modelo_url": "/api/static/modelo_caracteristicas.png",
         "evidencia_cuantica_url": evidencia_cuantica,
-        # --- NUEVO: Informar si el sistema está ocupado ---
-        "en_ejecucion": app_globals.en_ejecucion
-        # --------------------------------------------------
+        "en_ejecucion": app_globals.en_ejecucion,
+        
+        # --- NUEVO: Enviamos la traza para la visualización paso a paso ---
+        "mapek_trace": getattr(app_globals, 'trace_global', []) 
+        # ------------------------------------------------------------------
     })
 
 # --- ENDPOINTS INTERACTIVOS ---
@@ -72,10 +75,9 @@ def set_escenario():
     data = request.json
     nuevo_id = data.get('id')
     
-    # --- NUEVO: Rechazar solicitud si el sistema está ocupado ---
+    # Bloqueo de seguridad
     if app_globals.en_ejecucion:
-        return jsonify({"error": "Sistema ocupado. Espere a que finalice el ciclo actual."}), 423 # 423 Locked
-    # ------------------------------------------------------------
+        return jsonify({"error": "Sistema ocupado. Espere a que finalice el ciclo actual."}), 423 
     
     if nuevo_id is not None:
         try:
@@ -85,15 +87,11 @@ def set_escenario():
             
             print(f"🕹️ INTERACCIÓN: Usuario seleccionó Escenario ID {act_id}")
 
-            # --- NUEVO: Bloquear el sistema ---
+            # Bloquear sistema
             app_globals.en_ejecucion = True
             print(f"🔒 SISTEMA BLOQUEADO: Iniciando ciclo MAPE-K para Escenario {act_id}")
-            # ----------------------------------
 
             # 2. DISPARAR EL EVENTO (Threading)
-            # Esto ejecuta el ciclo MAPE-K en segundo plano inmediatamente
-            # sin bloquear la respuesta HTTP al frontend.
-            # Pasamos app_globals.mc_global que se cargó en __init__.py
             thread = threading.Thread(
                 target=task.ejecutar_ciclo_bajo_demanda,
                 args=(app_globals.mc_global, act_id)
@@ -109,7 +107,6 @@ def set_escenario():
             return jsonify({"error": "ID debe ser un número"}), 400
         except Exception as e:
              print(f"❌ Error lanzando hilo: {e}")
-             # Aseguramos liberar el bloqueo si falla el lanzamiento del hilo
              app_globals.en_ejecucion = False 
              return jsonify({"error": str(e)}), 500
     else:
@@ -129,18 +126,15 @@ def get_logs():
 @app.route("/api/static/<path:filename>")
 def static_files(filename):
     """ Sirve los archivos generados (imágenes) desde el directorio /data. """
-    # Usar ruta absoluta es más seguro
     data_dir = os.path.abspath(os.path.join(app_path, 'data'))
-    
     try:
         response = send_from_directory(data_dir, filename)
-        # Desactivar caché para que las imágenes se actualicen al instante
+        # Desactivar caché para imágenes dinámicas
         response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
         response.headers["Pragma"] = "no-cache"
         response.headers["Expires"] = "0"
         return response
     except Exception as e:
-        # Manejo de errores si el archivo no existe aún
         return jsonify({"error": "Archivo no encontrado"}), 404
 
 # --- Endpoints Legacy (Opcionales) ---

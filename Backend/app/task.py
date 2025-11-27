@@ -6,7 +6,7 @@ from app import app_path
 # Importamos el módulo 'app' para actualizar las variables globales
 import app as app_globals
 
-# --- NUEVO: Función para borrar evidencia antigua ---
+# --- Función para borrar evidencia antigua ---
 def _limpiar_evidencia_previa():
     """Elimina imágenes de circuitos anteriores para evitar que el frontend muestre datos viejos."""
     archivos_a_borrar = [
@@ -34,7 +34,7 @@ def ejecutar_ciclo_bajo_demanda(mc, escenario_id):
     print("\n" + "="*50)
     print(f"⚡ EVENTO RECIBIDO: Iniciando ciclo único para Escenario ID {escenario_id}")
     
-    # 1. LIMPIEZA PREVIA (Crucial para tu problema)
+    # 1. LIMPIEZA PREVIA
     _limpiar_evidencia_previa()
     
     try:
@@ -42,12 +42,17 @@ def ejecutar_ciclo_bajo_demanda(mc, escenario_id):
         mapek = Mapek()
         
         # 3. Ejecutar la lógica manual pasando el ID del escenario
-        # (Este método 'ejecutar_escenario_manual' lo definimos en el paso anterior en mapek.py)
         mapek.ejecutar_escenario_manual(mc, escenario_id)
         
         # 4. Actualizar el estado global para que el frontend pueda leerlo
         app_globals.pv_global = mapek.getConocimiento()
         app_globals.regla_global = mapek.getReglaAdaptacion()
+        
+        # --- NUEVO: Guardar la traza de ejecución en la variable global ---
+        # Esto permite que routes.py la lea y la envíe al frontend
+        app_globals.trace_global = mapek.getTrace()
+        print(f"📝 TRAZA GUARDADA: {len(app_globals.trace_global)} pasos registrados para visualización.")
+        # -----------------------------------------------------------------
         
         # 5. Generar la visualización del estado actual (Grafo verde/rojo)
         if app_globals.pv_global: 
@@ -62,7 +67,7 @@ def ejecutar_ciclo_bajo_demanda(mc, escenario_id):
         import traceback
         traceback.print_exc()
     
-    # --- NUEVO: Bloque FINALLY para asegurar desbloqueo ---
+    # --- Bloque FINALLY para asegurar desbloqueo ---
     finally:
         app_globals.en_ejecucion = False
         print(f"🔓 SISTEMA LIBERADO: Ciclo finalizado. Listo para recibir instrucciones.")
