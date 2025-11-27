@@ -14,6 +14,11 @@ regla_global = None
 # --- Variable de Control Interactivo ---
 escenario_activo_id = 1 
 
+# --- NUEVO: Semáforo de Estado ---
+# Indica si el sistema está procesando una solicitud MAPE-K actualmente
+en_ejecucion = False 
+# ---------------------------------
+
 # --- Objeto App Global ---
 app = Flask(__name__)
 

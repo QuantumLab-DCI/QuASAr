@@ -11,66 +11,64 @@ except Exception as e:
 def obtener_configuracion_llm(contexto_actual: str, reglas_del_modelo: str) -> dict:
     """
     Toma el contexto y las reglas, y pide a la API de Gemini la configuración óptima.
+    Incluye capacidad de 'improvisación' y EXPLICACIÓN detallada de decisiones.
     """
     
-    # --- INICIO DE LA MODIFICACIÓN ---
-    # 2. Define el prompt del sistema (más especializado)
+    # --- INICIO DE LA MODIFICACIÓN: Prompt Explicativo y Resiliente ---
+    # 2. Define el prompt del sistema (Arquitecto Explicativo)
     prompt_sistema = f"""
-    Eres un agente de IA experto en reconfiguración de software y un **validador lógico estricto**.
-    Tu trabajo es analizar un contexto de entrada y generar una configuración de 
-    características en formato JSON.
+    Eres el **Arquitecto Autónomo Principal** de un sistema híbrido crítico.
+    Tu misión es asegurar la continuidad operativa y **JUSTIFICAR TUS DECISIONES TÉCNICAS**.
 
-    **Sigue este proceso de 3 pasos:**
-
-    **Paso 1: Analiza el Contexto.**
-    Lee el contexto en tiempo real para entender las *metas* del usuario 
-    (ej. ICA alto, CP alto).
-
-    **Paso 2: Construye la Configuración.**
-    Crea un JSON plano que cumpla TODAS las siguientes reglas del Modelo de Características.
-    
+    Tienes este Modelo de Características (Reglas Ideales):
     --- REGLAS DEL MODELO ---
     {reglas_del_modelo}
     --- FIN DE REGLAS ---
 
-    **Paso 3: Valida tu trabajo.**
-    Antes de responder, verifica tu JSON de salida. Presta especial atención a:
-    1.  **Reglas 'Obligatoria':** Si un padre está activo, ¿están sus hijos obligatorios activos?
-    2.  **Reglas 'Requiere':** Si 'A' está activo y REQUIERE 'B', ¿está 'B' también activo?
-    3.  **Reglas 'XOR' / 'OR':** Si un padre está activo, ¿se cumple la regla del grupo (1 para XOR, 1 o más para OR)?
-    4.  **Jerarquía:** Si un padre está inactivo, ¿están todos sus hijos (excepto los de reglas 'Requiere') inactivos?
+    **PROTOCOLO DE TOMA DE DECISIONES:**
+    1. **Analiza:** Lee el contexto completo (Intención del Usuario, Clima, Infraestructura).
+    2. **Decide:** Selecciona las características activas basándote en el perfil del usuario y las restricciones ambientales.
+    3. **Negocia:** Si hay conflicto crítico (ej. Qiskit saturado), improvisa una solución (Trade-off) y explica por qué.
 
-    **Formato de Salida Obligatorio:**
-    - Tu respuesta DEBE ser un único objeto JSON **plano (flat)**.
-    - NO uses objetos anidados.
-    - Las claves DEBEN ser los nombres de las características en 'snake_case' (ej. 'visualizador_calidad_aire').
-    - Los valores DEBEN ser `true` o `false`.
+    **Formato de Salida Obligatorio (JSON):**
+    Tu respuesta DEBE ser un objeto JSON con exactamente DOS claves principales:
+    1. "configuracion": Un objeto plano con las características (claves snake_case, valores booleanos).
+    2. "razonamiento": **CADENA DE TEXTO EXPLICATIVA (Max 50 palabras).**
+       - Explica POR QUÉ activaste/desactivaste ramas opcionales (ej. "Activé Deportes por perfil Usuario Deportivo").
+       - Explica POR QUÉ elegiste el backend cuántico específico (ej. "Elegí Cirq por saturación crítica en Qiskit").
+       - Sé conciso pero específico.
+
+    **Ejemplo de Estructura:**
+    {{
+        "configuracion": {{ "gestor_aire": true, "deportes": true, "qiskit_simulator": false, "cirq_simulator": true, ... }},
+        "razonamiento": "Activé Deportes debido al perfil 'Grupo Deportivo' y buen clima (ICA 40). Seleccioné Cirq Simulator para evitar la cola de 120s en Qiskit."
+    }}
     
-    Responde ÚNICAMENTE con el objeto JSON de la configuración final,
-    sin ninguna explicación adicional.
+    Responde ÚNICAMENTE con este objeto JSON.
     """
     # --- FIN DE LA MODIFICACIÓN ---
 
     # 3. Define el prompt del usuario (el contexto en tiempo real)
     prompt_usuario = f"""
-    Contexto en tiempo real:
+    Contexto en tiempo real (Sensores, Usuario y Colas):
     {contexto_actual}
 
-    Por favor, genera la configuración JSON óptima, válida y verificada.
+    Genera la configuración y explica el porqué de tus decisiones clave.
     """
 
-    print("AGENTE: Llamando a la API de Google Gemini con el nuevo contexto...")
+    print("AGENTE: Analizando escenario con Gemini...")
 
     try:
         # 4. Configura el modelo y los ajustes de generación
         generation_config = genai.GenerationConfig(
             response_mime_type="application/json",
-            temperature=0.1
+            # Temperatura 0.4 para permitir flexibilidad en la resolución de conflictos y variedad en la explicación
+            temperature=0.4 
         )
         
-        # Usando el modelo 'live' que elegiste
+        # Usando el modelo flash (rápido y económico)
         model = genai.GenerativeModel(
-            'models/gemini-2.5-flash',
+            'models/gemini-2.0-flash',
             system_instruction=prompt_sistema,
             generation_config=generation_config
         )
@@ -79,7 +77,7 @@ def obtener_configuracion_llm(contexto_actual: str, reglas_del_modelo: str) -> d
         response = model.generate_content(prompt_usuario)
         
         respuesta_json = response.text
-        print(f"AGENTE: Respuesta JSON recibida: {respuesta_json}")
+        print(f"AGENTE: Respuesta JSON recibida.")
         
         # 6. Devuelve la respuesta como un diccionario Python
         return json.loads(respuesta_json)

@@ -42,7 +42,10 @@ def get_estado_general():
         "escenario_actual_id": app_globals.escenario_activo_id, 
         "imagen_estado_url": "/api/static/estado_actual.png", 
         "imagen_modelo_url": "/api/static/modelo_caracteristicas.png",
-        "evidencia_cuantica_url": evidencia_cuantica
+        "evidencia_cuantica_url": evidencia_cuantica,
+        # --- NUEVO: Informar si el sistema está ocupado ---
+        "en_ejecucion": app_globals.en_ejecucion
+        # --------------------------------------------------
     })
 
 # --- ENDPOINTS INTERACTIVOS ---
@@ -69,6 +72,11 @@ def set_escenario():
     data = request.json
     nuevo_id = data.get('id')
     
+    # --- NUEVO: Rechazar solicitud si el sistema está ocupado ---
+    if app_globals.en_ejecucion:
+        return jsonify({"error": "Sistema ocupado. Espere a que finalice el ciclo actual."}), 423 # 423 Locked
+    # ------------------------------------------------------------
+    
     if nuevo_id is not None:
         try:
             # 1. Actualizar variable global (Memoria)
@@ -76,6 +84,11 @@ def set_escenario():
             app_globals.escenario_activo_id = act_id
             
             print(f"🕹️ INTERACCIÓN: Usuario seleccionó Escenario ID {act_id}")
+
+            # --- NUEVO: Bloquear el sistema ---
+            app_globals.en_ejecucion = True
+            print(f"🔒 SISTEMA BLOQUEADO: Iniciando ciclo MAPE-K para Escenario {act_id}")
+            # ----------------------------------
 
             # 2. DISPARAR EL EVENTO (Threading)
             # Esto ejecuta el ciclo MAPE-K en segundo plano inmediatamente
@@ -96,6 +109,8 @@ def set_escenario():
             return jsonify({"error": "ID debe ser un número"}), 400
         except Exception as e:
              print(f"❌ Error lanzando hilo: {e}")
+             # Aseguramos liberar el bloqueo si falla el lanzamiento del hilo
+             app_globals.en_ejecucion = False 
              return jsonify({"error": str(e)}), 500
     else:
         return jsonify({"error": "Falta el ID"}), 400

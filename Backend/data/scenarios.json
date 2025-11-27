@@ -1,38 +1,74 @@
 [
   {
     "id": 1,
-    "nombre": "Escenario 1: Mañana Tranquila (Línea Base)",
-    "descripcion": "Aire limpio y baja demanda. El sistema prioriza turismo al aire libre y ahorra recursos (HQC apagado).",
-    "ica": 50,
-    "cp": 10,
-    "sla": "RAPIDEZ",
-    "qiskit_cola": 5
+    "nombre": "Modo: Operación Diaria (Variable)",
+    "descripcion": "Simulación de un día normal. El aire varía entre limpio y regular. La carga de usuarios cambia dinámicamente.",
+    "rango_ica": [
+      20,
+      110
+    ],
+    "rango_cp": [
+      50,
+      120
+    ],
+    "sla_prioridad": "RAPIDEZ",
+    "rango_cola_qiskit": [
+      0,
+      5
+    ]
   },
   {
     "id": 2,
-    "nombre": "Escenario 2: Preemergencia Ambiental (Dominio)",
-    "descripcion": "Contaminación alta. El sistema bloquea deportes y sugiere ambientes cerrados por salud.",
-    "ica": 180,
-    "cp": 50,
-    "sla": "RAPIDEZ",
-    "qiskit_cola": 5
+    "nombre": "Modo: Alta Demanda (Incertidumbre)",
+    "descripcion": "Picos de complejidad computacional. A veces requiere HQC, a veces no. El sistema decide según el caso.",
+    "rango_ica": [
+      40,
+      80
+    ],
+    "rango_cp": [
+      90,
+      300
+    ],
+    "sla_prioridad": "PRECISION",
+    "rango_cola_qiskit": [
+      10,
+      40
+    ]
   },
   {
     "id": 3,
-    "nombre": "Escenario 3: Turista Exigente (HQC Precisión)",
-    "descripcion": "Problema complejo. Usuario pide PRECISIÓN. Se activa Qiskit (limitado a 4 ciudades).",
-    "ica": 120,
-    "cp": 350,
-    "sla": "PRECISION",
-    "qiskit_cola": 10
+    "nombre": "Modo: Crisis Ambiental",
+    "descripcion": "Calidad del aire peligrosa. El sistema debe forzar restricciones aunque el usuario pida deportes.",
+    "rango_ica": [
+      150,
+      300
+    ],
+    "rango_cp": [
+      50,
+      150
+    ],
+    "sla_prioridad": "RAPIDEZ",
+    "rango_cola_qiskit": [
+      0,
+      10
+    ]
   },
   {
     "id": 4,
-    "nombre": "Escenario 4: Hora Punta (HQC Rapidez)",
-    "descripcion": "Problema complejo pero usuario tiene prisa. Nube saturada. Se cambia a Cirq (Local/Edge).",
-    "ica": 100,
-    "cp": 150,
-    "sla": "RAPIDEZ",
-    "qiskit_cola": 120
+    "nombre": "Modo: Fallos de Infraestructura",
+    "descripcion": "La nube es inestable. Las colas oscilan entre rápidas y saturadas. El sistema negocia el backend.",
+    "rango_ica": [
+      50,
+      90
+    ],
+    "rango_cp": [
+      200,
+      400
+    ],
+    "sla_prioridad": "PRECISION",
+    "rango_cola_qiskit": [
+      30,
+      200
+    ]
   }
 ]

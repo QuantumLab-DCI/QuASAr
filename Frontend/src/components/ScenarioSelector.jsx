@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Activity, Cloud, AlertTriangle, Clock, CheckCircle, Play } from 'lucide-react';
+import { Activity, Cloud, AlertTriangle, Clock, CheckCircle, Play, Loader2, Lock } from 'lucide-react';
 
 // Asegúrate de que coincida con tu backend (localhost o 127.0.0.1)
 const API_URL = 'http://127.0.0.1:8000';
 
-const ScenarioSelector = ({ onScenarioChange }) => {
+// Recibimos isSystemBusy como prop desde App.jsx para bloquear la UI
+const ScenarioSelector = ({ onScenarioChange, isSystemBusy }) => {
     const [scenarios, setScenarios] = useState([]);
     const [activeId, setActiveId] = useState(null);
-    const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
     // 1. Cargar escenarios al montar el componente
@@ -17,7 +17,6 @@ const ScenarioSelector = ({ onScenarioChange }) => {
             try {
                 const res = await axios.get(`${API_URL}/api/escenarios`);
                 setScenarios(res.data);
-                // Opcional: Podrías consultar /api/estado para ver cuál está activo al inicio
             } catch (err) {
                 console.error("Error cargando escenarios:", err);
                 setError("No se pudieron cargar los escenarios del backend.");
@@ -28,8 +27,8 @@ const ScenarioSelector = ({ onScenarioChange }) => {
 
     // 2. Manejar el clic en un escenario
     const handleSelect = async (id) => {
-        if (loading) return;
-        setLoading(true);
+        // Bloqueo de seguridad frontend: si está ocupado, no hacemos nada
+        if (isSystemBusy) return;
 
         try {
             const res = await axios.post(`${API_URL}/api/seleccionar_escenario`, { id: id });
@@ -40,9 +39,12 @@ const ScenarioSelector = ({ onScenarioChange }) => {
             }
         } catch (err) {
             console.error("Error seleccionando escenario:", err);
-            alert("Error al cambiar de escenario. Revisa la consola.");
-        } finally {
-            setLoading(false);
+            // Manejamos el error 423 (Locked) específicamente por si el bloqueo visual falla
+            if (err.response && err.response.status === 423) {
+                alert("⚠️ El sistema está ocupado procesando una solicitud. Por favor espera.");
+            } else {
+                alert("Error al cambiar de escenario. Revisa la consola.");
+            }
         }
     };
 
@@ -53,17 +55,31 @@ const ScenarioSelector = ({ onScenarioChange }) => {
             case 2: return <AlertTriangle size={20} className="icon-orange" />; // Alerta
             case 3: return <Cloud size={20} className="icon-blue" />; // Qiskit
             case 4: return <Clock size={20} className="icon-purple" />; // Cirq
+            case 5: case 99: return <AlertTriangle size={20} style={{ color: 'red' }} />; // Caos/Evento X
             default: return <Play size={20} className="icon-gray" />;
         }
     };
 
+    // Helper para formatear el SLA (Manejo de fallback por si la clave cambia en backend)
+    const getSlaLabel = (scenario) => scenario.sla_prioridad || scenario.sla || "N/A";
+
     if (error) return <div className="error-msg">{error}</div>;
 
     return (
-        <div className="scenario-panel">
+        <div className={`scenario-panel ${isSystemBusy ? 'panel-blocked' : ''}`}>
             <div className="scenario-header">
-                <h2>🕹️ Panel de Control (Tesis HQC)</h2>
-                {loading && <span className="loading-badge">⏳ Reconfigurando... (10s)</span>}
+                <div className="flex items-center gap-2" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                    <h2>🕹️ Panel de Control (Simulación Estocástica)</h2>
+
+                    {/* Indicador de Estado del Sistema */}
+                    {isSystemBusy && (
+                        <span className="status-badge processing">
+                            <Loader2 size={14} className="spin-icon" />
+                            PROCESANDO CICLO MAPE-K...
+                        </span>
+                    )}
+                    {!isSystemBusy && <span className="status-badge ready">LISTO</span>}
+                </div>
             </div>
 
             <div className="scenario-grid">
@@ -71,9 +87,20 @@ const ScenarioSelector = ({ onScenarioChange }) => {
                     <div
                         key={scenario.id}
                         onClick={() => handleSelect(scenario.id)}
-                        className={`scenario-card ${activeId === scenario.id ? 'active' : ''} ${loading ? 'disabled' : ''}`}
+                        // Clase condicional para bloquear visualmente
+                        className={`scenario-card 
+                            ${activeId === scenario.id ? 'active' : ''} 
+                            ${isSystemBusy ? 'disabled-card' : ''}
+                        `}
                     >
-                        {activeId === scenario.id && (
+                        {/* Overlay de bloqueo (Candado) */}
+                        {isSystemBusy && (
+                            <div className="card-overlay">
+                                <Lock size={24} className="text-gray-400" />
+                            </div>
+                        )}
+
+                        {activeId === scenario.id && !isSystemBusy && (
                             <div className="active-badge"><CheckCircle size={12} /> ACTIVO</div>
                         )}
 
@@ -85,10 +112,15 @@ const ScenarioSelector = ({ onScenarioChange }) => {
                         <p className="card-desc">{scenario.descripcion}</p>
 
                         <div className="card-metrics">
-                            <span className="metric-tag">ICA: {scenario.ica}</span>
-                            <span className="metric-tag">CP: {scenario.cp}</span>
-                            <span className={`metric-tag sla-${scenario.sla.toLowerCase()}`}>
-                                {scenario.sla}
+                            {/* Renderizado de Rangos Estocásticos (ej. 150-300) */}
+                            <span className="metric-tag">
+                                ICA: {scenario.rango_ica ? `${scenario.rango_ica[0]}-${scenario.rango_ica[1]}` : scenario.ica}
+                            </span>
+                            <span className="metric-tag">
+                                CP: {scenario.rango_cp ? `${scenario.rango_cp[0]}-${scenario.rango_cp[1]}` : scenario.cp}
+                            </span>
+                            <span className={`metric-tag sla-${getSlaLabel(scenario).toLowerCase()}`}>
+                                {getSlaLabel(scenario)}
                             </span>
                         </div>
                     </div>

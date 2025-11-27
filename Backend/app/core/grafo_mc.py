@@ -36,10 +36,13 @@ class ModeloCaracteristicas:
         return None
     
     # --- INICIO DE NUEVA FUNCIÓN ---
+    # ... (resto del código anterior)
+
     def exportar_reglas_texto(self):
         """
         Genera un string de texto simple que describe las reglas
         del modelo para el prompt del LLM.
+        MEJORA: Incluye reglas negativas explícitas para evitar alucinaciones.
         """
         reglas = []
         
@@ -50,33 +53,46 @@ class ModeloCaracteristicas:
             # Reglas de Jerarquía (Obligatoria, Opcional, XOR, OR)
             hijos_xor = []
             hijos_or = []
+            
+            # --- NUEVO: Lista de todos los hijos para reglas negativas ---
+            todos_hijos = [] 
+
             for rel in caracteristica.getRelaciones:
                 nombre_hijo, tipo = rel[0], rel[1]
+                todos_hijos.append(nombre_hijo) # Guardamos el hijo
+
                 if tipo == "Obligatoria":
-                    reglas.append(f"- Si '{nombre_padre}' está activo, '{nombre_hijo}' DEBE estar activo.")
+                    reglas.append(f"- Si '{nombre_padre}' está ACTIVO -> '{nombre_hijo}' OBLIGATORIAMENTE ACTIVO.")
                 elif tipo == "Opcional":
-                    reglas.append(f"- Si '{nombre_padre}' está activo, '{nombre_hijo}' es Opcional (puede estar activo o inactivo).")
+                    reglas.append(f"- Si '{nombre_padre}' está ACTIVO -> '{nombre_hijo}' es Opcional.")
                 elif tipo == "XOR":
                     hijos_xor.append(nombre_hijo)
                 elif tipo == "OR":
                     hijos_or.append(nombre_hijo)
             
+            # --- MEJORA CRÍTICA: REGLA NEGATIVA EXPLÍCITA ---
+            # Esto soluciona la alucinación de activar hijos sin padre
+            if todos_hijos:
+                lista_hijos_str = ", ".join([f"'{h}'" for h in todos_hijos])
+                reglas.append(f"- CRÍTICO: Si '{nombre_padre}' está INACTIVO (False) -> TODOS sus hijos ({lista_hijos_str}) DEBEN estar INACTIVOS.")
+            # ------------------------------------------------
+
             if hijos_xor:
                 hijos_str = ", ".join(hijos_xor)
-                reglas.append(f"- Si '{nombre_padre}' está activo, EXACTAMENTE UNO de [{hijos_str}] debe estar activo.")
+                reglas.append(f"- Si '{nombre_padre}' está ACTIVO -> EXACTAMENTE UNO de [{hijos_str}] debe estar activo.")
             if hijos_or:
                 hijos_str = ", ".join(hijos_or)
-                reglas.append(f"- Si '{nombre_padre}' está activo, AL MENOS UNO de [{hijos_str}] debe estar activo.")
+                reglas.append(f"- Si '{nombre_padre}' está ACTIVO -> AL MENOS UNO de [{hijos_str}] debe estar activo.")
 
             # Reglas 'Requiere'
             for rel in caracteristica.getRelaciones:
                 if rel[1] == "Requiere":
-                    reglas.append(f"- REGLA GLOBAL: '{nombre_padre}' REQUIERE '{rel[0]}'. (Si '{nombre_padre}' está activo, '{rel[0]}' también debe estarlo).")
+                    reglas.append(f"- REGLA GLOBAL: '{nombre_padre}' REQUIERE '{rel[0]}'. (No activar '{nombre_padre}' si '{rel[0]}' está inactivo).")
 
-        # Limpiar duplicados (si los 'Requiere' se listan varias veces)
+        # Limpiar duplicados y ordenar
         reglas_unicas = sorted(list(set(reglas)))
         
-        # Encontrar la raíz para ponerla al inicio
+        # Encontrar la raíz
         raiz = self.buscarCaracteristica("Gestor aire")
         if raiz:
             reglas_unicas.insert(0, "El nodo raíz 'Gestor aire' está siempre activo.")
@@ -110,10 +126,10 @@ def generarPosiblesEstados():
     mc.agregarCaracteristica(Nodo("Ambientes cerrados"))
     mc.agregarCaracteristica(Nodo("Ambientes abiertos"))
     mc.agregarCaracteristica(Nodo("Deportes"))
-    mc.agregarCaracteristica(Nodo("Entretenimiento"))
-    mc.agregarCaracteristica(Nodo("Entretenimiento familiar"))
-    mc.agregarCaracteristica(Nodo("Entretenimiento adulto"))
-    mc.agregarCaracteristica(Nodo("Entretenimiento tercera edad"))
+    mc.agregarCaracteristica(Nodo("Entrenamiento"))
+    mc.agregarCaracteristica(Nodo("Entrenamiento familiar"))
+    mc.agregarCaracteristica(Nodo("Entrenamiento adulto"))
+    mc.agregarCaracteristica(Nodo("Entrenamiento tercera edad"))
 
         # --- INICIO DE TU MODIFICACIÓN ---
     mc.agregarCaracteristica(Nodo("HQC")) # El nodo principal
@@ -135,15 +151,15 @@ def generarPosiblesEstados():
     mc.relacionar(mc.buscarCaracteristica("Gestor aire"),mc.buscarCaracteristica("Visualizador calidad aire"), "Obligatoria")
     mc.relacionar(mc.buscarCaracteristica("Gestor aire"), mc.buscarCaracteristica("Turismo"), "Obligatoria")
     mc.relacionar(mc.buscarCaracteristica("Gestor aire"), mc.buscarCaracteristica("Deportes"), "Opcional")
-    mc.relacionar(mc.buscarCaracteristica("Gestor aire"), mc.buscarCaracteristica("Entretenimiento"), "Opcional")
+    mc.relacionar(mc.buscarCaracteristica("Gestor aire"), mc.buscarCaracteristica("Entrenamiento"), "Opcional")
     mc.relacionar(mc.buscarCaracteristica("Visualizador calidad aire"), mc.buscarCaracteristica("Visualizador restriccion uso lena"), "Opcional")
     mc.relacionar(mc.buscarCaracteristica("Turismo"), mc.buscarCaracteristica("Ambientes cerrados"), "XOR")
     mc.relacionar(mc.buscarCaracteristica("Turismo"), mc.buscarCaracteristica("Ambientes abiertos"), "XOR")
     mc.relacionar(mc.buscarCaracteristica("Ambientes abiertos"), mc.buscarCaracteristica("Deportes"), "Requiere")
     mc.relacionar(mc.buscarCaracteristica("Ambientes cerrados"), mc.buscarCaracteristica("Visualizador restriccion uso lena"), "Requiere")
-    mc.relacionar(mc.buscarCaracteristica("Entretenimiento"), mc.buscarCaracteristica("Entretenimiento familiar"), "OR")
-    mc.relacionar(mc.buscarCaracteristica("Entretenimiento"), mc.buscarCaracteristica("Entretenimiento adulto"), "OR")
-    mc.relacionar(mc.buscarCaracteristica("Entretenimiento"), mc.buscarCaracteristica("Entretenimiento tercera edad"), "OR")
+    mc.relacionar(mc.buscarCaracteristica("Entrenamiento"), mc.buscarCaracteristica("Entrenamiento familiar"), "OR")
+    mc.relacionar(mc.buscarCaracteristica("Entrenamiento"), mc.buscarCaracteristica("Entrenamiento adulto"), "OR")
+    mc.relacionar(mc.buscarCaracteristica("Entrenamiento"), mc.buscarCaracteristica("Entrenamiento tercera edad"), "OR")
     # --- INICIO DE TU MODIFICACIÓN ---
     # 1. HQC es opcional y depende de Gestor aire
     mc.relacionar(mc.buscarCaracteristica("Gestor aire"), mc.buscarCaracteristica("HQC"), "Opcional")

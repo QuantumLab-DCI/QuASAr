@@ -3,8 +3,12 @@ import docker
 import datetime
 import os
 import time
+import random # <--- IMPORTANTE: Para simulación estocástica
 
+# Importamos el módulo 'app' para leer la variable global de selección
 import app as app_globals 
+
+# Imports del sistema
 from . import punto_variacion
 from app.services import agente_llm
 from app.services import hqc_module
@@ -17,6 +21,10 @@ class Mapek:
         self._reglaAdaptacion_CP = None
         self._reglaAdaptacion_SLA = None
         
+        # --- NUEVO: Variable para guardar la explicación del LLM ---
+        self._razonamiento_actual = "Esperando análisis del agente..."
+        
+        # Cargar escenarios en memoria al iniciar
         self.scenarios = []
         try:
             json_path = os.path.join(app_path, 'data', 'scenarios.json')
@@ -41,7 +49,7 @@ class Mapek:
     def _validar_configuracion(self, config_dict: dict, mc) -> bool:
         print("VALIDATE: Verificando la configuración del LLM...")
         
-        # 1. Validar 'Requiere'
+        # Validar 'Requiere'
         reglas_requiere = []
         for c in mc.caracteristicas:
             for rel in c.getRelaciones:
@@ -55,7 +63,7 @@ class Mapek:
                 print(f"VALIDATE_ERROR: Regla 'Requiere' violada. '{quien_requiere}' activo sin '{quien_es_requerido}'.")
                 return False
 
-        # 2. Validar Jerarquía
+        # Validar Jerarquía
         for c in mc.caracteristicas:
             nombre_padre = c.getNombre.replace(" ", "_").lower()
             
@@ -93,60 +101,83 @@ class Mapek:
         print("VALIDATE: Configuración del LLM es VÁLIDA.")
         return True
 
-    # --- MÉTODO RENOMBRADO Y ADAPTADO PARA TASK.PY ---
+    # --- MÉTODO DE SIMULACIÓN ESTOCÁSTICA CON INTENCIÓN ---
     def ejecutar_escenario_manual(self, mc, target_id):
         """ 
-        Paso 1: MONITOREAR (Bajo demanda)
-        Recibe un ID de escenario y ejecuta el ciclo para ese contexto.
+        Paso 1: MONITOREAR (Simulación Estocástica + Intención de Negocio)
+        Genera valores aleatorios DENTRO de los rangos y un Perfil de Usuario.
         """
         escenario_actual = next((s for s in self.scenarios if s['id'] == target_id), None)
 
         if escenario_actual:
-            print(f"\n🕹️ [INTERACTIVO] Ejecutando Escenario ID {target_id}: {escenario_actual['nombre']}")
+            print(f"\n🕹️ [MONITOR] Activando Escenario ID {target_id}: {escenario_actual['nombre']}")
+            print(f"   🎲 Generando condiciones estocásticas y perfil de usuario...")
             
-            ica = escenario_actual['ica']
-            cp = escenario_actual['cp']
-            prioridad = escenario_actual['sla']
-            cola_simulada_qiskit = escenario_actual.get('qiskit_cola', 5)
+            # 1. Obtener rangos del JSON (o usar defaults si no existen)
+            rango_ica = escenario_actual.get('rango_ica', [0, 50])
+            rango_cp = escenario_actual.get('rango_cp', [0, 100])
+            rango_cola = escenario_actual.get('rango_cola_qiskit', [0, 10])
+            
+            # 2. Generar valores REALES para esta ejecución (Variables Ambientales)
+            ica_real = random.randint(rango_ica[0], rango_ica[1])
+            cp_real = random.randint(rango_cp[0], rango_cp[1])
+            cola_real_qiskit = random.randint(rango_cola[0], rango_cola[1])
+            prioridad = escenario_actual.get('sla_prioridad', 'RAPIDEZ')
+
+            # 3. Generar Perfil de Usuario (Variable de Negocio para cambiar el diagrama)
+            perfiles = [
+                "Turista Estándar (Solo Rutas)",
+                "Grupo Deportivo (Requiere Deportes)",
+                "Adulto Mayor (Requiere Entr. Tercera Edad)",
+                "Familia con Niños (Requiere Entr. Familiar)",
+                "Evento Nocturno (Requiere Entr. Adulto)"
+            ]
+            perfil_usuario = random.choice(perfiles)
             
         else:
-            print(f"⚠️ Escenario ID {target_id} no encontrado. Usando valores por defecto.")
-            ica = 50; cp = 10; prioridad = "RAPIDEZ"; cola_simulada_qiskit = 5
+            print(f"⚠️ Escenario ID {target_id} no encontrado. Usando valores base.")
+            ica_real = 50; cp_real = 10; prioridad = "RAPIDEZ"; cola_real_qiskit = 5; perfil_usuario = "Estándar"
 
-        print(f"🔎 MONITOR: Contexto Detectado -> ICA:{ica} | CP:{cp} | SLA:{prioridad}")
+        print(f"🔎 SENSADO REAL: Perfil='{perfil_usuario}' | ICA={ica_real} | CP={cp_real} | Cola={cola_real_qiskit}s")
         
-        self._reglaAdaptacion_ICA = ica
-        self._reglaAdaptacion_CP = cp
+        # Guardar contexto para API
+        self._reglaAdaptacion_ICA = ica_real
+        self._reglaAdaptacion_CP = cp_real
         self._reglaAdaptacion_SLA = prioridad
         
-        self.analizar(mc, ica, cp, prioridad, cola_simulada_qiskit)
+        # Pasar los valores aleatorios y el perfil al análisis
+        self.analizar(mc, ica_real, cp_real, prioridad, cola_real_qiskit, perfil_usuario)
 
-    def analizar(self, mc, ica, complejidad_problema, prioridad, cola_forzada=None):
-        """ Paso 2: ANALIZAR (Con Auto-Reparación) """
+    def analizar(self, mc, ica, complejidad_problema, prioridad, cola_forzada=None, perfil_usuario="Estándar"):
+        """ Paso 2: ANALIZAR (Con Agente LLM y Contexto Completo) """
         print(f"🧠 ANALYZE: Consultando al LLM...")
         
         reglas_del_modelo = mc.exportar_reglas_texto()
         metricas_nisq = hqc_module.monitor_backends()
         
+        # INYECCIÓN DE ESTADO SIMULADO (Desde la generación estocástica)
         if cola_forzada is not None:
             metricas_nisq["Qiskit Simulator"]["queue_time_sec"] = cola_forzada
             if cola_forzada > 60:
-                 print(f"   ⚠️ [DEMO] Inyectando congestión simulada en Qiskit: {cola_forzada}s")
+                 print(f"   ⚠️ [DEMO] Infraestructura reporta congestión en Qiskit: {cola_forzada}s")
 
         contexto_actual = f"""
-        DATOS DEL ENTORNO (Simulación Interactiva - Escenario {app_globals.escenario_activo_id}):
-        1. Calidad del Aire (ICA) = {ica}. 
-           (Regla: Si ICA > 100, priorizar 'Ambientes cerrados' y prohibir 'Deportes').
+        DATOS DEL ENTORNO EN TIEMPO REAL (Simulación Estocástica - Escenario {app_globals.escenario_activo_id}):
         
-        2. Complejidad del Problema (CP) = {complejidad_problema}. 
-           (Regla: Si CP > 100, activar 'HQC' y 'Optimizacion de rutas'. Si CP <= 100, 'HQC' inactivo).
+        1. **Perfil de Demanda (INTENCIÓN DE USUARIO):** "{perfil_usuario}"
+           - Si es 'Deportivo', intenta activar 'Deportes' (si el aire lo permite).
+           - Si es 'Familia/Adulto/Tercera Edad', activa la rama de 'Entretenimiento' correspondiente.
+           - Si es 'Estándar', mantén el sistema mínimo (Desactiva Deportes y Entretenimiento).
 
-        3. Prioridad de Negocio (SLA) = {prioridad}.
-           - RAPIDEZ: Elige backend con MENOR cola.
-           - PRECISION: Elige backend más robusto (Qiskit), salvo que la cola sea extrema (>60s).
+        2. **Condiciones Ambientales:**
+           - Calidad del Aire (ICA) = {ica}. (Regla: Si ICA > 100, priorizar 'Ambientes cerrados' y prohibir 'Deportes').
+        
+        3. **Requerimiento Computacional:**
+           - Complejidad (CP) = {complejidad_problema}. (Regla: Si CP > 100, activar 'HQC' y 'Optimizacion de rutas'. Si CP <= 100, 'HQC' inactivo).
 
-        4. Estado Infraestructura Cuántica:
-           {metricas_nisq} 
+        4. **Infraestructura:**
+           - Prioridad SLA: {prioridad}.
+           - Estado Backends: {metricas_nisq}
         """
         
         config_dict_llm = agente_llm.obtener_configuracion_llm(contexto_actual, reglas_del_modelo)
@@ -155,10 +186,15 @@ class Mapek:
             print("ANALYZE_ERROR: Configuración vacía del LLM.")
             return 
 
+        # --- NUEVO: Capturar y guardar el razonamiento del LLM ---
+        if "razonamiento" in config_dict_llm:
+            self._razonamiento_actual = config_dict_llm["razonamiento"]
+            print(f"🤖 RAZONAMIENTO LLM: {self._razonamiento_actual}")
+        # -----------------------------------------------------------
+
         config_plana = self._find_features_in_json(config_dict_llm)
         
         # --- AUTO-REPARACIÓN (SELF-HEALING) ---
-        # Corrige inconsistencias del LLM antes de validar (Ej: Padre OFF, Hijo ON)
         if config_plana.get('hqc') == False:
             nodos_cuanticos = ['backend', 'algoritmo', 'qiskit_simulator', 'cirq_simulator', 'qaoa', 'vqe']
             for nodo in nodos_cuanticos:
@@ -247,16 +283,24 @@ class Mapek:
                     algoritmo = "QAOA" if algoritmo_qaoa_activo else "VQE"
                     backend_nombre = backend_key.replace("_", " ").title()
 
-                    # --- WORKLOAD ADAPTATION ---
+                    # --- WORKLOAD ADAPTATION (Protección de Recursos) ---
                     cp = self._reglaAdaptacion_CP
                     
-                    if cp < 100:
+                    # NUEVA LÓGICA DE ESCALADO (Para ver variabilidad visual)
+                    # HQC solo se enciende si CP > 100.
+                    
+                    # Nivel 1: Complejidad Media (100 - 250) -> 3 Ciudades (9 Qubits)
+                    if cp < 250:
                         problem_size = 3
+                    # Nivel 2: Complejidad Alta (> 250) -> 4 Ciudades (16 Qubits)
                     else:
                         problem_size = 4 
 
+                    # Profundidad dinámica
+                    # Nivel 1: Rápido (CP < 400)
                     circuit_depth = 1
-                    if cp > 200:
+                    # Nivel 2: Preciso (CP >= 400)
+                    if cp >= 400:
                         circuit_depth = 2
                     
                     print(f"   >>> ADAPTACIÓN DE CARGA: CP={cp} detectado.")
@@ -300,8 +344,10 @@ class Mapek:
         return self._puntoVariacion
 
     def getReglaAdaptacion(self):
+        # --- NUEVO: Devolvemos también el razonamiento ---
         return {
             "calidad_aire_ica": self._reglaAdaptacion_ICA,
             "complejidad_problema_cp": self._reglaAdaptacion_CP,
-            "prioridad_sla": self._reglaAdaptacion_SLA
+            "prioridad_sla": self._reglaAdaptacion_SLA,
+            "razonamiento": self._razonamiento_actual 
         }
