@@ -31,28 +31,36 @@ def ejecutar_ciclo_bajo_demanda(mc, escenario_id):
     Ejecuta UNA sola iteración del ciclo MAPE-K para el escenario solicitado.
     Esta función es llamada por el endpoint '/api/seleccionar_escenario' en un hilo.
     """
+    
+    # --- CAMBIO 1: Gestión del Contador de Casos ---
+    # Incrementamos el contador global definido en __init__.py
+    app_globals.execution_counter += 1
+    case_num = app_globals.execution_counter
+    # -----------------------------------------------
+
     print("\n" + "="*50)
-    print(f"⚡ EVENTO RECIBIDO: Iniciando ciclo único para Escenario ID {escenario_id}")
+    print(f"⚡ CASO #{case_num}: Iniciando ciclo para Escenario ID {escenario_id}")
     
     # 1. LIMPIEZA PREVIA
     _limpiar_evidencia_previa()
     
+    mapek = None # Inicializamos variable por seguridad en el bloque except
+
     try:
         # 2. Instanciar Mapek
         mapek = Mapek()
         
-        # 3. Ejecutar la lógica manual pasando el ID del escenario
-        mapek.ejecutar_escenario_manual(mc, escenario_id)
+        # 3. Ejecutar la lógica manual pasando el ID del escenario Y EL NÚMERO DE CASO
+        # --- CAMBIO 2: Pasamos case_num al método ---
+        mapek.ejecutar_escenario_manual(mc, escenario_id, case_num)
         
         # 4. Actualizar el estado global para que el frontend pueda leerlo
         app_globals.pv_global = mapek.getConocimiento()
         app_globals.regla_global = mapek.getReglaAdaptacion()
         
-        # --- NUEVO: Guardar la traza de ejecución en la variable global ---
-        # Esto permite que routes.py la lea y la envíe al frontend
+        # --- Guardar la traza de ejecución en la variable global ---
         app_globals.trace_global = mapek.getTrace()
         print(f"📝 TRAZA GUARDADA: {len(app_globals.trace_global)} pasos registrados para visualización.")
-        # -----------------------------------------------------------------
         
         # 5. Generar la visualización del estado actual (Grafo verde/rojo)
         if app_globals.pv_global: 
@@ -63,7 +71,16 @@ def ejecutar_ciclo_bajo_demanda(mc, escenario_id):
             print("⚠️ Ciclo finalizado sin configuración válida (posible error del LLM).")
 
     except Exception as e:
+        # --- CAMBIO 3: Logging de Error Crítico ---
         print(f"❌ ERROR CRÍTICO EN TAREA DE FONDO: {e}")
+        try:
+            # Si mapek se instanció, usamos su logger. Si no, instanciamos uno nuevo solo para loguear.
+            if mapek is None: mapek = Mapek()
+            mapek.registrar_log_archivo("CRITICAL_ERROR", f"Fallo en task.py: {str(e)}")
+        except Exception as log_err:
+            print(f"   (No se pudo escribir en log file: {log_err})")
+        # ------------------------------------------
+
         import traceback
         traceback.print_exc()
     
@@ -73,5 +90,5 @@ def ejecutar_ciclo_bajo_demanda(mc, escenario_id):
         print(f"🔓 SISTEMA LIBERADO: Ciclo finalizado. Listo para recibir instrucciones.")
     # -----------------------------------------------------
 
-    print(f"✅ CICLO COMPLETADO. El sistema vuelve a estado de espera.")
+    print(f"✅ CICLO #{case_num} COMPLETADO. El sistema vuelve a estado de espera.")
     print("="*50 + "\n")

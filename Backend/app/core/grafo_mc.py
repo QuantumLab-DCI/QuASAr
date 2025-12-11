@@ -126,10 +126,10 @@ def generarPosiblesEstados():
     mc.agregarCaracteristica(Nodo("Ambientes cerrados"))
     mc.agregarCaracteristica(Nodo("Ambientes abiertos"))
     mc.agregarCaracteristica(Nodo("Deportes"))
-    mc.agregarCaracteristica(Nodo("Entrenamiento"))
-    mc.agregarCaracteristica(Nodo("Entrenamiento familiar"))
-    mc.agregarCaracteristica(Nodo("Entrenamiento adulto"))
-    mc.agregarCaracteristica(Nodo("Entrenamiento tercera edad"))
+    mc.agregarCaracteristica(Nodo("Entretenimiento"))
+    mc.agregarCaracteristica(Nodo("Entretenimiento familiar"))
+    mc.agregarCaracteristica(Nodo("Entretenimiento adulto"))
+    mc.agregarCaracteristica(Nodo("Entretenimiento tercera edad"))
 
         # --- INICIO DE TU MODIFICACIÓN ---
     mc.agregarCaracteristica(Nodo("HQC")) # El nodo principal
@@ -151,15 +151,15 @@ def generarPosiblesEstados():
     mc.relacionar(mc.buscarCaracteristica("Gestor aire"),mc.buscarCaracteristica("Visualizador calidad aire"), "Obligatoria")
     mc.relacionar(mc.buscarCaracteristica("Gestor aire"), mc.buscarCaracteristica("Turismo"), "Obligatoria")
     mc.relacionar(mc.buscarCaracteristica("Gestor aire"), mc.buscarCaracteristica("Deportes"), "Opcional")
-    mc.relacionar(mc.buscarCaracteristica("Gestor aire"), mc.buscarCaracteristica("Entrenamiento"), "Opcional")
+    mc.relacionar(mc.buscarCaracteristica("Gestor aire"), mc.buscarCaracteristica("Entretenimiento"), "Opcional")
     mc.relacionar(mc.buscarCaracteristica("Visualizador calidad aire"), mc.buscarCaracteristica("Visualizador restriccion uso lena"), "Opcional")
     mc.relacionar(mc.buscarCaracteristica("Turismo"), mc.buscarCaracteristica("Ambientes cerrados"), "XOR")
     mc.relacionar(mc.buscarCaracteristica("Turismo"), mc.buscarCaracteristica("Ambientes abiertos"), "XOR")
     mc.relacionar(mc.buscarCaracteristica("Ambientes abiertos"), mc.buscarCaracteristica("Deportes"), "Requiere")
     mc.relacionar(mc.buscarCaracteristica("Ambientes cerrados"), mc.buscarCaracteristica("Visualizador restriccion uso lena"), "Requiere")
-    mc.relacionar(mc.buscarCaracteristica("Entrenamiento"), mc.buscarCaracteristica("Entrenamiento familiar"), "OR")
-    mc.relacionar(mc.buscarCaracteristica("Entrenamiento"), mc.buscarCaracteristica("Entrenamiento adulto"), "OR")
-    mc.relacionar(mc.buscarCaracteristica("Entrenamiento"), mc.buscarCaracteristica("Entrenamiento tercera edad"), "OR")
+    mc.relacionar(mc.buscarCaracteristica("Entretenimiento"), mc.buscarCaracteristica("Entretenimiento familiar"), "OR")
+    mc.relacionar(mc.buscarCaracteristica("Entretenimiento"), mc.buscarCaracteristica("Entretenimiento adulto"), "OR")
+    mc.relacionar(mc.buscarCaracteristica("Entretenimiento"), mc.buscarCaracteristica("Entretenimiento tercera edad"), "OR")
     # --- INICIO DE TU MODIFICACIÓN ---
     # 1. HQC es opcional y depende de Gestor aire
     mc.relacionar(mc.buscarCaracteristica("Gestor aire"), mc.buscarCaracteristica("HQC"), "Opcional")

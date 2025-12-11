@@ -68,7 +68,7 @@ def obtener_configuracion_llm(contexto_actual: str, reglas_del_modelo: str) -> d
         
         # Usando el modelo flash (rápido y económico)
         model = genai.GenerativeModel(
-            'models/gemini-2.0-flash',
+            'models/gemini-2.5-flash-lite',
             system_instruction=prompt_sistema,
             generation_config=generation_config
         )

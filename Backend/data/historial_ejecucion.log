@@ -1,0 +1,412 @@
+[CASO #1] [2025-12-11 13:07:03] [ESCENARIO 1] [START] --- INICIO DE CICLO DE ADAPTACIÓN --- || PARAMS: ICA=35, CP=110, SLA='RAPIDEZ', ColaQiskit=0s, Perfil='Familia con Niños (Requiere Entr. Familiar)'
+[CASO #1] [2025-12-11 13:07:05] [ESCENARIO 1] [LLM_ERROR] El Agente LLM devolvió una configuración vacía o hubo error de red. || PARAMS: ICA=35, CP=110, SLA='RAPIDEZ', ColaQiskit=0s, Perfil='Familia con Niños (Requiere Entr. Familiar)'
+[CASO #2] [2025-12-11 13:07:48] [ESCENARIO 1] [START] --- INICIO DE CICLO DE ADAPTACIÓN --- || PARAMS: ICA=57, CP=88, SLA='RAPIDEZ', ColaQiskit=4s, Perfil='Evento Nocturno (Requiere Entr. Adulto)'
+[CASO #2] [2025-12-11 13:07:48] [ESCENARIO 1] [LLM_ERROR] El Agente LLM devolvió una configuración vacía o hubo error de red. || PARAMS: ICA=57, CP=88, SLA='RAPIDEZ', ColaQiskit=4s, Perfil='Evento Nocturno (Requiere Entr. Adulto)'
+[CASO #1] [2025-12-11 13:10:56] [ESCENARIO 1] [START] --- INICIO DE CICLO DE ADAPTACIÓN --- || PARAMS: ICA=46, CP=74, SLA='RAPIDEZ', ColaQiskit=2s, Perfil='Turista Estándar (Solo Rutas)'
+[CASO #1] [2025-12-11 13:10:58] [ESCENARIO 1] [LLM_DECISION] Razonamiento: Activado Turismo y Optimizacion de Rutas para 'Turista Estándar'. Seleccionado Cirq Simulator por su menor tiempo de cola (0s) comparado con Qiskit (2s), priorizando la rapidez del SLA. HQC y Backend activados por requerimiento de Optimizacion de Rutas.
+[CASO #1] [2025-12-11 13:10:58] [ESCENARIO 1] [VALIDATION_FAIL] XOR violada en turismo
+[CASO #2] [2025-12-11 13:11:28] [ESCENARIO 1] [START] --- INICIO DE CICLO DE ADAPTACIÓN --- || PARAMS: ICA=88, CP=85, SLA='RAPIDEZ', ColaQiskit=1s, Perfil='Familia con Niños (Requiere Entr. Familiar)'
+[CASO #2] [2025-12-11 13:11:30] [ESCENARIO 1] [LLM_DECISION] Razonamiento: Se activa 'Entrenamiento Familiar' por perfil de usuario. 'Turismo' y 'Ambientes Cerrados' activos por ICA 88 y demanda. 'Deportes' inactivo por ICA alto. Backend y HQC inactivos por baja prioridad computacional (CP 85) y SLA de rapidez.
+[CASO #2] [2025-12-11 13:11:30] [ESCENARIO 1] [PLAN] Features activas: ['Gestor aire', 'Visualizador calidad aire', 'Turismo', 'Ambientes cerrados', 'Visualizador restriccion uso lena', 'Entrenamiento', 'Entrenamiento familiar']
+[CASO #2] [2025-12-11 13:11:30] [ESCENARIO 1] [EXECUTION_START] Iniciando reconfiguración de contenedores...
+[CASO #2] [2025-12-11 13:11:30] [ESCENARIO 1] [NODE_WARNING] No se encontró contenedor Docker: visualizador_calidad_aire
+[CASO #2] [2025-12-11 13:11:31] [ESCENARIO 1] [NODE_SUCCESS] Desactivado: optimizacion_de_rutas
+[CASO #2] [2025-12-11 13:11:32] [ESCENARIO 1] [NODE_SUCCESS] Desactivado: deportes
+[CASO #2] [2025-12-11 13:11:32] [ESCENARIO 1] [NODE_WARNING] No se encontró contenedor Docker: entrenamiento
+[CASO #2] [2025-12-11 13:11:32] [ESCENARIO 1] [NODE_WARNING] No se encontró contenedor Docker: entrenamiento_familiar
+[CASO #2] [2025-12-11 13:11:34] [ESCENARIO 1] [NODE_SUCCESS] Desactivado: hqc
+[CASO #2] [2025-12-11 13:11:35] [ESCENARIO 1] [NODE_SUCCESS] Desactivado: backend
+[CASO #2] [2025-12-11 13:11:36] [ESCENARIO 1] [NODE_SUCCESS] Desactivado: qiskit_simulator
+[CASO #2] [2025-12-11 13:11:38] [ESCENARIO 1] [NODE_SUCCESS] Desactivado: cirq_simulator
+[CASO #2] [2025-12-11 13:11:39] [ESCENARIO 1] [NODE_SUCCESS] Desactivado: algoritmo
+[CASO #2] [2025-12-11 13:11:40] [ESCENARIO 1] [NODE_SUCCESS] Desactivado: qaoa
+[CASO #2] [2025-12-11 13:11:41] [ESCENARIO 1] [NODE_SUCCESS] Desactivado: vqe
+[CASO #2] [2025-12-11 13:11:41] [ESCENARIO 1] [SUCCESS] Ciclo completado.
+[CASO #1] [2025-12-11 13:14:38] [ESCENARIO 1] [START] --- INICIO DE CICLO DE ADAPTACIÓN --- || PARAMS: ICA=104, CP=113, SLA='RAPIDEZ', ColaQiskit=5s, Perfil='Turista Estándar (Solo Rutas)'
+[CASO #1] [2025-12-11 13:14:42] [ESCENARIO 1] [LLM_DECISION] Razonamiento: ICA alto (104) desactiva actividades al aire libre. Perfil 'Turista Estándar' activa Turismo y Optimizacion de Rutas. Cirq Simulator elegido por menor tiempo de cola (0s) frente a Qiskit (5s) para cumplir SLA de Rapidez.
+[CASO #1] [2025-12-11 13:14:42] [ESCENARIO 1] [VALIDATION_FAIL] XOR violada en turismo
+[CASO #2] [2025-12-11 13:15:20] [ESCENARIO 1] [START] --- INICIO DE CICLO DE ADAPTACIÓN --- || PARAMS: ICA=67, CP=86, SLA='RAPIDEZ', ColaQiskit=1s, Perfil='Grupo Deportivo (Requiere Deportes)'
+[CASO #2] [2025-12-11 13:15:23] [ESCENARIO 1] [LLM_DECISION] Razonamiento: Activado 'Grupo Deportivo' y 'Ambientes Abiertos' por perfil y ICA 67. Desactivado HQC y Backend por CP 86 y SLA RAPIDEZ, priorizando la disponibilidad.
+[CASO #2] [2025-12-11 13:15:23] [ESCENARIO 1] [PLAN] Features activas: ['Gestor aire', 'Visualizador calidad aire', 'Turismo', 'Deportes', 'Ambientes abiertos']
+[CASO #2] [2025-12-11 13:15:23] [ESCENARIO 1] [EXECUTION_START] Iniciando reconfiguración de contenedores...
+[CASO #2] [2025-12-11 13:15:24] [ESCENARIO 1] [NODE_WARNING] No se encontró contenedor Docker: visualizador_calidad_aire
+[CASO #2] [2025-12-11 13:15:24] [ESCENARIO 1] [NODE_SUCCESS] Activado: deportes
+[CASO #2] [2025-12-11 13:15:26] [ESCENARIO 1] [NODE_SUCCESS] Desactivado: visualizador_restriccion_uso_lena
+[CASO #2] [2025-12-11 13:15:27] [ESCENARIO 1] [NODE_SUCCESS] Desactivado: ambientes_cerrados
+[CASO #2] [2025-12-11 13:15:27] [ESCENARIO 1] [SUCCESS] Ciclo completado.
+[CASO #3] [2025-12-11 13:16:32] [ESCENARIO 1] [START] --- INICIO DE CICLO DE ADAPTACIÓN --- || PARAMS: ICA=81, CP=58, SLA='RAPIDEZ', ColaQiskit=5s, Perfil='Turista Estándar (Solo Rutas)'
+[CASO #3] [2025-12-11 13:16:36] [ESCENARIO 1] [LLM_DECISION] Razonamiento: Activé Turismo y Optimizacion de Rutas para 'Turista Estándar (Solo Rutas)'. Elegí Cirq Simulator por su menor tiempo de cola (0s vs 5s), priorizando la rapidez del SLA.
+[CASO #3] [2025-12-11 13:16:36] [ESCENARIO 1] [VALIDATION_FAIL] XOR violada en turismo
+[CASO #4] [2025-12-11 13:16:55] [ESCENARIO 1] [START] --- INICIO DE CICLO DE ADAPTACIÓN --- || PARAMS: ICA=63, CP=60, SLA='RAPIDEZ', ColaQiskit=2s, Perfil='Familia con Niños (Requiere Entr. Familiar)'
+[CASO #4] [2025-12-11 13:16:57] [ESCENARIO 1] [LLM_DECISION] Razonamiento: Activado Entrenamiento Familiar por perfil 'Familia con Niños'. Desactivados HQC, Backend y Algoritmo por CP bajo (60). Optimizacion de rutas desactivada por no requerimiento de HQC. Cirq elegido por menor cola (1s).
+[CASO #4] [2025-12-11 13:16:57] [ESCENARIO 1] [VALIDATION_FAIL] XOR violada en turismo
+[CASO #5] [2025-12-11 13:17:37] [ESCENARIO 1] [START] --- INICIO DE CICLO DE ADAPTACIÓN --- || PARAMS: ICA=34, CP=60, SLA='RAPIDEZ', ColaQiskit=1s, Perfil='Grupo Deportivo (Requiere Deportes)'
+[CASO #5] [2025-12-11 13:17:39] [ESCENARIO 1] [LLM_DECISION] Razonamiento: Activado 'Grupo Deportivo' y bajo ICA (34) para habilitar 'Deportes' y 'Ambientes Abiertos'. Desactivado HQC y Backend por CP bajo (60) y SLA de RAPIDEZ, evitando colas.
+[CASO #5] [2025-12-11 13:17:39] [ESCENARIO 1] [PLAN] Features activas: ['Gestor aire', 'Visualizador calidad aire', 'Turismo', 'Deportes', 'Ambientes abiertos']
+[CASO #5] [2025-12-11 13:17:39] [ESCENARIO 1] [EXECUTION_START] Iniciando reconfiguración de contenedores...
+[CASO #5] [2025-12-11 13:17:39] [ESCENARIO 1] [NODE_WARNING] No se encontró contenedor Docker: visualizador_calidad_aire
+[CASO #5] [2025-12-11 13:17:39] [ESCENARIO 1] [SUCCESS] Ciclo completado.
+[CASO #1] [2025-12-11 13:25:46] [ESCENARIO 1] [START] --- INICIO DE CICLO DE ADAPTACIÓN --- || PARAMS: ICA=64, CP=77, SLA='RAPIDEZ', ColaQiskit=0s, Perfil='Turista Estándar (Solo Rutas)'
+[CASO #1] [2025-12-11 13:25:49] [ESCENARIO 1] [LLM_DECISION] Razonamiento: Activado Turismo y Optimizacion de Rutas por perfil 'Turista Estándar'. Se prioriza Qiskit por menor tasa de error y cola nula, cumpliendo SLA de rapidez.
+[CASO #1] [2025-12-11 13:25:49] [ESCENARIO 1] [VALIDATION_FAIL] XOR violada en turismo
+[CASO #2] [2025-12-11 13:26:27] [ESCENARIO 1] [START] --- INICIO DE CICLO DE ADAPTACIÓN --- || PARAMS: ICA=22, CP=112, SLA='RAPIDEZ', ColaQiskit=3s, Perfil='Familia con Niños (Requiere Entr. Familiar)'
+[CASO #2] [2025-12-11 13:26:29] [ESCENARIO 1] [LLM_DECISION] Razonamiento: Activado Entrenamiento Familiar por perfil 'Familia con Niños'. Desactivado Turismo y Deportes por baja prioridad y perfil no afín. Cirq Simulator seleccionado por menor tiempo de cola (0s) frente a Qiskit (3s).
+[CASO #2] [2025-12-11 13:26:29] [ESCENARIO 1] [VALIDATION_FAIL] XOR violada en turismo
+[CASO #3] [2025-12-11 13:27:18] [ESCENARIO 1] [START] --- INICIO DE CICLO DE ADAPTACIÓN --- || PARAMS: ICA=58, CP=64, SLA='RAPIDEZ', ColaQiskit=1s, Perfil='Evento Nocturno (Requiere Entr. Adulto)'
+[CASO #3] [2025-12-11 13:27:19] [ESCENARIO 1] [LLM_DECISION] Razonamiento: Activado Entrenamiento Adulto por perfil 'Evento Nocturno'. Turismo activado por regla de Gestor Aire. Cirq Simulator seleccionado por menor tiempo de cola (0s) a pesar de mayor tasa de error.
+[CASO #3] [2025-12-11 13:27:19] [ESCENARIO 1] [VALIDATION_FAIL] XOR violada en turismo
+[CASO #4] [2025-12-11 13:27:49] [ESCENARIO 1] [START] --- INICIO DE CICLO DE ADAPTACIÓN --- || PARAMS: ICA=106, CP=60, SLA='RAPIDEZ', ColaQiskit=2s, Perfil='Evento Nocturno (Requiere Entr. Adulto)'
+[CASO #4] [2025-12-11 13:27:50] [ESCENARIO 1] [LLM_DECISION] Razonamiento: ICA 106 desactiva deportes y ambientes abiertos. Perfil 'Evento Nocturno' activa entrenamiento adulto. Turismo activo por Gestor Aire. HQC y Backend inactivos por falta de demanda y SLA RAPIDEZ.
+[CASO #4] [2025-12-11 13:27:50] [ESCENARIO 1] [PLAN] Features activas: ['Gestor aire', 'Visualizador calidad aire', 'Turismo', 'Ambientes cerrados', 'Visualizador restriccion uso lena', 'Entrenamiento', 'Entrenamiento adulto']
+[CASO #4] [2025-12-11 13:27:50] [ESCENARIO 1] [EXECUTION_START] Iniciando reconfiguración de contenedores...
+[CASO #4] [2025-12-11 13:27:52] [ESCENARIO 1] [NODE_SUCCESS] Desactivado: optimizacion_de_rutas
+[CASO #4] [2025-12-11 13:27:53] [ESCENARIO 1] [NODE_SUCCESS] Desactivado: hqc
+[CASO #4] [2025-12-11 13:27:55] [ESCENARIO 1] [NODE_SUCCESS] Desactivado: backend
+[CASO #4] [2025-12-11 13:27:56] [ESCENARIO 1] [NODE_SUCCESS] Desactivado: qiskit_simulator
+[CASO #4] [2025-12-11 13:27:58] [ESCENARIO 1] [NODE_SUCCESS] Desactivado: cirq_simulator
+[CASO #4] [2025-12-11 13:27:59] [ESCENARIO 1] [NODE_SUCCESS] Desactivado: algoritmo
+[CASO #4] [2025-12-11 13:28:00] [ESCENARIO 1] [NODE_SUCCESS] Desactivado: qaoa
+[CASO #4] [2025-12-11 13:28:02] [ESCENARIO 1] [NODE_SUCCESS] Desactivado: vqe
+[CASO #4] [2025-12-11 13:28:02] [ESCENARIO 1] [NODE_WARNING] No se encontró contenedor Docker: entrenamiento
+[CASO #4] [2025-12-11 13:28:02] [ESCENARIO 1] [NODE_WARNING] No se encontró contenedor Docker: entrenamiento_adulto
+[CASO #4] [2025-12-11 13:28:03] [ESCENARIO 1] [NODE_SUCCESS] Desactivado: deportes
+[CASO #4] [2025-12-11 13:28:05] [ESCENARIO 1] [NODE_SUCCESS] Desactivado: ambientes_abiertos
+[CASO #4] [2025-12-11 13:28:05] [ESCENARIO 1] [SUCCESS] Ciclo completado.
+[CASO #5] [2025-12-11 13:28:45] [ESCENARIO 1] [START] --- INICIO DE CICLO DE ADAPTACIÓN --- || PARAMS: ICA=77, CP=69, SLA='RAPIDEZ', ColaQiskit=4s, Perfil='Evento Nocturno (Requiere Entr. Adulto)'
+[CASO #5] [2025-12-11 13:28:48] [ESCENARIO 1] [LLM_DECISION] Razonamiento: Se prioriza 'Entrenamiento Adulto' por perfil 'Evento Nocturno'. ICA 77 desactiva actividades al aire libre. Cirq Simulator se descarta por alta tasa de error. Qiskit Simulator se desactiva por baja prioridad computacional y tiempo de cola aceptable.
+[CASO #5] [2025-12-11 13:28:48] [ESCENARIO 1] [VALIDATION_FAIL] XOR violada en turismo
+[CASO #6] [2025-12-11 13:29:09] [ESCENARIO 1] [START] --- INICIO DE CICLO DE ADAPTACIÓN --- || PARAMS: ICA=63, CP=67, SLA='RAPIDEZ', ColaQiskit=5s, Perfil='Familia con Niños (Requiere Entr. Familiar)'
+[CASO #6] [2025-12-11 13:29:10] [ESCENARIO 1] [LLM_DECISION] Razonamiento: Activado Entrenamiento Familiar por perfil. Turismo y Visualizador Calidad Aire obligatorios por Gestor Aire. Desactivados HQC y Backend por bajo requerimiento computacional y alta latencia de Qiskit.
+[CASO #6] [2025-12-11 13:29:10] [ESCENARIO 1] [VALIDATION_FAIL] XOR violada en turismo
+[CASO #7] [2025-12-11 13:29:32] [ESCENARIO 2] [START] --- INICIO DE CICLO DE ADAPTACIÓN --- || PARAMS: ICA=77, CP=137, SLA='PRECISION', ColaQiskit=27s, Perfil='Evento Nocturno (Requiere Entr. Adulto)'
+[CASO #7] [2025-12-11 13:29:34] [ESCENARIO 2] [LLM_DECISION] Razonamiento: Activado Entrenamiento Adulto por perfil 'Evento Nocturno'. Turismo activado para cumplir requisito de Gestor Aire. Optimizacion de rutas y HQC desactivados para cumplir con la regla de dependencia de Turismo. Cirq Simulator seleccionado por su menor tiempo de cola.
+[CASO #7] [2025-12-11 13:29:34] [ESCENARIO 2] [VALIDATION_FAIL] XOR violada en turismo
+[CASO #8] [2025-12-11 13:30:02] [ESCENARIO 3] [START] --- INICIO DE CICLO DE ADAPTACIÓN --- || PARAMS: ICA=154, CP=81, SLA='RAPIDEZ', ColaQiskit=4s, Perfil='Adulto Mayor (Requiere Entr. Tercera Edad)'
+[CASO #8] [2025-12-11 13:30:04] [ESCENARIO 3] [LLM_DECISION] Razonamiento: ICA alto (154) desactiva actividades al aire libre y turismo. Perfil 'Adulto Mayor' activa Entrenamiento Tercera Edad. Cirq Simulator seleccionado por su mínima cola (0s) a pesar de su mayor tasa de error.
+[CASO #8] [2025-12-11 13:30:04] [ESCENARIO 3] [VALIDATION_FAIL] XOR violada en turismo
+[CASO #9] [2025-12-11 13:34:05] [ESCENARIO 1] [START] --- INICIO DE CICLO DE ADAPTACIÓN --- || PARAMS: ICA=57, CP=84, SLA='RAPIDEZ', ColaQiskit=0s, Perfil='Adulto Mayor (Requiere Entr. Tercera Edad)'
+[CASO #9] [2025-12-11 13:34:08] [ESCENARIO 1] [LLM_DECISION] Razonamiento: Activé Entrenamiento Tercera Edad por perfil de usuario. Desactivé HQC y Backend ya que no son necesarios para el entrenamiento y para optimizar recursos. El ICA 57 permite la activación de Gestor Aire.
+[CASO #9] [2025-12-11 13:34:08] [ESCENARIO 1] [VALIDATION_FAIL] XOR violada en turismo
+[CASO #1] [2025-12-11 13:35:27] [ESCENARIO 1] [START] --- INICIO DE CICLO DE ADAPTACIÓN --- || PARAMS: ICA=97, CP=83, SLA='RAPIDEZ', ColaQiskit=1s, Perfil='Grupo Deportivo (Requiere Deportes)'
+[CASO #1] [2025-12-11 13:35:30] [ESCENARIO 1] [LLM_DECISION] Razonamiento: El ICA (97) no supera 100, por lo que se prioriza 'Ambientes cerrados' sobre 'Ambientes abiertos' para cumplir la regla de negocio XOR de Turismo. Dado que 'Gestor aire' es siempre True, 'Turismo' y 'Visualizador calidad aire' deben ser True. 'Deportes' se activa para cumplir la regla global 'Ambientes abiertos' REQUIERE 'Deportes', aunque 'Ambientes abiertos' esté inactivo. 'HQC' y sus dependencias se desactivan ya que no son requeridos por el perfil de demanda ni por las condiciones ambientales. El resto de las características se desactivan por defecto o por no ser requeridas.
+[CASO #1] [2025-12-11 13:35:30] [ESCENARIO 1] [PLAN] Features activas: ['Gestor aire', 'Visualizador calidad aire', 'Turismo', 'Ambientes cerrados', 'Visualizador restriccion uso lena', 'Deportes']
+[CASO #1] [2025-12-11 13:35:30] [ESCENARIO 1] [EXECUTION_START] Iniciando reconfiguración de contenedores...
+[CASO #1] [2025-12-11 13:35:31] [ESCENARIO 1] [NODE_SUCCESS] Activado: deportes
+[CASO #1] [2025-12-11 13:35:31] [ESCENARIO 1] [SUCCESS] Ciclo completado.
+[CASO #2] [2025-12-11 13:36:17] [ESCENARIO 1] [START] --- INICIO DE CICLO DE ADAPTACIÓN --- || PARAMS: ICA=50, CP=112, SLA='RAPIDEZ', ColaQiskit=0s, Perfil='Familia con Niños (Requiere Entr. Familiar)'
+[CASO #2] [2025-12-11 13:36:19] [ESCENARIO 1] [LLM_DECISION] Razonamiento: El ICA (50) no requiere la activación de 'Ambientes cerrados'. Dado que 'Turismo' está activo, se ha seleccionado 'Ambientes abiertos' y su hijo obligatorio 'Deportes' para cumplir con la regla XOR. El perfil de demanda 'Familia con Niños' activa 'Entrenamiento familiar'. 'HQC' y sus dependencias no son necesarias para este escenario.
+[CASO #2] [2025-12-11 13:36:19] [ESCENARIO 1] [PLAN] Features activas: ['Gestor aire', 'Visualizador calidad aire', 'Turismo', 'Ambientes abiertos', 'Deportes', 'Entrenamiento', 'Entrenamiento familiar']
+[CASO #2] [2025-12-11 13:36:19] [ESCENARIO 1] [EXECUTION_START] Iniciando reconfiguración de contenedores...
+[CASO #2] [2025-12-11 13:36:19] [ESCENARIO 1] [NODE_SUCCESS] Activado: ambientes_abiertos
+[CASO #2] [2025-12-11 13:36:20] [ESCENARIO 1] [NODE_SUCCESS] Desactivado: ambientes_cerrados
+[CASO #2] [2025-12-11 13:36:22] [ESCENARIO 1] [NODE_SUCCESS] Desactivado: visualizador_restriccion_uso_lena
+[CASO #2] [2025-12-11 13:36:22] [ESCENARIO 1] [NODE_WARNING] No se encontró contenedor Docker: entrenamiento
+[CASO #2] [2025-12-11 13:36:22] [ESCENARIO 1] [NODE_WARNING] No se encontró contenedor Docker: entrenamiento_familiar
+[CASO #2] [2025-12-11 13:36:22] [ESCENARIO 1] [SUCCESS] Ciclo completado.
+[CASO #3] [2025-12-11 13:37:01] [ESCENARIO 1] [START] --- INICIO DE CICLO DE ADAPTACIÓN --- || PARAMS: ICA=30, CP=86, SLA='RAPIDEZ', ColaQiskit=1s, Perfil='Adulto Mayor (Requiere Entr. Tercera Edad)'
+[CASO #3] [2025-12-11 13:37:01] [ESCENARIO 1] [LLM_ERROR] El Agente LLM devolvió una configuración vacía o hubo error de red. || PARAMS: ICA=30, CP=86, SLA='RAPIDEZ', ColaQiskit=1s, Perfil='Adulto Mayor (Requiere Entr. Tercera Edad)'
+[CASO #4] [2025-12-11 13:41:41] [ESCENARIO 1] [START] --- INICIO DE CICLO DE ADAPTACIÓN --- || PARAMS: ICA=66, CP=91, SLA='RAPIDEZ', ColaQiskit=4s, Perfil='Familia con Niños (Requiere Entr. Familiar)'
+[CASO #4] [2025-12-11 13:41:44] [ESCENARIO 1] [LLM_DECISION] Razonamiento: El ICA (66) no requiere la activación de 'Ambientes abiertos', por lo que se prioriza 'Ambientes cerrados' para cumplir el XOR de Turismo. Dado que el CP (91) es bajo, no se activa HQC ni sus dependencias. El perfil de demanda 'Familia con Niños' activa 'Entrenamiento familiar' para satisfacer la necesidad de entrenamiento.
+[CASO #4] [2025-12-11 13:41:44] [ESCENARIO 1] [PLAN] Features activas: ['Gestor aire', 'Visualizador calidad aire', 'Turismo', 'Ambientes cerrados', 'Visualizador restriccion uso lena', 'Entrenamiento', 'Entrenamiento familiar']
+[CASO #4] [2025-12-11 13:41:44] [ESCENARIO 1] [EXECUTION_START] Iniciando reconfiguración de contenedores...
+[CASO #4] [2025-12-11 13:41:44] [ESCENARIO 1] [NODE_SUCCESS] Activado: ambientes_cerrados
+[CASO #4] [2025-12-11 13:41:45] [ESCENARIO 1] [NODE_SUCCESS] Activado: visualizador_restriccion_uso_lena
+[CASO #4] [2025-12-11 13:41:46] [ESCENARIO 1] [NODE_SUCCESS] Desactivado: ambientes_abiertos
+[CASO #4] [2025-12-11 13:41:47] [ESCENARIO 1] [NODE_SUCCESS] Desactivado: deportes
+[CASO #4] [2025-12-11 13:41:47] [ESCENARIO 1] [NODE_WARNING] No se encontró contenedor Docker: entrenamiento
+[CASO #4] [2025-12-11 13:41:47] [ESCENARIO 1] [NODE_WARNING] No se encontró contenedor Docker: entrenamiento_familiar
+[CASO #4] [2025-12-11 13:41:47] [ESCENARIO 1] [SUCCESS] Ciclo completado.
+[CASO #5] [2025-12-11 13:43:53] [ESCENARIO 1] [START] --- INICIO DE CICLO DE ADAPTACIÓN --- || PARAMS: ICA=56, CP=110, SLA='RAPIDEZ', ColaQiskit=4s, Perfil='Evento Nocturno (Requiere Entr. Adulto)'
+[CASO #5] [2025-12-11 13:43:57] [ESCENARIO 1] [LLM_DECISION] Razonamiento: El ICA (56) no requiere la activación de 'Ambientes abiertos', por lo que se prioriza 'Ambientes cerrados' para cumplir el XOR de Turismo. Dado que el CP (110) es alto, se desactiva HQC y sus dependencias. El perfil de demanda 'Evento Nocturno (Requiere Entr. Adulto)' activa 'Entrenamiento adulto' y por ende 'Entrenamiento'.
+[CASO #5] [2025-12-11 13:43:57] [ESCENARIO 1] [PLAN] Features activas: ['Gestor aire', 'Visualizador calidad aire', 'Turismo', 'Ambientes cerrados', 'Visualizador restriccion uso lena', 'Entrenamiento', 'Entrenamiento adulto']
+[CASO #5] [2025-12-11 13:43:57] [ESCENARIO 1] [EXECUTION_START] Iniciando reconfiguración de contenedores...
+[CASO #5] [2025-12-11 13:43:58] [ESCENARIO 1] [NODE_WARNING] No se encontró contenedor Docker: entrenamiento
+[CASO #5] [2025-12-11 13:43:58] [ESCENARIO 1] [NODE_WARNING] No se encontró contenedor Docker: entrenamiento_adulto
+[CASO #5] [2025-12-11 13:43:58] [ESCENARIO 1] [SUCCESS] Ciclo completado.
+[CASO #1] [2025-12-11 13:50:05] [ESCENARIO 1] [START] --- INICIO DE CICLO DE ADAPTACIÓN --- || PARAMS: ICA=60, CP=64, SLA='RAPIDEZ', ColaQiskit=0s, Perfil='Familia con Niños (Requiere Entr. Familiar)'
+[CASO #1] [2025-12-11 13:50:08] [ESCENARIO 1] [LLM_DECISION] Razonamiento: HQC desactivado porque CP (64) <= 100. Turismo activado con Ambientes abiertos (ICA <= 100). Entrenamiento activado con Entrenamiento familiar.
+[CASO #1] [2025-12-11 13:50:08] [ESCENARIO 1] [VALIDATION_FAIL] Regla 'Requiere' violada. 'ambientes_abiertos' activo sin 'deportes'.
+[CASO #1] [2025-12-11 13:51:31] [ESCENARIO 1] [START] --- INICIO DE CICLO DE ADAPTACIÓN --- || PARAMS: ICA=109, CP=86, SLA='RAPIDEZ', ColaQiskit=0s, Perfil='Adulto Mayor (Requiere Entr. Tercera Edad)'
+[CASO #1] [2025-12-11 13:51:34] [ESCENARIO 1] [LLM_DECISION] Razonamiento: CP (86) es menor o igual a 100, por lo que HQC se desactiva. ICA (109) es mayor a 100, lo que prohíbe 'Ambientes abiertos'. Turismo se activa y, debido a la restricción de ICA, se elige 'Ambientes cerrados' y se desactiva 'Ambientes abiertos'. El entrenamiento se activa para 'Entrenamiento tercera edad' según el perfil de demanda.
+[CASO #1] [2025-12-11 13:51:34] [ESCENARIO 1] [PLAN] Features activas: ['Gestor aire', 'Visualizador calidad aire', 'Turismo', 'Ambientes cerrados', 'Visualizador restriccion uso lena', 'Entrenamiento', 'Entrenamiento tercera edad']
+[CASO #1] [2025-12-11 13:51:34] [ESCENARIO 1] [EXECUTION_START] Iniciando reconfiguración de contenedores...
+[CASO #1] [2025-12-11 13:51:35] [ESCENARIO 1] [NODE_SUCCESS] Desactivado: ambientes_abiertos
+[CASO #1] [2025-12-11 13:51:36] [ESCENARIO 1] [NODE_SUCCESS] Desactivado: deportes
+[CASO #1] [2025-12-11 13:51:38] [ESCENARIO 1] [NODE_SUCCESS] Desactivado: optimizacion_de_rutas
+[CASO #1] [2025-12-11 13:51:39] [ESCENARIO 1] [NODE_SUCCESS] Desactivado: hqc
+[CASO #1] [2025-12-11 13:51:40] [ESCENARIO 1] [NODE_SUCCESS] Desactivado: backend
+[CASO #1] [2025-12-11 13:51:41] [ESCENARIO 1] [NODE_SUCCESS] Desactivado: qiskit_simulator
+[CASO #1] [2025-12-11 13:51:42] [ESCENARIO 1] [NODE_SUCCESS] Desactivado: cirq_simulator
+[CASO #1] [2025-12-11 13:51:44] [ESCENARIO 1] [NODE_SUCCESS] Desactivado: algoritmo
+[CASO #1] [2025-12-11 13:51:45] [ESCENARIO 1] [NODE_SUCCESS] Desactivado: qaoa
+[CASO #1] [2025-12-11 13:51:46] [ESCENARIO 1] [NODE_SUCCESS] Desactivado: vqe
+[CASO #1] [2025-12-11 13:51:46] [ESCENARIO 1] [NODE_WARNING] No se encontró contenedor Docker: entrenamiento
+[CASO #1] [2025-12-11 13:51:46] [ESCENARIO 1] [NODE_WARNING] No se encontró contenedor Docker: entrenamiento_tercera_edad
+[CASO #1] [2025-12-11 13:51:46] [ESCENARIO 1] [SUCCESS] Ciclo completado.
+[CASO #1] [2025-12-11 14:10:26] [ESCENARIO 1] [START] --- INICIO DE CICLO DE ADAPTACIÓN --- || PARAMS: ICA=78, CP=115, SLA='RAPIDEZ', ColaQiskit=0s, Perfil='Grupo Deportivo (Requiere Deportes)'
+[CASO #1] [2025-12-11 14:10:29] [ESCENARIO 1] [LLM_DECISION] Razonamiento: CP (115) > 100, por lo tanto HQC y Optimizacion de rutas son obligatorios. ICA (78) < 100, permitiendo Ambientes abiertos. Turismo es obligatorio y se activa Ambientes abiertos para cumplir la regla XOR y el perfil de demanda. Se activa QAOA como algoritmo y Qiskit Simulator como backend para HQC.
+[CASO #1] [2025-12-11 14:10:29] [ESCENARIO 1] [PLAN] Features activas: ['Gestor aire', 'Visualizador calidad aire', 'Turismo', 'Ambientes abiertos', 'Deportes', 'Optimizacion de rutas', 'HQC', 'Backend', 'Qiskit Simulator', 'Algoritmo', 'QAOA']
+[CASO #1] [2025-12-11 14:10:29] [ESCENARIO 1] [EXECUTION_START] Iniciando reconfiguración de contenedores...
+[CASO #1] [2025-12-11 14:10:30] [ESCENARIO 1] [NODE_SUCCESS] Desactivado: visualizador_restriccion_uso_lena
+[CASO #1] [2025-12-11 14:10:31] [ESCENARIO 1] [NODE_SUCCESS] Desactivado: ambientes_cerrados
+[CASO #1] [2025-12-11 14:10:33] [ESCENARIO 1] [NODE_SUCCESS] Desactivado: entretenimiento
+[CASO #1] [2025-12-11 14:10:34] [ESCENARIO 1] [NODE_SUCCESS] Desactivado: entretenimiento_familiar
+[CASO #1] [2025-12-11 14:10:35] [ESCENARIO 1] [NODE_SUCCESS] Desactivado: entretenimiento_adulto
+[CASO #1] [2025-12-11 14:10:36] [ESCENARIO 1] [NODE_SUCCESS] Desactivado: entretenimiento_tercera_edad
+[CASO #1] [2025-12-11 14:10:36] [ESCENARIO 1] [HQC_INFO] Iniciando Job QAOA en Qiskit Simulator (CP=115)
+[CASO #1] [2025-12-11 14:10:42] [ESCENARIO 1] [HQC_SUCCESS] Job finalizado. Costo: 172.0
+[CASO #1] [2025-12-11 14:10:42] [ESCENARIO 1] [SUCCESS] Ciclo completado.
+[CASO #2] [2025-12-11 14:12:15] [ESCENARIO 1] [START] --- INICIO DE CICLO DE ADAPTACIÓN --- || PARAMS: ICA=82, CP=90, SLA='RAPIDEZ', ColaQiskit=1s, Perfil='Grupo Deportivo (Requiere Deportes)'
+[CASO #2] [2025-12-11 14:12:16] [ESCENARIO 1] [LLM_DECISION] Razonamiento: CP es 90 (<= 100), por lo que HQC se desactiva. ICA es 82, lo que permite activar 'Ambientes abiertos'. Turismo se activa y, siguiendo la regla XOR, se activa 'Ambientes abiertos' (que a su vez requiere 'Deportes' por el perfil de demanda).
+[CASO #2] [2025-12-11 14:12:16] [ESCENARIO 1] [PLAN] Features activas: ['Gestor aire', 'Visualizador calidad aire', 'Turismo', 'Ambientes abiertos', 'Deportes']
+[CASO #2] [2025-12-11 14:12:16] [ESCENARIO 1] [EXECUTION_START] Iniciando reconfiguración de contenedores...
+[CASO #2] [2025-12-11 14:12:18] [ESCENARIO 1] [NODE_SUCCESS] Desactivado: optimizacion_de_rutas
+[CASO #2] [2025-12-11 14:12:19] [ESCENARIO 1] [NODE_SUCCESS] Desactivado: hqc
+[CASO #2] [2025-12-11 14:12:21] [ESCENARIO 1] [NODE_SUCCESS] Desactivado: backend
+[CASO #2] [2025-12-11 14:12:22] [ESCENARIO 1] [NODE_SUCCESS] Desactivado: qiskit_simulator
+[CASO #2] [2025-12-11 14:12:23] [ESCENARIO 1] [NODE_SUCCESS] Desactivado: cirq_simulator
+[CASO #2] [2025-12-11 14:12:24] [ESCENARIO 1] [NODE_SUCCESS] Desactivado: algoritmo
+[CASO #2] [2025-12-11 14:12:25] [ESCENARIO 1] [NODE_SUCCESS] Desactivado: qaoa
+[CASO #2] [2025-12-11 14:12:27] [ESCENARIO 1] [NODE_SUCCESS] Desactivado: vqe
+[CASO #2] [2025-12-11 14:12:27] [ESCENARIO 1] [SUCCESS] Ciclo completado.
+[CASO #3] [2025-12-11 14:12:42] [ESCENARIO 1] [START] --- INICIO DE CICLO DE ADAPTACIÓN --- || PARAMS: ICA=75, CP=118, SLA='RAPIDEZ', ColaQiskit=2s, Perfil='Grupo Deportivo (Requiere Deportes)'
+[CASO #3] [2025-12-11 14:12:43] [ESCENARIO 1] [LLM_DECISION] Razonamiento: CP (118) > 100, por lo tanto HQC y Optimizacion de rutas son obligatorios. ICA (75) no prohíbe Ambientes abiertos. Turismo es obligatorio y se activa Ambientes abiertos (ya que ICA no lo impide) y Deportes (por perfil de demanda). Se activa un Backend (Qiskit Simulator) y un Algoritmo (QAOA) para HQC.
+[CASO #3] [2025-12-11 14:12:43] [ESCENARIO 1] [PLAN] Features activas: ['Gestor aire', 'Visualizador calidad aire', 'Turismo', 'Ambientes abiertos', 'Deportes', 'Optimizacion de rutas', 'HQC', 'Backend', 'Qiskit Simulator', 'Algoritmo', 'QAOA']
+[CASO #3] [2025-12-11 14:12:43] [ESCENARIO 1] [EXECUTION_START] Iniciando reconfiguración de contenedores...
+[CASO #3] [2025-12-11 14:12:45] [ESCENARIO 1] [NODE_SUCCESS] Activado: optimizacion_de_rutas
+[CASO #3] [2025-12-11 14:12:45] [ESCENARIO 1] [NODE_SUCCESS] Activado: hqc
+[CASO #3] [2025-12-11 14:12:45] [ESCENARIO 1] [NODE_SUCCESS] Activado: backend
+[CASO #3] [2025-12-11 14:12:46] [ESCENARIO 1] [NODE_SUCCESS] Activado: qiskit_simulator
+[CASO #3] [2025-12-11 14:12:46] [ESCENARIO 1] [NODE_SUCCESS] Activado: algoritmo
+[CASO #3] [2025-12-11 14:12:46] [ESCENARIO 1] [NODE_SUCCESS] Activado: qaoa
+[CASO #3] [2025-12-11 14:12:46] [ESCENARIO 1] [HQC_INFO] Iniciando Job QAOA en Qiskit Simulator (CP=118)
+[CASO #3] [2025-12-11 14:12:59] [ESCENARIO 1] [HQC_SUCCESS] Job finalizado. Costo: 137.0
+[CASO #3] [2025-12-11 14:12:59] [ESCENARIO 1] [SUCCESS] Ciclo completado.
+[CASO #4] [2025-12-11 14:13:26] [ESCENARIO 1] [START] --- INICIO DE CICLO DE ADAPTACIÓN --- || PARAMS: ICA=23, CP=50, SLA='RAPIDEZ', ColaQiskit=3s, Perfil='Adulto Mayor (Requiere Entr. Tercera Edad)'
+[CASO #4] [2025-12-11 14:13:28] [ESCENARIO 1] [LLM_DECISION] Razonamiento: CP es 50 (<= 100), por lo que HQC se desactiva. ICA es 23, no hay restricciones para ambientes abiertos. Turismo se activa y, dado que no hay restricción de ICA, se elige 'Ambientes cerrados' para cumplir el requisito XOR. El perfil de demanda requiere 'Entretenimiento tercera edad', que se activa.
+[CASO #4] [2025-12-11 14:13:28] [ESCENARIO 1] [PLAN] Features activas: ['Gestor aire', 'Visualizador calidad aire', 'Turismo', 'Ambientes cerrados', 'Visualizador restriccion uso lena', 'Entretenimiento', 'Entretenimiento tercera edad']
+[CASO #4] [2025-12-11 14:13:28] [ESCENARIO 1] [EXECUTION_START] Iniciando reconfiguración de contenedores...
+[CASO #4] [2025-12-11 14:13:29] [ESCENARIO 1] [NODE_SUCCESS] Activado: ambientes_cerrados
+[CASO #4] [2025-12-11 14:13:29] [ESCENARIO 1] [NODE_SUCCESS] Activado: visualizador_restriccion_uso_lena
+[CASO #4] [2025-12-11 14:13:30] [ESCENARIO 1] [NODE_SUCCESS] Desactivado: optimizacion_de_rutas
+[CASO #4] [2025-12-11 14:13:32] [ESCENARIO 1] [NODE_SUCCESS] Desactivado: deportes
+[CASO #4] [2025-12-11 14:13:32] [ESCENARIO 1] [NODE_SUCCESS] Activado: entretenimiento
+[CASO #4] [2025-12-11 14:13:32] [ESCENARIO 1] [NODE_SUCCESS] Activado: entretenimiento_tercera_edad
+[CASO #4] [2025-12-11 14:13:33] [ESCENARIO 1] [NODE_SUCCESS] Desactivado: hqc
+[CASO #4] [2025-12-11 14:13:35] [ESCENARIO 1] [NODE_SUCCESS] Desactivado: backend
+[CASO #4] [2025-12-11 14:13:36] [ESCENARIO 1] [NODE_SUCCESS] Desactivado: qiskit_simulator
+[CASO #4] [2025-12-11 14:13:37] [ESCENARIO 1] [NODE_SUCCESS] Desactivado: algoritmo
+[CASO #4] [2025-12-11 14:13:38] [ESCENARIO 1] [NODE_SUCCESS] Desactivado: qaoa
+[CASO #4] [2025-12-11 14:13:38] [ESCENARIO 1] [SUCCESS] Ciclo completado.
+[CASO #5] [2025-12-11 14:14:18] [ESCENARIO 1] [START] --- INICIO DE CICLO DE ADAPTACIÓN --- || PARAMS: ICA=53, CP=95, SLA='RAPIDEZ', ColaQiskit=4s, Perfil='Turista Estándar (Solo Rutas)'
+[CASO #5] [2025-12-11 14:14:21] [ESCENARIO 1] [LLM_DECISION] Razonamiento: CP (95) es <= 100, por lo que HQC se desactiva. ICA (53) no prohíbe Ambientes abiertos, pero el perfil de demanda 'Solo Rutas' y la regla de Turismo XOR implican la activación de Ambientes cerrados y la desactivación de Ambientes abiertos. Se prioriza la regla de Turismo XOR y la desactivación de HQC según CP.
+[CASO #5] [2025-12-11 14:14:21] [ESCENARIO 1] [PLAN] Features activas: ['Gestor aire', 'Visualizador calidad aire', 'Turismo', 'Ambientes cerrados', 'Visualizador restriccion uso lena']
+[CASO #5] [2025-12-11 14:14:21] [ESCENARIO 1] [EXECUTION_START] Iniciando reconfiguración de contenedores...
+[CASO #5] [2025-12-11 14:14:22] [ESCENARIO 1] [NODE_SUCCESS] Desactivado: ambientes_abiertos
+[CASO #5] [2025-12-11 14:14:23] [ESCENARIO 1] [NODE_SUCCESS] Desactivado: entretenimiento
+[CASO #5] [2025-12-11 14:14:25] [ESCENARIO 1] [NODE_SUCCESS] Desactivado: entretenimiento_tercera_edad
+[CASO #5] [2025-12-11 14:14:25] [ESCENARIO 1] [SUCCESS] Ciclo completado.
+[CASO #6] [2025-12-11 14:14:38] [ESCENARIO 1] [START] --- INICIO DE CICLO DE ADAPTACIÓN --- || PARAMS: ICA=65, CP=83, SLA='RAPIDEZ', ColaQiskit=3s, Perfil='Evento Nocturno (Requiere Entr. Adulto)'
+[CASO #6] [2025-12-11 14:14:40] [ESCENARIO 1] [LLM_DECISION] Razonamiento: CP es 83 (<= 100), por lo que HQC se desactiva. ICA es 65, lo que permite activar Ambientes abiertos si fuera necesario, pero la regla de Turismo XOR y la ausencia de demanda para Ambientes abiertos/cerrados específicos, junto con la desactivación de HQC, llevan a la configuración actual. Se prioriza la desactivación de HQC para optimizar recursos según CP. Turismo se activa como obligatorio por Gestor aire, y se elige Ambientes cerrados para cumplir el XOR, ya que Ambientes abiertos no es requerido y el ICA no lo prohíbe explícitamente. El Entretenimiento se activa para cumplir con el perfil de demanda 'Evento Nocturno (Requiere Entr. Adulto)'.
+[CASO #6] [2025-12-11 14:14:40] [ESCENARIO 1] [PLAN] Features activas: ['Gestor aire', 'Visualizador calidad aire', 'Turismo', 'Ambientes cerrados', 'Visualizador restriccion uso lena', 'Entretenimiento', 'Entretenimiento adulto']
+[CASO #6] [2025-12-11 14:14:40] [ESCENARIO 1] [EXECUTION_START] Iniciando reconfiguración de contenedores...
+[CASO #6] [2025-12-11 14:14:40] [ESCENARIO 1] [NODE_SUCCESS] Activado: entretenimiento
+[CASO #6] [2025-12-11 14:14:41] [ESCENARIO 1] [NODE_SUCCESS] Activado: entretenimiento_adulto
+[CASO #6] [2025-12-11 14:14:41] [ESCENARIO 1] [SUCCESS] Ciclo completado.
+[CASO #7] [2025-12-11 14:15:01] [ESCENARIO 1] [START] --- INICIO DE CICLO DE ADAPTACIÓN --- || PARAMS: ICA=38, CP=107, SLA='RAPIDEZ', ColaQiskit=2s, Perfil='Familia con Niños (Requiere Entr. Familiar)'
+[CASO #7] [2025-12-11 14:15:03] [ESCENARIO 1] [LLM_DECISION] Razonamiento: CP (107) > 100, por lo tanto HQC y Optimizacion de rutas son obligatorios. ICA (38) < 100, permitiendo Ambientes abiertos, pero la regla XOR de Turismo y la necesidad de Ambientes cerrados para el perfil de demanda familiar (implícito en la necesidad de 'Visualizador restriccion uso lena') priorizan la activación de Ambientes cerrados. Se activa un Backend (Qiskit) y un Algoritmo (QAOA) como requiere HQC. El Entretenimiento familiar se activa según el perfil de demanda.
+[CASO #7] [2025-12-11 14:15:03] [ESCENARIO 1] [PLAN] Features activas: ['Gestor aire', 'Visualizador calidad aire', 'Turismo', 'Ambientes cerrados', 'Visualizador restriccion uso lena', 'Optimizacion de rutas', 'HQC', 'Backend', 'Qiskit Simulator', 'Algoritmo', 'QAOA', 'Deportes', 'Entretenimiento', 'Entretenimiento familiar']
+[CASO #7] [2025-12-11 14:15:03] [ESCENARIO 1] [EXECUTION_START] Iniciando reconfiguración de contenedores...
+[CASO #7] [2025-12-11 14:15:03] [ESCENARIO 1] [NODE_SUCCESS] Activado: optimizacion_de_rutas
+[CASO #7] [2025-12-11 14:15:04] [ESCENARIO 1] [NODE_SUCCESS] Activado: hqc
+[CASO #7] [2025-12-11 14:15:04] [ESCENARIO 1] [NODE_SUCCESS] Activado: backend
+[CASO #7] [2025-12-11 14:15:04] [ESCENARIO 1] [NODE_SUCCESS] Activado: qiskit_simulator
+[CASO #7] [2025-12-11 14:15:04] [ESCENARIO 1] [NODE_SUCCESS] Activado: algoritmo
+[CASO #7] [2025-12-11 14:15:05] [ESCENARIO 1] [NODE_SUCCESS] Activado: qaoa
+[CASO #7] [2025-12-11 14:15:05] [ESCENARIO 1] [NODE_SUCCESS] Activado: deportes
+[CASO #7] [2025-12-11 14:15:05] [ESCENARIO 1] [NODE_SUCCESS] Activado: entretenimiento_familiar
+[CASO #7] [2025-12-11 14:15:06] [ESCENARIO 1] [NODE_SUCCESS] Desactivado: entretenimiento_adulto
+[CASO #7] [2025-12-11 14:15:06] [ESCENARIO 1] [HQC_INFO] Iniciando Job QAOA en Qiskit Simulator (CP=107)
+[CASO #7] [2025-12-11 14:15:11] [ESCENARIO 1] [HQC_SUCCESS] Job finalizado. Costo: 179.0
+[CASO #7] [2025-12-11 14:15:11] [ESCENARIO 1] [SUCCESS] Ciclo completado.
+[CASO #8] [2025-12-11 14:16:08] [ESCENARIO 1] [START] --- INICIO DE CICLO DE ADAPTACIÓN --- || PARAMS: ICA=37, CP=61, SLA='RAPIDEZ', ColaQiskit=3s, Perfil='Familia con Niños (Requiere Entr. Familiar)'
+[CASO #8] [2025-12-11 14:16:09] [ESCENARIO 1] [LLM_DECISION] Razonamiento: CP es 61 (<= 100), por lo que HQC se desactiva. ICA es 37, lo que permite activar 'Ambientes abiertos' o 'Ambientes cerrados'. Se activa 'Ambientes cerrados' para cumplir la regla XOR de Turismo. Se activa 'Entretenimiento familiar' para cumplir la regla de 'Entretenimiento'.
+[CASO #8] [2025-12-11 14:16:09] [ESCENARIO 1] [PLAN] Features activas: ['Gestor aire', 'Visualizador calidad aire', 'Turismo', 'Ambientes cerrados', 'Visualizador restriccion uso lena', 'Entretenimiento', 'Entretenimiento familiar']
+[CASO #8] [2025-12-11 14:16:09] [ESCENARIO 1] [EXECUTION_START] Iniciando reconfiguración de contenedores...
+[CASO #8] [2025-12-11 14:16:10] [ESCENARIO 1] [NODE_SUCCESS] Desactivado: optimizacion_de_rutas
+[CASO #8] [2025-12-11 14:16:12] [ESCENARIO 1] [NODE_SUCCESS] Desactivado: hqc
+[CASO #8] [2025-12-11 14:16:13] [ESCENARIO 1] [NODE_SUCCESS] Desactivado: backend
+[CASO #8] [2025-12-11 14:16:14] [ESCENARIO 1] [NODE_SUCCESS] Desactivado: qiskit_simulator
+[CASO #8] [2025-12-11 14:16:15] [ESCENARIO 1] [NODE_SUCCESS] Desactivado: algoritmo
+[CASO #8] [2025-12-11 14:16:17] [ESCENARIO 1] [NODE_SUCCESS] Desactivado: qaoa
+[CASO #8] [2025-12-11 14:16:18] [ESCENARIO 1] [NODE_SUCCESS] Desactivado: deportes
+[CASO #8] [2025-12-11 14:16:18] [ESCENARIO 1] [SUCCESS] Ciclo completado.
+[CASO #9] [2025-12-11 14:16:34] [ESCENARIO 1] [START] --- INICIO DE CICLO DE ADAPTACIÓN --- || PARAMS: ICA=76, CP=62, SLA='RAPIDEZ', ColaQiskit=0s, Perfil='Turista Estándar (Solo Rutas)'
+[CASO #9] [2025-12-11 14:16:35] [ESCENARIO 1] [LLM_DECISION] Razonamiento: CP (62) es menor o igual a 100, por lo que HQC se desactiva. ICA (76) no prohíbe Ambientes abiertos, pero la demanda 'Solo Rutas' y la regla de Turismo XOR implican activar Ambientes cerrados y desactivar Ambientes abiertos. Se prioriza la regla de negocio de Turismo XOR y la desactivación de HQC por CP bajo.
+[CASO #9] [2025-12-11 14:16:35] [ESCENARIO 1] [PLAN] Features activas: ['Gestor aire', 'Visualizador calidad aire', 'Turismo', 'Ambientes cerrados', 'Visualizador restriccion uso lena']
+[CASO #9] [2025-12-11 14:16:35] [ESCENARIO 1] [EXECUTION_START] Iniciando reconfiguración de contenedores...
+[CASO #9] [2025-12-11 14:16:37] [ESCENARIO 1] [NODE_SUCCESS] Desactivado: entretenimiento
+[CASO #9] [2025-12-11 14:16:38] [ESCENARIO 1] [NODE_SUCCESS] Desactivado: entretenimiento_familiar
+[CASO #9] [2025-12-11 14:16:38] [ESCENARIO 1] [SUCCESS] Ciclo completado.
+[CASO #10] [2025-12-11 14:16:50] [ESCENARIO 1] [START] --- INICIO DE CICLO DE ADAPTACIÓN --- || PARAMS: ICA=65, CP=71, SLA='RAPIDEZ', ColaQiskit=2s, Perfil='Evento Nocturno (Requiere Entr. Adulto)'
+[CASO #10] [2025-12-11 14:16:52] [ESCENARIO 1] [LLM_DECISION] Razonamiento: CP es 71 (<= 100), por lo que HQC se desactiva. ICA es 65, lo que permite activar Ambientes cerrados. El perfil de demanda requiere Entretenimiento adulto, por lo que se activa. Se cumplen las dependencias obligatorias de Gestor aire y las reglas XOR de Turismo y Entretenimiento.
+[CASO #10] [2025-12-11 14:16:52] [ESCENARIO 1] [PLAN] Features activas: ['Gestor aire', 'Visualizador calidad aire', 'Turismo', 'Ambientes cerrados', 'Visualizador restriccion uso lena', 'Entretenimiento', 'Entretenimiento adulto']
+[CASO #10] [2025-12-11 14:16:52] [ESCENARIO 1] [EXECUTION_START] Iniciando reconfiguración de contenedores...
+[CASO #10] [2025-12-11 14:16:53] [ESCENARIO 1] [NODE_SUCCESS] Activado: entretenimiento
+[CASO #10] [2025-12-11 14:16:53] [ESCENARIO 1] [NODE_SUCCESS] Activado: entretenimiento_adulto
+[CASO #10] [2025-12-11 14:16:53] [ESCENARIO 1] [SUCCESS] Ciclo completado.
+[CASO #1] [2025-12-11 14:22:17] [ESCENARIO 2] [START] --- INICIO DE CICLO DE ADAPTACIÓN --- || PARAMS: ICA=42, CP=209, SLA='PRECISION', ColaQiskit=35s, Perfil='Evento Nocturno (Requiere Entr. Adulto)'
+[CASO #1] [2025-12-11 14:22:20] [ESCENARIO 2] [LLM_DECISION] Razonamiento: CP (209) > 100, por lo tanto HQC y Optimizacion de rutas son obligatorios. ICA (42) < 100, permitiendo Ambientes abiertos, pero la regla XOR de Turismo requiere exactamente uno de Ambientes abiertos o Ambientes cerrados. Dado que CP fuerza HQC, y HQC fuerza Backend y Algoritmo, se prioriza la activación de Ambientes cerrados para cumplir la regla XOR de Turismo. El perfil de demanda 'Evento Nocturno' activa 'Entretenimiento adulto'. Se selecciona 'Qiskit Simulator' por menor tasa de error y 'QAOA' para cumplir la regla XOR de Algoritmo.
+[CASO #1] [2025-12-11 14:22:20] [ESCENARIO 2] [PLAN] Features activas: ['Gestor aire', 'Visualizador calidad aire', 'Turismo', 'Ambientes cerrados', 'Visualizador restriccion uso lena', 'Optimizacion de rutas', 'Entretenimiento', 'Entretenimiento adulto', 'HQC', 'Backend', 'Qiskit Simulator', 'Algoritmo', 'QAOA']
+[CASO #1] [2025-12-11 14:22:20] [ESCENARIO 2] [EXECUTION_START] Iniciando reconfiguración de contenedores...
+[CASO #1] [2025-12-11 14:22:21] [ESCENARIO 2] [NODE_SUCCESS] Activado: optimizacion_de_rutas
+[CASO #1] [2025-12-11 14:22:21] [ESCENARIO 2] [NODE_SUCCESS] Activado: hqc
+[CASO #1] [2025-12-11 14:22:21] [ESCENARIO 2] [NODE_SUCCESS] Activado: backend
+[CASO #1] [2025-12-11 14:22:21] [ESCENARIO 2] [NODE_SUCCESS] Activado: qiskit_simulator
+[CASO #1] [2025-12-11 14:22:21] [ESCENARIO 2] [NODE_SUCCESS] Activado: algoritmo
+[CASO #1] [2025-12-11 14:22:21] [ESCENARIO 2] [NODE_SUCCESS] Activado: qaoa
+[CASO #1] [2025-12-11 14:22:21] [ESCENARIO 2] [HQC_INFO] Iniciando Job QAOA en Qiskit Simulator (CP=209)
+[CASO #1] [2025-12-11 14:22:26] [ESCENARIO 2] [HQC_SUCCESS] Job finalizado. Costo: 140.0
+[CASO #1] [2025-12-11 14:22:26] [ESCENARIO 2] [SUCCESS] Ciclo completado.
+[CASO #2] [2025-12-11 14:22:46] [ESCENARIO 2] [START] --- INICIO DE CICLO DE ADAPTACIÓN --- || PARAMS: ICA=64, CP=142, SLA='PRECISION', ColaQiskit=40s, Perfil='Adulto Mayor (Requiere Entr. Tercera Edad)'
+[CASO #2] [2025-12-11 14:22:47] [ESCENARIO 2] [LLM_DECISION] Razonamiento: CP (142) > 100, por lo tanto HQC y Optimizacion de rutas son obligatorios. Turismo es True. ICA (64) no prohíbe Ambientes abiertos, pero la regla XOR de Turismo requiere exactamente uno de Ambientes abiertos o Ambientes cerrados. Dado que HQC y Optimizacion de rutas son obligatorios, se prioriza la ruta de Ambientes cerrados para mantener la coherencia con la lógica de Turismo. Se activa Entretenimiento tercera edad según el perfil de demanda.
+[CASO #2] [2025-12-11 14:22:47] [ESCENARIO 2] [PLAN] Features activas: ['Gestor aire', 'Visualizador calidad aire', 'Turismo', 'Ambientes cerrados', 'Visualizador restriccion uso lena', 'Optimizacion de rutas', 'HQC', 'Backend', 'Qiskit Simulator', 'Algoritmo', 'QAOA', 'Entretenimiento', 'Entretenimiento tercera edad']
+[CASO #2] [2025-12-11 14:22:47] [ESCENARIO 2] [EXECUTION_START] Iniciando reconfiguración de contenedores...
+[CASO #2] [2025-12-11 14:22:49] [ESCENARIO 2] [NODE_SUCCESS] Desactivado: entretenimiento_adulto
+[CASO #2] [2025-12-11 14:22:49] [ESCENARIO 2] [NODE_SUCCESS] Activado: entretenimiento_tercera_edad
+[CASO #2] [2025-12-11 14:22:49] [ESCENARIO 2] [HQC_INFO] Iniciando Job QAOA en Qiskit Simulator (CP=142)
+[CASO #2] [2025-12-11 14:22:55] [ESCENARIO 2] [HQC_SUCCESS] Job finalizado. Costo: 1759.0
+[CASO #2] [2025-12-11 14:22:55] [ESCENARIO 2] [SUCCESS] Ciclo completado.
+[CASO #3] [2025-12-11 14:23:17] [ESCENARIO 2] [START] --- INICIO DE CICLO DE ADAPTACIÓN --- || PARAMS: ICA=48, CP=223, SLA='PRECISION', ColaQiskit=13s, Perfil='Familia con Niños (Requiere Entr. Familiar)'
+[CASO #3] [2025-12-11 14:23:19] [ESCENARIO 2] [LLM_DECISION] Razonamiento: CP > 100 (223) activa HQC y Optimizacion de rutas. ICA <= 100 (48) permite Ambientes abiertos, pero la regla de Turismo XOR requiere exactamente uno de Ambientes abiertos o Ambientes cerrados. Dado que Ambientes cerrados se activa para cumplir la regla de Visualizador restriccion uso lena, Ambientes abiertos se desactiva. Se activa Entretenimiento familiar según el perfil de demanda.
+[CASO #3] [2025-12-11 14:23:19] [ESCENARIO 2] [PLAN] Features activas: ['Gestor aire', 'Visualizador calidad aire', 'Turismo', 'Ambientes cerrados', 'Visualizador restriccion uso lena', 'Optimizacion de rutas', 'HQC', 'Backend', 'Qiskit Simulator', 'Algoritmo', 'QAOA', 'Entretenimiento', 'Entretenimiento familiar', 'Deportes']
+[CASO #3] [2025-12-11 14:23:19] [ESCENARIO 2] [EXECUTION_START] Iniciando reconfiguración de contenedores...
+[CASO #3] [2025-12-11 14:23:19] [ESCENARIO 2] [NODE_SUCCESS] Activado: entretenimiento_familiar
+[CASO #3] [2025-12-11 14:23:19] [ESCENARIO 2] [NODE_SUCCESS] Activado: deportes
+[CASO #3] [2025-12-11 14:23:19] [ESCENARIO 2] [HQC_INFO] Iniciando Job QAOA en Qiskit Simulator (CP=223)
+[CASO #3] [2025-12-11 14:23:25] [ESCENARIO 2] [HQC_SUCCESS] Job finalizado. Costo: 113.0
+[CASO #3] [2025-12-11 14:23:25] [ESCENARIO 2] [SUCCESS] Ciclo completado.
+[CASO #4] [2025-12-11 14:23:39] [ESCENARIO 2] [START] --- INICIO DE CICLO DE ADAPTACIÓN --- || PARAMS: ICA=58, CP=249, SLA='PRECISION', ColaQiskit=37s, Perfil='Adulto Mayor (Requiere Entr. Tercera Edad)'
+[CASO #4] [2025-12-11 14:23:41] [ESCENARIO 2] [LLM_DECISION] Razonamiento: CP=249 > 100, por lo tanto HQC y Optimizacion de rutas son obligatorios. ICA=58 no prohíbe Ambientes abiertos, pero la regla XOR de Turismo y la necesidad de activar un ambiente específico para Turismo (Ambientes cerrados para Visualizador restriccion uso lena) junto con la regla de que Turismo requiere EXACTAMENTE UNO de sus hijos, lleva a desactivar Ambientes abiertos. Se activa Entretenimiento tercera edad según el perfil de demanda.
+[CASO #4] [2025-12-11 14:23:41] [ESCENARIO 2] [PLAN] Features activas: ['Gestor aire', 'Visualizador calidad aire', 'Turismo', 'Ambientes cerrados', 'Visualizador restriccion uso lena', 'Optimizacion de rutas', 'HQC', 'Backend', 'Qiskit Simulator', 'Algoritmo', 'QAOA', 'Entretenimiento', 'Entretenimiento tercera edad']
+[CASO #4] [2025-12-11 14:23:41] [ESCENARIO 2] [EXECUTION_START] Iniciando reconfiguración de contenedores...
+[CASO #4] [2025-12-11 14:23:42] [ESCENARIO 2] [NODE_SUCCESS] Desactivado: deportes
+[CASO #4] [2025-12-11 14:23:43] [ESCENARIO 2] [NODE_SUCCESS] Desactivado: entretenimiento_familiar
+[CASO #4] [2025-12-11 14:23:44] [ESCENARIO 2] [HQC_INFO] Iniciando Job QAOA en Qiskit Simulator (CP=249)
+[CASO #4] [2025-12-11 14:23:50] [ESCENARIO 2] [HQC_SUCCESS] Job finalizado. Costo: 165.0
+[CASO #4] [2025-12-11 14:23:50] [ESCENARIO 2] [SUCCESS] Ciclo completado.
+[CASO #5] [2025-12-11 14:24:01] [ESCENARIO 2] [START] --- INICIO DE CICLO DE ADAPTACIÓN --- || PARAMS: ICA=63, CP=196, SLA='PRECISION', ColaQiskit=39s, Perfil='Familia con Niños (Requiere Entr. Familiar)'
+[CASO #5] [2025-12-11 14:24:04] [ESCENARIO 2] [LLM_DECISION] Razonamiento: CP (196) > 100, por lo que HQC y Optimizacion de rutas son obligatorios. Turismo es True. ICA (63) no prohíbe Ambientes abiertos, pero la regla de Turismo XOR requiere exactamente uno de Ambientes abiertos o Ambientes cerrados. Dado que CP fuerza HQC, y HQC fuerza Backend y Algoritmo, se prioriza la activación de Ambientes cerrados para cumplir la regla XOR de Turismo y la dependencia de Visualizador restriccion uso lena. Se activa Entretenimiento familiar para cumplir la regla de Entretenimiento. Se activa QAOA para cumplir la regla de Algoritmo XOR. Se activa Qiskit Simulator para cumplir la regla de Backend XOR.
+[CASO #5] [2025-12-11 14:24:04] [ESCENARIO 2] [PLAN] Features activas: ['Gestor aire', 'Visualizador calidad aire', 'Turismo', 'Ambientes cerrados', 'Visualizador restriccion uso lena', 'Optimizacion de rutas', 'HQC', 'Backend', 'Qiskit Simulator', 'Algoritmo', 'QAOA', 'Entretenimiento', 'Entretenimiento familiar', 'Deportes']
+[CASO #5] [2025-12-11 14:24:04] [ESCENARIO 2] [EXECUTION_START] Iniciando reconfiguración de contenedores...
+[CASO #5] [2025-12-11 14:24:04] [ESCENARIO 2] [NODE_SUCCESS] Activado: entretenimiento_familiar
+[CASO #5] [2025-12-11 14:24:05] [ESCENARIO 2] [NODE_SUCCESS] Activado: deportes
+[CASO #5] [2025-12-11 14:24:06] [ESCENARIO 2] [NODE_SUCCESS] Desactivado: entretenimiento_tercera_edad
+[CASO #5] [2025-12-11 14:24:06] [ESCENARIO 2] [HQC_INFO] Iniciando Job QAOA en Qiskit Simulator (CP=196)
+[CASO #5] [2025-12-11 14:24:09] [ESCENARIO 2] [HQC_SUCCESS] Job finalizado. Costo: 144.0
+[CASO #5] [2025-12-11 14:24:09] [ESCENARIO 2] [SUCCESS] Ciclo completado.
+[CASO #6] [2025-12-11 14:24:18] [ESCENARIO 2] [START] --- INICIO DE CICLO DE ADAPTACIÓN --- || PARAMS: ICA=51, CP=201, SLA='PRECISION', ColaQiskit=34s, Perfil='Adulto Mayor (Requiere Entr. Tercera Edad)'
+[CASO #6] [2025-12-11 14:24:19] [ESCENARIO 2] [LLM_DECISION] Razonamiento: CP=201 (>100) obliga a activar HQC y Optimizacion de rutas. ICA=51 no prohíbe Ambientes abiertos. Turismo es obligatorio y requiere exactamente un hijo activo; se elige Ambientes cerrados para cumplir la regla XOR y la dependencia con Visualizador restriccion uso lena. El resto de configuraciones se ajustan a las reglas críticas y de negocio.
+[CASO #6] [2025-12-11 14:24:19] [ESCENARIO 2] [PLAN] Features activas: ['Gestor aire', 'Visualizador calidad aire', 'Turismo', 'Ambientes cerrados', 'Visualizador restriccion uso lena', 'Optimizacion de rutas', 'HQC', 'Backend', 'Qiskit Simulator', 'Algoritmo', 'QAOA', 'Entretenimiento', 'Entretenimiento tercera edad']
+[CASO #6] [2025-12-11 14:24:19] [ESCENARIO 2] [EXECUTION_START] Iniciando reconfiguración de contenedores...
+[CASO #6] [2025-12-11 14:24:20] [ESCENARIO 2] [NODE_SUCCESS] Activado: entretenimiento_tercera_edad
+[CASO #6] [2025-12-11 14:24:21] [ESCENARIO 2] [NODE_SUCCESS] Desactivado: deportes
+[CASO #6] [2025-12-11 14:24:22] [ESCENARIO 2] [NODE_SUCCESS] Desactivado: entretenimiento_familiar
+[CASO #6] [2025-12-11 14:24:22] [ESCENARIO 2] [HQC_INFO] Iniciando Job QAOA en Qiskit Simulator (CP=201)
+[CASO #6] [2025-12-11 14:24:26] [ESCENARIO 2] [HQC_SUCCESS] Job finalizado. Costo: 159.0
+[CASO #6] [2025-12-11 14:24:26] [ESCENARIO 2] [SUCCESS] Ciclo completado.
+[CASO #7] [2025-12-11 14:24:36] [ESCENARIO 2] [START] --- INICIO DE CICLO DE ADAPTACIÓN --- || PARAMS: ICA=74, CP=97, SLA='PRECISION', ColaQiskit=35s, Perfil='Grupo Deportivo (Requiere Deportes)'
+[CASO #7] [2025-12-11 14:24:39] [ESCENARIO 2] [LLM_DECISION] Razonamiento: CP (97) es <= 100, por lo que HQC se desactiva. ICA (74) no prohíbe Ambientes abiertos. Turismo se activa y requiere exactamente un hijo activo, se elige Ambientes abiertos para cumplir con el perfil de demanda 'Grupo Deportivo'.
+[CASO #7] [2025-12-11 14:24:39] [ESCENARIO 2] [PLAN] Features activas: ['Gestor aire', 'Visualizador calidad aire', 'Turismo', 'Ambientes abiertos', 'Deportes']
+[CASO #7] [2025-12-11 14:24:39] [ESCENARIO 2] [EXECUTION_START] Iniciando reconfiguración de contenedores...
+[CASO #7] [2025-12-11 14:24:39] [ESCENARIO 2] [NODE_SUCCESS] Activado: ambientes_abiertos
+[CASO #7] [2025-12-11 14:24:39] [ESCENARIO 2] [NODE_SUCCESS] Activado: deportes
+[CASO #7] [2025-12-11 14:24:40] [ESCENARIO 2] [NODE_SUCCESS] Desactivado: optimizacion_de_rutas
+[CASO #7] [2025-12-11 14:24:41] [ESCENARIO 2] [NODE_SUCCESS] Desactivado: hqc
+[CASO #7] [2025-12-11 14:24:43] [ESCENARIO 2] [NODE_SUCCESS] Desactivado: backend
+[CASO #7] [2025-12-11 14:24:44] [ESCENARIO 2] [NODE_SUCCESS] Desactivado: qiskit_simulator
+[CASO #7] [2025-12-11 14:24:45] [ESCENARIO 2] [NODE_SUCCESS] Desactivado: algoritmo
+[CASO #7] [2025-12-11 14:24:47] [ESCENARIO 2] [NODE_SUCCESS] Desactivado: qaoa
+[CASO #7] [2025-12-11 14:24:48] [ESCENARIO 2] [NODE_SUCCESS] Desactivado: entretenimiento
+[CASO #7] [2025-12-11 14:24:49] [ESCENARIO 2] [NODE_SUCCESS] Desactivado: entretenimiento_tercera_edad
+[CASO #7] [2025-12-11 14:24:50] [ESCENARIO 2] [NODE_SUCCESS] Desactivado: ambientes_cerrados
+[CASO #7] [2025-12-11 14:24:51] [ESCENARIO 2] [NODE_SUCCESS] Desactivado: visualizador_restriccion_uso_lena
+[CASO #7] [2025-12-11 14:24:51] [ESCENARIO 2] [SUCCESS] Ciclo completado.
+[CASO #8] [2025-12-11 14:25:01] [ESCENARIO 2] [START] --- INICIO DE CICLO DE ADAPTACIÓN --- || PARAMS: ICA=71, CP=149, SLA='PRECISION', ColaQiskit=39s, Perfil='Turista Estándar (Solo Rutas)'
+[CASO #8] [2025-12-11 14:25:03] [ESCENARIO 2] [LLM_DECISION] Razonamiento: CP (149) > 100, por lo tanto HQC y Optimizacion de rutas son obligatorios. ICA (71) no prohíbe Ambientes abiertos. Turismo es obligatorio y se activa Ambientes cerrados (con Visualizador restriccion uso lena) para cumplir la regla XOR. QAOA se activa para cumplir la regla XOR de Algoritmo.
+[CASO #8] [2025-12-11 14:25:03] [ESCENARIO 2] [PLAN] Features activas: ['Gestor aire', 'Visualizador calidad aire', 'Turismo', 'Ambientes cerrados', 'Visualizador restriccion uso lena', 'Optimizacion de rutas', 'HQC', 'Backend', 'Qiskit Simulator', 'Algoritmo', 'QAOA']
+[CASO #8] [2025-12-11 14:25:03] [ESCENARIO 2] [EXECUTION_START] Iniciando reconfiguración de contenedores...
+[CASO #8] [2025-12-11 14:25:04] [ESCENARIO 2] [NODE_SUCCESS] Activado: ambientes_cerrados
+[CASO #8] [2025-12-11 14:25:04] [ESCENARIO 2] [NODE_SUCCESS] Activado: visualizador_restriccion_uso_lena
+[CASO #8] [2025-12-11 14:25:04] [ESCENARIO 2] [NODE_SUCCESS] Activado: optimizacion_de_rutas
+[CASO #8] [2025-12-11 14:25:04] [ESCENARIO 2] [NODE_SUCCESS] Activado: hqc
+[CASO #8] [2025-12-11 14:25:05] [ESCENARIO 2] [NODE_SUCCESS] Activado: backend
+[CASO #8] [2025-12-11 14:25:05] [ESCENARIO 2] [NODE_SUCCESS] Activado: qiskit_simulator
+[CASO #8] [2025-12-11 14:25:05] [ESCENARIO 2] [NODE_SUCCESS] Activado: algoritmo
+[CASO #8] [2025-12-11 14:25:06] [ESCENARIO 2] [NODE_SUCCESS] Activado: qaoa
+[CASO #8] [2025-12-11 14:25:07] [ESCENARIO 2] [NODE_SUCCESS] Desactivado: deportes
+[CASO #8] [2025-12-11 14:25:08] [ESCENARIO 2] [NODE_SUCCESS] Desactivado: ambientes_abiertos
+[CASO #8] [2025-12-11 14:25:08] [ESCENARIO 2] [HQC_INFO] Iniciando Job QAOA en Qiskit Simulator (CP=149)
+[CASO #8] [2025-12-11 14:25:14] [ESCENARIO 2] [HQC_SUCCESS] Job finalizado. Costo: 128.0
+[CASO #8] [2025-12-11 14:25:14] [ESCENARIO 2] [SUCCESS] Ciclo completado.
+[CASO #9] [2025-12-11 14:25:22] [ESCENARIO 2] [START] --- INICIO DE CICLO DE ADAPTACIÓN --- || PARAMS: ICA=72, CP=153, SLA='PRECISION', ColaQiskit=25s, Perfil='Evento Nocturno (Requiere Entr. Adulto)'
+[CASO #9] [2025-12-11 14:25:24] [ESCENARIO 2] [LLM_DECISION] Razonamiento: CP (153) > 100, por lo tanto HQC y Optimizacion de rutas son obligatorios. Turismo es True. ICA (72) no prohíbe Ambientes abiertos, pero la regla XOR de Turismo requiere exactamente uno de Ambientes abiertos o Ambientes cerrados. Dado que CP fuerza HQC, y HQC fuerza Backend y Algoritmo, y Turismo requiere uno de sus hijos, se prioriza Ambientes cerrados para cumplir la regla XOR de Turismo y la regla de dependencia de Visualizador calidad aire. El perfil de demanda 'Evento Nocturno (Requiere Entr. Adulto)' activa Entretenimiento adulto. QAOA se activa para cumplir la regla XOR de Algoritmo.
+[CASO #9] [2025-12-11 14:25:24] [ESCENARIO 2] [PLAN] Features activas: ['Gestor aire', 'Visualizador calidad aire', 'Turismo', 'Ambientes cerrados', 'Visualizador restriccion uso lena', 'Optimizacion de rutas', 'HQC', 'Backend', 'Qiskit Simulator', 'Algoritmo', 'QAOA', 'Entretenimiento', 'Entretenimiento adulto', 'Deportes']
+[CASO #9] [2025-12-11 14:25:24] [ESCENARIO 2] [EXECUTION_START] Iniciando reconfiguración de contenedores...
+[CASO #9] [2025-12-11 14:25:24] [ESCENARIO 2] [NODE_SUCCESS] Activado: entretenimiento
+[CASO #9] [2025-12-11 14:25:25] [ESCENARIO 2] [NODE_SUCCESS] Activado: entretenimiento_adulto
+[CASO #9] [2025-12-11 14:25:25] [ESCENARIO 2] [NODE_SUCCESS] Activado: deportes
+[CASO #9] [2025-12-11 14:25:25] [ESCENARIO 2] [HQC_INFO] Iniciando Job QAOA en Qiskit Simulator (CP=153)
+[CASO #9] [2025-12-11 14:25:32] [ESCENARIO 2] [HQC_SUCCESS] Job finalizado. Costo: 139.0
+[CASO #9] [2025-12-11 14:25:32] [ESCENARIO 2] [SUCCESS] Ciclo completado.
+[CASO #10] [2025-12-11 14:25:41] [ESCENARIO 2] [START] --- INICIO DE CICLO DE ADAPTACIÓN --- || PARAMS: ICA=58, CP=129, SLA='PRECISION', ColaQiskit=38s, Perfil='Adulto Mayor (Requiere Entr. Tercera Edad)'
+[CASO #10] [2025-12-11 14:25:42] [ESCENARIO 2] [LLM_DECISION] Razonamiento: CP (129) > 100, por lo tanto HQC y Optimizacion de rutas son obligatorios. ICA (58) < 100, permitiendo Ambientes cerrados. Turismo es True y requiere exactamente un hijo activo, se elige Ambientes cerrados. El resto de configuraciones se ajustan a las reglas críticas y de negocio.
+[CASO #10] [2025-12-11 14:25:43] [ESCENARIO 2] [PLAN] Features activas: ['Gestor aire', 'Visualizador calidad aire', 'Turismo', 'Ambientes cerrados', 'Visualizador restriccion uso lena', 'Optimizacion de rutas', 'HQC', 'Backend', 'Qiskit Simulator', 'Algoritmo', 'QAOA', 'Entretenimiento', 'Entretenimiento tercera edad']
+[CASO #10] [2025-12-11 14:25:43] [ESCENARIO 2] [EXECUTION_START] Iniciando reconfiguración de contenedores...
+[CASO #10] [2025-12-11 14:25:44] [ESCENARIO 2] [NODE_SUCCESS] Desactivado: deportes
+[CASO #10] [2025-12-11 14:25:45] [ESCENARIO 2] [NODE_SUCCESS] Desactivado: entretenimiento_adulto
+[CASO #10] [2025-12-11 14:25:46] [ESCENARIO 2] [NODE_SUCCESS] Activado: entretenimiento_tercera_edad
+[CASO #10] [2025-12-11 14:25:46] [ESCENARIO 2] [HQC_INFO] Iniciando Job QAOA en Qiskit Simulator (CP=129)
+[CASO #10] [2025-12-11 14:25:51] [ESCENARIO 2] [HQC_SUCCESS] Job finalizado. Costo: 167.0
+[CASO #10] [2025-12-11 14:25:51] [ESCENARIO 2] [SUCCESS] Ciclo completado.
+[CASO #11] [2025-12-11 14:25:57] [ESCENARIO 3] [START] --- INICIO DE CICLO DE ADAPTACIÓN --- || PARAMS: ICA=295, CP=68, SLA='RAPIDEZ', ColaQiskit=6s, Perfil='Evento Nocturno (Requiere Entr. Adulto)'
+[CASO #11] [2025-12-11 14:25:59] [ESCENARIO 3] [LLM_DECISION] Razonamiento: CP (68) es <= 100, por lo que HQC se desactiva. ICA (295) > 100, por lo que 'Ambientes abiertos' se desactiva, forzando la elección de 'Ambientes cerrados' para Turismo. El perfil de demanda requiere 'Entretenimiento adulto'.
+[CASO #11] [2025-12-11 14:25:59] [ESCENARIO 3] [PLAN] Features activas: ['Gestor aire', 'Visualizador calidad aire', 'Turismo', 'Ambientes cerrados', 'Visualizador restriccion uso lena', 'Entretenimiento', 'Entretenimiento adulto']
+[CASO #11] [2025-12-11 14:25:59] [ESCENARIO 3] [EXECUTION_START] Iniciando reconfiguración de contenedores...
+[CASO #11] [2025-12-11 14:26:00] [ESCENARIO 3] [NODE_SUCCESS] Desactivado: optimizacion_de_rutas
+[CASO #11] [2025-12-11 14:26:00] [ESCENARIO 3] [NODE_SUCCESS] Activado: entretenimiento_adulto
+[CASO #11] [2025-12-11 14:26:02] [ESCENARIO 3] [NODE_SUCCESS] Desactivado: entretenimiento_tercera_edad
+[CASO #11] [2025-12-11 14:26:03] [ESCENARIO 3] [NODE_SUCCESS] Desactivado: hqc
+[CASO #11] [2025-12-11 14:26:04] [ESCENARIO 3] [NODE_SUCCESS] Desactivado: algoritmo
+[CASO #11] [2025-12-11 14:26:05] [ESCENARIO 3] [NODE_SUCCESS] Desactivado: qaoa
+[CASO #11] [2025-12-11 14:26:07] [ESCENARIO 3] [NODE_SUCCESS] Desactivado: backend
+[CASO #11] [2025-12-11 14:26:08] [ESCENARIO 3] [NODE_SUCCESS] Desactivado: qiskit_simulator
+[CASO #11] [2025-12-11 14:26:08] [ESCENARIO 3] [SUCCESS] Ciclo completado.
+[CASO #12] [2025-12-11 14:27:02] [ESCENARIO 3] [START] --- INICIO DE CICLO DE ADAPTACIÓN --- || PARAMS: ICA=270, CP=137, SLA='RAPIDEZ', ColaQiskit=6s, Perfil='Evento Nocturno (Requiere Entr. Adulto)'
+[CASO #12] [2025-12-11 14:27:04] [ESCENARIO 3] [LLM_DECISION] Razonamiento: CP (137) > 100, por lo que HQC y Optimizacion de rutas son obligatorios. ICA (270) > 100, por lo que Ambientes abiertos debe estar inactivo. Turismo requiere exactamente un ambiente, se elige Ambientes cerrados. El perfil de demanda activa Entretenimiento adulto. Se cumplen las reglas de XOR para Backend y Algoritmo.
+[CASO #12] [2025-12-11 14:27:04] [ESCENARIO 3] [PLAN] Features activas: ['Gestor aire', 'Visualizador calidad aire', 'Turismo', 'Ambientes cerrados', 'Visualizador restriccion uso lena', 'Optimizacion de rutas', 'HQC', 'Backend', 'Qiskit Simulator', 'Algoritmo', 'QAOA', 'Entretenimiento', 'Entretenimiento adulto']
+[CASO #12] [2025-12-11 14:27:04] [ESCENARIO 3] [EXECUTION_START] Iniciando reconfiguración de contenedores...
+[CASO #12] [2025-12-11 14:27:05] [ESCENARIO 3] [NODE_SUCCESS] Activado: optimizacion_de_rutas
+[CASO #12] [2025-12-11 14:27:05] [ESCENARIO 3] [NODE_SUCCESS] Activado: hqc
+[CASO #12] [2025-12-11 14:27:05] [ESCENARIO 3] [NODE_SUCCESS] Activado: backend
+[CASO #12] [2025-12-11 14:27:06] [ESCENARIO 3] [NODE_SUCCESS] Activado: qiskit_simulator
+[CASO #12] [2025-12-11 14:27:06] [ESCENARIO 3] [NODE_SUCCESS] Activado: algoritmo
+[CASO #12] [2025-12-11 14:27:06] [ESCENARIO 3] [NODE_SUCCESS] Activado: qaoa
+[CASO #12] [2025-12-11 14:27:06] [ESCENARIO 3] [HQC_INFO] Iniciando Job QAOA en Qiskit Simulator (CP=137)
+[CASO #12] [2025-12-11 14:27:11] [ESCENARIO 3] [HQC_SUCCESS] Job finalizado. Costo: 1471.0
+[CASO #12] [2025-12-11 14:27:11] [ESCENARIO 3] [SUCCESS] Ciclo completado.
+[CASO #1] [2025-12-11 14:29:16] [ESCENARIO 1] [START] --- INICIO DE CICLO DE ADAPTACIÓN --- || PARAMS: ICA=38, CP=50, SLA='RAPIDEZ', ColaQiskit=2s, Perfil='Grupo Deportivo (Requiere Deportes)'
+[CASO #1] [2025-12-11 14:29:19] [ESCENARIO 1] [LLM_DECISION] Razonamiento: Activado 'Grupo Deportivo' y buen ICA (38) para Deportes. Se prioriza Qiskit Simulator por menor tiempo de cola (2s) y menor tasa de error (0.0044) sobre Cirq Simulator. HQC y Optimizacion de Rutas activados por requerimiento computacional (CP=50).
+[CASO #1] [2025-12-11 14:29:19] [ESCENARIO 1] [PLAN] Features activas: ['Gestor aire', 'Visualizador calidad aire', 'Turismo', 'Optimizacion de rutas', 'HQC', 'Backend', 'Qiskit Simulator', 'Algoritmo', 'QAOA', 'Ambientes abiertos', 'Deportes']
+[CASO #1] [2025-12-11 14:29:19] [ESCENARIO 1] [EXECUTION_START] Iniciando reconfiguración de contenedores...
+[CASO #1] [2025-12-11 14:29:20] [ESCENARIO 1] [NODE_SUCCESS] Desactivado: cirq_simulator
+[CASO #1] [2025-12-11 14:29:21] [ESCENARIO 1] [NODE_SUCCESS] Desactivado: vqe
+[CASO #1] [2025-12-11 14:29:23] [ESCENARIO 1] [NODE_SUCCESS] Desactivado: ambientes_cerrados
+[CASO #1] [2025-12-11 14:29:24] [ESCENARIO 1] [NODE_SUCCESS] Desactivado: visualizador_restriccion_uso_lena
+[CASO #1] [2025-12-11 14:29:25] [ESCENARIO 1] [NODE_SUCCESS] Desactivado: entretenimiento
+[CASO #1] [2025-12-11 14:29:26] [ESCENARIO 1] [NODE_SUCCESS] Desactivado: entretenimiento_familiar
+[CASO #1] [2025-12-11 14:29:27] [ESCENARIO 1] [NODE_SUCCESS] Desactivado: entretenimiento_adulto
+[CASO #1] [2025-12-11 14:29:29] [ESCENARIO 1] [NODE_SUCCESS] Desactivado: entretenimiento_tercera_edad
+[CASO #1] [2025-12-11 14:29:29] [ESCENARIO 1] [HQC_INFO] Iniciando Job QAOA en Qiskit Simulator (CP=50)
+[CASO #1] [2025-12-11 14:29:32] [ESCENARIO 1] [HQC_SUCCESS] Job finalizado. Costo: 144.0
+[CASO #1] [2025-12-11 14:29:32] [ESCENARIO 1] [SUCCESS] Ciclo completado.

@@ -60,17 +60,17 @@
 <polygon fill="#4d4d4d" stroke="#4d4d4d" stroke-width="1.2" points="246.92,-371.8 254.92,-369 246.92,-366.2 246.92,-371.8"/>
 <text text-anchor="middle" x="139" y="-371.8" font-family="Arial" font-size="9.00">Opcional</text>
 </g>
-<!-- Entrenamiento -->
+<!-- Entretenimiento -->
 <g id="node8" class="node">
-<title>Entrenamiento</title>
-<path fill="#eef3ff" stroke="#7aa6ff" stroke-width="1.2" d="M311.07,-312C311.07,-312 255.07,-312 255.07,-312 249.07,-312 243.07,-306 243.07,-300 243.07,-300 243.07,-288 243.07,-288 243.07,-282 249.07,-276 255.07,-276 255.07,-276 311.07,-276 311.07,-276 317.07,-276 323.07,-282 323.07,-288 323.07,-288 323.07,-300 323.07,-300 323.07,-306 317.07,-312 311.07,-312"/>
-<text text-anchor="middle" x="283.07" y="-291.5" font-family="Arial" font-size="10.00">Entrenamiento</text>
+<title>Entretenimiento</title>
+<path fill="#eef3ff" stroke="#7aa6ff" stroke-width="1.2" d="M313.57,-312C313.57,-312 252.57,-312 252.57,-312 246.57,-312 240.57,-306 240.57,-300 240.57,-300 240.57,-288 240.57,-288 240.57,-282 246.57,-276 252.57,-276 252.57,-276 313.57,-276 313.57,-276 319.57,-276 325.57,-282 325.57,-288 325.57,-288 325.57,-300 325.57,-300 325.57,-306 319.57,-312 313.57,-312"/>
+<text text-anchor="middle" x="283.07" y="-291.5" font-family="Arial" font-size="10.00">Entretenimiento</text>
 </g>
-<!-- Gestor aire&#45;&gt;Entrenamiento -->
+<!-- Gestor aire&#45;&gt;Entretenimiento -->
 <g id="edge4" class="edge">
-<title>Gestor aire&#45;&gt;Entrenamiento</title>
-<path fill="none" stroke="#4d4d4d" stroke-width="1.2" d="M87.91,-358.41C126.26,-345.69 190.94,-324.23 235.02,-309.61"/>
-<polygon fill="#4d4d4d" stroke="#4d4d4d" stroke-width="1.2" points="236.01,-312.23 242.72,-307.05 234.25,-306.91 236.01,-312.23"/>
+<title>Gestor aire&#45;&gt;Entretenimiento</title>
+<path fill="none" stroke="#4d4d4d" stroke-width="1.2" d="M87.91,-358.41C125.57,-345.92 188.62,-325 232.62,-310.4"/>
+<polygon fill="#4d4d4d" stroke="#4d4d4d" stroke-width="1.2" points="233.62,-313.02 240.33,-307.85 231.86,-307.71 233.62,-313.02"/>
 <text text-anchor="middle" x="139" y="-351.8" font-family="Arial" font-size="9.00">Opcional</text>
 </g>
 <!-- HQC -->
@@ -155,46 +155,46 @@
 <polygon fill="#6a3d9a" stroke="#6a3d9a" stroke-width="1.2" points="319.42,-366.12 311.33,-368.64 319.23,-371.71 319.42,-366.12"/>
 <text text-anchor="middle" x="427.13" y="-407.8" font-family="Arial" font-size="9.00">Requiere</text>
 </g>
-<!-- Entrenamiento familiar -->
+<!-- Entretenimiento familiar -->
 <g id="node9" class="node">
-<title>Entrenamiento familiar</title>
-<path fill="#eef3ff" stroke="#7aa6ff" stroke-width="1.2" d="M552.13,-361C552.13,-361 496.13,-361 496.13,-361 490.13,-361 484.13,-355 484.13,-349 484.13,-349 484.13,-337 484.13,-337 484.13,-331 490.13,-325 496.13,-325 496.13,-325 552.13,-325 552.13,-325 558.13,-325 564.13,-331 564.13,-337 564.13,-337 564.13,-349 564.13,-349 564.13,-355 558.13,-361 552.13,-361"/>
-<text text-anchor="middle" x="524.13" y="-346" font-family="Arial" font-size="10.00">Entrenamiento</text>
+<title>Entretenimiento familiar</title>
+<path fill="#eef3ff" stroke="#7aa6ff" stroke-width="1.2" d="M554.63,-361C554.63,-361 493.63,-361 493.63,-361 487.63,-361 481.63,-355 481.63,-349 481.63,-349 481.63,-337 481.63,-337 481.63,-331 487.63,-325 493.63,-325 493.63,-325 554.63,-325 554.63,-325 560.63,-325 566.63,-331 566.63,-337 566.63,-337 566.63,-349 566.63,-349 566.63,-355 560.63,-361 554.63,-361"/>
+<text text-anchor="middle" x="524.13" y="-346" font-family="Arial" font-size="10.00">Entretenimiento</text>
 <text text-anchor="middle" x="524.13" y="-335" font-family="Arial" font-size="10.00">familiar</text>
 </g>
-<!-- Entrenamiento&#45;&gt;Entrenamiento familiar -->
+<!-- Entretenimiento&#45;&gt;Entretenimiento familiar -->
 <g id="edge12" class="edge">
-<title>Entrenamiento&#45;&gt;Entrenamiento familiar</title>
-<path fill="none" stroke="#4d4d4d" stroke-width="1.2" d="M323.28,-302.04C365.05,-310.6 431.19,-324.16 475.83,-333.3"/>
-<polygon fill="#4d4d4d" stroke="#4d4d4d" stroke-width="1.2" points="475.5,-336.1 483.9,-334.96 476.63,-330.61 475.5,-336.1"/>
+<title>Entretenimiento&#45;&gt;Entretenimiento familiar</title>
+<path fill="none" stroke="#4d4d4d" stroke-width="1.2" d="M325.71,-302.54C366.89,-310.98 429.92,-323.89 473.64,-332.86"/>
+<polygon fill="#4d4d4d" stroke="#4d4d4d" stroke-width="1.2" points="473.17,-335.62 481.57,-334.48 474.29,-330.13 473.17,-335.62"/>
 <text text-anchor="middle" x="427.13" y="-330.8" font-family="Arial" font-size="9.00">OR</text>
 </g>
-<!-- Entrenamiento adulto -->
+<!-- Entretenimiento adulto -->
 <g id="node10" class="node">
-<title>Entrenamiento adulto</title>
-<path fill="#eef3ff" stroke="#7aa6ff" stroke-width="1.2" d="M552.13,-296C552.13,-296 496.13,-296 496.13,-296 490.13,-296 484.13,-290 484.13,-284 484.13,-284 484.13,-272 484.13,-272 484.13,-266 490.13,-260 496.13,-260 496.13,-260 552.13,-260 552.13,-260 558.13,-260 564.13,-266 564.13,-272 564.13,-272 564.13,-284 564.13,-284 564.13,-290 558.13,-296 552.13,-296"/>
-<text text-anchor="middle" x="524.13" y="-281" font-family="Arial" font-size="10.00">Entrenamiento</text>
+<title>Entretenimiento adulto</title>
+<path fill="#eef3ff" stroke="#7aa6ff" stroke-width="1.2" d="M554.63,-296C554.63,-296 493.63,-296 493.63,-296 487.63,-296 481.63,-290 481.63,-284 481.63,-284 481.63,-272 481.63,-272 481.63,-266 487.63,-260 493.63,-260 493.63,-260 554.63,-260 554.63,-260 560.63,-260 566.63,-266 566.63,-272 566.63,-272 566.63,-284 566.63,-284 566.63,-290 560.63,-296 554.63,-296"/>
+<text text-anchor="middle" x="524.13" y="-281" font-family="Arial" font-size="10.00">Entretenimiento</text>
 <text text-anchor="middle" x="524.13" y="-270" font-family="Arial" font-size="10.00">adulto</text>
 </g>
-<!-- Entrenamiento&#45;&gt;Entrenamiento adulto -->
+<!-- Entretenimiento&#45;&gt;Entretenimiento adulto -->
 <g id="edge13" class="edge">
-<title>Entrenamiento&#45;&gt;Entrenamiento adulto</title>
-<path fill="none" stroke="#4d4d4d" stroke-width="1.2" d="M323.28,-291.38C365.05,-288.58 431.19,-284.15 475.83,-281.17"/>
-<polygon fill="#4d4d4d" stroke="#4d4d4d" stroke-width="1.2" points="476.11,-283.95 483.9,-280.63 475.73,-278.37 476.11,-283.95"/>
+<title>Entretenimiento&#45;&gt;Entretenimiento adulto</title>
+<path fill="none" stroke="#4d4d4d" stroke-width="1.2" d="M325.71,-291.21C366.81,-288.46 429.66,-284.26 473.37,-281.33"/>
+<polygon fill="#4d4d4d" stroke="#4d4d4d" stroke-width="1.2" points="473.77,-284.11 481.57,-280.78 473.4,-278.52 473.77,-284.11"/>
 <text text-anchor="middle" x="427.13" y="-288.8" font-family="Arial" font-size="9.00">OR</text>
 </g>
-<!-- Entrenamiento tercera edad -->
+<!-- Entretenimiento tercera edad -->
 <g id="node11" class="node">
-<title>Entrenamiento tercera edad</title>
-<path fill="#eef3ff" stroke="#7aa6ff" stroke-width="1.2" d="M552.13,-231C552.13,-231 496.13,-231 496.13,-231 490.13,-231 484.13,-225 484.13,-219 484.13,-219 484.13,-207 484.13,-207 484.13,-201 490.13,-195 496.13,-195 496.13,-195 552.13,-195 552.13,-195 558.13,-195 564.13,-201 564.13,-207 564.13,-207 564.13,-219 564.13,-219 564.13,-225 558.13,-231 552.13,-231"/>
-<text text-anchor="middle" x="524.13" y="-216" font-family="Arial" font-size="10.00">Entrenamiento</text>
+<title>Entretenimiento tercera edad</title>
+<path fill="#eef3ff" stroke="#7aa6ff" stroke-width="1.2" d="M554.63,-231C554.63,-231 493.63,-231 493.63,-231 487.63,-231 481.63,-225 481.63,-219 481.63,-219 481.63,-207 481.63,-207 481.63,-201 487.63,-195 493.63,-195 493.63,-195 554.63,-195 554.63,-195 560.63,-195 566.63,-201 566.63,-207 566.63,-207 566.63,-219 566.63,-219 566.63,-225 560.63,-231 554.63,-231"/>
+<text text-anchor="middle" x="524.13" y="-216" font-family="Arial" font-size="10.00">Entretenimiento</text>
 <text text-anchor="middle" x="524.13" y="-205" font-family="Arial" font-size="10.00">tercera edad</text>
 </g>
-<!-- Entrenamiento&#45;&gt;Entrenamiento tercera edad -->
+<!-- Entretenimiento&#45;&gt;Entretenimiento tercera edad -->
 <g id="edge14" class="edge">
-<title>Entrenamiento&#45;&gt;Entrenamiento tercera edad</title>
-<path fill="none" stroke="#4d4d4d" stroke-width="1.2" d="M323.28,-280.72C365.14,-266.53 431.47,-244.06 476.11,-228.93"/>
-<polygon fill="#4d4d4d" stroke="#4d4d4d" stroke-width="1.2" points="477.22,-231.51 483.9,-226.29 475.43,-226.21 477.22,-231.51"/>
+<title>Entretenimiento&#45;&gt;Entretenimiento tercera edad</title>
+<path fill="none" stroke="#4d4d4d" stroke-width="1.2" d="M325.71,-279.89C366.98,-265.91 430.18,-244.49 473.91,-229.68"/>
+<polygon fill="#4d4d4d" stroke="#4d4d4d" stroke-width="1.2" points="474.89,-232.3 481.57,-227.08 473.09,-227 474.89,-232.3"/>
 <text text-anchor="middle" x="427.13" y="-254.8" font-family="Arial" font-size="9.00">OR</text>
 </g>
 <!-- Backend -->

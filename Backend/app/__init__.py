@@ -20,6 +20,10 @@ escenario_activo_id = 1
 en_ejecucion = False 
 # ---------------------------------
 
+# --- NUEVO: Contador Global de Ejecuciones ---
+execution_counter = 0 
+# ---------------------------------------------
+
 # --- Objeto App Global ---
 app = Flask(__name__)
 

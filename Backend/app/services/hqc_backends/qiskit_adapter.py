@@ -202,8 +202,12 @@ class QiskitAdapter(QuantumBackend):
         elif "VQE" in algoritmo.upper():
             print(f"   ...Configurando VQE (reps={depth})...")
             num_qubits = n_ciudades * n_ciudades 
-            ansatz = TwoLocal(num_qubits, 'ry', 'cz', reps=depth, entanglement='linear')
+            raw_ansatz = TwoLocal(num_qubits, 'ry', 'cz', reps=depth, entanglement='linear')
             # Usamos SamplingVQE también para VQE estándar para mantener consistencia
+            # --- AQUÍ ESTÁ LA MAGIA: .decompose() ---
+            # Esto rompe la caja negra 'TwoLocal' en compuertas simples (RY, CZ)
+            ansatz = raw_ansatz.decompose() 
+            # -----------------------------------------
             solver = SamplingVQE(sampler=self.sampler, optimizer=SLSQP(), ansatz=ansatz)
             
         else:

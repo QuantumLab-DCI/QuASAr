@@ -152,3 +152,459 @@
 [+] Contenedor 'backend' iniciado.
 [+] Contenedor 'hqc' iniciado.
 [+] Contenedor 'optimizacion_de_rutas' iniciado.
+
+--- RECONFIGURACIÓN 2025-11-27 00:25:21 ---
+
+--- RECONFIGURACIÓN 2025-11-27 00:31:37 ---
+
+--- RECONFIGURACIÓN 2025-11-27 00:31:44 ---
+
+--- RECONFIGURACIÓN 2025-11-27 00:42:40 ---
+[-] Contenedor 'cirq_simulator' detenido.
+[-] Contenedor 'vqe' detenido.
+[-] Contenedor 'deportes' detenido.
+[-] Contenedor 'ambientes_abiertos' detenido.
+[⚛️] Job HQC: Costo=108.0
+
+--- RECONFIGURACIÓN 2025-11-27 00:43:23 ---
+[⚛️] Job HQC: Costo=6439.0
+
+--- RECONFIGURACIÓN 2025-11-27 00:44:04 ---
+[⚛️] Job HQC: Costo=175.0
+
+--- RECONFIGURACIÓN 2025-11-27 00:44:26 ---
+[-] Contenedor 'qaoa' detenido.
+[-] Contenedor 'qiskit_simulator' detenido.
+[-] Contenedor 'algoritmo' detenido.
+[-] Contenedor 'backend' detenido.
+[-] Contenedor 'hqc' detenido.
+[-] Contenedor 'optimizacion_de_rutas' detenido.
+
+--- RECONFIGURACIÓN 2025-11-27 00:44:42 ---
+[+] Contenedor 'cirq_simulator' iniciado.
+[+] Contenedor 'vqe' iniciado.
+[+] Contenedor 'algoritmo' iniciado.
+[+] Contenedor 'backend' iniciado.
+[+] Contenedor 'hqc' iniciado.
+[+] Contenedor 'optimizacion_de_rutas' iniciado.
+[⚛️] Job HQC: Costo=-2.0
+
+--- RECONFIGURACIÓN 2025-11-27 00:45:03 ---
+[-] Contenedor 'cirq_simulator' detenido.
+[+] Contenedor 'qiskit_simulator' iniciado.
+[⚛️] Job HQC: Costo=150.0
+
+--- RECONFIGURACIÓN 2025-11-27 00:46:37 ---
+[+] Contenedor 'cirq_simulator' iniciado.
+[-] Contenedor 'qiskit_simulator' detenido.
+[⚛️] Job HQC: Costo=-2.0
+
+--- RECONFIGURACIÓN 2025-11-27 00:46:59 ---
+[-] Contenedor 'vqe' detenido.
+[+] Contenedor 'qaoa' iniciado.
+[+] Contenedor 'deportes' iniciado.
+[⚛️] Job HQC: Costo=-2.0
+
+--- RECONFIGURACIÓN 2025-11-27 00:58:46 ---
+[+] Contenedor 'cirq_simulator' iniciado.
+[+] Contenedor 'vqe' iniciado.
+[+] Contenedor 'algoritmo' iniciado.
+[+] Contenedor 'backend' iniciado.
+[+] Contenedor 'hqc' iniciado.
+[+] Contenedor 'optimizacion_de_rutas' iniciado.
+[+] Contenedor 'ambientes_cerrados' iniciado.
+[+] Contenedor 'turismo' iniciado.
+[+] Contenedor 'visualizador_restriccion_uso_lena' iniciado.
+[+] Contenedor 'gestor_aire' iniciado.
+[⚛️] Job HQC: Costo=-2.0
+
+--- RECONFIGURACIÓN 2025-11-27 01:09:17 ---
+[-] Contenedor 'cirq_simulator' detenido.
+[-] Contenedor 'vqe' detenido.
+[-] Contenedor 'algoritmo' detenido.
+[-] Contenedor 'backend' detenido.
+[-] Contenedor 'hqc' detenido.
+[-] Contenedor 'optimizacion_de_rutas' detenido.
+
+--- RECONFIGURACIÓN 2025-11-27 01:12:25 ---
+[+] Contenedor 'vqe' iniciado.
+[+] Contenedor 'qiskit_simulator' iniciado.
+[+] Contenedor 'algoritmo' iniciado.
+[+] Contenedor 'backend' iniciado.
+[+] Contenedor 'hqc' iniciado.
+[+] Contenedor 'optimizacion_de_rutas' iniciado.
+[⚛️] Job HQC: Costo=4678.0
+
+--- RECONFIGURACIÓN 2025-11-27 01:17:29 ---
+[-] Contenedor 'vqe' detenido.
+[+] Contenedor 'qaoa' iniciado.
+[⚛️] Job HQC: Costo=106.0
+
+--- RECONFIGURACIÓN 2025-11-27 09:31:12 ---
+[-] 'cirq_simulator' detenido.
+[-] 'vqe' detenido.
+[-] 'qaoa' detenido.
+[-] 'qiskit_simulator' detenido.
+[-] 'algoritmo' detenido.
+[-] 'backend' detenido.
+[-] 'hqc' detenido.
+[-] 'optimizacion_de_rutas' detenido.
+[-] 'ambientes_cerrados' detenido.
+[-] 'visualizador_restriccion_uso_lena' detenido.
+
+--- RECONFIGURACIÓN 2025-11-27 09:32:35 ---
+
+--- RECONFIGURACIÓN 2025-11-27 09:33:11 ---
+
+--- RECONFIGURACIÓN 2025-11-27 09:33:36 ---
+[+] 'qaoa' iniciado.
+[+] 'qiskit_simulator' iniciado.
+[+] 'algoritmo' iniciado.
+[+] 'backend' iniciado.
+[+] 'hqc' iniciado.
+[⚛️] HQC Result: 2079.0
+
+--- RECONFIGURACIÓN 2025-11-27 09:35:17 ---
+[+] 'optimizacion_de_rutas' iniciado.
+[⚛️] HQC Result: 126.0
+
+--- RECONFIGURACIÓN 2025-11-27 09:36:25 ---
+[⚛️] HQC Result: 206.0
+
+--- RECONFIGURACIÓN 2025-11-27 09:36:51 ---
+[+] 'vqe' iniciado.
+[-] 'qaoa' detenido.
+[-] 'optimizacion_de_rutas' detenido.
+[⚛️] HQC Result: 4718.0
+
+--- RECONFIGURACIÓN 2025-11-27 15:31:55 ---
+[-] Contenedor 'qaoa' detenido.
+[-] Contenedor 'qiskit_simulator' detenido.
+[-] Contenedor 'deportes' detenido.
+[-] Contenedor 'ambientes_abiertos' detenido.
+[⚛️] Job HQC: Costo=-2.0
+
+--- RECONFIGURACIÓN 2025-11-27 15:49:58 ---
+[-] Contenedor 'cirq_simulator' detenido.
+[-] Contenedor 'vqe' detenido.
+[-] Contenedor 'algoritmo' detenido.
+[-] Contenedor 'backend' detenido.
+[-] Contenedor 'hqc' detenido.
+[-] Contenedor 'optimizacion_de_rutas' detenido.
+
+--- RECONFIGURACIÓN 2025-11-27 15:52:53 ---
+
+--- RECONFIGURACIÓN 2025-11-27 15:53:34 ---
+[+] Contenedor 'cirq_simulator' iniciado.
+[+] Contenedor 'vqe' iniciado.
+[+] Contenedor 'algoritmo' iniciado.
+[+] Contenedor 'backend' iniciado.
+[+] Contenedor 'hqc' iniciado.
+[+] Contenedor 'optimizacion_de_rutas' iniciado.
+[⚛️] Job HQC: Costo=-2.0
+
+--- RECONFIGURACIÓN 2025-11-29 20:19:26 ---
+[-] Contenedor 'cirq_simulator' detenido.
+[-] Contenedor 'vqe' detenido.
+[-] Contenedor 'qaoa' detenido.
+[-] Contenedor 'qiskit_simulator' detenido.
+[-] Contenedor 'algoritmo' detenido.
+[-] Contenedor 'backend' detenido.
+[-] Contenedor 'hqc' detenido.
+[-] Contenedor 'optimizacion_de_rutas' detenido.
+[-] Contenedor 'deportes' detenido.
+[-] Contenedor 'ambientes_abiertos' detenido.
+
+--- RECONFIGURACIÓN 2025-11-29 20:37:57 ---
+[+] Contenedor 'qaoa' iniciado.
+[+] Contenedor 'qiskit_simulator' iniciado.
+[+] Contenedor 'algoritmo' iniciado.
+[+] Contenedor 'backend' iniciado.
+[+] Contenedor 'hqc' iniciado.
+[+] Contenedor 'optimizacion_de_rutas' iniciado.
+[⚛️] Job HQC: Costo=93.0
+
+--- RECONFIGURACIÓN 2025-11-29 20:38:27 ---
+[-] Contenedor 'qaoa' detenido.
+[-] Contenedor 'qiskit_simulator' detenido.
+[-] Contenedor 'algoritmo' detenido.
+[-] Contenedor 'backend' detenido.
+[-] Contenedor 'hqc' detenido.
+[-] Contenedor 'optimizacion_de_rutas' detenido.
+
+--- RECONFIGURACIÓN 2025-11-29 20:38:47 ---
+[+] Contenedor 'qaoa' iniciado.
+[+] Contenedor 'qiskit_simulator' iniciado.
+[+] Contenedor 'algoritmo' iniciado.
+[+] Contenedor 'backend' iniciado.
+[+] Contenedor 'hqc' iniciado.
+[+] Contenedor 'optimizacion_de_rutas' iniciado.
+[+] Contenedor 'deportes' iniciado.
+[⚛️] Job HQC: Costo=133.0
+
+--- RECONFIGURACIÓN 2025-11-29 20:39:04 ---
+[-] Contenedor 'qaoa' detenido.
+[-] Contenedor 'qiskit_simulator' detenido.
+[-] Contenedor 'algoritmo' detenido.
+[-] Contenedor 'backend' detenido.
+[-] Contenedor 'hqc' detenido.
+[-] Contenedor 'optimizacion_de_rutas' detenido.
+[-] Contenedor 'deportes' detenido.
+
+--- RECONFIGURACIÓN 2025-11-29 20:39:21 ---
+
+--- RECONFIGURACIÓN 2025-11-29 20:39:51 ---
+[+] Contenedor 'cirq_simulator' iniciado.
+[+] Contenedor 'vqe' iniciado.
+[+] Contenedor 'algoritmo' iniciado.
+[+] Contenedor 'backend' iniciado.
+[+] Contenedor 'hqc' iniciado.
+[+] Contenedor 'optimizacion_de_rutas' iniciado.
+[⚛️] Job HQC: Costo=-2.0
+
+--- RECONFIGURACIÓN 2025-11-29 20:40:14 ---
+[⚛️] Job HQC: Costo=-2.0
+
+--- RECONFIGURACIÓN 2025-11-29 20:40:29 ---
+[-] Contenedor 'cirq_simulator' detenido.
+[-] Contenedor 'vqe' detenido.
+[+] Contenedor 'qaoa' iniciado.
+[+] Contenedor 'qiskit_simulator' iniciado.
+[⚛️] Job HQC: Costo=99.0
+
+--- RECONFIGURACIÓN 2025-11-29 20:40:51 ---
+[⚛️] Job HQC: Costo=4220.0
+
+--- RECONFIGURACIÓN 2025-11-29 20:41:13 ---
+[+] Contenedor 'cirq_simulator' iniciado.
+[-] Contenedor 'qiskit_simulator' detenido.
+[+] Contenedor 'deportes' iniciado.
+[⚛️] Job HQC: Costo=-2.0
+
+--- RECONFIGURACIÓN 2025-12-11 13:11:30 ---
+[-] Contenedor 'optimizacion_de_rutas' DETENIDO correctamente.
+[-] Contenedor 'deportes' DETENIDO correctamente.
+[-] Contenedor 'hqc' DETENIDO correctamente.
+[-] Contenedor 'backend' DETENIDO correctamente.
+[-] Contenedor 'qiskit_simulator' DETENIDO correctamente.
+[-] Contenedor 'cirq_simulator' DETENIDO correctamente.
+[-] Contenedor 'algoritmo' DETENIDO correctamente.
+[-] Contenedor 'qaoa' DETENIDO correctamente.
+[-] Contenedor 'vqe' DETENIDO correctamente.
+
+--- RECONFIGURACIÓN 2025-12-11 13:15:24 ---
+[+] Contenedor 'deportes' INICIADO correctamente.
+[-] Contenedor 'visualizador_restriccion_uso_lena' DETENIDO correctamente.
+[-] Contenedor 'ambientes_cerrados' DETENIDO correctamente.
+
+--- RECONFIGURACIÓN 2025-12-11 13:17:39 ---
+
+--- RECONFIGURACIÓN 2025-12-11 13:27:51 ---
+[-] Contenedor 'optimizacion_de_rutas' DETENIDO correctamente.
+[-] Contenedor 'hqc' DETENIDO correctamente.
+[-] Contenedor 'backend' DETENIDO correctamente.
+[-] Contenedor 'qiskit_simulator' DETENIDO correctamente.
+[-] Contenedor 'cirq_simulator' DETENIDO correctamente.
+[-] Contenedor 'algoritmo' DETENIDO correctamente.
+[-] Contenedor 'qaoa' DETENIDO correctamente.
+[-] Contenedor 'vqe' DETENIDO correctamente.
+[-] Contenedor 'deportes' DETENIDO correctamente.
+[-] Contenedor 'ambientes_abiertos' DETENIDO correctamente.
+
+--- RECONFIGURACIÓN 2025-12-11 13:35:30 ---
+[+] Contenedor 'deportes' INICIADO correctamente.
+
+--- RECONFIGURACIÓN 2025-12-11 13:36:19 ---
+[+] Contenedor 'ambientes_abiertos' INICIADO correctamente.
+[-] Contenedor 'ambientes_cerrados' DETENIDO correctamente.
+[-] Contenedor 'visualizador_restriccion_uso_lena' DETENIDO correctamente.
+
+--- RECONFIGURACIÓN 2025-12-11 13:41:44 ---
+[+] Contenedor 'ambientes_cerrados' INICIADO correctamente.
+[+] Contenedor 'visualizador_restriccion_uso_lena' INICIADO correctamente.
+[-] Contenedor 'ambientes_abiertos' DETENIDO correctamente.
+[-] Contenedor 'deportes' DETENIDO correctamente.
+
+--- RECONFIGURACIÓN 2025-12-11 13:43:58 ---
+
+--- RECONFIGURACIÓN 2025-12-11 13:51:34 ---
+[-] Contenedor 'ambientes_abiertos' DETENIDO correctamente.
+[-] Contenedor 'deportes' DETENIDO correctamente.
+[-] Contenedor 'optimizacion_de_rutas' DETENIDO correctamente.
+[-] Contenedor 'hqc' DETENIDO correctamente.
+[-] Contenedor 'backend' DETENIDO correctamente.
+[-] Contenedor 'qiskit_simulator' DETENIDO correctamente.
+[-] Contenedor 'cirq_simulator' DETENIDO correctamente.
+[-] Contenedor 'algoritmo' DETENIDO correctamente.
+[-] Contenedor 'qaoa' DETENIDO correctamente.
+[-] Contenedor 'vqe' DETENIDO correctamente.
+
+--- RECONFIGURACIÓN 2025-12-11 14:10:29 ---
+[-] Contenedor 'visualizador_restriccion_uso_lena' DETENIDO correctamente.
+[-] Contenedor 'ambientes_cerrados' DETENIDO correctamente.
+[-] Contenedor 'entretenimiento' DETENIDO correctamente.
+[-] Contenedor 'entretenimiento_familiar' DETENIDO correctamente.
+[-] Contenedor 'entretenimiento_adulto' DETENIDO correctamente.
+[-] Contenedor 'entretenimiento_tercera_edad' DETENIDO correctamente.
+
+--- RECONFIGURACIÓN 2025-12-11 14:12:17 ---
+[-] Contenedor 'optimizacion_de_rutas' DETENIDO correctamente.
+[-] Contenedor 'hqc' DETENIDO correctamente.
+[-] Contenedor 'backend' DETENIDO correctamente.
+[-] Contenedor 'qiskit_simulator' DETENIDO correctamente.
+[-] Contenedor 'cirq_simulator' DETENIDO correctamente.
+[-] Contenedor 'algoritmo' DETENIDO correctamente.
+[-] Contenedor 'qaoa' DETENIDO correctamente.
+[-] Contenedor 'vqe' DETENIDO correctamente.
+
+--- RECONFIGURACIÓN 2025-12-11 14:12:44 ---
+[+] Contenedor 'optimizacion_de_rutas' INICIADO correctamente.
+[+] Contenedor 'hqc' INICIADO correctamente.
+[+] Contenedor 'backend' INICIADO correctamente.
+[+] Contenedor 'qiskit_simulator' INICIADO correctamente.
+[+] Contenedor 'algoritmo' INICIADO correctamente.
+[+] Contenedor 'qaoa' INICIADO correctamente.
+
+--- RECONFIGURACIÓN 2025-12-11 14:13:29 ---
+[+] Contenedor 'ambientes_cerrados' INICIADO correctamente.
+[+] Contenedor 'visualizador_restriccion_uso_lena' INICIADO correctamente.
+[-] Contenedor 'optimizacion_de_rutas' DETENIDO correctamente.
+[-] Contenedor 'deportes' DETENIDO correctamente.
+[+] Contenedor 'entretenimiento' INICIADO correctamente.
+[+] Contenedor 'entretenimiento_tercera_edad' INICIADO correctamente.
+[-] Contenedor 'hqc' DETENIDO correctamente.
+[-] Contenedor 'backend' DETENIDO correctamente.
+[-] Contenedor 'qiskit_simulator' DETENIDO correctamente.
+[-] Contenedor 'algoritmo' DETENIDO correctamente.
+[-] Contenedor 'qaoa' DETENIDO correctamente.
+
+--- RECONFIGURACIÓN 2025-12-11 14:14:21 ---
+[-] Contenedor 'ambientes_abiertos' DETENIDO correctamente.
+[-] Contenedor 'entretenimiento' DETENIDO correctamente.
+[-] Contenedor 'entretenimiento_tercera_edad' DETENIDO correctamente.
+
+--- RECONFIGURACIÓN 2025-12-11 14:14:40 ---
+[+] Contenedor 'entretenimiento' INICIADO correctamente.
+[+] Contenedor 'entretenimiento_adulto' INICIADO correctamente.
+
+--- RECONFIGURACIÓN 2025-12-11 14:15:03 ---
+[+] Contenedor 'optimizacion_de_rutas' INICIADO correctamente.
+[+] Contenedor 'hqc' INICIADO correctamente.
+[+] Contenedor 'backend' INICIADO correctamente.
+[+] Contenedor 'qiskit_simulator' INICIADO correctamente.
+[+] Contenedor 'algoritmo' INICIADO correctamente.
+[+] Contenedor 'qaoa' INICIADO correctamente.
+[+] Contenedor 'deportes' INICIADO correctamente.
+[+] Contenedor 'entretenimiento_familiar' INICIADO correctamente.
+[-] Contenedor 'entretenimiento_adulto' DETENIDO correctamente.
+
+--- RECONFIGURACIÓN 2025-12-11 14:16:09 ---
+[-] Contenedor 'optimizacion_de_rutas' DETENIDO correctamente.
+[-] Contenedor 'hqc' DETENIDO correctamente.
+[-] Contenedor 'backend' DETENIDO correctamente.
+[-] Contenedor 'qiskit_simulator' DETENIDO correctamente.
+[-] Contenedor 'algoritmo' DETENIDO correctamente.
+[-] Contenedor 'qaoa' DETENIDO correctamente.
+[-] Contenedor 'deportes' DETENIDO correctamente.
+
+--- RECONFIGURACIÓN 2025-12-11 14:16:36 ---
+[-] Contenedor 'entretenimiento' DETENIDO correctamente.
+[-] Contenedor 'entretenimiento_familiar' DETENIDO correctamente.
+
+--- RECONFIGURACIÓN 2025-12-11 14:16:53 ---
+[+] Contenedor 'entretenimiento' INICIADO correctamente.
+[+] Contenedor 'entretenimiento_adulto' INICIADO correctamente.
+
+--- RECONFIGURACIÓN 2025-12-11 14:22:21 ---
+[+] Contenedor 'optimizacion_de_rutas' INICIADO correctamente.
+[+] Contenedor 'hqc' INICIADO correctamente.
+[+] Contenedor 'backend' INICIADO correctamente.
+[+] Contenedor 'qiskit_simulator' INICIADO correctamente.
+[+] Contenedor 'algoritmo' INICIADO correctamente.
+[+] Contenedor 'qaoa' INICIADO correctamente.
+
+--- RECONFIGURACIÓN 2025-12-11 14:22:47 ---
+[-] Contenedor 'entretenimiento_adulto' DETENIDO correctamente.
+[+] Contenedor 'entretenimiento_tercera_edad' INICIADO correctamente.
+
+--- RECONFIGURACIÓN 2025-12-11 14:23:19 ---
+[+] Contenedor 'entretenimiento_familiar' INICIADO correctamente.
+[+] Contenedor 'deportes' INICIADO correctamente.
+
+--- RECONFIGURACIÓN 2025-12-11 14:23:41 ---
+[-] Contenedor 'deportes' DETENIDO correctamente.
+[-] Contenedor 'entretenimiento_familiar' DETENIDO correctamente.
+
+--- RECONFIGURACIÓN 2025-12-11 14:24:04 ---
+[+] Contenedor 'entretenimiento_familiar' INICIADO correctamente.
+[+] Contenedor 'deportes' INICIADO correctamente.
+[-] Contenedor 'entretenimiento_tercera_edad' DETENIDO correctamente.
+
+--- RECONFIGURACIÓN 2025-12-11 14:24:19 ---
+[+] Contenedor 'entretenimiento_tercera_edad' INICIADO correctamente.
+[-] Contenedor 'deportes' DETENIDO correctamente.
+[-] Contenedor 'entretenimiento_familiar' DETENIDO correctamente.
+
+--- RECONFIGURACIÓN 2025-12-11 14:24:39 ---
+[+] Contenedor 'ambientes_abiertos' INICIADO correctamente.
+[+] Contenedor 'deportes' INICIADO correctamente.
+[-] Contenedor 'optimizacion_de_rutas' DETENIDO correctamente.
+[-] Contenedor 'hqc' DETENIDO correctamente.
+[-] Contenedor 'backend' DETENIDO correctamente.
+[-] Contenedor 'qiskit_simulator' DETENIDO correctamente.
+[-] Contenedor 'algoritmo' DETENIDO correctamente.
+[-] Contenedor 'qaoa' DETENIDO correctamente.
+[-] Contenedor 'entretenimiento' DETENIDO correctamente.
+[-] Contenedor 'entretenimiento_tercera_edad' DETENIDO correctamente.
+[-] Contenedor 'ambientes_cerrados' DETENIDO correctamente.
+[-] Contenedor 'visualizador_restriccion_uso_lena' DETENIDO correctamente.
+
+--- RECONFIGURACIÓN 2025-12-11 14:25:03 ---
+[+] Contenedor 'ambientes_cerrados' INICIADO correctamente.
+[+] Contenedor 'visualizador_restriccion_uso_lena' INICIADO correctamente.
+[+] Contenedor 'optimizacion_de_rutas' INICIADO correctamente.
+[+] Contenedor 'hqc' INICIADO correctamente.
+[+] Contenedor 'backend' INICIADO correctamente.
+[+] Contenedor 'qiskit_simulator' INICIADO correctamente.
+[+] Contenedor 'algoritmo' INICIADO correctamente.
+[+] Contenedor 'qaoa' INICIADO correctamente.
+[-] Contenedor 'deportes' DETENIDO correctamente.
+[-] Contenedor 'ambientes_abiertos' DETENIDO correctamente.
+
+--- RECONFIGURACIÓN 2025-12-11 14:25:24 ---
+[+] Contenedor 'entretenimiento' INICIADO correctamente.
+[+] Contenedor 'entretenimiento_adulto' INICIADO correctamente.
+[+] Contenedor 'deportes' INICIADO correctamente.
+
+--- RECONFIGURACIÓN 2025-12-11 14:25:43 ---
+[-] Contenedor 'deportes' DETENIDO correctamente.
+[-] Contenedor 'entretenimiento_adulto' DETENIDO correctamente.
+[+] Contenedor 'entretenimiento_tercera_edad' INICIADO correctamente.
+
+--- RECONFIGURACIÓN 2025-12-11 14:25:59 ---
+[-] Contenedor 'optimizacion_de_rutas' DETENIDO correctamente.
+[+] Contenedor 'entretenimiento_adulto' INICIADO correctamente.
+[-] Contenedor 'entretenimiento_tercera_edad' DETENIDO correctamente.
+[-] Contenedor 'hqc' DETENIDO correctamente.
+[-] Contenedor 'algoritmo' DETENIDO correctamente.
+[-] Contenedor 'qaoa' DETENIDO correctamente.
+[-] Contenedor 'backend' DETENIDO correctamente.
+[-] Contenedor 'qiskit_simulator' DETENIDO correctamente.
+
+--- RECONFIGURACIÓN 2025-12-11 14:27:05 ---
+[+] Contenedor 'optimizacion_de_rutas' INICIADO correctamente.
+[+] Contenedor 'hqc' INICIADO correctamente.
+[+] Contenedor 'backend' INICIADO correctamente.
+[+] Contenedor 'qiskit_simulator' INICIADO correctamente.
+[+] Contenedor 'algoritmo' INICIADO correctamente.
+[+] Contenedor 'qaoa' INICIADO correctamente.
+
+--- RECONFIGURACIÓN 2025-12-11 14:29:19 ---
+[-] Contenedor 'cirq_simulator' DETENIDO correctamente.
+[-] Contenedor 'vqe' DETENIDO correctamente.
+[-] Contenedor 'ambientes_cerrados' DETENIDO correctamente.
+[-] Contenedor 'visualizador_restriccion_uso_lena' DETENIDO correctamente.
+[-] Contenedor 'entretenimiento' DETENIDO correctamente.
+[-] Contenedor 'entretenimiento_familiar' DETENIDO correctamente.
+[-] Contenedor 'entretenimiento_adulto' DETENIDO correctamente.
+[-] Contenedor 'entretenimiento_tercera_edad' DETENIDO correctamente.
