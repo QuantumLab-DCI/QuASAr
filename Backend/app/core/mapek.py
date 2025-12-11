@@ -4,6 +4,8 @@ import datetime
 import os
 import time
 import random 
+
+# Importamos el módulo 'app' para leer la variable global de selección
 import app as app_globals 
 
 # Imports del sistema
@@ -12,6 +14,10 @@ from app.services import agente_llm
 from app.services import hqc_module
 from app import app_path 
 
+# --- NUEVO: Importar Logger de Auditoría ---
+from app.core.audit_logger import get_logger
+# -------------------------------------------
+
 class Mapek:
     def __init__(self):
         self._puntoVariacion = None
@@ -19,18 +25,16 @@ class Mapek:
         self._reglaAdaptacion_CP = None
         self._reglaAdaptacion_SLA = None
         
+        # --- Configurar Logger ---
+        self.logger = get_logger()
+        self._caso_actual = 0 # ID del caso de prueba actual
+        
         # --- Variable para guardar la explicación del LLM ---
         self._razonamiento_actual = "Esperando análisis del agente..."
         
-        # --- Traza de ejecución para el Frontend (Observabilidad) ---
+        # --- NUEVO: Traza de ejecución para el Frontend (Observabilidad) ---
         self._mapek_trace = [] 
         
-        # --- NUEVAS VARIABLES DE ESTADO PARA LOGGING ---
-        self.current_case_id = 0
-        self.current_scenario_id = 0
-        self.context_str = "" # Guardará los parámetros para el log
-        # -----------------------------------------------
-
         # Cargar escenarios en memoria al iniciar
         self.scenarios = []
         try:
@@ -41,33 +45,6 @@ class Mapek:
                 print(f"✅ MAPE-K: Cargados {len(self.scenarios)} escenarios para modo interactivo.")
         except Exception as e:
             print(f"⚠️ MAPE-K: Error cargando scenarios.json: {e}")
-
-    # --- NUEVO: SISTEMA DE LOGGING A ARCHIVO (AUDITORÍA) ---
-    def registrar_log_archivo(self, nivel, mensaje):
-        """
-        Escribe en data/historial_ejecucion.log con formato estructurado.
-        Persiste los datos aunque se reinicie el servidor.
-        """
-        try:
-            log_dir = os.path.join(app_path, "data")
-            if not os.path.exists(log_dir):
-                os.makedirs(log_dir)
-                
-            log_path = os.path.join(log_dir, "historial_ejecucion.log")
-            timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            
-            # Formato: [CASO #X] [FECHA] [ESCENARIO Y] [NIVEL] MENSAJE
-            linea = f"[CASO #{self.current_case_id}] [{timestamp}] [ESCENARIO {self.current_scenario_id}] [{nivel}] {mensaje}"
-            
-            # Si es un error crítico o el inicio, agregamos el contexto de parámetros
-            if nivel in ["START", "LLM_ERROR", "CRITICAL_FAILURE"] and self.context_str:
-                linea += f" || PARAMS: {self.context_str}"
-                
-            with open(log_path, "a", encoding="utf-8") as f:
-                f.write(linea + "\n")
-        except Exception as e:
-            print(f"⚠️ Error escribiendo log de archivo: {e}")
-    # -------------------------------------------------------
 
     def _find_features_in_json(self, data: dict) -> dict:
         features = {}
@@ -91,12 +68,10 @@ class Mapek:
         }
         self._mapek_trace.append(paso)
         print(f"[{fase}] {mensaje}")
+    # ---------------------------------------------------------
 
     def _validar_configuracion(self, config_dict: dict, mc) -> bool:
         print("VALIDATE: Verificando la configuración del LLM...")
-        
-        # (Lógica de validación original resumida para brevedad, no cambia la lógica)
-        # ... [Mantenemos tu lógica de validación original aquí] ...
         
         # Validar 'Requiere'
         reglas_requiere = []
@@ -109,66 +84,75 @@ class Mapek:
 
         for (quien_requiere, quien_es_requerido) in reglas_requiere:
             if config_dict.get(quien_requiere) and not config_dict.get(quien_es_requerido):
-                msg = f"Regla 'Requiere' violada. '{quien_requiere}' activo sin '{quien_es_requerido}'."
-                print(f"VALIDATE_ERROR: {msg}")
-                self.registrar_log_archivo("VALIDATION_FAIL", msg) # <--- LOG
+                print(f"VALIDATE_ERROR: Regla 'Requiere' violada. '{quien_requiere}' activo sin '{quien_es_requerido}'.")
                 return False
 
         # Validar Jerarquía
         for c in mc.caracteristicas:
             nombre_padre = c.getNombre.replace(" ", "_").lower()
+            
             if config_dict.get(nombre_padre) == True:
                 hijos_xor = [r[0].replace(" ", "_").lower() for r in c.getRelaciones if r[1] == "XOR"]
                 hijos_or = [r[0].replace(" ", "_").lower() for r in c.getRelaciones if r[1] == "OR"]
+
                 for rel in c.getRelaciones:
                     if rel[1] == "Obligatoria":
                         hijo_key = rel[0].replace(" ", "_").lower()
                         if not config_dict.get(hijo_key):
-                            self.registrar_log_archivo("VALIDATION_FAIL", f"Obligatoria violada en {nombre_padre}")
+                            print(f"VALIDATE_ERROR: Regla 'Obligatoria' violada en '{nombre_padre}'.")
                             return False
+                
                 if hijos_xor:
                     activos_xor = sum(1 for h in hijos_xor if config_dict.get(h) == True)
                     if activos_xor != 1:
-                        self.registrar_log_archivo("VALIDATION_FAIL", f"XOR violada en {nombre_padre}")
+                        print(f"VALIDATE_ERROR: Regla 'XOR' violada en '{nombre_padre}'. Activos: {activos_xor}")
                         return False
+                
                 if hijos_or:
                     activos_or = sum(1 for h in hijos_or if config_dict.get(h) == True)
                     if activos_or == 0:
-                        self.registrar_log_archivo("VALIDATION_FAIL", f"OR violada en {nombre_padre}")
+                        print(f"VALIDATE_ERROR: Regla 'OR' violada en '{nombre_padre}'.")
                         return False
+            
             elif config_dict.get(nombre_padre) == False:
                  for rel in c.getRelaciones:
                     if rel[1] != "Requiere":
                         hijo_key = rel[0].replace(" ", "_").lower()
                         if config_dict.get(hijo_key) == True:
-                            self.registrar_log_archivo("VALIDATION_FAIL", f"Jerarquía violada (Hijo activo sin Padre {nombre_padre})")
+                            print(f"VALIDATE_ERROR: Jerarquía violada. Padre '{nombre_padre}' inactivo.")
                             return False
 
         print("VALIDATE: Configuración del LLM es VÁLIDA.")
         return True
 
-    # --- MÉTODO MODIFICADO: AHORA RECIBE 'case_number' ---
-    def ejecutar_escenario_manual(self, mc, target_id, case_number):
+    # --- MÉTODO DE SIMULACIÓN ESTOCÁSTICA CON INTENCIÓN ---
+    # MODIFICADO: Recibe caso_n para logging
+    def ejecutar_escenario_manual(self, mc, target_id, caso_n=0):
         """ 
         Paso 1: MONITOREAR (Simulación Estocástica + Intención de Negocio)
         """
-        # Inicializamos variables de log
-        self.current_case_id = case_number
-        self.current_scenario_id = target_id
+        self._caso_actual = caso_n # Guardar contexto para logs posteriores
+        
+        # Limpiar traza al inicio del ciclo
         self._mapek_trace = []
+        self._registrar_paso("INICIO", f"Iniciando ciclo MAPE-K para Escenario ID {target_id}")
 
         escenario_actual = next((s for s in self.scenarios if s['id'] == target_id), None)
+        nombre_escenario = escenario_actual['nombre'] if escenario_actual else "Desconocido/Base"
 
         if escenario_actual:
+            # 1. Obtener rangos del JSON
             rango_ica = escenario_actual.get('rango_ica', [0, 50])
             rango_cp = escenario_actual.get('rango_cp', [0, 100])
             rango_cola = escenario_actual.get('rango_cola_qiskit', [0, 10])
             
+            # 2. Generar valores REALES (Variables Ambientales)
             ica_real = random.randint(rango_ica[0], rango_ica[1])
             cp_real = random.randint(rango_cp[0], rango_cp[1])
             cola_real_qiskit = random.randint(rango_cola[0], rango_cola[1])
             prioridad = escenario_actual.get('sla_prioridad', 'RAPIDEZ')
 
+            # 3. Generar Perfil de Usuario
             perfiles = [
                 "Turista Estándar (Solo Rutas)",
                 "Grupo Deportivo (Requiere Deportes)",
@@ -182,75 +166,112 @@ class Mapek:
             print(f"⚠️ Escenario ID {target_id} no encontrado. Usando valores base.")
             ica_real = 50; cp_real = 10; prioridad = "RAPIDEZ"; cola_real_qiskit = 5; perfil_usuario = "Estándar"
 
-        # --- PREPARAR CONTEXTO PARA LOGGING ---
-        self.context_str = f"ICA={ica_real}, CP={cp_real}, SLA='{prioridad}', ColaQiskit={cola_real_qiskit}s, Perfil='{perfil_usuario}'"
-        
-        # 1. LOG DE INICIO (HEADER DEL CASO)
-        self.registrar_log_archivo("START", "--- INICIO DE CICLO DE ADAPTACIÓN ---")
-        
-        # Guardar contexto global
+        # Guardar contexto
         self._reglaAdaptacion_ICA = ica_real
         self._reglaAdaptacion_CP = cp_real
         self._reglaAdaptacion_SLA = prioridad
         
-        self._registrar_paso("MONITOREO", "Sensores leídos y Perfil detectado.", {
-            "ICA": ica_real, "CP": cp_real, "SLA": prioridad, "Perfil": perfil_usuario
+        # --- AUDITORIA: LOG DE PARÁMETROS ---
+        self.logger.info(
+            f"[CASO #{caso_n}] PARÁMETROS: "
+            f"Escenario='{nombre_escenario}' | ICA={ica_real} | CP={cp_real} | "
+            f"ColaQiskit={cola_real_qiskit}s | Usuario='{perfil_usuario}'"
+        )
+        # ------------------------------------
+
+        # --- TRACE: MONITOREO ---
+        self._registrar_paso("MONITOREO", "Sensores leídos y Perfil de usuario detectado.", {
+            "ICA (Aire)": ica_real,
+            "Complejidad (CP)": cp_real,
+            "Latencia Qiskit": f"{cola_real_qiskit}s",
+            "Intención Usuario": perfil_usuario
         })
 
+        # Pasar los valores al análisis
         self.analizar(mc, ica_real, cp_real, prioridad, cola_real_qiskit, perfil_usuario)
 
     def analizar(self, mc, ica, complejidad_problema, prioridad, cola_forzada=None, perfil_usuario="Estándar"):
         """ Paso 2: ANALIZAR """
         
-        self._registrar_paso("ANÁLISIS", "Detectada necesidad de adaptación. Consultando Agente...", {
-            "Estrategia": "LLM Generativo (Gemini)"
+        # --- TRACE: ANÁLISIS ---
+        self._registrar_paso("ANÁLISIS", "Detectada necesidad de adaptación. Consultando Agente Inteligente...", {
+            "Motivo": "Cambio en contexto detectado",
+            "Estrategia": "Consulta a LLM (Gemini)"
         })
         
         reglas_del_modelo = mc.exportar_reglas_texto()
         metricas_nisq = hqc_module.monitor_backends()
+        
+        # INYECCIÓN DE ESTADO SIMULADO
         if cola_forzada is not None:
             metricas_nisq["Qiskit Simulator"]["queue_time_sec"] = cola_forzada
 
         contexto_actual = f"""
         DATOS DEL ENTORNO EN TIEMPO REAL (Simulación Estocástica - Escenario {app_globals.escenario_activo_id}):
-        1. **Perfil de Demanda:** "{perfil_usuario}"
-        2. **Condiciones Ambientales:** ICA = {ica}.
-        3. **Requerimiento Computacional:** CP = {complejidad_problema}.
-        4. **Infraestructura:** SLA: {prioridad}, Estado Backends: {metricas_nisq}
+        
+        1. **Perfil de Demanda (INTENCIÓN DE USUARIO):** "{perfil_usuario}"
+           - Si es 'Deportivo', intenta activar 'Deportes' (si el aire lo permite).
+           - Si es 'Familia/Adulto/Tercera Edad', activa la rama de 'Entretenimiento' correspondiente.
+           - Si es 'Estándar', mantén el sistema mínimo (Desactiva Deportes y Entretenimiento).
+
+        2. **Condiciones Ambientales:**
+           - Calidad del Aire (ICA) = {ica}. (Regla: Si ICA > 100, priorizar 'Ambientes cerrados' y prohibir 'Deportes').
+        
+        3. **Requerimiento Computacional:**
+           - Complejidad (CP) = {complejidad_problema}. (Regla: Si CP > 100, activar 'HQC' y 'Optimizacion de rutas'. Si CP <= 100, 'HQC' inactivo).
+
+        4. **Infraestructura:**
+           - Prioridad SLA: {prioridad}.
+           - Estado Backends: {metricas_nisq}
         """
         
         config_dict_llm = agente_llm.obtener_configuracion_llm(contexto_actual, reglas_del_modelo)
 
         if not config_dict_llm:
-            msg = "El Agente LLM devolvió una configuración vacía o hubo error de red."
-            self._registrar_paso("ERROR", msg)
-            self.registrar_log_archivo("LLM_ERROR", msg) # <--- LOG ERROR
+            # --- AUDITORIA: ERROR LLM ---
+            self.logger.error(f"[CASO #{self._caso_actual}] ❌ FALLO LLM: El agente devolvió una configuración vacía o inválida.")
+            # ----------------------------
+            self._registrar_paso("ERROR", "El Agente LLM no devolvió una configuración válida.")
             return 
 
+        # Capturar razonamiento
         if "razonamiento" in config_dict_llm:
             self._razonamiento_actual = config_dict_llm["razonamiento"]
-            self._registrar_paso("ANÁLISIS (IA)", "Decisión tomada.", {"Razonamiento": self._razonamiento_actual})
-            # <--- LOG RAZONAMIENTO
-            self.registrar_log_archivo("LLM_DECISION", f"Razonamiento: {self._razonamiento_actual}")
+            
+            # --- AUDITORIA: EXITO LLM ---
+            self.logger.info(f"[CASO #{self._caso_actual}] ✅ LLM Respondió. Razonamiento: {self._razonamiento_actual}")
+            # ----------------------------
+
+            # --- TRACE: ANÁLISIS (RESULTADO) ---
+            self._registrar_paso("ANÁLISIS (IA)", "El Agente ha tomado una decisión.", {
+                "Razonamiento": self._razonamiento_actual
+            })
 
         config_plana = self._find_features_in_json(config_dict_llm)
         
-        # Auto-reparación simple
+        # --- AUTO-REPARACIÓN ---
         if config_plana.get('hqc') == False:
             nodos_cuanticos = ['backend', 'algoritmo', 'qiskit_simulator', 'cirq_simulator', 'qaoa', 'vqe']
+            se_apago_algo = False
             for nodo in nodos_cuanticos:
                 if config_plana.get(nodo) == True:
                     config_plana[nodo] = False
-
+                    se_apago_algo = True
+            if se_apago_algo:
+                self._registrar_paso("ANÁLISIS (SELF-HEALING)", "Mecanismo de defensa activado: Apagando hijos huérfanos de HQC.")
+        
+        # Validación formal
         config_plana_con_raiz = config_plana.copy()
         config_plana_con_raiz['gestor_aire'] = True 
         
         if not self._validar_configuracion(config_plana_con_raiz, mc):
+            # --- AUDITORIA: ERROR VALIDACION ---
+            self.logger.error(f"[CASO #{self._caso_actual}] ❌ FALLO VALIDACIÓN: Configuración LLM viola reglas del modelo.")
+            # -----------------------------------
             self._registrar_paso("ERROR", "Configuración rechazada por validación estructural.")
             return
 
         configuracion_final = []
-        features_activas_log = [] # Para el log
         for key, value in config_plana.items(): 
             nombre_formal = next(
                 (c.getNombre for c in mc.caracteristicas 
@@ -259,10 +280,6 @@ class Mapek:
             )
             estado = "activada" if value else "desactivada"
             configuracion_final.append(f"{nombre_formal} {estado}")
-            if value: features_activas_log.append(nombre_formal)
-
-        # <--- LOG PLAN
-        self.registrar_log_archivo("PLAN", f"Features activas: {features_activas_log}")
 
         self.conocimiento(configuracion_final, mc, ica, complejidad_problema)
         self.planificar()
@@ -271,66 +288,64 @@ class Mapek:
         """ Paso 3: PLANIFICAR """
         if self._puntoVariacion:
             config = self._puntoVariacion.obtenerConfiguracion()
+            # --- TRACE: PLANIFICACIÓN ---
             activas = [k for k, v in config.items() if v is True]
-            self._registrar_paso("PLANIFICACIÓN", "Plan generado.", {"Features a Activar": activas})
+            self._registrar_paso("PLANIFICACIÓN", "Plan de reconfiguración generado.", {
+                "Estrategia": "Hot-Swap de contenedores y Backends",
+                "Features a Activar": activas
+            })
             self.ejecutar(config)
 
     def ejecutar(self, contenedores):
-        """ Paso 4: EJECUTAR (CON LOGS DETALLADOS DE DOCKER) """
+        """ Paso 4: EJECUTAR """
         if not contenedores: return
 
-        self._registrar_paso("EJECUCIÓN", "Aplicando cambios en infraestructura...")
-        self.registrar_log_archivo("EXECUTION_START", "Iniciando reconfiguración de contenedores...")
+        # --- TRACE: EJECUCIÓN INICIO ---
+        self._registrar_paso("EJECUCIÓN", "Aplicando cambios en infraestructura...", {
+            "Mecanismo": "Docker API + HQC Factory",
+            "Estado": "Redireccionando servicios"
+        })
 
         client = docker.from_env()
-        # Log técnico local (legacy)
-        log_path_legacy = os.path.join(app_path, "data", "cambios.log")
+        log_path = os.path.join(app_path, "data", "cambios.log")
         
-        try:
-            # Obtenemos lista de contenedores reales para verificar existencia
-            all_containers = {c.name: c for c in client.containers.list(all=True)}
+        # --- AUDITORIA: INICIO RECONFIGURACION ---
+        self.logger.info(f"[CASO #{self._caso_actual}] ⚙️ Iniciando reconfiguración de infraestructura...")
+        
+        with open(log_path, "a", encoding="utf-8") as log_file:
+            timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            log_file.write(f"\n--- RECONFIGURACIÓN {timestamp} ---\n")
             
-            with open(log_path_legacy, "a", encoding="utf-8") as log_file:
-                timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                log_file.write(f"\n--- RECONFIGURACIÓN {timestamp} ---\n")
-                
-                for nombre_cont, debe_estar_activo in contenedores.items():
-                    # Verificamos si el contenedor existe en Docker
-                    if nombre_cont in all_containers:
-                        container = all_containers[nombre_cont]
-                        try:
-                            if debe_estar_activo and container.status == "exited":
-                                container.start()
-                                msg = f"Contenedor '{nombre_cont}' INICIADO correctamente."
-                                log_file.write(f"[+] {msg}\n")
-                                self.registrar_log_archivo("NODE_SUCCESS", f"Activado: {nombre_cont}") # <--- LOG
-                                self._registrar_paso("EJECUCIÓN", msg)
+            # --- MODIFICACIÓN PARA AUDITAR CADA CONTENEDOR ---
+            for container in client.containers.list(all=True):
+                estado_deseado = contenedores.get(container.name)
+                if estado_deseado is not None:
+                    try:
+                        cont = client.containers.get(container.id)
+                        
+                        if estado_deseado == True and cont.status == "exited":
+                            cont.start()
+                            log_file.write(f"[+] Contenedor '{container.name}' iniciado.\n")
+                            # Log éxito activación
+                            self.logger.info(f"[CASO #{self._caso_actual}] 🟢 ACTIVADO EXITO: Contenedor '{container.name}'")
                             
-                            elif not debe_estar_activo and container.status == "running":
-                                container.stop()
-                                msg = f"Contenedor '{nombre_cont}' DETENIDO correctamente."
-                                log_file.write(f"[-] {msg}\n")
-                                self.registrar_log_archivo("NODE_SUCCESS", f"Desactivado: {nombre_cont}") # <--- LOG
-                                self._registrar_paso("EJECUCIÓN", msg)
+                        elif estado_deseado == False and cont.status == "running":
+                            cont.stop()
+                            log_file.write(f"[-] Contenedor '{container.name}' detenido.\n")
+                            # Log éxito desactivación
+                            self.logger.info(f"[CASO #{self._caso_actual}] 🔴 DESACTIVADO EXITO: Contenedor '{container.name}'")
                             
-                            # Si ya estaba en el estado deseado, no logueamos nada en auditoría para no saturar
-                        except Exception as e_cont:
-                            err_msg = f"Error cambiando estado de {nombre_cont}: {str(e_cont)}"
-                            self.registrar_log_archivo("NODE_FAILURE", err_msg) # <--- LOG FAILURE
-                            self._registrar_paso("ERROR", err_msg)
-                    else:
-                        # El feature está en el modelo, pero no hay contenedor Docker con ese nombre exacto
-                        if debe_estar_activo: # Solo reportamos si intentamos prenderlo
-                            warn_msg = f"No se encontró contenedor Docker: {nombre_cont}"
-                            self.registrar_log_archivo("NODE_WARNING", warn_msg) # <--- LOG WARNING
+                    except Exception as e:
+                        msg_err = f"EXECUTE_ERROR Docker en {container.name}: {e}"
+                        print(msg_err)
+                        # Log error individual
+                        accion = "ACTIVAR" if estado_deseado else "DESACTIVAR"
+                        self.logger.error(f"[CASO #{self._caso_actual}] ❌ ERROR AL {accion} nodo '{container.name}': {str(e)}")
+            # ------------------------------------------------
 
-        except Exception as e:
-            print(f"EXECUTE_ERROR Docker: {e}")
-            self.registrar_log_archivo("DOCKER_CRASH", f"Error general de Docker: {e}")
-
-        # --- EJECUCIÓN CUÁNTICA ---
+        # --- EJECUCIÓN CUÁNTICA ADAPTATIVA ---
         if contenedores.get("hqc") == True:
-            # (Lógica HQC idéntica a la original, omito detalles por brevedad pero mantengo la estructura)
+            
             algoritmo_qaoa_activo = contenedores.get("qaoa") == True
             algoritmo_vqe_activo = contenedores.get("vqe") == True
 
@@ -339,38 +354,67 @@ class Mapek:
                     backend_key = next(b for b in ["qiskit_simulator", "cirq_simulator"] if contenedores.get(b))
                     algoritmo = "QAOA" if algoritmo_qaoa_activo else "VQE"
                     backend_nombre = backend_key.replace("_", " ").title()
-                    
+
+                    # ADAPTACIÓN DE CARGA
                     cp = self._reglaAdaptacion_CP
-                    problem_size = 3 if cp < 250 else 4 
-                    circuit_depth = 1 if cp < 400 else 2
+                    if cp < 250:
+                        problem_size = 3
+                    else:
+                        problem_size = 4 
+
+                    circuit_depth = 1
+                    if cp >= 400:
+                        circuit_depth = 2
                     
-                    self._registrar_paso("EJECUCIÓN (HQC)", f"Enviando carga a {backend_nombre}...", {"Algoritmo": algoritmo})
-                    self.registrar_log_archivo("HQC_INFO", f"Iniciando Job {algoritmo} en {backend_nombre} (CP={cp})")
+                    # --- TRACE: EJECUCIÓN HQC ---
+                    self._registrar_paso("EJECUCIÓN (HQC)", f"Enviando carga de trabajo a {backend_nombre}.", {
+                        "Algoritmo": algoritmo,
+                        "Qubits (N)": problem_size**2 if algoritmo == "VQE" else problem_size, # Aprox
+                        "Profundidad": circuit_depth
+                    })
 
                     backend_adapter = hqc_module.get_backend_adapter(backend_nombre)
+
                     if backend_adapter:
                         unique_id = f"{app_globals.escenario_activo_id}_{int(time.time())}"
-                        params = {"problema_id": unique_id, "complejidad_cp": cp, "size": problem_size, "depth": circuit_depth}
+                        params = {
+                            "problema_id": unique_id,
+                            "complejidad_cp": cp,
+                            "size": problem_size,    
+                            "depth": circuit_depth   
+                        }
                         
                         resultado = backend_adapter.execute_job(algoritmo=algoritmo, params=params)
                         
-                        self._registrar_paso("FIN EJECUCIÓN HQC", "Finalizado.", {"Costo": f"{resultado.get('costo_optimo'):.4f}"})
-                        # Log resultado
-                        self.registrar_log_archivo("HQC_SUCCESS", f"Job finalizado. Costo: {resultado.get('costo_optimo')}")
+                        # --- TRACE: RESULTADO HQC ---
+                        self._registrar_paso("FIN EJECUCIÓN HQC", "Trabajo cuántico finalizado.", {
+                            "Costo Óptimo": f"{resultado.get('costo_optimo'):.4f}",
+                            "Evidencia": "Generada en /data"
+                        })
+                        
+                        with open(log_path, "a", encoding="utf-8") as log_file:
+                             log_file.write(f"[⚛️] Job HQC: Costo={resultado.get('costo_optimo')}\n")
+                        
+                        # --- AUDITORIA: EXITO HQC ---
+                        self.logger.info(f"[CASO #{self._caso_actual}] ⚛️ EXITO HQC: Job completado. Costo={resultado.get('costo_optimo')}")
 
                 except Exception as e:
                     print(f"EXECUTE_ERROR HQC: {e}")
                     self._registrar_paso("ERROR", f"Fallo en ejecución cuántica: {e}")
-                    self.registrar_log_archivo("HQC_FAILURE", f"Error: {e}")
+                    # --- AUDITORIA: ERROR HQC ---
+                    self.logger.error(f"[CASO #{self._caso_actual}] ❌ FALLO HQC: Error en ejecución cuántica: {str(e)}")
         
-        self.registrar_log_archivo("SUCCESS", "Ciclo completado.")
+        # --- TRACE: FIN ---
         self._registrar_paso("FIN", "Ciclo MAPE-K completado exitosamente.")
 
     def conocimiento(self, configuracion, mc, ica, complejidad_problema):
+        """ Paso 5: CONOCIMIENTO """
         print("KNOWLEDGE: Actualizando base de conocimiento y estado global.")
         self._puntoVariacion = punto_variacion.PuntoVariacion(configuracion, mc, "gestor_aire")
 
-    def getConocimiento(self): return self._puntoVariacion
+    def getConocimiento(self):
+        return self._puntoVariacion
+
     def getReglaAdaptacion(self):
         return {
             "calidad_aire_ica": self._reglaAdaptacion_ICA,
@@ -378,4 +422,8 @@ class Mapek:
             "prioridad_sla": self._reglaAdaptacion_SLA,
             "razonamiento": self._razonamiento_actual 
         }
-    def getTrace(self): return self._mapek_trace
+    
+    # --- NUEVO GETTER PARA LA TRAZA ---
+    def getTrace(self):
+        """Devuelve el historial de ejecución del ciclo actual"""
+        return self._mapek_trace

@@ -20,8 +20,8 @@ escenario_activo_id = 1
 en_ejecucion = False 
 # ---------------------------------
 
-# --- NUEVO: Contador Global de Ejecuciones ---
-execution_counter = 0 
+# --- NUEVO: Contador Global para Auditoría ---
+execution_counter = 0  # <--- Asegúrate de que esta variable exista
 # ---------------------------------------------
 
 # --- Objeto App Global ---

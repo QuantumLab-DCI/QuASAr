@@ -1,0 +1,517 @@
+2025-12-11 15:17:35 [INFO] 🔰 --- INICIO CASO #1 | ESCENARIO ID: 1 ---
+2025-12-11 15:17:35 [INFO] [CASO #1] PARÁMETROS: Escenario='Modo: Operación Diaria (Variable)' | ICA=108 | CP=50 | ColaQiskit=0s | Usuario='Familia con Niños (Requiere Entr. Familiar)'
+2025-12-11 15:17:37 [INFO] [CASO #1] ✅ LLM Respondió. Razonamiento: Activado Turismo y Entretenimiento Familiar por perfil. Deportes desactivado por ICA > 100. HQC y Backend inactivos por CP <= 100. Se prioriza Ambiente Cerrado y se elige Qiskit por menor tasa de error.
+2025-12-11 15:17:37 [INFO] [CASO #1] ⚙️ Iniciando reconfiguración de infraestructura...
+2025-12-11 15:17:38 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'cirq_simulator'
+2025-12-11 15:17:39 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'vqe'
+2025-12-11 15:17:41 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'qaoa'
+2025-12-11 15:17:42 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'qiskit_simulator'
+2025-12-11 15:17:43 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'algoritmo'
+2025-12-11 15:17:44 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'backend'
+2025-12-11 15:17:45 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'hqc'
+2025-12-11 15:17:47 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'optimizacion_de_rutas'
+2025-12-11 15:17:48 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'entretenimiento_tercera_edad'
+2025-12-11 15:17:49 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'entretenimiento_adulto'
+2025-12-11 15:17:50 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'deportes'
+2025-12-11 15:17:51 [INFO] ✅ [CASO #1] Ciclo finalizado exitosamente. Visualización generada.
+2025-12-11 15:17:51 [INFO] 🏁 --- FIN CASO #1 ---
+2025-12-11 15:18:13 [INFO] 🔰 --- INICIO CASO #2 | ESCENARIO ID: 1 ---
+2025-12-11 15:18:13 [INFO] [CASO #2] PARÁMETROS: Escenario='Modo: Operación Diaria (Variable)' | ICA=68 | CP=61 | ColaQiskit=5s | Usuario='Turista Estándar (Solo Rutas)'
+2025-12-11 15:18:16 [INFO] [CASO #2] ✅ LLM Respondió. Razonamiento: Usuario 'Turista Estándar' y ICA 68 desactivan Deportes/Entretenimiento. CP 61 inactiva HQC/Rutas. Turismo activo por Gestor Aire. Cirq Simulator no es necesario y Qiskit tiene cola mínima.
+2025-12-11 15:18:16 [ERROR] [CASO #2] ❌ FALLO VALIDACIÓN: Configuración LLM viola reglas del modelo.
+2025-12-11 15:18:16 [WARNING] ⚠️ [CASO #2] Ciclo finalizado sin configuración válida (posible error del LLM).
+2025-12-11 15:18:16 [INFO] 🏁 --- FIN CASO #2 ---
+2025-12-11 15:18:47 [INFO] 🔰 --- INICIO CASO #3 | ESCENARIO ID: 1 ---
+2025-12-11 15:18:47 [INFO] [CASO #3] PARÁMETROS: Escenario='Modo: Operación Diaria (Variable)' | ICA=37 | CP=96 | ColaQiskit=2s | Usuario='Familia con Niños (Requiere Entr. Familiar)'
+2025-12-11 15:18:49 [INFO] [CASO #3] ✅ LLM Respondió. Razonamiento: Activado Entretenimiento Familiar por perfil. Turismo y Ambientes Cerrados activos por ICA 37 y demanda. HQC y Backend inactivos por CP <= 100. Cirq Simulator seleccionado por menor tiempo de cola.
+2025-12-11 15:18:49 [INFO] [CASO #3] ⚙️ Iniciando reconfiguración de infraestructura...
+2025-12-11 15:18:49 [INFO] ✅ [CASO #3] Ciclo finalizado exitosamente. Visualización generada.
+2025-12-11 15:18:49 [INFO] 🏁 --- FIN CASO #3 ---
+2025-12-11 15:19:16 [INFO] 🔰 --- INICIO CASO #4 | ESCENARIO ID: 1 ---
+2025-12-11 15:19:16 [INFO] [CASO #4] PARÁMETROS: Escenario='Modo: Operación Diaria (Variable)' | ICA=55 | CP=75 | ColaQiskit=1s | Usuario='Adulto Mayor (Requiere Entr. Tercera Edad)'
+2025-12-11 15:19:19 [INFO] [CASO #4] ✅ LLM Respondió. Razonamiento: Activado Entretenimiento para Tercera Edad según perfil. Turismo y Ambientes Cerrados activados por ICA 55. HQC y Backend desactivados por CP <= 100. Qiskit y Cirq seleccionados por baja cola y estado online.
+2025-12-11 15:19:19 [INFO] [CASO #4] ⚙️ Iniciando reconfiguración de infraestructura...
+2025-12-11 15:19:19 [INFO] [CASO #4] 🟢 ACTIVADO EXITO: Contenedor 'entretenimiento_tercera_edad'
+2025-12-11 15:19:21 [INFO] [CASO #4] 🔴 DESACTIVADO EXITO: Contenedor 'entretenimiento_familiar'
+2025-12-11 15:19:22 [INFO] [CASO #4] 🔴 DESACTIVADO EXITO: Contenedor 'ambientes_abiertos'
+2025-12-11 15:19:22 [INFO] ✅ [CASO #4] Ciclo finalizado exitosamente. Visualización generada.
+2025-12-11 15:19:22 [INFO] 🏁 --- FIN CASO #4 ---
+2025-12-11 15:19:59 [INFO] 🔰 --- INICIO CASO #5 | ESCENARIO ID: 1 ---
+2025-12-11 15:19:59 [INFO] [CASO #5] PARÁMETROS: Escenario='Modo: Operación Diaria (Variable)' | ICA=53 | CP=115 | ColaQiskit=3s | Usuario='Turista Estándar (Solo Rutas)'
+2025-12-11 15:20:01 [INFO] [CASO #5] ✅ LLM Respondió. Razonamiento: Activado HQC y Optimizacion de Rutas por alta complejidad (CP=115). Seleccionado Cirq Simulator por menor tiempo de cola (1s vs 3s) y perfil 'Turista Estándar' que no requiere Deportes ni Entretenimiento.
+2025-12-11 15:20:01 [ERROR] [CASO #5] ❌ FALLO VALIDACIÓN: Configuración LLM viola reglas del modelo.
+2025-12-11 15:20:01 [WARNING] ⚠️ [CASO #5] Ciclo finalizado sin configuración válida (posible error del LLM).
+2025-12-11 15:20:01 [INFO] 🏁 --- FIN CASO #5 ---
+2025-12-11 15:20:31 [INFO] 🔰 --- INICIO CASO #6 | ESCENARIO ID: 1 ---
+2025-12-11 15:20:31 [INFO] [CASO #6] PARÁMETROS: Escenario='Modo: Operación Diaria (Variable)' | ICA=69 | CP=66 | ColaQiskit=5s | Usuario='Adulto Mayor (Requiere Entr. Tercera Edad)'
+2025-12-11 15:20:33 [INFO] [CASO #6] ✅ LLM Respondió. Razonamiento: Activado 'Entretenimiento tercera edad' por perfil de usuario. 'Deportes' desactivado por ICA 69. 'HQC' y 'Backend' inactivos debido a CP <= 100. Cirq Simulator elegido por menor tiempo de cola.
+2025-12-11 15:20:33 [INFO] [CASO #6] ⚙️ Iniciando reconfiguración de infraestructura...
+2025-12-11 15:20:34 [INFO] ✅ [CASO #6] Ciclo finalizado exitosamente. Visualización generada.
+2025-12-11 15:20:34 [INFO] 🏁 --- FIN CASO #6 ---
+2025-12-11 15:21:00 [INFO] 🔰 --- INICIO CASO #7 | ESCENARIO ID: 1 ---
+2025-12-11 15:21:00 [INFO] [CASO #7] PARÁMETROS: Escenario='Modo: Operación Diaria (Variable)' | ICA=88 | CP=88 | ColaQiskit=2s | Usuario='Adulto Mayor (Requiere Entr. Tercera Edad)'
+2025-12-11 15:21:02 [INFO] [CASO #7] ✅ LLM Respondió. Razonamiento: Activado Entretenimiento para Tercera Edad según perfil. Turismo y Ambientes Cerrados activados por ICA 88 y prioridad SLA. Optimizacion de rutas y HQC desactivados por CP 88. Cirq Simulator no elegido por alta tasa de error.
+2025-12-11 15:21:02 [INFO] [CASO #7] ⚙️ Iniciando reconfiguración de infraestructura...
+2025-12-11 15:21:02 [INFO] ✅ [CASO #7] Ciclo finalizado exitosamente. Visualización generada.
+2025-12-11 15:21:02 [INFO] 🏁 --- FIN CASO #7 ---
+2025-12-11 15:21:31 [INFO] 🔰 --- INICIO CASO #8 | ESCENARIO ID: 1 ---
+2025-12-11 15:21:31 [INFO] [CASO #8] PARÁMETROS: Escenario='Modo: Operación Diaria (Variable)' | ICA=101 | CP=102 | ColaQiskit=5s | Usuario='Familia con Niños (Requiere Entr. Familiar)'
+2025-12-11 15:21:33 [INFO] [CASO #8] ✅ LLM Respondió. Razonamiento: Activado 'Entretenimiento Familiar' por perfil. Priorizado 'Ambientes Cerrados' por ICA > 100. HQC y Optimizacion activados por CP > 100. Cirq elegido por menor tiempo de cola (0s) para SLA de Rapidez.
+2025-12-11 15:21:33 [INFO] [CASO #8] ⚙️ Iniciando reconfiguración de infraestructura...
+2025-12-11 15:21:34 [INFO] [CASO #8] 🟢 ACTIVADO EXITO: Contenedor 'cirq_simulator'
+2025-12-11 15:21:34 [INFO] [CASO #8] 🟢 ACTIVADO EXITO: Contenedor 'qaoa'
+2025-12-11 15:21:34 [INFO] [CASO #8] 🟢 ACTIVADO EXITO: Contenedor 'algoritmo'
+2025-12-11 15:21:35 [INFO] [CASO #8] 🟢 ACTIVADO EXITO: Contenedor 'backend'
+2025-12-11 15:21:35 [INFO] [CASO #8] 🟢 ACTIVADO EXITO: Contenedor 'hqc'
+2025-12-11 15:21:35 [INFO] [CASO #8] 🟢 ACTIVADO EXITO: Contenedor 'optimizacion_de_rutas'
+2025-12-11 15:21:36 [INFO] [CASO #8] 🔴 DESACTIVADO EXITO: Contenedor 'entretenimiento_tercera_edad'
+2025-12-11 15:21:37 [INFO] [CASO #8] 🟢 ACTIVADO EXITO: Contenedor 'entretenimiento_familiar'
+2025-12-11 15:21:38 [INFO] [CASO #8] ⚛️ EXITO HQC: Job completado. Costo=-2.0
+2025-12-11 15:21:38 [INFO] ✅ [CASO #8] Ciclo finalizado exitosamente. Visualización generada.
+2025-12-11 15:21:38 [INFO] 🏁 --- FIN CASO #8 ---
+2025-12-11 15:21:58 [INFO] 🔰 --- INICIO CASO #9 | ESCENARIO ID: 1 ---
+2025-12-11 15:21:58 [INFO] [CASO #9] PARÁMETROS: Escenario='Modo: Operación Diaria (Variable)' | ICA=76 | CP=57 | ColaQiskit=4s | Usuario='Grupo Deportivo (Requiere Deportes)'
+2025-12-11 15:22:00 [INFO] [CASO #9] ✅ LLM Respondió. Razonamiento: Se desactiva Deportes (ICA 76 > 50) y HQC (CP 57 <= 100). Se prioriza la RAPIDEZ, por lo que se elige Cirq Simulator (cola 1s) sobre Qiskit (cola 4s).
+2025-12-11 15:22:00 [ERROR] [CASO #9] ❌ FALLO VALIDACIÓN: Configuración LLM viola reglas del modelo.
+2025-12-11 15:22:00 [WARNING] ⚠️ [CASO #9] Ciclo finalizado sin configuración válida (posible error del LLM).
+2025-12-11 15:22:00 [INFO] 🏁 --- FIN CASO #9 ---
+2025-12-11 15:22:34 [INFO] 🔰 --- INICIO CASO #10 | ESCENARIO ID: 1 ---
+2025-12-11 15:22:34 [INFO] [CASO #10] PARÁMETROS: Escenario='Modo: Operación Diaria (Variable)' | ICA=49 | CP=94 | ColaQiskit=3s | Usuario='Evento Nocturno (Requiere Entr. Adulto)'
+2025-12-11 15:22:37 [INFO] [CASO #10] ✅ LLM Respondió. Razonamiento: Activado Entretenimiento Adulto por perfil 'Evento Nocturno'. Turismo y Ambientes Cerrados activos por ICA 49. HQC y Backend inactivos por CP 94. Cirq Simulator elegido por menor tiempo de cola.
+2025-12-11 15:22:37 [INFO] [CASO #10] ⚙️ Iniciando reconfiguración de infraestructura...
+2025-12-11 15:22:38 [INFO] [CASO #10] 🔴 DESACTIVADO EXITO: Contenedor 'cirq_simulator'
+2025-12-11 15:22:39 [INFO] [CASO #10] 🔴 DESACTIVADO EXITO: Contenedor 'qaoa'
+2025-12-11 15:22:41 [INFO] [CASO #10] 🔴 DESACTIVADO EXITO: Contenedor 'algoritmo'
+2025-12-11 15:22:42 [INFO] [CASO #10] 🔴 DESACTIVADO EXITO: Contenedor 'backend'
+2025-12-11 15:22:43 [INFO] [CASO #10] 🔴 DESACTIVADO EXITO: Contenedor 'hqc'
+2025-12-11 15:22:44 [INFO] [CASO #10] 🔴 DESACTIVADO EXITO: Contenedor 'optimizacion_de_rutas'
+2025-12-11 15:22:45 [INFO] [CASO #10] 🟢 ACTIVADO EXITO: Contenedor 'entretenimiento_adulto'
+2025-12-11 15:22:46 [INFO] [CASO #10] 🔴 DESACTIVADO EXITO: Contenedor 'entretenimiento_familiar'
+2025-12-11 15:22:46 [INFO] ✅ [CASO #10] Ciclo finalizado exitosamente. Visualización generada.
+2025-12-11 15:22:46 [INFO] 🏁 --- FIN CASO #10 ---
+2025-12-11 15:23:19 [INFO] 🔰 --- INICIO CASO #11 | ESCENARIO ID: 2 ---
+2025-12-11 15:23:19 [INFO] [CASO #11] PARÁMETROS: Escenario='Modo: Alta Demanda (Incertidumbre)' | ICA=53 | CP=237 | ColaQiskit=20s | Usuario='Adulto Mayor (Requiere Entr. Tercera Edad)'
+2025-12-11 15:23:23 [INFO] [CASO #11] ✅ LLM Respondió. Razonamiento: Se activan HQC y Optimizacion de Rutas por alta complejidad (CP=237). Se prioriza Cirq Simulator por menor tiempo de cola (1s vs 20s). Se activa Entretenimiento para tercera edad según perfil de usuario. Turismo y Ambientes Cerrados activos por requerimiento de Gestor Aire y ICA.
+2025-12-11 15:23:23 [INFO] [CASO #11] ⚙️ Iniciando reconfiguración de infraestructura...
+2025-12-11 15:23:23 [INFO] [CASO #11] 🟢 ACTIVADO EXITO: Contenedor 'cirq_simulator'
+2025-12-11 15:23:23 [INFO] [CASO #11] 🟢 ACTIVADO EXITO: Contenedor 'qaoa'
+2025-12-11 15:23:24 [INFO] [CASO #11] 🟢 ACTIVADO EXITO: Contenedor 'algoritmo'
+2025-12-11 15:23:24 [INFO] [CASO #11] 🟢 ACTIVADO EXITO: Contenedor 'backend'
+2025-12-11 15:23:24 [INFO] [CASO #11] 🟢 ACTIVADO EXITO: Contenedor 'hqc'
+2025-12-11 15:23:24 [INFO] [CASO #11] 🟢 ACTIVADO EXITO: Contenedor 'optimizacion_de_rutas'
+2025-12-11 15:23:24 [INFO] [CASO #11] 🟢 ACTIVADO EXITO: Contenedor 'entretenimiento_tercera_edad'
+2025-12-11 15:23:25 [INFO] [CASO #11] 🔴 DESACTIVADO EXITO: Contenedor 'entretenimiento_adulto'
+2025-12-11 15:23:26 [INFO] [CASO #11] ⚛️ EXITO HQC: Job completado. Costo=-2.0
+2025-12-11 15:23:26 [INFO] ✅ [CASO #11] Ciclo finalizado exitosamente. Visualización generada.
+2025-12-11 15:23:26 [INFO] 🏁 --- FIN CASO #11 ---
+2025-12-11 15:23:41 [INFO] 🔰 --- INICIO CASO #12 | ESCENARIO ID: 2 ---
+2025-12-11 15:23:41 [INFO] [CASO #12] PARÁMETROS: Escenario='Modo: Alta Demanda (Incertidumbre)' | ICA=44 | CP=212 | ColaQiskit=18s | Usuario='Evento Nocturno (Requiere Entr. Adulto)'
+2025-12-11 15:23:43 [INFO] [CASO #12] ✅ LLM Respondió. Razonamiento: Activado 'Entretenimiento Adulto' por perfil de usuario. Se prioriza 'Cirq Simulator' por menor tiempo de cola (0s) frente a 'Qiskit Simulator' (18s) para SLA de Precisión. HQC y Optimizacion activados por alta complejidad (CP 212).
+2025-12-11 15:23:43 [INFO] [CASO #12] ⚙️ Iniciando reconfiguración de infraestructura...
+2025-12-11 15:23:45 [INFO] [CASO #12] 🔴 DESACTIVADO EXITO: Contenedor 'entretenimiento_tercera_edad'
+2025-12-11 15:23:45 [INFO] [CASO #12] 🟢 ACTIVADO EXITO: Contenedor 'entretenimiento_adulto'
+2025-12-11 15:23:45 [INFO] [CASO #12] ⚛️ EXITO HQC: Job completado. Costo=-2.0
+2025-12-11 15:23:45 [INFO] ✅ [CASO #12] Ciclo finalizado exitosamente. Visualización generada.
+2025-12-11 15:23:45 [INFO] 🏁 --- FIN CASO #12 ---
+2025-12-11 15:24:12 [INFO] 🔰 --- INICIO CASO #13 | ESCENARIO ID: 2 ---
+2025-12-11 15:24:12 [INFO] [CASO #13] PARÁMETROS: Escenario='Modo: Alta Demanda (Incertidumbre)' | ICA=62 | CP=224 | ColaQiskit=12s | Usuario='Turista Estándar (Solo Rutas)'
+2025-12-11 15:24:14 [INFO] [CASO #13] ✅ LLM Respondió. Razonamiento: Se activa HQC y Optimizacion de Rutas por CP=224. Turismo Estándar requiere Optimizacion de Rutas. Cirq Simulator seleccionado por menor tiempo de cola (1s vs 12s) y prioridad SLA Precision. QAOA activo por ser único requerido con HQC.
+2025-12-11 15:24:14 [ERROR] [CASO #13] ❌ FALLO VALIDACIÓN: Configuración LLM viola reglas del modelo.
+2025-12-11 15:24:14 [WARNING] ⚠️ [CASO #13] Ciclo finalizado sin configuración válida (posible error del LLM).
+2025-12-11 15:24:14 [INFO] 🏁 --- FIN CASO #13 ---
+2025-12-11 15:24:46 [INFO] 🔰 --- INICIO CASO #14 | ESCENARIO ID: 2 ---
+2025-12-11 15:24:46 [INFO] [CASO #14] PARÁMETROS: Escenario='Modo: Alta Demanda (Incertidumbre)' | ICA=44 | CP=218 | ColaQiskit=12s | Usuario='Turista Estándar (Solo Rutas)'
+2025-12-11 15:24:49 [INFO] [CASO #14] ✅ LLM Respondió. Razonamiento: Activado HQC y Optimizacion de Rutas por alta complejidad (CP 218). Se eligió Cirq Simulator por su tiempo de cola nulo, garantizando la prioridad SLA. Turismo activado por perfil 'Estándar', pero sin Deportes por ICA 44 y perfil no deportivo.
+2025-12-11 15:24:49 [ERROR] [CASO #14] ❌ FALLO VALIDACIÓN: Configuración LLM viola reglas del modelo.
+2025-12-11 15:24:49 [WARNING] ⚠️ [CASO #14] Ciclo finalizado sin configuración válida (posible error del LLM).
+2025-12-11 15:24:49 [INFO] 🏁 --- FIN CASO #14 ---
+2025-12-11 15:25:27 [INFO] 🔰 --- INICIO CASO #15 | ESCENARIO ID: 2 ---
+2025-12-11 15:25:27 [INFO] [CASO #15] PARÁMETROS: Escenario='Modo: Alta Demanda (Incertidumbre)' | ICA=62 | CP=230 | ColaQiskit=12s | Usuario='Familia con Niños (Requiere Entr. Familiar)'
+2025-12-11 15:25:30 [INFO] [CASO #15] ✅ LLM Respondió. Razonamiento: Activado Turismo y HQC por CP=230. Entretenimiento Familiar por perfil. Cirq Simulator seleccionado por cola 0s, priorizando SLA.
+2025-12-11 15:25:30 [INFO] [CASO #15] ⚙️ Iniciando reconfiguración de infraestructura...
+2025-12-11 15:25:31 [INFO] [CASO #15] 🔴 DESACTIVADO EXITO: Contenedor 'entretenimiento_adulto'
+2025-12-11 15:25:32 [INFO] [CASO #15] 🟢 ACTIVADO EXITO: Contenedor 'entretenimiento_familiar'
+2025-12-11 15:25:32 [INFO] [CASO #15] ⚛️ EXITO HQC: Job completado. Costo=-2.0
+2025-12-11 15:25:32 [INFO] ✅ [CASO #15] Ciclo finalizado exitosamente. Visualización generada.
+2025-12-11 15:25:32 [INFO] 🏁 --- FIN CASO #15 ---
+2025-12-11 15:25:51 [INFO] 🔰 --- INICIO CASO #16 | ESCENARIO ID: 2 ---
+2025-12-11 15:25:51 [INFO] [CASO #16] PARÁMETROS: Escenario='Modo: Alta Demanda (Incertidumbre)' | ICA=73 | CP=122 | ColaQiskit=34s | Usuario='Familia con Niños (Requiere Entr. Familiar)'
+2025-12-11 15:25:52 [INFO] [CASO #16] ✅ LLM Respondió. Razonamiento: Se activa HQC y Optimizacion de Rutas por alta complejidad (CP 122). Turismo activo por requerimiento de Gestor Aire. Se prioriza Cirq Simulator por menor tiempo de cola (1s vs 34s) y se activa Entretenimiento Familiar según perfil de usuario.
+2025-12-11 15:25:52 [INFO] [CASO #16] ⚙️ Iniciando reconfiguración de infraestructura...
+2025-12-11 15:25:53 [INFO] [CASO #16] ⚛️ EXITO HQC: Job completado. Costo=-2.0
+2025-12-11 15:25:54 [INFO] ✅ [CASO #16] Ciclo finalizado exitosamente. Visualización generada.
+2025-12-11 15:25:54 [INFO] 🏁 --- FIN CASO #16 ---
+2025-12-11 15:26:09 [INFO] 🔰 --- INICIO CASO #17 | ESCENARIO ID: 2 ---
+2025-12-11 15:26:09 [INFO] [CASO #17] PARÁMETROS: Escenario='Modo: Alta Demanda (Incertidumbre)' | ICA=43 | CP=249 | ColaQiskit=38s | Usuario='Adulto Mayor (Requiere Entr. Tercera Edad)'
+2025-12-11 15:26:11 [INFO] [CASO #17] ✅ LLM Respondió. Razonamiento: Activado 'Entretenimiento tercera edad' por perfil. Opté por 'Cirq Simulator' (cola 0s) sobre 'Qiskit Simulator' (cola 38s) para cumplir SLA de Precisión. HQC y Optimizacion activados por alta complejidad computacional (CP 249).
+2025-12-11 15:26:11 [INFO] [CASO #17] ⚙️ Iniciando reconfiguración de infraestructura...
+2025-12-11 15:26:12 [INFO] [CASO #17] 🟢 ACTIVADO EXITO: Contenedor 'entretenimiento_tercera_edad'
+2025-12-11 15:26:13 [INFO] [CASO #17] 🔴 DESACTIVADO EXITO: Contenedor 'entretenimiento_familiar'
+2025-12-11 15:26:14 [INFO] [CASO #17] ⚛️ EXITO HQC: Job completado. Costo=-2.0
+2025-12-11 15:26:14 [INFO] ✅ [CASO #17] Ciclo finalizado exitosamente. Visualización generada.
+2025-12-11 15:26:14 [INFO] 🏁 --- FIN CASO #17 ---
+2025-12-11 15:26:44 [INFO] 🔰 --- INICIO CASO #18 | ESCENARIO ID: 2 ---
+2025-12-11 15:26:44 [INFO] [CASO #18] PARÁMETROS: Escenario='Modo: Alta Demanda (Incertidumbre)' | ICA=67 | CP=174 | ColaQiskit=17s | Usuario='Familia con Niños (Requiere Entr. Familiar)'
+2025-12-11 15:26:47 [INFO] [CASO #18] ✅ LLM Respondió. Razonamiento: Se prioriza 'Entretenimiento Familiar' por perfil de usuario. 'HQC' y 'Optimizacion de Rutas' se activan por alta complejidad computacional. Cirq Simulator es elegido por menor tiempo de cola y alta disponibilidad, cumpliendo SLA de precisión.
+2025-12-11 15:26:47 [INFO] [CASO #18] ⚙️ Iniciando reconfiguración de infraestructura...
+2025-12-11 15:26:48 [INFO] [CASO #18] 🔴 DESACTIVADO EXITO: Contenedor 'entretenimiento_tercera_edad'
+2025-12-11 15:26:49 [INFO] [CASO #18] 🟢 ACTIVADO EXITO: Contenedor 'entretenimiento_familiar'
+2025-12-11 15:26:49 [INFO] [CASO #18] ⚛️ EXITO HQC: Job completado. Costo=-2.0
+2025-12-11 15:26:50 [INFO] ✅ [CASO #18] Ciclo finalizado exitosamente. Visualización generada.
+2025-12-11 15:26:50 [INFO] 🏁 --- FIN CASO #18 ---
+2025-12-11 15:27:09 [INFO] 🔰 --- INICIO CASO #19 | ESCENARIO ID: 2 ---
+2025-12-11 15:27:09 [INFO] [CASO #19] PARÁMETROS: Escenario='Modo: Alta Demanda (Incertidumbre)' | ICA=72 | CP=286 | ColaQiskit=38s | Usuario='Turista Estándar (Solo Rutas)'
+2025-12-11 15:27:11 [INFO] [CASO #19] ✅ LLM Respondió. Razonamiento: Se activan Turismo y Optimizacion de Rutas por perfil 'Estándar' y CP alto. Se prioriza Cirq Simulator por baja cola y se activa QAOA para cumplir requisito de algoritmo único.
+2025-12-11 15:27:11 [ERROR] [CASO #19] ❌ FALLO VALIDACIÓN: Configuración LLM viola reglas del modelo.
+2025-12-11 15:27:11 [WARNING] ⚠️ [CASO #19] Ciclo finalizado sin configuración válida (posible error del LLM).
+2025-12-11 15:27:11 [INFO] 🏁 --- FIN CASO #19 ---
+2025-12-11 15:27:27 [INFO] 🔰 --- INICIO CASO #20 | ESCENARIO ID: 2 ---
+2025-12-11 15:27:27 [INFO] [CASO #20] PARÁMETROS: Escenario='Modo: Alta Demanda (Incertidumbre)' | ICA=46 | CP=289 | ColaQiskit=26s | Usuario='Adulto Mayor (Requiere Entr. Tercera Edad)'
+2025-12-11 15:27:28 [INFO] [CASO #20] ✅ LLM Respondió. Razonamiento: Se activa 'Entretenimiento Tercera Edad' por perfil de usuario. 'HQC' y 'Optimizacion de rutas' se activan por alta complejidad (CP 289). Se elige Cirq Simulator por su baja latencia (0s) frente a Qiskit (26s).
+2025-12-11 15:27:28 [INFO] [CASO #20] ⚙️ Iniciando reconfiguración de infraestructura...
+2025-12-11 15:27:29 [INFO] [CASO #20] 🟢 ACTIVADO EXITO: Contenedor 'entretenimiento_tercera_edad'
+2025-12-11 15:27:30 [INFO] [CASO #20] 🔴 DESACTIVADO EXITO: Contenedor 'entretenimiento_familiar'
+2025-12-11 15:27:31 [INFO] [CASO #20] ⚛️ EXITO HQC: Job completado. Costo=-2.0
+2025-12-11 15:27:31 [INFO] ✅ [CASO #20] Ciclo finalizado exitosamente. Visualización generada.
+2025-12-11 15:27:31 [INFO] 🏁 --- FIN CASO #20 ---
+2025-12-11 15:29:11 [INFO] 🔰 --- INICIO CASO #1 | ESCENARIO ID: 3 ---
+2025-12-11 15:29:11 [INFO] [CASO #1] PARÁMETROS: Escenario='Modo: Crisis Ambiental' | ICA=226 | CP=53 | ColaQiskit=0s | Usuario='Adulto Mayor (Requiere Entr. Tercera Edad)'
+2025-12-11 15:29:29 [INFO] [CASO #1] ✅ LLM Respondió. Razonamiento: Activé Entretenimiento Tercera Edad por perfil de usuario. Prioricé Ambientes Cerrados y Visualizador Restricción Uso Leña, desactivando Deportes, debido a ICA 226. HQC y optimización de rutas están inactivos por baja complejidad (CP 53).
+2025-12-11 15:29:29 [INFO] [CASO #1] ⚙️ Iniciando reconfiguración de infraestructura...
+2025-12-11 15:29:31 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'cirq_simulator'
+2025-12-11 15:29:32 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'qaoa'
+2025-12-11 15:29:33 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'algoritmo'
+2025-12-11 15:29:34 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'backend'
+2025-12-11 15:29:35 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'hqc'
+2025-12-11 15:29:37 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'optimizacion_de_rutas'
+2025-12-11 15:29:37 [INFO] ✅ [CASO #1] Ciclo finalizado exitosamente. Visualización generada.
+2025-12-11 15:29:37 [INFO] 🏁 --- FIN CASO #1 ---
+2025-12-11 15:29:52 [INFO] 🔰 --- INICIO CASO #2 | ESCENARIO ID: 3 ---
+2025-12-11 15:29:52 [INFO] [CASO #2] PARÁMETROS: Escenario='Modo: Crisis Ambiental' | ICA=175 | CP=104 | ColaQiskit=3s | Usuario='Evento Nocturno (Requiere Entr. Adulto)'
+2025-12-11 15:30:08 [INFO] [CASO #2] ✅ LLM Respondió. Razonamiento: Activé Entr. Adulto por demanda. ICA 175 prohibió Deportes y priorizó Ambientes Cerrados. CP 104 activó HQC y Opt. Rutas. Elegí Cirq Simulator por rapidez (cola 0s) sobre Qiskit (cola 3s).
+2025-12-11 15:30:09 [INFO] [CASO #2] ⚙️ Iniciando reconfiguración de infraestructura...
+2025-12-11 15:30:09 [INFO] [CASO #2] 🟢 ACTIVADO EXITO: Contenedor 'cirq_simulator'
+2025-12-11 15:30:09 [INFO] [CASO #2] 🟢 ACTIVADO EXITO: Contenedor 'qaoa'
+2025-12-11 15:30:10 [INFO] [CASO #2] 🟢 ACTIVADO EXITO: Contenedor 'algoritmo'
+2025-12-11 15:30:10 [INFO] [CASO #2] 🟢 ACTIVADO EXITO: Contenedor 'backend'
+2025-12-11 15:30:10 [INFO] [CASO #2] 🟢 ACTIVADO EXITO: Contenedor 'hqc'
+2025-12-11 15:30:10 [INFO] [CASO #2] 🟢 ACTIVADO EXITO: Contenedor 'optimizacion_de_rutas'
+2025-12-11 15:30:12 [INFO] [CASO #2] 🔴 DESACTIVADO EXITO: Contenedor 'entretenimiento_tercera_edad'
+2025-12-11 15:30:12 [INFO] [CASO #2] 🟢 ACTIVADO EXITO: Contenedor 'entretenimiento_adulto'
+2025-12-11 15:30:13 [INFO] [CASO #2] ⚛️ EXITO HQC: Job completado. Costo=-2.0
+2025-12-11 15:30:13 [INFO] ✅ [CASO #2] Ciclo finalizado exitosamente. Visualización generada.
+2025-12-11 15:30:13 [INFO] 🏁 --- FIN CASO #2 ---
+2025-12-11 15:30:26 [INFO] 🔰 --- INICIO CASO #3 | ESCENARIO ID: 3 ---
+2025-12-11 15:30:26 [INFO] [CASO #3] PARÁMETROS: Escenario='Modo: Crisis Ambiental' | ICA=158 | CP=96 | ColaQiskit=2s | Usuario='Familia con Niños (Requiere Entr. Familiar)'
+2025-12-11 15:30:47 [INFO] [CASO #3] ✅ LLM Respondió. Razonamiento: Activé Entretenimiento Familiar por perfil. Desactivé Deportes y prioricé Ambientes Cerrados debido a ICA 158. HQC y Optimización de Rutas inactivos por CP 96, lo que desactiva los backends cuánticos.
+2025-12-11 15:30:47 [INFO] [CASO #3] ⚙️ Iniciando reconfiguración de infraestructura...
+2025-12-11 15:30:48 [INFO] [CASO #3] 🔴 DESACTIVADO EXITO: Contenedor 'cirq_simulator'
+2025-12-11 15:30:50 [INFO] [CASO #3] 🔴 DESACTIVADO EXITO: Contenedor 'qaoa'
+2025-12-11 15:30:51 [INFO] [CASO #3] 🔴 DESACTIVADO EXITO: Contenedor 'algoritmo'
+2025-12-11 15:30:52 [INFO] [CASO #3] 🔴 DESACTIVADO EXITO: Contenedor 'backend'
+2025-12-11 15:30:54 [INFO] [CASO #3] 🔴 DESACTIVADO EXITO: Contenedor 'hqc'
+2025-12-11 15:30:55 [INFO] [CASO #3] 🔴 DESACTIVADO EXITO: Contenedor 'optimizacion_de_rutas'
+2025-12-11 15:30:56 [INFO] [CASO #3] 🔴 DESACTIVADO EXITO: Contenedor 'entretenimiento_adulto'
+2025-12-11 15:30:56 [INFO] [CASO #3] 🟢 ACTIVADO EXITO: Contenedor 'entretenimiento_familiar'
+2025-12-11 15:30:57 [INFO] ✅ [CASO #3] Ciclo finalizado exitosamente. Visualización generada.
+2025-12-11 15:30:57 [INFO] 🏁 --- FIN CASO #3 ---
+2025-12-11 15:31:26 [INFO] 🔰 --- INICIO CASO #4 | ESCENARIO ID: 3 ---
+2025-12-11 15:31:26 [INFO] [CASO #4] PARÁMETROS: Escenario='Modo: Crisis Ambiental' | ICA=275 | CP=124 | ColaQiskit=5s | Usuario='Grupo Deportivo (Requiere Deportes)'
+2025-12-11 15:31:48 [INFO] [CASO #4] ✅ LLM Respondió. Razonamiento: Desactivé Deportes por ICA 275 (prohibido). Activé Ambientes Cerrados y Visualizador Restricción Uso Leña por alta contaminación. HQC y Optimización de Rutas activados por CP 124. Elegí Cirq Simulator por menor tiempo de cola (SLA Rapidez). Entretenimiento inactivo por perfil.
+2025-12-11 15:31:48 [INFO] [CASO #4] ⚙️ Iniciando reconfiguración de infraestructura...
+2025-12-11 15:31:49 [INFO] [CASO #4] 🟢 ACTIVADO EXITO: Contenedor 'cirq_simulator'
+2025-12-11 15:31:49 [INFO] [CASO #4] 🟢 ACTIVADO EXITO: Contenedor 'qaoa'
+2025-12-11 15:31:49 [INFO] [CASO #4] 🟢 ACTIVADO EXITO: Contenedor 'algoritmo'
+2025-12-11 15:31:49 [INFO] [CASO #4] 🟢 ACTIVADO EXITO: Contenedor 'backend'
+2025-12-11 15:31:50 [INFO] [CASO #4] 🟢 ACTIVADO EXITO: Contenedor 'hqc'
+2025-12-11 15:31:50 [INFO] [CASO #4] 🟢 ACTIVADO EXITO: Contenedor 'optimizacion_de_rutas'
+2025-12-11 15:31:51 [INFO] [CASO #4] 🔴 DESACTIVADO EXITO: Contenedor 'entretenimiento_familiar'
+2025-12-11 15:31:53 [INFO] [CASO #4] 🔴 DESACTIVADO EXITO: Contenedor 'entretenimiento'
+2025-12-11 15:31:53 [INFO] [CASO #4] ⚛️ EXITO HQC: Job completado. Costo=-2.0
+2025-12-11 15:31:54 [INFO] ✅ [CASO #4] Ciclo finalizado exitosamente. Visualización generada.
+2025-12-11 15:31:54 [INFO] 🏁 --- FIN CASO #4 ---
+2025-12-11 15:32:16 [INFO] 🔰 --- INICIO CASO #5 | ESCENARIO ID: 3 ---
+2025-12-11 15:32:16 [INFO] [CASO #5] PARÁMETROS: Escenario='Modo: Crisis Ambiental' | ICA=288 | CP=133 | ColaQiskit=3s | Usuario='Turista Estándar (Solo Rutas)'
+2025-12-11 15:32:43 [INFO] [CASO #5] ✅ LLM Respondió. Razonamiento: Desactivé Deportes y Entretenimiento por perfil 'Turista Estándar' y alta ICA. Prioricé Ambientes Cerrados por ICA > 100. Activé HQC y Optimización de Rutas por alta CP. Elegí Cirq Simulator para cumplir con la prioridad de rapidez.
+2025-12-11 15:32:43 [INFO] [CASO #5] ⚙️ Iniciando reconfiguración de infraestructura...
+2025-12-11 15:32:44 [INFO] [CASO #5] ⚛️ EXITO HQC: Job completado. Costo=-2.0
+2025-12-11 15:32:45 [INFO] ✅ [CASO #5] Ciclo finalizado exitosamente. Visualización generada.
+2025-12-11 15:32:45 [INFO] 🏁 --- FIN CASO #5 ---
+2025-12-11 15:33:06 [INFO] 🔰 --- INICIO CASO #6 | ESCENARIO ID: 3 ---
+2025-12-11 15:33:06 [INFO] [CASO #6] PARÁMETROS: Escenario='Modo: Crisis Ambiental' | ICA=151 | CP=138 | ColaQiskit=6s | Usuario='Grupo Deportivo (Requiere Deportes)'
+2025-12-11 15:33:11 [ERROR] ❌ ERROR CRÍTICO LLM (Gemini): 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/usage?tab=rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 5, model: gemini-2.5-flash
+Please retry in 48.381149909s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-flash"
+  }
+  quota_value: 5
+}
+, retry_delay {
+  seconds: 48
+}
+]
+2025-12-11 15:33:11 [ERROR] [CASO #6] ❌ FALLO LLM: El agente devolvió una configuración vacía o inválida.
+2025-12-11 15:33:11 [WARNING] ⚠️ [CASO #6] Ciclo finalizado sin configuración válida (posible error del LLM).
+2025-12-11 15:33:11 [INFO] 🏁 --- FIN CASO #6 ---
+2025-12-11 15:34:07 [INFO] 🔰 --- INICIO CASO #7 | ESCENARIO ID: 3 ---
+2025-12-11 15:34:07 [INFO] [CASO #7] PARÁMETROS: Escenario='Modo: Crisis Ambiental' | ICA=161 | CP=70 | ColaQiskit=7s | Usuario='Grupo Deportivo (Requiere Deportes)'
+2025-12-11 15:34:20 [INFO] [CASO #7] ✅ LLM Respondió. Razonamiento: Desactivé Deportes por ICA alto (161), priorizando seguridad. HQC y optimización de rutas inactivos por CP bajo (70). Activé Turismo y Ambientes cerrados por ICA y obligatoriedad. Visualizador restricción uso leña activo por relevancia ambiental.
+2025-12-11 15:34:20 [INFO] [CASO #7] ⚙️ Iniciando reconfiguración de infraestructura...
+2025-12-11 15:34:21 [INFO] [CASO #7] 🔴 DESACTIVADO EXITO: Contenedor 'cirq_simulator'
+2025-12-11 15:34:22 [INFO] [CASO #7] 🔴 DESACTIVADO EXITO: Contenedor 'qaoa'
+2025-12-11 15:34:23 [INFO] [CASO #7] 🔴 DESACTIVADO EXITO: Contenedor 'algoritmo'
+2025-12-11 15:34:25 [INFO] [CASO #7] 🔴 DESACTIVADO EXITO: Contenedor 'backend'
+2025-12-11 15:34:26 [INFO] [CASO #7] 🔴 DESACTIVADO EXITO: Contenedor 'hqc'
+2025-12-11 15:34:27 [INFO] [CASO #7] 🔴 DESACTIVADO EXITO: Contenedor 'optimizacion_de_rutas'
+2025-12-11 15:34:27 [INFO] ✅ [CASO #7] Ciclo finalizado exitosamente. Visualización generada.
+2025-12-11 15:34:27 [INFO] 🏁 --- FIN CASO #7 ---
+2025-12-11 15:36:36 [INFO] 🔰 --- INICIO CASO #8 | ESCENARIO ID: 3 ---
+2025-12-11 15:36:36 [INFO] [CASO #8] PARÁMETROS: Escenario='Modo: Crisis Ambiental' | ICA=160 | CP=86 | ColaQiskit=10s | Usuario='Turista Estándar (Solo Rutas)'
+2025-12-11 15:37:13 [INFO] [CASO #8] ✅ LLM Respondió. Razonamiento: Activé Turismo y Visualizador calidad aire. Desactivé Deportes y Entretenimiento por perfil 'Estándar' y alta ICA. Prioricé Ambientes cerrados por ICA > 100. HQC y optimización de rutas inactivos por CP bajo.
+2025-12-11 15:37:13 [INFO] [CASO #8] ⚙️ Iniciando reconfiguración de infraestructura...
+2025-12-11 15:37:14 [INFO] ✅ [CASO #8] Ciclo finalizado exitosamente. Visualización generada.
+2025-12-11 15:37:14 [INFO] 🏁 --- FIN CASO #8 ---
+2025-12-11 15:37:41 [INFO] 🔰 --- INICIO CASO #9 | ESCENARIO ID: 3 ---
+2025-12-11 15:37:41 [INFO] [CASO #9] PARÁMETROS: Escenario='Modo: Crisis Ambiental' | ICA=198 | CP=147 | ColaQiskit=3s | Usuario='Evento Nocturno (Requiere Entr. Adulto)'
+2025-12-11 15:37:41 [ERROR] ❌ ERROR CRÍTICO LLM (Gemini): 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/usage?tab=rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash
+Please retry in 18.471562912s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-flash"
+  }
+  quota_value: 20
+}
+, retry_delay {
+  seconds: 18
+}
+]
+2025-12-11 15:37:41 [ERROR] [CASO #9] ❌ FALLO LLM: El agente devolvió una configuración vacía o inválida.
+2025-12-11 15:37:41 [WARNING] ⚠️ [CASO #9] Ciclo finalizado sin configuración válida (posible error del LLM).
+2025-12-11 15:37:41 [INFO] 🏁 --- FIN CASO #9 ---
+2025-12-11 15:37:55 [INFO] 🔰 --- INICIO CASO #10 | ESCENARIO ID: 3 ---
+2025-12-11 15:37:55 [INFO] [CASO #10] PARÁMETROS: Escenario='Modo: Crisis Ambiental' | ICA=170 | CP=58 | ColaQiskit=6s | Usuario='Evento Nocturno (Requiere Entr. Adulto)'
+2025-12-11 15:37:56 [ERROR] ❌ ERROR CRÍTICO LLM (Gemini): 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/usage?tab=rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash
+Please retry in 3.867927843s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-flash"
+  }
+  quota_value: 20
+}
+, retry_delay {
+  seconds: 3
+}
+]
+2025-12-11 15:37:56 [ERROR] [CASO #10] ❌ FALLO LLM: El agente devolvió una configuración vacía o inválida.
+2025-12-11 15:37:56 [WARNING] ⚠️ [CASO #10] Ciclo finalizado sin configuración válida (posible error del LLM).
+2025-12-11 15:37:56 [INFO] 🏁 --- FIN CASO #10 ---
+2025-12-11 15:38:10 [INFO] 🔰 --- INICIO CASO #11 | ESCENARIO ID: 3 ---
+2025-12-11 15:38:10 [INFO] [CASO #11] PARÁMETROS: Escenario='Modo: Crisis Ambiental' | ICA=286 | CP=50 | ColaQiskit=6s | Usuario='Turista Estándar (Solo Rutas)'
+2025-12-11 15:38:10 [ERROR] ❌ ERROR CRÍTICO LLM (Gemini): 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/usage?tab=rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash
+Please retry in 49.628709236s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-flash"
+  }
+  quota_value: 20
+}
+, retry_delay {
+  seconds: 49
+}
+]
+2025-12-11 15:38:10 [ERROR] [CASO #11] ❌ FALLO LLM: El agente devolvió una configuración vacía o inválida.
+2025-12-11 15:38:10 [WARNING] ⚠️ [CASO #11] Ciclo finalizado sin configuración válida (posible error del LLM).
+2025-12-11 15:38:10 [INFO] 🏁 --- FIN CASO #11 ---
+2025-12-11 15:40:06 [INFO] 🔰 --- INICIO CASO #1 | ESCENARIO ID: 3 ---
+2025-12-11 15:40:06 [INFO] [CASO #1] PARÁMETROS: Escenario='Modo: Crisis Ambiental' | ICA=219 | CP=102 | ColaQiskit=7s | Usuario='Familia con Niños (Requiere Entr. Familiar)'
+2025-12-11 15:40:09 [INFO] [CASO #1] ✅ LLM Respondió. Razonamiento: Activado 'Ambientes cerrados' y 'Entretenimiento familiar' por perfil de usuario y ICA > 100. HQC y Optimizacion activados por CP > 100. Cirq seleccionado por menor tiempo de cola (SLA RAPIDEZ).
+2025-12-11 15:40:09 [INFO] [CASO #1] ⚙️ Iniciando reconfiguración de infraestructura...
+2025-12-11 15:40:10 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'vqe'
+2025-12-11 15:40:11 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'qiskit_simulator'
+2025-12-11 15:40:13 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'entretenimiento_tercera_edad'
+2025-12-11 15:40:14 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'entretenimiento_adulto'
+2025-12-11 15:40:15 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'deportes'
+2025-12-11 15:40:16 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'ambientes_abiertos'
+2025-12-11 15:40:17 [INFO] [CASO #1] ⚛️ EXITO HQC: Job completado. Costo=-2.0
+2025-12-11 15:40:17 [INFO] ✅ [CASO #1] Ciclo finalizado exitosamente. Visualización generada.
+2025-12-11 15:40:17 [INFO] 🏁 --- FIN CASO #1 ---
+2025-12-11 15:40:31 [INFO] 🔰 --- INICIO CASO #2 | ESCENARIO ID: 3 ---
+2025-12-11 15:40:31 [INFO] [CASO #2] PARÁMETROS: Escenario='Modo: Crisis Ambiental' | ICA=155 | CP=98 | ColaQiskit=5s | Usuario='Grupo Deportivo (Requiere Deportes)'
+2025-12-11 15:40:32 [INFO] [CASO #2] ✅ LLM Respondió. Razonamiento: Se prioriza la salud (ICA 155) desactivando Deportes y activando Ambientes Cerrados. HQC y Algoritmo se desactivan por baja complejidad (CP 98). Se elige Qiskit por menor tasa de error y cola mínima.
+2025-12-11 15:40:32 [INFO] [CASO #2] ⚙️ Iniciando reconfiguración de infraestructura...
+2025-12-11 15:40:34 [INFO] [CASO #2] 🔴 DESACTIVADO EXITO: Contenedor 'cirq_simulator'
+2025-12-11 15:40:35 [INFO] [CASO #2] 🔴 DESACTIVADO EXITO: Contenedor 'qaoa'
+2025-12-11 15:40:36 [INFO] [CASO #2] 🔴 DESACTIVADO EXITO: Contenedor 'algoritmo'
+2025-12-11 15:40:38 [INFO] [CASO #2] 🔴 DESACTIVADO EXITO: Contenedor 'backend'
+2025-12-11 15:40:39 [INFO] [CASO #2] 🔴 DESACTIVADO EXITO: Contenedor 'hqc'
+2025-12-11 15:40:40 [INFO] [CASO #2] 🔴 DESACTIVADO EXITO: Contenedor 'optimizacion_de_rutas'
+2025-12-11 15:40:41 [INFO] [CASO #2] 🔴 DESACTIVADO EXITO: Contenedor 'entretenimiento_familiar'
+2025-12-11 15:40:43 [INFO] [CASO #2] 🔴 DESACTIVADO EXITO: Contenedor 'entretenimiento'
+2025-12-11 15:40:43 [INFO] ✅ [CASO #2] Ciclo finalizado exitosamente. Visualización generada.
+2025-12-11 15:40:43 [INFO] 🏁 --- FIN CASO #2 ---
+2025-12-11 15:40:53 [INFO] 🔰 --- INICIO CASO #3 | ESCENARIO ID: 3 ---
+2025-12-11 15:40:53 [INFO] [CASO #3] PARÁMETROS: Escenario='Modo: Crisis Ambiental' | ICA=203 | CP=77 | ColaQiskit=2s | Usuario='Evento Nocturno (Requiere Entr. Adulto)'
+2025-12-11 15:40:56 [INFO] [CASO #3] ✅ LLM Respondió. Razonamiento: Activado Entretenimiento Adulto por perfil de usuario. Deportes y HQC desactivados por ICA alto y baja complejidad. Turismo activado por regla de Gestor Aire. Cirq Simulator seleccionado por menor tiempo de cola.
+2025-12-11 15:40:56 [INFO] [CASO #3] ⚙️ Iniciando reconfiguración de infraestructura...
+2025-12-11 15:40:56 [INFO] [CASO #3] 🟢 ACTIVADO EXITO: Contenedor 'entretenimiento_adulto'
+2025-12-11 15:40:56 [INFO] [CASO #3] 🟢 ACTIVADO EXITO: Contenedor 'entretenimiento'
+2025-12-11 15:40:56 [INFO] ✅ [CASO #3] Ciclo finalizado exitosamente. Visualización generada.
+2025-12-11 15:40:56 [INFO] 🏁 --- FIN CASO #3 ---
+2025-12-11 15:41:11 [INFO] 🔰 --- INICIO CASO #4 | ESCENARIO ID: 3 ---
+2025-12-11 15:41:11 [INFO] [CASO #4] PARÁMETROS: Escenario='Modo: Crisis Ambiental' | ICA=266 | CP=66 | ColaQiskit=10s | Usuario='Adulto Mayor (Requiere Entr. Tercera Edad)'
+2025-12-11 15:41:12 [INFO] [CASO #4] ✅ LLM Respondió. Razonamiento: Activado 'Entretenimiento tercera edad' por perfil de usuario. 'Deportes' desactivado debido a mala calidad del aire (ICA 266). 'HQC' y 'Optimizacion de rutas' inactivos por baja complejidad (CP 66). Cirq Simulator seleccionado por menor tiempo de cola.
+2025-12-11 15:41:12 [INFO] [CASO #4] ⚙️ Iniciando reconfiguración de infraestructura...
+2025-12-11 15:41:13 [INFO] [CASO #4] 🟢 ACTIVADO EXITO: Contenedor 'entretenimiento_tercera_edad'
+2025-12-11 15:41:14 [INFO] [CASO #4] 🔴 DESACTIVADO EXITO: Contenedor 'entretenimiento_adulto'
+2025-12-11 15:41:14 [INFO] ✅ [CASO #4] Ciclo finalizado exitosamente. Visualización generada.
+2025-12-11 15:41:14 [INFO] 🏁 --- FIN CASO #4 ---
+2025-12-11 15:41:29 [INFO] 🔰 --- INICIO CASO #5 | ESCENARIO ID: 4 ---
+2025-12-11 15:41:29 [INFO] [CASO #5] PARÁMETROS: Escenario='Modo: Fallos de Infraestructura' | ICA=79 | CP=278 | ColaQiskit=129s | Usuario='Evento Nocturno (Requiere Entr. Adulto)'
+2025-12-11 15:41:30 [INFO] [CASO #5] ✅ LLM Respondió. Razonamiento: Activado HQC y Optimizacion de Rutas por alta complejidad (CP=278). Turismo activado por requerimiento de Gestor Aire. Cirq Simulator seleccionado por tiempo de cola cero, priorizando SLA. Entretenimiento Adulto activado por perfil de usuario 'Evento Nocturno'.
+2025-12-11 15:41:31 [INFO] [CASO #5] ⚙️ Iniciando reconfiguración de infraestructura...
+2025-12-11 15:41:31 [INFO] [CASO #5] 🟢 ACTIVADO EXITO: Contenedor 'cirq_simulator'
+2025-12-11 15:41:31 [INFO] [CASO #5] 🟢 ACTIVADO EXITO: Contenedor 'qaoa'
+2025-12-11 15:41:31 [INFO] [CASO #5] 🟢 ACTIVADO EXITO: Contenedor 'algoritmo'
+2025-12-11 15:41:32 [INFO] [CASO #5] 🟢 ACTIVADO EXITO: Contenedor 'backend'
+2025-12-11 15:41:32 [INFO] [CASO #5] 🟢 ACTIVADO EXITO: Contenedor 'hqc'
+2025-12-11 15:41:32 [INFO] [CASO #5] 🟢 ACTIVADO EXITO: Contenedor 'optimizacion_de_rutas'
+2025-12-11 15:41:33 [INFO] [CASO #5] 🔴 DESACTIVADO EXITO: Contenedor 'entretenimiento_tercera_edad'
+2025-12-11 15:41:34 [INFO] [CASO #5] 🟢 ACTIVADO EXITO: Contenedor 'entretenimiento_adulto'
+2025-12-11 15:41:35 [INFO] [CASO #5] ⚛️ EXITO HQC: Job completado. Costo=-2.0
+2025-12-11 15:41:35 [INFO] ✅ [CASO #5] Ciclo finalizado exitosamente. Visualización generada.
+2025-12-11 15:41:35 [INFO] 🏁 --- FIN CASO #5 ---
+2025-12-11 15:41:43 [INFO] 🔰 --- INICIO CASO #6 | ESCENARIO ID: 4 ---
+2025-12-11 15:41:43 [INFO] [CASO #6] PARÁMETROS: Escenario='Modo: Fallos de Infraestructura' | ICA=55 | CP=372 | ColaQiskit=39s | Usuario='Grupo Deportivo (Requiere Deportes)'
+2025-12-11 15:41:44 [INFO] [CASO #6] ✅ LLM Respondió. Razonamiento: Activado 'Deportes' por perfil 'Grupo Deportivo' y ICA 55. HQC y Optimizacion de Rutas activados por CP 372. Cirq Simulator seleccionado por menor tiempo de cola (1s vs 39s) y SLA de Precisión.
+2025-12-11 15:41:45 [INFO] [CASO #6] ⚙️ Iniciando reconfiguración de infraestructura...
+2025-12-11 15:41:46 [INFO] [CASO #6] 🔴 DESACTIVADO EXITO: Contenedor 'entretenimiento_adulto'
+2025-12-11 15:41:47 [INFO] [CASO #6] 🔴 DESACTIVADO EXITO: Contenedor 'entretenimiento'
+2025-12-11 15:41:48 [INFO] [CASO #6] 🟢 ACTIVADO EXITO: Contenedor 'deportes'
+2025-12-11 15:41:48 [INFO] [CASO #6] 🟢 ACTIVADO EXITO: Contenedor 'ambientes_abiertos'
+2025-12-11 15:41:49 [INFO] [CASO #6] ⚛️ EXITO HQC: Job completado. Costo=-2.0
+2025-12-11 15:41:49 [INFO] ✅ [CASO #6] Ciclo finalizado exitosamente. Visualización generada.
+2025-12-11 15:41:49 [INFO] 🏁 --- FIN CASO #6 ---
+2025-12-11 15:41:53 [INFO] 🔰 --- INICIO CASO #7 | ESCENARIO ID: 4 ---
+2025-12-11 15:41:53 [INFO] [CASO #7] PARÁMETROS: Escenario='Modo: Fallos de Infraestructura' | ICA=62 | CP=248 | ColaQiskit=137s | Usuario='Grupo Deportivo (Requiere Deportes)'
+2025-12-11 15:41:55 [INFO] [CASO #7] ✅ LLM Respondió. Razonamiento: Activé HQC y Optimizacion de Rutas por alta complejidad (CP 248). Desactivé Deportes por ICA 62 (riesgo moderado). Elegí Cirq Simulator debido a la cola crítica de Qiskit (137s).
+2025-12-11 15:41:55 [ERROR] [CASO #7] ❌ FALLO VALIDACIÓN: Configuración LLM viola reglas del modelo.
+2025-12-11 15:41:55 [WARNING] ⚠️ [CASO #7] Ciclo finalizado sin configuración válida (posible error del LLM).
+2025-12-11 15:41:55 [INFO] 🏁 --- FIN CASO #7 ---
+2025-12-11 15:42:08 [INFO] 🔰 --- INICIO CASO #8 | ESCENARIO ID: 4 ---
+2025-12-11 15:42:08 [INFO] [CASO #8] PARÁMETROS: Escenario='Modo: Fallos de Infraestructura' | ICA=53 | CP=234 | ColaQiskit=173s | Usuario='Grupo Deportivo (Requiere Deportes)'
+2025-12-11 15:42:10 [INFO] [CASO #8] ✅ LLM Respondió. Razonamiento: Activado 'Deportes' por perfil 'Grupo Deportivo' y ICA 53. HQC y Optimizacion activados por CP 234. Seleccionado Cirq Simulator debido a cola 0s vs 173s en Qiskit para cumplir SLA PRECISION.
+2025-12-11 15:42:10 [INFO] [CASO #8] ⚙️ Iniciando reconfiguración de infraestructura...
+2025-12-11 15:42:12 [INFO] [CASO #8] 🔴 DESACTIVADO EXITO: Contenedor 'ambientes_cerrados'
+2025-12-11 15:42:13 [INFO] [CASO #8] 🔴 DESACTIVADO EXITO: Contenedor 'visualizador_restriccion_uso_lena'
+2025-12-11 15:42:14 [INFO] [CASO #8] ⚛️ EXITO HQC: Job completado. Costo=-2.0
+2025-12-11 15:42:14 [INFO] ✅ [CASO #8] Ciclo finalizado exitosamente. Visualización generada.
+2025-12-11 15:42:14 [INFO] 🏁 --- FIN CASO #8 ---
+2025-12-11 15:42:22 [INFO] 🔰 --- INICIO CASO #9 | ESCENARIO ID: 4 ---
+2025-12-11 15:42:22 [INFO] [CASO #9] PARÁMETROS: Escenario='Modo: Fallos de Infraestructura' | ICA=56 | CP=234 | ColaQiskit=149s | Usuario='Turista Estándar (Solo Rutas)'
+2025-12-11 15:42:23 [INFO] [CASO #9] ✅ LLM Respondió. Razonamiento: Perfil 'Turista Estándar' y CP > 100 activan HQC y Optimizacion de Rutas. ICA 56 permite Turismo. Cirq elegido por cola mínima (0s) frente a Qiskit (149s).
+2025-12-11 15:42:23 [ERROR] [CASO #9] ❌ FALLO VALIDACIÓN: Configuración LLM viola reglas del modelo.
+2025-12-11 15:42:23 [WARNING] ⚠️ [CASO #9] Ciclo finalizado sin configuración válida (posible error del LLM).
+2025-12-11 15:42:23 [INFO] 🏁 --- FIN CASO #9 ---
+2025-12-11 15:42:33 [INFO] 🔰 --- INICIO CASO #10 | ESCENARIO ID: 4 ---
+2025-12-11 15:42:33 [INFO] [CASO #10] PARÁMETROS: Escenario='Modo: Fallos de Infraestructura' | ICA=83 | CP=396 | ColaQiskit=43s | Usuario='Evento Nocturno (Requiere Entr. Adulto)'
+2025-12-11 15:42:35 [INFO] [CASO #10] ✅ LLM Respondió. Razonamiento: Activado 'Evento Nocturno' con 'Entretenimiento Adulto'. ICA 83 permite 'Ambientes Cerrados'. CP 396 activa 'HQC' y 'Optimizacion de rutas'. Cirq seleccionado por menor cola (1s vs 43s).
+2025-12-11 15:42:35 [INFO] [CASO #10] ⚙️ Iniciando reconfiguración de infraestructura...
+2025-12-11 15:42:36 [INFO] [CASO #10] 🟢 ACTIVADO EXITO: Contenedor 'entretenimiento_adulto'
+2025-12-11 15:42:36 [INFO] [CASO #10] 🟢 ACTIVADO EXITO: Contenedor 'entretenimiento'
+2025-12-11 15:42:37 [INFO] [CASO #10] 🔴 DESACTIVADO EXITO: Contenedor 'deportes'
+2025-12-11 15:42:37 [INFO] [CASO #10] 🟢 ACTIVADO EXITO: Contenedor 'ambientes_cerrados'
+2025-12-11 15:42:38 [INFO] [CASO #10] 🟢 ACTIVADO EXITO: Contenedor 'visualizador_restriccion_uso_lena'
+2025-12-11 15:42:38 [INFO] [CASO #10] ⚛️ EXITO HQC: Job completado. Costo=-2.0
+2025-12-11 15:42:39 [INFO] ✅ [CASO #10] Ciclo finalizado exitosamente. Visualización generada.
+2025-12-11 15:42:39 [INFO] 🏁 --- FIN CASO #10 ---
+2025-12-11 15:42:51 [INFO] 🔰 --- INICIO CASO #11 | ESCENARIO ID: 4 ---
+2025-12-11 15:42:51 [INFO] [CASO #11] PARÁMETROS: Escenario='Modo: Fallos de Infraestructura' | ICA=52 | CP=307 | ColaQiskit=151s | Usuario='Grupo Deportivo (Requiere Deportes)'
+2025-12-11 15:42:53 [INFO] [CASO #11] ✅ LLM Respondió. Razonamiento: Activado 'Deportes' por perfil 'Grupo Deportivo' y ICA 52. Habilitado 'HQC' y 'Optimizacion de rutas' por CP 307. Seleccionado Cirq Simulator debido a la cola crítica de Qiskit.
+2025-12-11 15:42:53 [INFO] [CASO #11] ⚙️ Iniciando reconfiguración de infraestructura...
+2025-12-11 15:42:54 [INFO] [CASO #11] 🔴 DESACTIVADO EXITO: Contenedor 'entretenimiento_adulto'
+2025-12-11 15:42:56 [INFO] [CASO #11] 🔴 DESACTIVADO EXITO: Contenedor 'entretenimiento'
+2025-12-11 15:42:56 [INFO] [CASO #11] 🟢 ACTIVADO EXITO: Contenedor 'deportes'
+2025-12-11 15:42:57 [INFO] [CASO #11] 🔴 DESACTIVADO EXITO: Contenedor 'ambientes_cerrados'
+2025-12-11 15:42:59 [INFO] [CASO #11] 🔴 DESACTIVADO EXITO: Contenedor 'visualizador_restriccion_uso_lena'
+2025-12-11 15:43:00 [INFO] [CASO #11] ⚛️ EXITO HQC: Job completado. Costo=-2.0
+2025-12-11 15:43:00 [INFO] ✅ [CASO #11] Ciclo finalizado exitosamente. Visualización generada.
+2025-12-11 15:43:00 [INFO] 🏁 --- FIN CASO #11 ---
+2025-12-11 15:43:03 [INFO] 🔰 --- INICIO CASO #12 | ESCENARIO ID: 4 ---
+2025-12-11 15:43:03 [INFO] [CASO #12] PARÁMETROS: Escenario='Modo: Fallos de Infraestructura' | ICA=60 | CP=356 | ColaQiskit=50s | Usuario='Familia con Niños (Requiere Entr. Familiar)'
+2025-12-11 15:43:06 [INFO] [CASO #12] ✅ LLM Respondió. Razonamiento: Activado 'Entretenimiento familiar' por perfil. 'HQC' y 'Optimizacion de rutas' por CP alto. Cirq elegido por menor cola y prioridad SLA 'PRECISION'. 'Deportes' inactivo por ICA 60.
+2025-12-11 15:43:06 [INFO] [CASO #12] ⚙️ Iniciando reconfiguración de infraestructura...
+2025-12-11 15:43:06 [INFO] [CASO #12] 🟢 ACTIVADO EXITO: Contenedor 'entretenimiento_familiar'
+2025-12-11 15:43:07 [INFO] [CASO #12] 🟢 ACTIVADO EXITO: Contenedor 'entretenimiento'
+2025-12-11 15:43:08 [INFO] [CASO #12] 🔴 DESACTIVADO EXITO: Contenedor 'deportes'
+2025-12-11 15:43:09 [INFO] [CASO #12] 🔴 DESACTIVADO EXITO: Contenedor 'ambientes_abiertos'
+2025-12-11 15:43:09 [INFO] [CASO #12] 🟢 ACTIVADO EXITO: Contenedor 'ambientes_cerrados'
+2025-12-11 15:43:10 [INFO] [CASO #12] 🟢 ACTIVADO EXITO: Contenedor 'visualizador_restriccion_uso_lena'
+2025-12-11 15:43:10 [INFO] [CASO #12] ⚛️ EXITO HQC: Job completado. Costo=-2.0
+2025-12-11 15:43:11 [INFO] ✅ [CASO #12] Ciclo finalizado exitosamente. Visualización generada.
+2025-12-11 15:43:11 [INFO] 🏁 --- FIN CASO #12 ---
+2025-12-11 15:43:19 [INFO] 🔰 --- INICIO CASO #13 | ESCENARIO ID: 4 ---
+2025-12-11 15:43:19 [INFO] [CASO #13] PARÁMETROS: Escenario='Modo: Fallos de Infraestructura' | ICA=60 | CP=379 | ColaQiskit=59s | Usuario='Turista Estándar (Solo Rutas)'
+2025-12-11 15:43:20 [INFO] [CASO #13] ✅ LLM Respondió. Razonamiento: Activado Turismo y Optimizacion de Rutas por perfil 'Turista Estándar' y CP=379. HQC y Algoritmo activados por CP>100. Cirq Simulator seleccionado por baja cola (1s) y alta prioridad SLA (PRECISION).
+2025-12-11 15:43:20 [ERROR] [CASO #13] ❌ FALLO VALIDACIÓN: Configuración LLM viola reglas del modelo.
+2025-12-11 15:43:20 [WARNING] ⚠️ [CASO #13] Ciclo finalizado sin configuración válida (posible error del LLM).
+2025-12-11 15:43:20 [INFO] 🏁 --- FIN CASO #13 ---
+2025-12-11 15:43:29 [INFO] 🔰 --- INICIO CASO #14 | ESCENARIO ID: 2 ---
+2025-12-11 15:43:29 [INFO] [CASO #14] PARÁMETROS: Escenario='Modo: Alta Demanda (Incertidumbre)' | ICA=50 | CP=277 | ColaQiskit=27s | Usuario='Turista Estándar (Solo Rutas)'
+2025-12-11 15:43:30 [INFO] [CASO #14] ✅ LLM Respondió. Razonamiento: Se activa HQC y Optimizacion de Rutas por alta complejidad (CP=277). Se prioriza Cirq Simulator por menor tiempo de cola (0s vs 27s) y se mantiene el sistema mínimo para Turista Estándar, desactivando Deportes y Entretenimiento.
+2025-12-11 15:43:30 [ERROR] [CASO #14] ❌ FALLO VALIDACIÓN: Configuración LLM viola reglas del modelo.
+2025-12-11 15:43:30 [WARNING] ⚠️ [CASO #14] Ciclo finalizado sin configuración válida (posible error del LLM).
+2025-12-11 15:43:30 [INFO] 🏁 --- FIN CASO #14 ---
+2025-12-11 15:43:35 [INFO] 🔰 --- INICIO CASO #15 | ESCENARIO ID: 2 ---
+2025-12-11 15:43:35 [INFO] [CASO #15] PARÁMETROS: Escenario='Modo: Alta Demanda (Incertidumbre)' | ICA=58 | CP=288 | ColaQiskit=30s | Usuario='Adulto Mayor (Requiere Entr. Tercera Edad)'
+2025-12-11 15:43:37 [INFO] [CASO #15] ✅ LLM Respondió. Razonamiento: Activado HQC y Optimizacion Rutas por CP=288. Entretenimiento Tercera Edad por perfil. Cirq Simulator elegido por menor tiempo de cola (1s vs 30s) y prioridad SLA Precisión. Ambientes Cerrados y Visualizador Lena activados por ICA=58.
+2025-12-11 15:43:37 [INFO] [CASO #15] ⚙️ Iniciando reconfiguración de infraestructura...
+2025-12-11 15:43:37 [INFO] [CASO #15] 🟢 ACTIVADO EXITO: Contenedor 'entretenimiento_tercera_edad'
+2025-12-11 15:43:39 [INFO] [CASO #15] 🔴 DESACTIVADO EXITO: Contenedor 'entretenimiento_familiar'
+2025-12-11 15:43:39 [INFO] [CASO #15] ⚛️ EXITO HQC: Job completado. Costo=-2.0
+2025-12-11 15:43:40 [INFO] ✅ [CASO #15] Ciclo finalizado exitosamente. Visualización generada.
+2025-12-11 15:43:40 [INFO] 🏁 --- FIN CASO #15 ---

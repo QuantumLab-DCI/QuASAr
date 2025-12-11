@@ -1,10 +1,15 @@
 import os
+import traceback
 from app.core.mapek import Mapek
 from app.services import visualizador_grafo
 from app import app_path
 
 # Importamos el módulo 'app' para actualizar las variables globales
 import app as app_globals
+
+# --- NUEVO: Importar el logger de auditoría ---
+from app.core.audit_logger import get_logger 
+# ----------------------------------------------
 
 # --- Función para borrar evidencia antigua ---
 def _limpiar_evidencia_previa():
@@ -31,64 +36,62 @@ def ejecutar_ciclo_bajo_demanda(mc, escenario_id):
     Ejecuta UNA sola iteración del ciclo MAPE-K para el escenario solicitado.
     Esta función es llamada por el endpoint '/api/seleccionar_escenario' en un hilo.
     """
+    # 1. Configuración de Auditoría
+    logger = get_logger()
     
-    # --- CAMBIO 1: Gestión del Contador de Casos ---
-    # Incrementamos el contador global definido en __init__.py
+    # Incrementamos el contador global y capturamos el número del caso actual
     app_globals.execution_counter += 1
-    case_num = app_globals.execution_counter
-    # -----------------------------------------------
-
-    print("\n" + "="*50)
-    print(f"⚡ CASO #{case_num}: Iniciando ciclo para Escenario ID {escenario_id}")
+    caso_n = app_globals.execution_counter
     
-    # 1. LIMPIEZA PREVIA
+    # Log de Inicio
+    logger.info(f"🔰 --- INICIO CASO #{caso_n} | ESCENARIO ID: {escenario_id} ---")
+    
+    print("\n" + "="*50)
+    print(f"⚡ EVENTO RECIBIDO: Iniciando ciclo único para Escenario ID {escenario_id} (Caso #{caso_n})")
+    
+    # 2. LIMPIEZA PREVIA
     _limpiar_evidencia_previa()
     
-    mapek = None # Inicializamos variable por seguridad en el bloque except
-
     try:
-        # 2. Instanciar Mapek
+        # 3. Instanciar Mapek
         mapek = Mapek()
         
-        # 3. Ejecutar la lógica manual pasando el ID del escenario Y EL NÚMERO DE CASO
-        # --- CAMBIO 2: Pasamos case_num al método ---
-        mapek.ejecutar_escenario_manual(mc, escenario_id, case_num)
+        # 4. Ejecutar la lógica manual pasando el ID del escenario Y el número de caso
+        mapek.ejecutar_escenario_manual(mc, escenario_id, caso_n)
         
-        # 4. Actualizar el estado global para que el frontend pueda leerlo
+        # 5. Actualizar el estado global para que el frontend pueda leerlo
         app_globals.pv_global = mapek.getConocimiento()
         app_globals.regla_global = mapek.getReglaAdaptacion()
         
-        # --- Guardar la traza de ejecución en la variable global ---
+        # Guardar la traza de ejecución en la variable global
         app_globals.trace_global = mapek.getTrace()
         print(f"📝 TRAZA GUARDADA: {len(app_globals.trace_global)} pasos registrados para visualización.")
         
-        # 5. Generar la visualización del estado actual (Grafo verde/rojo)
+        # 6. Generar la visualización del estado actual (Grafo verde/rojo)
         if app_globals.pv_global: 
             img_path = os.path.join(app_path, 'data', 'estado_actual')
             visualizador_grafo.generar_visualizacion_estado(app_globals.pv_global, mc, nombre_archivo=img_path)
+            
+            # Log de Éxito
+            logger.info(f"✅ [CASO #{caso_n}] Ciclo finalizado exitosamente. Visualización generada.")
             print("✅ Visualización de estado actualizada.")
         else:
-            print("⚠️ Ciclo finalizado sin configuración válida (posible error del LLM).")
+            # Log de Advertencia
+            logger.warning(f"⚠️ [CASO #{caso_n}] Ciclo finalizado sin configuración válida (posible error del LLM).")
+            print("⚠️ Ciclo finalizado sin configuración válida.")
 
     except Exception as e:
-        # --- CAMBIO 3: Logging de Error Crítico ---
+        # Log de Error Crítico con Traceback
+        logger.error(f"❌ [CASO #{caso_n}] ERROR CRÍTICO EN TAREA: {str(e)}", exc_info=True)
         print(f"❌ ERROR CRÍTICO EN TAREA DE FONDO: {e}")
-        try:
-            # Si mapek se instanció, usamos su logger. Si no, instanciamos uno nuevo solo para loguear.
-            if mapek is None: mapek = Mapek()
-            mapek.registrar_log_archivo("CRITICAL_ERROR", f"Fallo en task.py: {str(e)}")
-        except Exception as log_err:
-            print(f"   (No se pudo escribir en log file: {log_err})")
-        # ------------------------------------------
-
-        import traceback
         traceback.print_exc()
     
-    # --- Bloque FINALLY para asegurar desbloqueo ---
+    # --- Bloque FINALLY para asegurar desbloqueo y cierre de log ---
     finally:
         app_globals.en_ejecucion = False
+        logger.info(f"🏁 --- FIN CASO #{caso_n} ---")
         print(f"🔓 SISTEMA LIBERADO: Ciclo finalizado. Listo para recibir instrucciones.")
     # -----------------------------------------------------
 
-    print(f"✅ CICLO #{case_num} COMPLETADO. El sistema vuelve a estado de espera.")
+    print(f"✅ CICLO COMPLETADO. El sistema vuelve a estado de espera.")
     print("="*50 + "\n")

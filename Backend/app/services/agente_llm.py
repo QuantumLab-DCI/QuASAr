@@ -2,6 +2,10 @@ import os
 import google.generativeai as genai
 import json
 
+# --- NUEVO: Importar Logger de Auditoría ---
+from app.core.audit_logger import get_logger
+# -------------------------------------------
+
 # 1. Configura el cliente de Google
 try:
     genai.configure(api_key=os.environ.get("GOOGLE_API_KEY"))
@@ -13,8 +17,9 @@ def obtener_configuracion_llm(contexto_actual: str, reglas_del_modelo: str) -> d
     Toma el contexto y las reglas, y pide a la API de Gemini la configuración óptima.
     Incluye capacidad de 'improvisación' y EXPLICACIÓN detallada de decisiones.
     """
+    # Instanciamos el logger
+    logger = get_logger()
     
-    # --- INICIO DE LA MODIFICACIÓN: Prompt Explicativo y Resiliente ---
     # 2. Define el prompt del sistema (Arquitecto Explicativo)
     prompt_sistema = f"""
     Eres el **Arquitecto Autónomo Principal** de un sistema híbrido crítico.
@@ -46,7 +51,6 @@ def obtener_configuracion_llm(contexto_actual: str, reglas_del_modelo: str) -> d
     
     Responde ÚNICAMENTE con este objeto JSON.
     """
-    # --- FIN DE LA MODIFICACIÓN ---
 
     # 3. Define el prompt del usuario (el contexto en tiempo real)
     prompt_usuario = f"""
@@ -62,7 +66,6 @@ def obtener_configuracion_llm(contexto_actual: str, reglas_del_modelo: str) -> d
         # 4. Configura el modelo y los ajustes de generación
         generation_config = genai.GenerationConfig(
             response_mime_type="application/json",
-            # Temperatura 0.4 para permitir flexibilidad en la resolución de conflictos y variedad en la explicación
             temperature=0.4 
         )
         
@@ -76,6 +79,12 @@ def obtener_configuracion_llm(contexto_actual: str, reglas_del_modelo: str) -> d
         # 5. Realiza la llamada a la API
         response = model.generate_content(prompt_usuario)
         
+        # --- AUDITORIA: Verificación de Respuesta ---
+        if not response.parts:
+             logger.warning("AGENTE: Respuesta vacía recibida (Posible bloqueo de seguridad de Gemini).")
+             return {}
+        # --------------------------------------------
+        
         respuesta_json = response.text
         print(f"AGENTE: Respuesta JSON recibida.")
         
@@ -83,5 +92,8 @@ def obtener_configuracion_llm(contexto_actual: str, reglas_del_modelo: str) -> d
         return json.loads(respuesta_json)
 
     except Exception as e:
+        # --- AUDITORIA: Error Crítico ---
+        logger.error(f"❌ ERROR CRÍTICO LLM (Gemini): {str(e)}")
+        # --------------------------------
         print(f"AGENTE_ERROR: No se pudo comunicar con la API de Google. Error: {e}")
         return {} # Devuelve una config vacía en caso de error
