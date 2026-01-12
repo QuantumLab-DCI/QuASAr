@@ -515,3 +515,950 @@ Please retry in 49.628709236s. [links {
 2025-12-11 15:43:39 [INFO] [CASO #15] ⚛️ EXITO HQC: Job completado. Costo=-2.0
 2025-12-11 15:43:40 [INFO] ✅ [CASO #15] Ciclo finalizado exitosamente. Visualización generada.
 2025-12-11 15:43:40 [INFO] 🏁 --- FIN CASO #15 ---
+2026-01-12 13:20:26 [INFO] 🔰 --- INICIO CASO #1 | ESCENARIO ID: 1 ---
+2026-01-12 13:20:26 [INFO] [CASO #1] PARÁMETROS: Escenario='Modo: Operación Diaria (Variable)' | ICA=33 | CP=113 | ColaQiskit=0s | Usuario='Evento Nocturno (Requiere Entr. Adulto)'
+2026-01-12 13:20:29 [INFO] [CASO #1] ✅ LLM Respondió. Razonamiento: Activado 'Entretenimiento Adulto' por perfil 'Evento Nocturno'. HQC y Optimizacion activados por alta complejidad (CP 113). Qiskit elegido por menor tasa de error y cola vacía, cumpliendo SLA de rapidez.
+2026-01-12 13:20:29 [ERROR] ❌ [CASO #1] ERROR CRÍTICO EN TAREA: Error while fetching server API version: ('Connection aborted.', FileNotFoundError(2, 'No such file or directory'))
+Traceback (most recent call last):
+  File "/home/sebca/miniconda3/envs/FMweb-K-HQC/lib/python3.10/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+  File "/home/sebca/miniconda3/envs/FMweb-K-HQC/lib/python3.10/site-packages/urllib3/connectionpool.py", line 493, in _make_request
+    conn.request(
+  File "/home/sebca/miniconda3/envs/FMweb-K-HQC/lib/python3.10/site-packages/urllib3/connection.py", line 494, in request
+    self.endheaders()
+  File "/home/sebca/miniconda3/envs/FMweb-K-HQC/lib/python3.10/http/client.py", line 1278, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/home/sebca/miniconda3/envs/FMweb-K-HQC/lib/python3.10/http/client.py", line 1038, in _send_output
+    self.send(msg)
+  File "/home/sebca/miniconda3/envs/FMweb-K-HQC/lib/python3.10/http/client.py", line 976, in send
+    self.connect()
+  File "/home/sebca/miniconda3/envs/FMweb-K-HQC/lib/python3.10/site-packages/docker/transport/unixconn.py", line 26, in connect
+    sock.connect(self.unix_socket)
+FileNotFoundError: [Errno 2] No such file or directory
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/sebca/miniconda3/envs/FMweb-K-HQC/lib/python3.10/site-packages/requests/adapters.py", line 644, in send
+    resp = conn.urlopen(
+  File "/home/sebca/miniconda3/envs/FMweb-K-HQC/lib/python3.10/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+  File "/home/sebca/miniconda3/envs/FMweb-K-HQC/lib/python3.10/site-packages/urllib3/util/retry.py", line 474, in increment
+    raise reraise(type(error), error, _stacktrace)
+  File "/home/sebca/miniconda3/envs/FMweb-K-HQC/lib/python3.10/site-packages/urllib3/util/util.py", line 38, in reraise
+    raise value.with_traceback(tb)
+  File "/home/sebca/miniconda3/envs/FMweb-K-HQC/lib/python3.10/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+  File "/home/sebca/miniconda3/envs/FMweb-K-HQC/lib/python3.10/site-packages/urllib3/connectionpool.py", line 493, in _make_request
+    conn.request(
+  File "/home/sebca/miniconda3/envs/FMweb-K-HQC/lib/python3.10/site-packages/urllib3/connection.py", line 494, in request
+    self.endheaders()
+  File "/home/sebca/miniconda3/envs/FMweb-K-HQC/lib/python3.10/http/client.py", line 1278, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/home/sebca/miniconda3/envs/FMweb-K-HQC/lib/python3.10/http/client.py", line 1038, in _send_output
+    self.send(msg)
+  File "/home/sebca/miniconda3/envs/FMweb-K-HQC/lib/python3.10/http/client.py", line 976, in send
+    self.connect()
+  File "/home/sebca/miniconda3/envs/FMweb-K-HQC/lib/python3.10/site-packages/docker/transport/unixconn.py", line 26, in connect
+    sock.connect(self.unix_socket)
+urllib3.exceptions.ProtocolError: ('Connection aborted.', FileNotFoundError(2, 'No such file or directory'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/sebca/miniconda3/envs/FMweb-K-HQC/lib/python3.10/site-packages/docker/api/client.py", line 223, in _retrieve_server_version
+    return self.version(api_version=False)["ApiVersion"]
+  File "/home/sebca/miniconda3/envs/FMweb-K-HQC/lib/python3.10/site-packages/docker/api/daemon.py", line 181, in version
+    return self._result(self._get(url), json=True)
+  File "/home/sebca/miniconda3/envs/FMweb-K-HQC/lib/python3.10/site-packages/docker/utils/decorators.py", line 44, in inner
+    return f(self, *args, **kwargs)
+  File "/home/sebca/miniconda3/envs/FMweb-K-HQC/lib/python3.10/site-packages/docker/api/client.py", line 246, in _get
+    return self.get(url, **self._set_request_timeout(kwargs))
+  File "/home/sebca/miniconda3/envs/FMweb-K-HQC/lib/python3.10/site-packages/requests/sessions.py", line 602, in get
+    return self.request("GET", url, **kwargs)
+  File "/home/sebca/miniconda3/envs/FMweb-K-HQC/lib/python3.10/site-packages/requests/sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/home/sebca/miniconda3/envs/FMweb-K-HQC/lib/python3.10/site-packages/requests/sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+  File "/home/sebca/miniconda3/envs/FMweb-K-HQC/lib/python3.10/site-packages/requests/adapters.py", line 659, in send
+    raise ConnectionError(err, request=request)
+requests.exceptions.ConnectionError: ('Connection aborted.', FileNotFoundError(2, 'No such file or directory'))
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/mnt/c/Tesis/Scandia05-ML-FMweb-K-Quantum/Backend/app/task.py", line 60, in ejecutar_ciclo_bajo_demanda
+    mapek.ejecutar_escenario_manual(mc, escenario_id, caso_n)
+  File "/mnt/c/Tesis/Scandia05-ML-FMweb-K-Quantum/Backend/app/core/mapek.py", line 191, in ejecutar_escenario_manual
+    self.analizar(mc, ica_real, cp_real, prioridad, cola_real_qiskit, perfil_usuario)
+  File "/mnt/c/Tesis/Scandia05-ML-FMweb-K-Quantum/Backend/app/core/mapek.py", line 285, in analizar
+    self.planificar()
+  File "/mnt/c/Tesis/Scandia05-ML-FMweb-K-Quantum/Backend/app/core/mapek.py", line 297, in planificar
+    self.ejecutar(config)
+  File "/mnt/c/Tesis/Scandia05-ML-FMweb-K-Quantum/Backend/app/core/mapek.py", line 309, in ejecutar
+    client = docker.from_env()
+  File "/home/sebca/miniconda3/envs/FMweb-K-HQC/lib/python3.10/site-packages/docker/client.py", line 94, in from_env
+    return cls(
+  File "/home/sebca/miniconda3/envs/FMweb-K-HQC/lib/python3.10/site-packages/docker/client.py", line 45, in __init__
+    self.api = APIClient(*args, **kwargs)
+  File "/home/sebca/miniconda3/envs/FMweb-K-HQC/lib/python3.10/site-packages/docker/api/client.py", line 207, in __init__
+    self._version = self._retrieve_server_version()
+  File "/home/sebca/miniconda3/envs/FMweb-K-HQC/lib/python3.10/site-packages/docker/api/client.py", line 230, in _retrieve_server_version
+    raise DockerException(
+docker.errors.DockerException: Error while fetching server API version: ('Connection aborted.', FileNotFoundError(2, 'No such file or directory'))
+2026-01-12 13:20:29 [INFO] 🏁 --- FIN CASO #1 ---
+2026-01-12 13:22:50 [INFO] 🔰 --- INICIO CASO #2 | ESCENARIO ID: 1 ---
+2026-01-12 13:22:50 [INFO] [CASO #2] PARÁMETROS: Escenario='Modo: Operación Diaria (Variable)' | ICA=96 | CP=91 | ColaQiskit=5s | Usuario='Evento Nocturno (Requiere Entr. Adulto)'
+2026-01-12 13:22:51 [INFO] [CASO #2] ✅ LLM Respondió. Razonamiento: Activado Entretenimiento Adulto por perfil de usuario. Turismo y Ambientes Cerrados activados por ICA 96. HQC y Backend desactivados por CP <= 100. Deportes desactivado por ICA 96.
+2026-01-12 13:22:51 [ERROR] ❌ [CASO #2] ERROR CRÍTICO EN TAREA: Error while fetching server API version: ('Connection aborted.', FileNotFoundError(2, 'No such file or directory'))
+Traceback (most recent call last):
+  File "/home/sebca/miniconda3/envs/FMweb-K-HQC/lib/python3.10/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+  File "/home/sebca/miniconda3/envs/FMweb-K-HQC/lib/python3.10/site-packages/urllib3/connectionpool.py", line 493, in _make_request
+    conn.request(
+  File "/home/sebca/miniconda3/envs/FMweb-K-HQC/lib/python3.10/site-packages/urllib3/connection.py", line 494, in request
+    self.endheaders()
+  File "/home/sebca/miniconda3/envs/FMweb-K-HQC/lib/python3.10/http/client.py", line 1278, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/home/sebca/miniconda3/envs/FMweb-K-HQC/lib/python3.10/http/client.py", line 1038, in _send_output
+    self.send(msg)
+  File "/home/sebca/miniconda3/envs/FMweb-K-HQC/lib/python3.10/http/client.py", line 976, in send
+    self.connect()
+  File "/home/sebca/miniconda3/envs/FMweb-K-HQC/lib/python3.10/site-packages/docker/transport/unixconn.py", line 26, in connect
+    sock.connect(self.unix_socket)
+FileNotFoundError: [Errno 2] No such file or directory
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/sebca/miniconda3/envs/FMweb-K-HQC/lib/python3.10/site-packages/requests/adapters.py", line 644, in send
+    resp = conn.urlopen(
+  File "/home/sebca/miniconda3/envs/FMweb-K-HQC/lib/python3.10/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+  File "/home/sebca/miniconda3/envs/FMweb-K-HQC/lib/python3.10/site-packages/urllib3/util/retry.py", line 474, in increment
+    raise reraise(type(error), error, _stacktrace)
+  File "/home/sebca/miniconda3/envs/FMweb-K-HQC/lib/python3.10/site-packages/urllib3/util/util.py", line 38, in reraise
+    raise value.with_traceback(tb)
+  File "/home/sebca/miniconda3/envs/FMweb-K-HQC/lib/python3.10/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+  File "/home/sebca/miniconda3/envs/FMweb-K-HQC/lib/python3.10/site-packages/urllib3/connectionpool.py", line 493, in _make_request
+    conn.request(
+  File "/home/sebca/miniconda3/envs/FMweb-K-HQC/lib/python3.10/site-packages/urllib3/connection.py", line 494, in request
+    self.endheaders()
+  File "/home/sebca/miniconda3/envs/FMweb-K-HQC/lib/python3.10/http/client.py", line 1278, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/home/sebca/miniconda3/envs/FMweb-K-HQC/lib/python3.10/http/client.py", line 1038, in _send_output
+    self.send(msg)
+  File "/home/sebca/miniconda3/envs/FMweb-K-HQC/lib/python3.10/http/client.py", line 976, in send
+    self.connect()
+  File "/home/sebca/miniconda3/envs/FMweb-K-HQC/lib/python3.10/site-packages/docker/transport/unixconn.py", line 26, in connect
+    sock.connect(self.unix_socket)
+urllib3.exceptions.ProtocolError: ('Connection aborted.', FileNotFoundError(2, 'No such file or directory'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/sebca/miniconda3/envs/FMweb-K-HQC/lib/python3.10/site-packages/docker/api/client.py", line 223, in _retrieve_server_version
+    return self.version(api_version=False)["ApiVersion"]
+  File "/home/sebca/miniconda3/envs/FMweb-K-HQC/lib/python3.10/site-packages/docker/api/daemon.py", line 181, in version
+    return self._result(self._get(url), json=True)
+  File "/home/sebca/miniconda3/envs/FMweb-K-HQC/lib/python3.10/site-packages/docker/utils/decorators.py", line 44, in inner
+    return f(self, *args, **kwargs)
+  File "/home/sebca/miniconda3/envs/FMweb-K-HQC/lib/python3.10/site-packages/docker/api/client.py", line 246, in _get
+    return self.get(url, **self._set_request_timeout(kwargs))
+  File "/home/sebca/miniconda3/envs/FMweb-K-HQC/lib/python3.10/site-packages/requests/sessions.py", line 602, in get
+    return self.request("GET", url, **kwargs)
+  File "/home/sebca/miniconda3/envs/FMweb-K-HQC/lib/python3.10/site-packages/requests/sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/home/sebca/miniconda3/envs/FMweb-K-HQC/lib/python3.10/site-packages/requests/sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+  File "/home/sebca/miniconda3/envs/FMweb-K-HQC/lib/python3.10/site-packages/requests/adapters.py", line 659, in send
+    raise ConnectionError(err, request=request)
+requests.exceptions.ConnectionError: ('Connection aborted.', FileNotFoundError(2, 'No such file or directory'))
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/mnt/c/Tesis/Scandia05-ML-FMweb-K-Quantum/Backend/app/task.py", line 60, in ejecutar_ciclo_bajo_demanda
+    mapek.ejecutar_escenario_manual(mc, escenario_id, caso_n)
+  File "/mnt/c/Tesis/Scandia05-ML-FMweb-K-Quantum/Backend/app/core/mapek.py", line 191, in ejecutar_escenario_manual
+    self.analizar(mc, ica_real, cp_real, prioridad, cola_real_qiskit, perfil_usuario)
+  File "/mnt/c/Tesis/Scandia05-ML-FMweb-K-Quantum/Backend/app/core/mapek.py", line 285, in analizar
+    self.planificar()
+  File "/mnt/c/Tesis/Scandia05-ML-FMweb-K-Quantum/Backend/app/core/mapek.py", line 297, in planificar
+    self.ejecutar(config)
+  File "/mnt/c/Tesis/Scandia05-ML-FMweb-K-Quantum/Backend/app/core/mapek.py", line 309, in ejecutar
+    client = docker.from_env()
+  File "/home/sebca/miniconda3/envs/FMweb-K-HQC/lib/python3.10/site-packages/docker/client.py", line 94, in from_env
+    return cls(
+  File "/home/sebca/miniconda3/envs/FMweb-K-HQC/lib/python3.10/site-packages/docker/client.py", line 45, in __init__
+    self.api = APIClient(*args, **kwargs)
+  File "/home/sebca/miniconda3/envs/FMweb-K-HQC/lib/python3.10/site-packages/docker/api/client.py", line 207, in __init__
+    self._version = self._retrieve_server_version()
+  File "/home/sebca/miniconda3/envs/FMweb-K-HQC/lib/python3.10/site-packages/docker/api/client.py", line 230, in _retrieve_server_version
+    raise DockerException(
+docker.errors.DockerException: Error while fetching server API version: ('Connection aborted.', FileNotFoundError(2, 'No such file or directory'))
+2026-01-12 13:22:51 [INFO] 🏁 --- FIN CASO #2 ---
+2026-01-12 13:24:06 [INFO] 🔰 --- INICIO CASO #1 | ESCENARIO ID: 1 ---
+2026-01-12 13:24:06 [INFO] [CASO #1] PARÁMETROS: Escenario='Modo: Operación Diaria (Variable)' | ICA=48 | CP=98 | ColaQiskit=2s | Usuario='Evento Nocturno (Requiere Entr. Adulto)'
+2026-01-12 13:24:08 [INFO] [CASO #1] ✅ LLM Respondió. Razonamiento: Activado 'Entretenimiento Adulto' por perfil de evento nocturno. 'Deportes' desactivado por ICA 48 (no crítico pero no ideal para exteriores). HQC y Backend inactivos por CP <= 100.
+2026-01-12 13:24:08 [ERROR] ❌ [CASO #1] ERROR CRÍTICO EN TAREA: Error while fetching server API version: ('Connection aborted.', FileNotFoundError(2, 'No such file or directory'))
+Traceback (most recent call last):
+  File "/home/sebca/miniconda3/envs/FMweb-K-HQC/lib/python3.10/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+  File "/home/sebca/miniconda3/envs/FMweb-K-HQC/lib/python3.10/site-packages/urllib3/connectionpool.py", line 493, in _make_request
+    conn.request(
+  File "/home/sebca/miniconda3/envs/FMweb-K-HQC/lib/python3.10/site-packages/urllib3/connection.py", line 494, in request
+    self.endheaders()
+  File "/home/sebca/miniconda3/envs/FMweb-K-HQC/lib/python3.10/http/client.py", line 1278, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/home/sebca/miniconda3/envs/FMweb-K-HQC/lib/python3.10/http/client.py", line 1038, in _send_output
+    self.send(msg)
+  File "/home/sebca/miniconda3/envs/FMweb-K-HQC/lib/python3.10/http/client.py", line 976, in send
+    self.connect()
+  File "/home/sebca/miniconda3/envs/FMweb-K-HQC/lib/python3.10/site-packages/docker/transport/unixconn.py", line 26, in connect
+    sock.connect(self.unix_socket)
+FileNotFoundError: [Errno 2] No such file or directory
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/sebca/miniconda3/envs/FMweb-K-HQC/lib/python3.10/site-packages/requests/adapters.py", line 644, in send
+    resp = conn.urlopen(
+  File "/home/sebca/miniconda3/envs/FMweb-K-HQC/lib/python3.10/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+  File "/home/sebca/miniconda3/envs/FMweb-K-HQC/lib/python3.10/site-packages/urllib3/util/retry.py", line 474, in increment
+    raise reraise(type(error), error, _stacktrace)
+  File "/home/sebca/miniconda3/envs/FMweb-K-HQC/lib/python3.10/site-packages/urllib3/util/util.py", line 38, in reraise
+    raise value.with_traceback(tb)
+  File "/home/sebca/miniconda3/envs/FMweb-K-HQC/lib/python3.10/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+  File "/home/sebca/miniconda3/envs/FMweb-K-HQC/lib/python3.10/site-packages/urllib3/connectionpool.py", line 493, in _make_request
+    conn.request(
+  File "/home/sebca/miniconda3/envs/FMweb-K-HQC/lib/python3.10/site-packages/urllib3/connection.py", line 494, in request
+    self.endheaders()
+  File "/home/sebca/miniconda3/envs/FMweb-K-HQC/lib/python3.10/http/client.py", line 1278, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/home/sebca/miniconda3/envs/FMweb-K-HQC/lib/python3.10/http/client.py", line 1038, in _send_output
+    self.send(msg)
+  File "/home/sebca/miniconda3/envs/FMweb-K-HQC/lib/python3.10/http/client.py", line 976, in send
+    self.connect()
+  File "/home/sebca/miniconda3/envs/FMweb-K-HQC/lib/python3.10/site-packages/docker/transport/unixconn.py", line 26, in connect
+    sock.connect(self.unix_socket)
+urllib3.exceptions.ProtocolError: ('Connection aborted.', FileNotFoundError(2, 'No such file or directory'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/sebca/miniconda3/envs/FMweb-K-HQC/lib/python3.10/site-packages/docker/api/client.py", line 223, in _retrieve_server_version
+    return self.version(api_version=False)["ApiVersion"]
+  File "/home/sebca/miniconda3/envs/FMweb-K-HQC/lib/python3.10/site-packages/docker/api/daemon.py", line 181, in version
+    return self._result(self._get(url), json=True)
+  File "/home/sebca/miniconda3/envs/FMweb-K-HQC/lib/python3.10/site-packages/docker/utils/decorators.py", line 44, in inner
+    return f(self, *args, **kwargs)
+  File "/home/sebca/miniconda3/envs/FMweb-K-HQC/lib/python3.10/site-packages/docker/api/client.py", line 246, in _get
+    return self.get(url, **self._set_request_timeout(kwargs))
+  File "/home/sebca/miniconda3/envs/FMweb-K-HQC/lib/python3.10/site-packages/requests/sessions.py", line 602, in get
+    return self.request("GET", url, **kwargs)
+  File "/home/sebca/miniconda3/envs/FMweb-K-HQC/lib/python3.10/site-packages/requests/sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/home/sebca/miniconda3/envs/FMweb-K-HQC/lib/python3.10/site-packages/requests/sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+  File "/home/sebca/miniconda3/envs/FMweb-K-HQC/lib/python3.10/site-packages/requests/adapters.py", line 659, in send
+    raise ConnectionError(err, request=request)
+requests.exceptions.ConnectionError: ('Connection aborted.', FileNotFoundError(2, 'No such file or directory'))
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/mnt/c/Tesis/Scandia05-ML-FMweb-K-Quantum/Backend/app/task.py", line 60, in ejecutar_ciclo_bajo_demanda
+    mapek.ejecutar_escenario_manual(mc, escenario_id, caso_n)
+  File "/mnt/c/Tesis/Scandia05-ML-FMweb-K-Quantum/Backend/app/core/mapek.py", line 191, in ejecutar_escenario_manual
+    self.analizar(mc, ica_real, cp_real, prioridad, cola_real_qiskit, perfil_usuario)
+  File "/mnt/c/Tesis/Scandia05-ML-FMweb-K-Quantum/Backend/app/core/mapek.py", line 285, in analizar
+    self.planificar()
+  File "/mnt/c/Tesis/Scandia05-ML-FMweb-K-Quantum/Backend/app/core/mapek.py", line 297, in planificar
+    self.ejecutar(config)
+  File "/mnt/c/Tesis/Scandia05-ML-FMweb-K-Quantum/Backend/app/core/mapek.py", line 309, in ejecutar
+    client = docker.from_env()
+  File "/home/sebca/miniconda3/envs/FMweb-K-HQC/lib/python3.10/site-packages/docker/client.py", line 94, in from_env
+    return cls(
+  File "/home/sebca/miniconda3/envs/FMweb-K-HQC/lib/python3.10/site-packages/docker/client.py", line 45, in __init__
+    self.api = APIClient(*args, **kwargs)
+  File "/home/sebca/miniconda3/envs/FMweb-K-HQC/lib/python3.10/site-packages/docker/api/client.py", line 207, in __init__
+    self._version = self._retrieve_server_version()
+  File "/home/sebca/miniconda3/envs/FMweb-K-HQC/lib/python3.10/site-packages/docker/api/client.py", line 230, in _retrieve_server_version
+    raise DockerException(
+docker.errors.DockerException: Error while fetching server API version: ('Connection aborted.', FileNotFoundError(2, 'No such file or directory'))
+2026-01-12 13:24:08 [INFO] 🏁 --- FIN CASO #1 ---
+2026-01-12 13:29:26 [INFO] 🔰 --- INICIO CASO #2 | ESCENARIO ID: 1 ---
+2026-01-12 13:29:26 [INFO] [CASO #2] PARÁMETROS: Escenario='Modo: Operación Diaria (Variable)' | ICA=40 | CP=118 | ColaQiskit=2s | Usuario='Turista Estándar (Solo Rutas)'
+2026-01-12 13:29:29 [INFO] [CASO #2] ✅ LLM Respondió. Razonamiento: Se activa HQC y Optimizacion de Rutas por alta complejidad (CP 118). Se prioriza Cirq Simulator por menor tiempo de cola (1s vs 2s) y perfil 'Turista Estándar' que no requiere 'Deportes' ni 'Entretenimiento'.
+2026-01-12 13:29:29 [ERROR] [CASO #2] ❌ FALLO VALIDACIÓN: Configuración LLM viola reglas del modelo.
+2026-01-12 13:29:29 [WARNING] ⚠️ [CASO #2] Ciclo finalizado sin configuración válida (posible error del LLM).
+2026-01-12 13:29:29 [INFO] 🏁 --- FIN CASO #2 ---
+2026-01-12 13:30:03 [INFO] 🔰 --- INICIO CASO #3 | ESCENARIO ID: 1 ---
+2026-01-12 13:30:03 [INFO] [CASO #3] PARÁMETROS: Escenario='Modo: Operación Diaria (Variable)' | ICA=79 | CP=86 | ColaQiskit=0s | Usuario='Grupo Deportivo (Requiere Deportes)'
+2026-01-12 13:30:05 [INFO] [CASO #3] ✅ LLM Respondió. Razonamiento: Activado 'Deportes' por perfil 'Grupo Deportivo' y ICA 79. 'HQC' y 'Optimizacion de rutas' desactivados por CP <= 100. 'Ambientes abiertos' y 'cerrados' activados para satisfacer demanda y reglas críticas.
+2026-01-12 13:30:05 [ERROR] [CASO #3] ❌ FALLO VALIDACIÓN: Configuración LLM viola reglas del modelo.
+2026-01-12 13:30:05 [WARNING] ⚠️ [CASO #3] Ciclo finalizado sin configuración válida (posible error del LLM).
+2026-01-12 13:30:05 [INFO] 🏁 --- FIN CASO #3 ---
+2026-01-12 13:30:18 [INFO] 🔰 --- INICIO CASO #4 | ESCENARIO ID: 2 ---
+2026-01-12 13:30:18 [INFO] [CASO #4] PARÁMETROS: Escenario='Modo: Alta Demanda (Incertidumbre)' | ICA=61 | CP=193 | ColaQiskit=32s | Usuario='Turista Estándar (Solo Rutas)'
+2026-01-12 13:30:20 [INFO] [CASO #4] ✅ LLM Respondió. Razonamiento: Activado Turismo y Optimizacion Rutas por perfil 'Turista Estándar' y CP>100. HQC y Backend activados por CP>100. Cirq elegido por menor tiempo de cola (0s) frente a Qiskit (32s) para mantener SLA.
+2026-01-12 13:30:20 [ERROR] [CASO #4] ❌ FALLO VALIDACIÓN: Configuración LLM viola reglas del modelo.
+2026-01-12 13:30:20 [WARNING] ⚠️ [CASO #4] Ciclo finalizado sin configuración válida (posible error del LLM).
+2026-01-12 13:30:20 [INFO] 🏁 --- FIN CASO #4 ---
+2026-01-12 13:30:26 [INFO] 🔰 --- INICIO CASO #5 | ESCENARIO ID: 1 ---
+2026-01-12 13:30:26 [INFO] [CASO #5] PARÁMETROS: Escenario='Modo: Operación Diaria (Variable)' | ICA=88 | CP=65 | ColaQiskit=0s | Usuario='Familia con Niños (Requiere Entr. Familiar)'
+2026-01-12 13:30:28 [INFO] [CASO #5] ✅ LLM Respondió. Razonamiento: Activado Entretenimiento Familiar por perfil. Turismo y Ambientes Cerrados activos por ICA 88 y prioridad SLA. HQC y Backend inactivos por baja complejidad computacional (CP 65).
+2026-01-12 13:30:28 [INFO] [CASO #5] ⚙️ Iniciando reconfiguración de infraestructura...
+2026-01-12 13:30:30 [INFO] [CASO #5] 🔴 DESACTIVADO EXITO: Contenedor 'cirq_simulator'
+2026-01-12 13:30:31 [INFO] [CASO #5] 🔴 DESACTIVADO EXITO: Contenedor 'vqe'
+2026-01-12 13:30:32 [INFO] [CASO #5] 🔴 DESACTIVADO EXITO: Contenedor 'qaoa'
+2026-01-12 13:30:33 [INFO] [CASO #5] 🔴 DESACTIVADO EXITO: Contenedor 'qiskit_simulator'
+2026-01-12 13:30:35 [INFO] [CASO #5] 🔴 DESACTIVADO EXITO: Contenedor 'algoritmo'
+2026-01-12 13:30:36 [INFO] [CASO #5] 🔴 DESACTIVADO EXITO: Contenedor 'backend'
+2026-01-12 13:30:38 [INFO] [CASO #5] 🔴 DESACTIVADO EXITO: Contenedor 'hqc'
+2026-01-12 13:30:39 [INFO] [CASO #5] 🔴 DESACTIVADO EXITO: Contenedor 'optimizacion_de_rutas'
+2026-01-12 13:30:40 [INFO] [CASO #5] 🔴 DESACTIVADO EXITO: Contenedor 'entretenimiento_tercera_edad'
+2026-01-12 13:30:42 [INFO] [CASO #5] 🔴 DESACTIVADO EXITO: Contenedor 'entretenimiento_adulto'
+2026-01-12 13:30:43 [INFO] [CASO #5] 🔴 DESACTIVADO EXITO: Contenedor 'deportes'
+2026-01-12 13:30:44 [INFO] ✅ [CASO #5] Ciclo finalizado exitosamente. Visualización generada.
+2026-01-12 13:30:44 [INFO] 🏁 --- FIN CASO #5 ---
+2026-01-12 13:31:45 [INFO] 🔰 --- INICIO CASO #6 | ESCENARIO ID: 3 ---
+2026-01-12 13:31:45 [INFO] [CASO #6] PARÁMETROS: Escenario='Modo: Crisis Ambiental' | ICA=254 | CP=59 | ColaQiskit=9s | Usuario='Turista Estándar (Solo Rutas)'
+2026-01-12 13:31:47 [INFO] [CASO #6] ✅ LLM Respondió. Razonamiento: Se prioriza 'Ambientes cerrados' por ICA alto (>100), desactivando 'Deportes'. 'Turismo Estándar' mantiene el sistema mínimo, desactivando 'Entretenimiento' y 'HQC' por baja complejidad (<100). Se elige Cirq Simulator por su tiempo de cola nulo.
+2026-01-12 13:31:48 [INFO] [CASO #6] ⚙️ Iniciando reconfiguración de infraestructura...
+2026-01-12 13:31:49 [INFO] [CASO #6] 🔴 DESACTIVADO EXITO: Contenedor 'entretenimiento_familiar'
+2026-01-12 13:31:51 [INFO] [CASO #6] 🔴 DESACTIVADO EXITO: Contenedor 'entretenimiento'
+2026-01-12 13:31:52 [INFO] [CASO #6] 🔴 DESACTIVADO EXITO: Contenedor 'ambientes_abiertos'
+2026-01-12 13:31:53 [INFO] ✅ [CASO #6] Ciclo finalizado exitosamente. Visualización generada.
+2026-01-12 13:31:53 [INFO] 🏁 --- FIN CASO #6 ---
+2026-01-12 13:32:15 [INFO] 🔰 --- INICIO CASO #7 | ESCENARIO ID: 4 ---
+2026-01-12 13:32:15 [INFO] [CASO #7] PARÁMETROS: Escenario='Modo: Fallos de Infraestructura' | ICA=73 | CP=394 | ColaQiskit=191s | Usuario='Familia con Niños (Requiere Entr. Familiar)'
+2026-01-12 13:32:17 [INFO] [CASO #7] ✅ LLM Respondió. Razonamiento: Activado Turismo y HQC por alta complejidad (CP 394). Se prioriza Cirq Simulator (cola 0s) sobre Qiskit (cola 191s). Se activa Entretenimiento Familiar según perfil de usuario. Deportes desactivado por ICA 73.
+2026-01-12 13:32:17 [INFO] [CASO #7] ⚙️ Iniciando reconfiguración de infraestructura...
+2026-01-12 13:32:17 [INFO] [CASO #7] 🟢 ACTIVADO EXITO: Contenedor 'cirq_simulator'
+2026-01-12 13:32:17 [INFO] [CASO #7] 🟢 ACTIVADO EXITO: Contenedor 'qaoa'
+2026-01-12 13:32:18 [INFO] [CASO #7] 🟢 ACTIVADO EXITO: Contenedor 'algoritmo'
+2026-01-12 13:32:18 [INFO] [CASO #7] 🟢 ACTIVADO EXITO: Contenedor 'backend'
+2026-01-12 13:32:18 [INFO] [CASO #7] 🟢 ACTIVADO EXITO: Contenedor 'hqc'
+2026-01-12 13:32:19 [INFO] [CASO #7] 🟢 ACTIVADO EXITO: Contenedor 'optimizacion_de_rutas'
+2026-01-12 13:32:19 [INFO] [CASO #7] 🟢 ACTIVADO EXITO: Contenedor 'entretenimiento_familiar'
+2026-01-12 13:32:19 [INFO] [CASO #7] 🟢 ACTIVADO EXITO: Contenedor 'entretenimiento'
+2026-01-12 13:32:21 [INFO] [CASO #7] ⚛️ EXITO HQC: Job completado. Costo=-2.0
+2026-01-12 13:32:22 [INFO] ✅ [CASO #7] Ciclo finalizado exitosamente. Visualización generada.
+2026-01-12 13:32:22 [INFO] 🏁 --- FIN CASO #7 ---
+2026-01-12 13:33:08 [INFO] 🔰 --- INICIO CASO #8 | ESCENARIO ID: 4 ---
+2026-01-12 13:33:08 [INFO] [CASO #8] PARÁMETROS: Escenario='Modo: Fallos de Infraestructura' | ICA=80 | CP=237 | ColaQiskit=169s | Usuario='Evento Nocturno (Requiere Entr. Adulto)'
+2026-01-12 13:33:10 [INFO] [CASO #8] ✅ LLM Respondió. Razonamiento: Activado Entretenimiento Adulto por perfil. Turismo y Ambientes Cerrados por ICA 80. HQC y Optimizacion de Rutas por CP 237. Cirq elegido por baja cola y SLA PRECISION.
+2026-01-12 13:33:10 [INFO] [CASO #8] ⚙️ Iniciando reconfiguración de infraestructura...
+2026-01-12 13:33:10 [INFO] [CASO #8] 🟢 ACTIVADO EXITO: Contenedor 'entretenimiento_adulto'
+2026-01-12 13:33:12 [INFO] [CASO #8] 🔴 DESACTIVADO EXITO: Contenedor 'entretenimiento_familiar'
+2026-01-12 13:33:13 [INFO] [CASO #8] ⚛️ EXITO HQC: Job completado. Costo=-2.0
+2026-01-12 13:33:13 [INFO] ✅ [CASO #8] Ciclo finalizado exitosamente. Visualización generada.
+2026-01-12 13:33:13 [INFO] 🏁 --- FIN CASO #8 ---
+2026-01-12 13:33:40 [INFO] 🔰 --- INICIO CASO #9 | ESCENARIO ID: 3 ---
+2026-01-12 13:33:40 [INFO] [CASO #9] PARÁMETROS: Escenario='Modo: Crisis Ambiental' | ICA=215 | CP=145 | ColaQiskit=2s | Usuario='Evento Nocturno (Requiere Entr. Adulto)'
+2026-01-12 13:33:41 [INFO] [CASO #9] ✅ LLM Respondió. Razonamiento: Activado Turismo y Ambientes Cerrados por ICA 215. HQC y Optimizacion de Rutas por CP 145. Entretenimiento Adulto por perfil. Cirq Simulator elegido por menor tiempo de cola (0s) y SLA de Rapidez.
+2026-01-12 13:33:41 [INFO] [CASO #9] ⚙️ Iniciando reconfiguración de infraestructura...
+2026-01-12 13:33:43 [INFO] [CASO #9] ⚛️ EXITO HQC: Job completado. Costo=-2.0
+2026-01-12 13:33:43 [INFO] ✅ [CASO #9] Ciclo finalizado exitosamente. Visualización generada.
+2026-01-12 13:33:43 [INFO] 🏁 --- FIN CASO #9 ---
+2026-01-12 13:33:54 [INFO] 🔰 --- INICIO CASO #10 | ESCENARIO ID: 2 ---
+2026-01-12 13:33:54 [INFO] [CASO #10] PARÁMETROS: Escenario='Modo: Alta Demanda (Incertidumbre)' | ICA=57 | CP=289 | ColaQiskit=10s | Usuario='Turista Estándar (Solo Rutas)'
+2026-01-12 13:33:57 [INFO] [CASO #10] ✅ LLM Respondió. Razonamiento: El perfil 'Turista Estándar' y la complejidad computacional (CP=289) activan HQC y Optimizacion de Rutas. Se prioriza Cirq Simulator por su menor tiempo de cola (1s vs 10s) para cumplir SLA de Precisión.
+2026-01-12 13:33:57 [ERROR] [CASO #10] ❌ FALLO VALIDACIÓN: Configuración LLM viola reglas del modelo.
+2026-01-12 13:33:57 [WARNING] ⚠️ [CASO #10] Ciclo finalizado sin configuración válida (posible error del LLM).
+2026-01-12 13:33:57 [INFO] 🏁 --- FIN CASO #10 ---
+2026-01-12 13:34:03 [INFO] 🔰 --- INICIO CASO #11 | ESCENARIO ID: 2 ---
+2026-01-12 13:34:03 [INFO] [CASO #11] PARÁMETROS: Escenario='Modo: Alta Demanda (Incertidumbre)' | ICA=52 | CP=93 | ColaQiskit=29s | Usuario='Adulto Mayor (Requiere Entr. Tercera Edad)'
+2026-01-12 13:34:04 [INFO] [CASO #11] ✅ LLM Respondió. Razonamiento: Activado Entretenimiento para Tercera Edad según perfil. Turismo y Ambientes Cerrados activados por defecto. HQC y Backend desactivados por baja complejidad computacional (<100).
+2026-01-12 13:34:04 [INFO] [CASO #11] ⚙️ Iniciando reconfiguración de infraestructura...
+2026-01-12 13:34:05 [INFO] [CASO #11] 🔴 DESACTIVADO EXITO: Contenedor 'cirq_simulator'
+2026-01-12 13:34:07 [INFO] [CASO #11] 🔴 DESACTIVADO EXITO: Contenedor 'qaoa'
+2026-01-12 13:34:08 [INFO] [CASO #11] 🔴 DESACTIVADO EXITO: Contenedor 'algoritmo'
+2026-01-12 13:34:09 [INFO] [CASO #11] 🔴 DESACTIVADO EXITO: Contenedor 'backend'
+2026-01-12 13:34:11 [INFO] [CASO #11] 🔴 DESACTIVADO EXITO: Contenedor 'hqc'
+2026-01-12 13:34:12 [INFO] [CASO #11] 🔴 DESACTIVADO EXITO: Contenedor 'optimizacion_de_rutas'
+2026-01-12 13:34:13 [INFO] [CASO #11] 🟢 ACTIVADO EXITO: Contenedor 'entretenimiento_tercera_edad'
+2026-01-12 13:34:14 [INFO] [CASO #11] 🔴 DESACTIVADO EXITO: Contenedor 'entretenimiento_adulto'
+2026-01-12 13:34:15 [INFO] ✅ [CASO #11] Ciclo finalizado exitosamente. Visualización generada.
+2026-01-12 13:34:15 [INFO] 🏁 --- FIN CASO #11 ---
+2026-01-12 13:34:29 [INFO] 🔰 --- INICIO CASO #12 | ESCENARIO ID: 2 ---
+2026-01-12 13:34:29 [INFO] [CASO #12] PARÁMETROS: Escenario='Modo: Alta Demanda (Incertidumbre)' | ICA=79 | CP=242 | ColaQiskit=28s | Usuario='Grupo Deportivo (Requiere Deportes)'
+2026-01-12 13:34:30 [INFO] [CASO #12] ✅ LLM Respondió. Razonamiento: Activado 'Deportes' por perfil 'Grupo Deportivo' y ICA 79. Seleccionado 'Cirq Simulator' por menor tiempo de cola (1s vs 28s) y prioridad SLA 'PRECISION'. Activado 'HQC' y 'Optimizacion de rutas' por CP 242.
+2026-01-12 13:34:30 [INFO] [CASO #12] ⚙️ Iniciando reconfiguración de infraestructura...
+2026-01-12 13:34:31 [INFO] [CASO #12] 🟢 ACTIVADO EXITO: Contenedor 'cirq_simulator'
+2026-01-12 13:34:31 [INFO] [CASO #12] 🟢 ACTIVADO EXITO: Contenedor 'qaoa'
+2026-01-12 13:34:31 [INFO] [CASO #12] 🟢 ACTIVADO EXITO: Contenedor 'algoritmo'
+2026-01-12 13:34:32 [INFO] [CASO #12] 🟢 ACTIVADO EXITO: Contenedor 'backend'
+2026-01-12 13:34:32 [INFO] [CASO #12] 🟢 ACTIVADO EXITO: Contenedor 'hqc'
+2026-01-12 13:34:32 [INFO] [CASO #12] 🟢 ACTIVADO EXITO: Contenedor 'optimizacion_de_rutas'
+2026-01-12 13:34:33 [INFO] [CASO #12] 🔴 DESACTIVADO EXITO: Contenedor 'entretenimiento_tercera_edad'
+2026-01-12 13:34:35 [INFO] [CASO #12] 🔴 DESACTIVADO EXITO: Contenedor 'entretenimiento'
+2026-01-12 13:34:35 [INFO] [CASO #12] 🟢 ACTIVADO EXITO: Contenedor 'deportes'
+2026-01-12 13:34:36 [INFO] [CASO #12] 🟢 ACTIVADO EXITO: Contenedor 'ambientes_abiertos'
+2026-01-12 13:34:37 [INFO] [CASO #12] 🔴 DESACTIVADO EXITO: Contenedor 'ambientes_cerrados'
+2026-01-12 13:34:38 [INFO] [CASO #12] 🔴 DESACTIVADO EXITO: Contenedor 'visualizador_restriccion_uso_lena'
+2026-01-12 13:34:39 [INFO] [CASO #12] ⚛️ EXITO HQC: Job completado. Costo=-2.0
+2026-01-12 13:34:40 [INFO] ✅ [CASO #12] Ciclo finalizado exitosamente. Visualización generada.
+2026-01-12 13:34:40 [INFO] 🏁 --- FIN CASO #12 ---
+2026-01-12 13:34:50 [INFO] 🔰 --- INICIO CASO #13 | ESCENARIO ID: 1 ---
+2026-01-12 13:34:50 [INFO] [CASO #13] PARÁMETROS: Escenario='Modo: Operación Diaria (Variable)' | ICA=29 | CP=75 | ColaQiskit=0s | Usuario='Turista Estándar (Solo Rutas)'
+2026-01-12 13:34:54 [INFO] [CASO #13] ✅ LLM Respondió. Razonamiento: Perfil 'Turista Estándar' y CP<=100 desactivan HQC, Algoritmo, Entretenimiento y Deportes. Turismo activo por regla de Gestor Aire. Optimizacion de rutas inactiva por CP y perfil.
+2026-01-12 13:34:54 [ERROR] [CASO #13] ❌ FALLO VALIDACIÓN: Configuración LLM viola reglas del modelo.
+2026-01-12 13:34:54 [WARNING] ⚠️ [CASO #13] Ciclo finalizado sin configuración válida (posible error del LLM).
+2026-01-12 13:34:54 [INFO] 🏁 --- FIN CASO #13 ---
+2026-01-12 13:35:03 [INFO] 🔰 --- INICIO CASO #14 | ESCENARIO ID: 1 ---
+2026-01-12 13:35:03 [INFO] [CASO #14] PARÁMETROS: Escenario='Modo: Operación Diaria (Variable)' | ICA=72 | CP=96 | ColaQiskit=5s | Usuario='Evento Nocturno (Requiere Entr. Adulto)'
+2026-01-12 13:35:05 [INFO] [CASO #14] ✅ LLM Respondió. Razonamiento: Activado Entretenimiento Adulto por perfil 'Evento Nocturno'. Turismo y Ambientes Cerrados activos por ICA 72 y SLA Rapidez. HQC y Backend inactivos por CP <= 100.
+2026-01-12 13:35:05 [INFO] [CASO #14] ⚙️ Iniciando reconfiguración de infraestructura...
+2026-01-12 13:35:07 [INFO] [CASO #14] 🔴 DESACTIVADO EXITO: Contenedor 'cirq_simulator'
+2026-01-12 13:35:08 [INFO] [CASO #14] 🔴 DESACTIVADO EXITO: Contenedor 'qaoa'
+2026-01-12 13:35:09 [INFO] [CASO #14] 🔴 DESACTIVADO EXITO: Contenedor 'algoritmo'
+2026-01-12 13:35:10 [INFO] [CASO #14] 🔴 DESACTIVADO EXITO: Contenedor 'backend'
+2026-01-12 13:35:12 [INFO] [CASO #14] 🔴 DESACTIVADO EXITO: Contenedor 'hqc'
+2026-01-12 13:35:13 [INFO] [CASO #14] 🔴 DESACTIVADO EXITO: Contenedor 'optimizacion_de_rutas'
+2026-01-12 13:35:13 [INFO] [CASO #14] 🟢 ACTIVADO EXITO: Contenedor 'entretenimiento_adulto'
+2026-01-12 13:35:13 [INFO] [CASO #14] 🟢 ACTIVADO EXITO: Contenedor 'entretenimiento'
+2026-01-12 13:35:15 [INFO] [CASO #14] 🔴 DESACTIVADO EXITO: Contenedor 'deportes'
+2026-01-12 13:35:16 [INFO] [CASO #14] 🔴 DESACTIVADO EXITO: Contenedor 'ambientes_abiertos'
+2026-01-12 13:35:16 [INFO] [CASO #14] 🟢 ACTIVADO EXITO: Contenedor 'ambientes_cerrados'
+2026-01-12 13:35:17 [INFO] [CASO #14] 🟢 ACTIVADO EXITO: Contenedor 'visualizador_restriccion_uso_lena'
+2026-01-12 13:35:18 [INFO] ✅ [CASO #14] Ciclo finalizado exitosamente. Visualización generada.
+2026-01-12 13:35:18 [INFO] 🏁 --- FIN CASO #14 ---
+2026-01-12 13:35:30 [INFO] 🔰 --- INICIO CASO #15 | ESCENARIO ID: 2 ---
+2026-01-12 13:35:30 [INFO] [CASO #15] PARÁMETROS: Escenario='Modo: Alta Demanda (Incertidumbre)' | ICA=50 | CP=243 | ColaQiskit=34s | Usuario='Grupo Deportivo (Requiere Deportes)'
+2026-01-12 13:35:31 [INFO] [CASO #15] ✅ LLM Respondió. Razonamiento: Activado 'Deportes' por perfil 'Grupo Deportivo' y ICA 50. Activado 'HQC' y 'Optimizacion de rutas' por CP 243. Seleccionado Cirq Simulator por cola 0s vs 34s en Qiskit para SLA PRECISION.
+2026-01-12 13:35:31 [INFO] [CASO #15] ⚙️ Iniciando reconfiguración de infraestructura...
+2026-01-12 13:35:32 [INFO] [CASO #15] 🟢 ACTIVADO EXITO: Contenedor 'cirq_simulator'
+2026-01-12 13:35:32 [INFO] [CASO #15] 🟢 ACTIVADO EXITO: Contenedor 'qaoa'
+2026-01-12 13:35:33 [INFO] [CASO #15] 🟢 ACTIVADO EXITO: Contenedor 'algoritmo'
+2026-01-12 13:35:33 [INFO] [CASO #15] 🟢 ACTIVADO EXITO: Contenedor 'backend'
+2026-01-12 13:35:33 [INFO] [CASO #15] 🟢 ACTIVADO EXITO: Contenedor 'hqc'
+2026-01-12 13:35:34 [INFO] [CASO #15] 🟢 ACTIVADO EXITO: Contenedor 'optimizacion_de_rutas'
+2026-01-12 13:35:35 [INFO] [CASO #15] 🔴 DESACTIVADO EXITO: Contenedor 'entretenimiento_adulto'
+2026-01-12 13:35:36 [INFO] [CASO #15] 🔴 DESACTIVADO EXITO: Contenedor 'entretenimiento'
+2026-01-12 13:35:37 [INFO] [CASO #15] 🟢 ACTIVADO EXITO: Contenedor 'deportes'
+2026-01-12 13:35:37 [INFO] [CASO #15] 🟢 ACTIVADO EXITO: Contenedor 'ambientes_abiertos'
+2026-01-12 13:35:38 [INFO] [CASO #15] 🔴 DESACTIVADO EXITO: Contenedor 'ambientes_cerrados'
+2026-01-12 13:35:40 [INFO] [CASO #15] 🔴 DESACTIVADO EXITO: Contenedor 'visualizador_restriccion_uso_lena'
+2026-01-12 13:35:42 [INFO] [CASO #15] ⚛️ EXITO HQC: Job completado. Costo=-2.0
+2026-01-12 13:35:42 [INFO] ✅ [CASO #15] Ciclo finalizado exitosamente. Visualización generada.
+2026-01-12 13:35:42 [INFO] 🏁 --- FIN CASO #15 ---
+2026-01-12 13:35:58 [INFO] 🔰 --- INICIO CASO #16 | ESCENARIO ID: 2 ---
+2026-01-12 13:35:58 [INFO] [CASO #16] PARÁMETROS: Escenario='Modo: Alta Demanda (Incertidumbre)' | ICA=66 | CP=131 | ColaQiskit=26s | Usuario='Evento Nocturno (Requiere Entr. Adulto)'
+2026-01-12 13:36:08 [ERROR] ❌ ERROR CRÍTICO LLM (Gemini): 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash-lite
+Please retry in 51.218312211s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-flash-lite"
+  }
+  quota_value: 20
+}
+, retry_delay {
+  seconds: 51
+}
+]
+2026-01-12 13:36:09 [ERROR] [CASO #16] ❌ FALLO LLM: El agente devolvió una configuración vacía o inválida.
+2026-01-12 13:36:09 [WARNING] ⚠️ [CASO #16] Ciclo finalizado sin configuración válida (posible error del LLM).
+2026-01-12 13:36:09 [INFO] 🏁 --- FIN CASO #16 ---
+2026-01-12 13:36:13 [INFO] 🔰 --- INICIO CASO #17 | ESCENARIO ID: 2 ---
+2026-01-12 13:36:13 [INFO] [CASO #17] PARÁMETROS: Escenario='Modo: Alta Demanda (Incertidumbre)' | ICA=77 | CP=170 | ColaQiskit=28s | Usuario='Turista Estándar (Solo Rutas)'
+2026-01-12 13:36:17 [ERROR] ❌ ERROR CRÍTICO LLM (Gemini): 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash-lite
+Please retry in 42.557132806s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-flash-lite"
+  }
+  quota_value: 20
+}
+, retry_delay {
+  seconds: 42
+}
+]
+2026-01-12 13:36:17 [ERROR] [CASO #17] ❌ FALLO LLM: El agente devolvió una configuración vacía o inválida.
+2026-01-12 13:36:17 [WARNING] ⚠️ [CASO #17] Ciclo finalizado sin configuración válida (posible error del LLM).
+2026-01-12 13:36:17 [INFO] 🏁 --- FIN CASO #17 ---
+2026-01-12 13:36:28 [INFO] 🔰 --- INICIO CASO #18 | ESCENARIO ID: 4 ---
+2026-01-12 13:36:28 [INFO] [CASO #18] PARÁMETROS: Escenario='Modo: Fallos de Infraestructura' | ICA=87 | CP=393 | ColaQiskit=144s | Usuario='Evento Nocturno (Requiere Entr. Adulto)'
+2026-01-12 13:36:29 [ERROR] ❌ ERROR CRÍTICO LLM (Gemini): 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash-lite
+Please retry in 31.305999506s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-flash-lite"
+  }
+  quota_value: 20
+}
+, retry_delay {
+  seconds: 31
+}
+]
+2026-01-12 13:36:29 [ERROR] [CASO #18] ❌ FALLO LLM: El agente devolvió una configuración vacía o inválida.
+2026-01-12 13:36:29 [WARNING] ⚠️ [CASO #18] Ciclo finalizado sin configuración válida (posible error del LLM).
+2026-01-12 13:36:29 [INFO] 🏁 --- FIN CASO #18 ---
+2026-01-12 13:36:35 [INFO] 🔰 --- INICIO CASO #19 | ESCENARIO ID: 4 ---
+2026-01-12 13:36:35 [INFO] [CASO #19] PARÁMETROS: Escenario='Modo: Fallos de Infraestructura' | ICA=79 | CP=260 | ColaQiskit=186s | Usuario='Grupo Deportivo (Requiere Deportes)'
+2026-01-12 13:36:35 [ERROR] ❌ ERROR CRÍTICO LLM (Gemini): 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash-lite
+Please retry in 24.902693248s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-flash-lite"
+  }
+  quota_value: 20
+}
+, retry_delay {
+  seconds: 24
+}
+]
+2026-01-12 13:36:35 [ERROR] [CASO #19] ❌ FALLO LLM: El agente devolvió una configuración vacía o inválida.
+2026-01-12 13:36:35 [WARNING] ⚠️ [CASO #19] Ciclo finalizado sin configuración válida (posible error del LLM).
+2026-01-12 13:36:35 [INFO] 🏁 --- FIN CASO #19 ---
+2026-01-12 13:36:57 [INFO] 🔰 --- INICIO CASO #20 | ESCENARIO ID: 4 ---
+2026-01-12 13:36:57 [INFO] [CASO #20] PARÁMETROS: Escenario='Modo: Fallos de Infraestructura' | ICA=75 | CP=388 | ColaQiskit=135s | Usuario='Adulto Mayor (Requiere Entr. Tercera Edad)'
+2026-01-12 13:36:57 [ERROR] ❌ ERROR CRÍTICO LLM (Gemini): 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash-lite
+Please retry in 2.242839051s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-flash-lite"
+  }
+  quota_value: 20
+}
+, retry_delay {
+  seconds: 2
+}
+]
+2026-01-12 13:36:57 [ERROR] [CASO #20] ❌ FALLO LLM: El agente devolvió una configuración vacía o inválida.
+2026-01-12 13:36:57 [WARNING] ⚠️ [CASO #20] Ciclo finalizado sin configuración válida (posible error del LLM).
+2026-01-12 13:36:57 [INFO] 🏁 --- FIN CASO #20 ---
+2026-01-12 13:37:01 [INFO] 🔰 --- INICIO CASO #21 | ESCENARIO ID: 3 ---
+2026-01-12 13:37:01 [INFO] [CASO #21] PARÁMETROS: Escenario='Modo: Crisis Ambiental' | ICA=162 | CP=124 | ColaQiskit=0s | Usuario='Grupo Deportivo (Requiere Deportes)'
+2026-01-12 13:37:01 [ERROR] ❌ ERROR CRÍTICO LLM (Gemini): 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash-lite
+Please retry in 58.79666782s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-flash-lite"
+  }
+  quota_value: 20
+}
+, retry_delay {
+  seconds: 58
+}
+]
+2026-01-12 13:37:01 [ERROR] [CASO #21] ❌ FALLO LLM: El agente devolvió una configuración vacía o inválida.
+2026-01-12 13:37:01 [WARNING] ⚠️ [CASO #21] Ciclo finalizado sin configuración válida (posible error del LLM).
+2026-01-12 13:37:01 [INFO] 🏁 --- FIN CASO #21 ---
+2026-01-12 13:37:04 [INFO] 🔰 --- INICIO CASO #22 | ESCENARIO ID: 2 ---
+2026-01-12 13:37:04 [INFO] [CASO #22] PARÁMETROS: Escenario='Modo: Alta Demanda (Incertidumbre)' | ICA=52 | CP=207 | ColaQiskit=10s | Usuario='Evento Nocturno (Requiere Entr. Adulto)'
+2026-01-12 13:37:06 [ERROR] ❌ ERROR CRÍTICO LLM (Gemini): 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash-lite
+Please retry in 55.796307309s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-flash-lite"
+  }
+  quota_value: 20
+}
+, retry_delay {
+  seconds: 55
+}
+]
+2026-01-12 13:37:06 [ERROR] [CASO #22] ❌ FALLO LLM: El agente devolvió una configuración vacía o inválida.
+2026-01-12 13:37:06 [WARNING] ⚠️ [CASO #22] Ciclo finalizado sin configuración válida (posible error del LLM).
+2026-01-12 13:37:06 [INFO] 🏁 --- FIN CASO #22 ---
+2026-01-12 13:53:15 [INFO] 🔰 --- INICIO CASO #1 | ESCENARIO ID: 1 ---
+2026-01-12 13:53:15 [INFO] [CASO #1] PARÁMETROS: Escenario='Modo: Operación Diaria (Variable)' | ICA=91 | CP=75 | ColaQiskit=3s | Usuario='Evento Nocturno (Requiere Entr. Adulto)'
+2026-01-12 13:53:18 [INFO] [CASO #1] ✅ LLM Respondió. Razonamiento: Activado 'Entretenimiento Adulto' por perfil de usuario 'Evento Nocturno'. Turismo activo por regla global. HQC inactivo ya que Complejidad (CP) <= 100. Deportes desactivado por ICA 91.
+2026-01-12 13:53:18 [INFO] [CASO #1] ⚙️ Iniciando reconfiguración de infraestructura...
+2026-01-12 13:53:20 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'cirq_simulator'
+2026-01-12 13:53:21 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'qaoa'
+2026-01-12 13:53:22 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'algoritmo'
+2026-01-12 13:53:24 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'backend'
+2026-01-12 13:53:25 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'hqc'
+2026-01-12 13:53:26 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'optimizacion_de_rutas'
+2026-01-12 13:53:26 [INFO] [CASO #1] 🟢 ACTIVADO EXITO: Contenedor 'entretenimiento_adulto'
+2026-01-12 13:53:26 [INFO] [CASO #1] 🟢 ACTIVADO EXITO: Contenedor 'entretenimiento'
+2026-01-12 13:53:28 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'deportes'
+2026-01-12 13:53:29 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'ambientes_abiertos'
+2026-01-12 13:53:29 [INFO] [CASO #1] 🟢 ACTIVADO EXITO: Contenedor 'ambientes_cerrados'
+2026-01-12 13:53:29 [INFO] [CASO #1] 🟢 ACTIVADO EXITO: Contenedor 'visualizador_restriccion_uso_lena'
+2026-01-12 13:53:29 [INFO] ✅ [CASO #1] Ciclo finalizado exitosamente. Visualización generada.
+2026-01-12 13:53:29 [INFO] 🏁 --- FIN CASO #1 ---
+2026-01-12 13:59:03 [INFO] 🔰 --- INICIO CASO #2 | ESCENARIO ID: 1 ---
+2026-01-12 13:59:03 [INFO] [CASO #2] PARÁMETROS: Escenario='Modo: Operación Diaria (Variable)' | ICA=97 | CP=107 | ColaQiskit=3s | Usuario='Grupo Deportivo (Requiere Deportes)'
+2026-01-12 13:59:06 [INFO] [CASO #2] ✅ LLM Respondió. Razonamiento: ICA 97 (malo) deshabilita Deportes. CP 107 activa HQC y Optimizacion Rutas. Cirq elegido por menor tiempo de cola (1s vs 3s) para SLA de Rapidez.
+2026-01-12 13:59:06 [INFO] [CASO #2] ⚙️ Iniciando reconfiguración de infraestructura...
+2026-01-12 13:59:07 [INFO] [CASO #2] 🟢 ACTIVADO EXITO: Contenedor 'cirq_simulator'
+2026-01-12 13:59:07 [INFO] [CASO #2] 🟢 ACTIVADO EXITO: Contenedor 'qaoa'
+2026-01-12 13:59:07 [INFO] [CASO #2] 🟢 ACTIVADO EXITO: Contenedor 'algoritmo'
+2026-01-12 13:59:08 [INFO] [CASO #2] 🟢 ACTIVADO EXITO: Contenedor 'backend'
+2026-01-12 13:59:08 [INFO] [CASO #2] 🟢 ACTIVADO EXITO: Contenedor 'hqc'
+2026-01-12 13:59:08 [INFO] [CASO #2] 🟢 ACTIVADO EXITO: Contenedor 'optimizacion_de_rutas'
+2026-01-12 13:59:09 [INFO] [CASO #2] 🔴 DESACTIVADO EXITO: Contenedor 'entretenimiento_adulto'
+2026-01-12 13:59:11 [INFO] [CASO #2] 🔴 DESACTIVADO EXITO: Contenedor 'entretenimiento'
+2026-01-12 13:59:11 [INFO] [CASO #2] ⚛️ EXITO HQC: Job completado. Costo=-2.0
+2026-01-12 13:59:12 [INFO] ✅ [CASO #2] Ciclo finalizado exitosamente. Visualización generada.
+2026-01-12 13:59:12 [INFO] 🏁 --- FIN CASO #2 ---
+2026-01-12 15:25:12 [INFO] 🔰 --- INICIO CASO #3 | ESCENARIO ID: 1 ---
+2026-01-12 15:25:12 [INFO] [CASO #3] PARÁMETROS: Escenario='Modo: Operación Diaria (Variable)' | ICA=24 | CP=92 | ColaQiskit=3s | Usuario='Familia con Niños (Requiere Entr. Familiar)'
+2026-01-12 15:25:14 [INFO] [CASO #3] ✅ LLM Respondió. Razonamiento: Activado Entretenimiento Familiar por perfil. Turismo y Ambientes Cerrados activos por buen ICA y demanda. HQC inactivo por baja complejidad computacional. Cirq Simulator preferido por menor tiempo de cola.
+2026-01-12 15:25:14 [INFO] [CASO #3] ⚙️ Iniciando reconfiguración de infraestructura...
+2026-01-12 15:25:15 [INFO] [CASO #3] 🔴 DESACTIVADO EXITO: Contenedor 'cirq_simulator'
+2026-01-12 15:25:17 [INFO] [CASO #3] 🔴 DESACTIVADO EXITO: Contenedor 'qaoa'
+2026-01-12 15:25:18 [INFO] [CASO #3] 🔴 DESACTIVADO EXITO: Contenedor 'algoritmo'
+2026-01-12 15:25:19 [INFO] [CASO #3] 🔴 DESACTIVADO EXITO: Contenedor 'backend'
+2026-01-12 15:25:20 [INFO] [CASO #3] 🔴 DESACTIVADO EXITO: Contenedor 'hqc'
+2026-01-12 15:25:22 [INFO] [CASO #3] 🔴 DESACTIVADO EXITO: Contenedor 'optimizacion_de_rutas'
+2026-01-12 15:25:22 [INFO] [CASO #3] 🟢 ACTIVADO EXITO: Contenedor 'entretenimiento_familiar'
+2026-01-12 15:25:22 [INFO] [CASO #3] 🟢 ACTIVADO EXITO: Contenedor 'entretenimiento'
+2026-01-12 15:25:22 [INFO] ✅ [CASO #3] Ciclo finalizado exitosamente. Visualización generada.
+2026-01-12 15:25:22 [INFO] 🏁 --- FIN CASO #3 ---
+2026-01-12 15:29:52 [INFO] 🔰 --- INICIO CASO #4 | ESCENARIO ID: 4 ---
+2026-01-12 15:29:52 [INFO] [CASO #4] PARÁMETROS: Escenario='Modo: Fallos de Infraestructura' | ICA=81 | CP=244 | ColaQiskit=146s | Usuario='Evento Nocturno (Requiere Entr. Adulto)'
+2026-01-12 15:29:56 [INFO] [CASO #4] ✅ LLM Respondió. Razonamiento: Activado HQC y Optimizacion de Rutas por alta complejidad (CP=244). Seleccionado Cirq Simulator (cola=1s) sobre Qiskit (cola=146s) para cumplir SLA de Precisión. Habilitado Entretenimiento Adulto según perfil de usuario.
+2026-01-12 15:29:56 [ERROR] [CASO #4] ❌ FALLO VALIDACIÓN: Configuración LLM viola reglas del modelo.
+2026-01-12 15:29:56 [WARNING] ⚠️ [CASO #4] Ciclo finalizado sin configuración válida (posible error del LLM).
+2026-01-12 15:29:56 [INFO] 🏁 --- FIN CASO #4 ---
+2026-01-12 15:30:04 [INFO] 🔰 --- INICIO CASO #5 | ESCENARIO ID: 4 ---
+2026-01-12 15:30:04 [INFO] [CASO #5] PARÁMETROS: Escenario='Modo: Fallos de Infraestructura' | ICA=51 | CP=337 | ColaQiskit=116s | Usuario='Familia con Niños (Requiere Entr. Familiar)'
+2026-01-12 15:30:05 [INFO] [CASO #5] ✅ LLM Respondió. Razonamiento: Activado 'Entretenimiento Familiar' por perfil de usuario. 'HQC' y 'Optimizacion de Rutas' activados por alta complejidad (CP 337). Cirq Simulator seleccionado por su baja latencia (1s) frente a Qiskit (116s).
+2026-01-12 15:30:05 [INFO] [CASO #5] ⚙️ Iniciando reconfiguración de infraestructura...
+2026-01-12 15:30:06 [INFO] [CASO #5] 🟢 ACTIVADO EXITO: Contenedor 'cirq_simulator'
+2026-01-12 15:30:06 [INFO] [CASO #5] 🟢 ACTIVADO EXITO: Contenedor 'qaoa'
+2026-01-12 15:30:06 [INFO] [CASO #5] 🟢 ACTIVADO EXITO: Contenedor 'algoritmo'
+2026-01-12 15:30:06 [INFO] [CASO #5] 🟢 ACTIVADO EXITO: Contenedor 'backend'
+2026-01-12 15:30:06 [INFO] [CASO #5] 🟢 ACTIVADO EXITO: Contenedor 'hqc'
+2026-01-12 15:30:07 [INFO] [CASO #5] 🟢 ACTIVADO EXITO: Contenedor 'optimizacion_de_rutas'
+2026-01-12 15:30:08 [INFO] [CASO #5] ⚛️ EXITO HQC: Job completado. Costo=-2.0
+2026-01-12 15:30:08 [INFO] ✅ [CASO #5] Ciclo finalizado exitosamente. Visualización generada.
+2026-01-12 15:30:08 [INFO] 🏁 --- FIN CASO #5 ---
+2026-01-12 15:30:56 [INFO] 🔰 --- INICIO CASO #6 | ESCENARIO ID: 3 ---
+2026-01-12 15:30:56 [INFO] [CASO #6] PARÁMETROS: Escenario='Modo: Crisis Ambiental' | ICA=193 | CP=149 | ColaQiskit=3s | Usuario='Grupo Deportivo (Requiere Deportes)'
+2026-01-12 15:30:58 [INFO] [CASO #6] ✅ LLM Respondió. Razonamiento: ICA 193 desactiva Deportes. CP 149 activa HQC y Optimizacion. Cirq elegido por SLA Rapidez (cola 0s vs 3s). QAOA activo por ser el único algoritmo requerido con HQC.
+2026-01-12 15:30:58 [INFO] [CASO #6] ⚙️ Iniciando reconfiguración de infraestructura...
+2026-01-12 15:30:59 [INFO] [CASO #6] 🔴 DESACTIVADO EXITO: Contenedor 'entretenimiento_familiar'
+2026-01-12 15:31:01 [INFO] [CASO #6] 🔴 DESACTIVADO EXITO: Contenedor 'entretenimiento'
+2026-01-12 15:31:01 [INFO] [CASO #6] ⚛️ EXITO HQC: Job completado. Costo=-2.0
+2026-01-12 15:31:01 [INFO] ✅ [CASO #6] Ciclo finalizado exitosamente. Visualización generada.
+2026-01-12 15:31:01 [INFO] 🏁 --- FIN CASO #6 ---
+2026-01-12 15:31:22 [INFO] 🔰 --- INICIO CASO #7 | ESCENARIO ID: 2 ---
+2026-01-12 15:31:22 [INFO] [CASO #7] PARÁMETROS: Escenario='Modo: Alta Demanda (Incertidumbre)' | ICA=45 | CP=147 | ColaQiskit=33s | Usuario='Familia con Niños (Requiere Entr. Familiar)'
+2026-01-12 15:31:23 [INFO] [CASO #7] ✅ LLM Respondió. Razonamiento: Activado Turismo y Ambientes Cerrados por perfil familiar y ICA 45. HQC y Optimizacion de Rutas activados por CP 147. Cirq Simulator elegido por menor tiempo de cola (1s vs 33s) y SLA de Precisión.
+2026-01-12 15:31:23 [INFO] [CASO #7] ⚙️ Iniciando reconfiguración de infraestructura...
+2026-01-12 15:31:24 [INFO] [CASO #7] 🟢 ACTIVADO EXITO: Contenedor 'entretenimiento_familiar'
+2026-01-12 15:31:24 [INFO] [CASO #7] 🟢 ACTIVADO EXITO: Contenedor 'entretenimiento'
+2026-01-12 15:31:25 [INFO] [CASO #7] ⚛️ EXITO HQC: Job completado. Costo=-2.0
+2026-01-12 15:31:25 [INFO] ✅ [CASO #7] Ciclo finalizado exitosamente. Visualización generada.
+2026-01-12 15:31:25 [INFO] 🏁 --- FIN CASO #7 ---
+2026-01-12 15:31:36 [INFO] 🔰 --- INICIO CASO #8 | ESCENARIO ID: 2 ---
+2026-01-12 15:31:36 [INFO] [CASO #8] PARÁMETROS: Escenario='Modo: Alta Demanda (Incertidumbre)' | ICA=70 | CP=106 | ColaQiskit=25s | Usuario='Familia con Niños (Requiere Entr. Familiar)'
+2026-01-12 15:31:38 [INFO] [CASO #8] ✅ LLM Respondió. Razonamiento: Activado Turismo y Ambientes Cerrados por perfil familiar y ICA 70. HQC y Optimizacion de Rutas activados por CP 106. Cirq Simulator seleccionado por menor tiempo de cola (0s vs 25s), priorizando SLA de Precisión.
+2026-01-12 15:31:38 [INFO] [CASO #8] ⚙️ Iniciando reconfiguración de infraestructura...
+2026-01-12 15:31:39 [INFO] [CASO #8] ⚛️ EXITO HQC: Job completado. Costo=-2.0
+2026-01-12 15:31:39 [INFO] ✅ [CASO #8] Ciclo finalizado exitosamente. Visualización generada.
+2026-01-12 15:31:39 [INFO] 🏁 --- FIN CASO #8 ---
+2026-01-12 15:32:00 [INFO] 🔰 --- INICIO CASO #9 | ESCENARIO ID: 2 ---
+2026-01-12 15:32:00 [INFO] [CASO #9] PARÁMETROS: Escenario='Modo: Alta Demanda (Incertidumbre)' | ICA=80 | CP=283 | ColaQiskit=34s | Usuario='Adulto Mayor (Requiere Entr. Tercera Edad)'
+2026-01-12 15:32:02 [INFO] [CASO #9] ✅ LLM Respondió. Razonamiento: Activado HQC y Optimizacion Rutas por CP=283. Turismo activo por Gestor Aire. Entretenimiento Tercera Edad por perfil. Cirq Simulator elegido por cola 0s vs 34s en Qiskit.
+2026-01-12 15:32:02 [INFO] [CASO #9] ⚙️ Iniciando reconfiguración de infraestructura...
+2026-01-12 15:32:02 [INFO] [CASO #9] 🟢 ACTIVADO EXITO: Contenedor 'entretenimiento_tercera_edad'
+2026-01-12 15:32:03 [INFO] [CASO #9] 🔴 DESACTIVADO EXITO: Contenedor 'entretenimiento_familiar'
+2026-01-12 15:32:04 [INFO] [CASO #9] ⚛️ EXITO HQC: Job completado. Costo=-2.0
+2026-01-12 15:32:04 [INFO] ✅ [CASO #9] Ciclo finalizado exitosamente. Visualización generada.
+2026-01-12 15:32:04 [INFO] 🏁 --- FIN CASO #9 ---
+2026-01-12 15:32:22 [INFO] 🔰 --- INICIO CASO #10 | ESCENARIO ID: 2 ---
+2026-01-12 15:32:23 [INFO] [CASO #10] PARÁMETROS: Escenario='Modo: Alta Demanda (Incertidumbre)' | ICA=56 | CP=261 | ColaQiskit=17s | Usuario='Adulto Mayor (Requiere Entr. Tercera Edad)'
+2026-01-12 15:32:26 [INFO] [CASO #10] ✅ LLM Respondió. Razonamiento: Se activan HQC y Optimizacion de Rutas por alta complejidad (CP 261). Se prioriza Cirq Simulator por su baja latencia (0s) frente a Qiskit (17s) para SLA de Precisión. Se activa Entretenimiento para Tercera Edad según perfil de usuario.
+2026-01-12 15:32:26 [INFO] [CASO #10] ⚙️ Iniciando reconfiguración de infraestructura...
+2026-01-12 15:32:27 [INFO] [CASO #10] ⚛️ EXITO HQC: Job completado. Costo=-2.0
+2026-01-12 15:32:27 [INFO] ✅ [CASO #10] Ciclo finalizado exitosamente. Visualización generada.
+2026-01-12 15:32:27 [INFO] 🏁 --- FIN CASO #10 ---
+2026-01-12 15:33:16 [INFO] 🔰 --- INICIO CASO #11 | ESCENARIO ID: 4 ---
+2026-01-12 15:33:16 [INFO] [CASO #11] PARÁMETROS: Escenario='Modo: Fallos de Infraestructura' | ICA=79 | CP=306 | ColaQiskit=193s | Usuario='Evento Nocturno (Requiere Entr. Adulto)'
+2026-01-12 15:33:18 [INFO] [CASO #11] ✅ LLM Respondió. Razonamiento: Activado 'Entretenimiento Adulto' por perfil de usuario. HQC y Optimización de Rutas activados por alta complejidad computacional. Cirq Simulator seleccionado por su baja latencia (0s) comparado con Qiskit (193s) para cumplir SLA de Precisión.
+2026-01-12 15:33:18 [INFO] [CASO #11] ⚙️ Iniciando reconfiguración de infraestructura...
+2026-01-12 15:33:20 [INFO] [CASO #11] 🔴 DESACTIVADO EXITO: Contenedor 'entretenimiento_tercera_edad'
+2026-01-12 15:33:20 [INFO] [CASO #11] 🟢 ACTIVADO EXITO: Contenedor 'entretenimiento_adulto'
+2026-01-12 15:33:21 [INFO] [CASO #11] ⚛️ EXITO HQC: Job completado. Costo=-2.0
+2026-01-12 15:33:21 [INFO] ✅ [CASO #11] Ciclo finalizado exitosamente. Visualización generada.
+2026-01-12 15:33:21 [INFO] 🏁 --- FIN CASO #11 ---
+2026-01-12 15:43:09 [INFO] 🔰 --- INICIO CASO #1 | ESCENARIO ID: 2 ---
+2026-01-12 15:43:09 [INFO] [CASO #1] PARÁMETROS: Escenario='Modo: Alta Demanda (Incertidumbre)' | ICA=59 | CP=293 | ColaQiskit=37s | Usuario='Adulto Mayor (Requiere Entr. Tercera Edad)'
+2026-01-12 15:43:11 [INFO] [CASO #1] ✅ LLM Respondió. Razonamiento: Se activó HQC y Optimizacion de Rutas por alta complejidad (CP 293). Se priorizó Cirq Simulator por su baja latencia (0s) frente a Qiskit (37s). Se activó Entretenimiento Tercera Edad según perfil de usuario.
+2026-01-12 15:43:11 [ERROR] [CASO #1] ❌ FALLO VALIDACIÓN: Configuración LLM viola reglas del modelo.
+2026-01-12 15:43:11 [WARNING] ⚠️ [CASO #1] Ciclo finalizado sin configuración válida (posible error del LLM).
+2026-01-12 15:43:11 [INFO] 🏁 --- FIN CASO #1 ---
+2026-01-12 15:43:17 [INFO] 🔰 --- INICIO CASO #2 | ESCENARIO ID: 2 ---
+2026-01-12 15:43:17 [INFO] [CASO #2] PARÁMETROS: Escenario='Modo: Alta Demanda (Incertidumbre)' | ICA=57 | CP=176 | ColaQiskit=14s | Usuario='Evento Nocturno (Requiere Entr. Adulto)'
+2026-01-12 15:43:19 [INFO] [CASO #2] ✅ LLM Respondió. Razonamiento: Activado 'Evento Nocturno' con 'Entretenimiento Adulto'. ICA 57 permite 'Ambientes Cerrados'. CP 176 activa 'HQC' y 'Optimizacion de Rutas'. Cirq seleccionado por menor tiempo de cola (0s vs 14s).
+2026-01-12 15:43:19 [INFO] [CASO #2] ⚙️ Iniciando reconfiguración de infraestructura...
+2026-01-12 15:43:20 [INFO] [CASO #2] ⚛️ EXITO HQC: Job completado. Costo=-2.0
+2026-01-12 15:43:20 [INFO] ✅ [CASO #2] Ciclo finalizado exitosamente. Visualización generada.
+2026-01-12 15:43:20 [INFO] 🏁 --- FIN CASO #2 ---
+2026-01-12 15:43:44 [INFO] 🔰 --- INICIO CASO #3 | ESCENARIO ID: 4 ---
+2026-01-12 15:43:44 [INFO] [CASO #3] PARÁMETROS: Escenario='Modo: Fallos de Infraestructura' | ICA=52 | CP=347 | ColaQiskit=123s | Usuario='Turista Estándar (Solo Rutas)'
+2026-01-12 15:43:45 [INFO] [CASO #3] ✅ LLM Respondió. Razonamiento: Activado Turismo y Optimizacion Rutas por perfil 'Turista Estándar' y CP=347. HQC y Algoritmo activados por CP>100. Cirq elegido por baja cola (2s) vs Qiskit (123s) para SLA PRECISION. Deportes y Entretenimiento desactivados por perfil 'Estándar'.
+2026-01-12 15:43:45 [ERROR] [CASO #3] ❌ FALLO VALIDACIÓN: Configuración LLM viola reglas del modelo.
+2026-01-12 15:43:45 [WARNING] ⚠️ [CASO #3] Ciclo finalizado sin configuración válida (posible error del LLM).
+2026-01-12 15:43:45 [INFO] 🏁 --- FIN CASO #3 ---
+2026-01-12 15:43:51 [INFO] 🔰 --- INICIO CASO #4 | ESCENARIO ID: 4 ---
+2026-01-12 15:43:51 [INFO] [CASO #4] PARÁMETROS: Escenario='Modo: Fallos de Infraestructura' | ICA=76 | CP=349 | ColaQiskit=178s | Usuario='Grupo Deportivo (Requiere Deportes)'
+2026-01-12 15:43:52 [INFO] [CASO #4] ✅ LLM Respondió. Razonamiento: Se activa HQC y Optimizacion de Rutas por alta complejidad (CP=349). Turismo activo por requerimiento del Gestor Aire. Deportes inactivo por ICA=76 (no crítico pero no ideal). Cirq Simulator seleccionado por tiempo de cola mínimo (2s vs 178s).
+2026-01-12 15:43:52 [ERROR] [CASO #4] ❌ FALLO VALIDACIÓN: Configuración LLM viola reglas del modelo.
+2026-01-12 15:43:52 [WARNING] ⚠️ [CASO #4] Ciclo finalizado sin configuración válida (posible error del LLM).
+2026-01-12 15:43:52 [INFO] 🏁 --- FIN CASO #4 ---
+2026-01-12 15:44:01 [INFO] 🔰 --- INICIO CASO #5 | ESCENARIO ID: 4 ---
+2026-01-12 15:44:01 [INFO] [CASO #5] PARÁMETROS: Escenario='Modo: Fallos de Infraestructura' | ICA=85 | CP=329 | ColaQiskit=124s | Usuario='Familia con Niños (Requiere Entr. Familiar)'
+2026-01-12 15:44:03 [INFO] [CASO #5] ✅ LLM Respondió. Razonamiento: Se activan HQC y Optimizacion de Rutas por alta complejidad (CP 329). Se prioriza Cirq Simulator por su baja latencia (1s) frente a Qiskit (124s). Se activa Entretenimiento Familiar según perfil de usuario y Ambientes Cerrados por ICA 85.
+2026-01-12 15:44:03 [INFO] [CASO #5] ⚙️ Iniciando reconfiguración de infraestructura...
+2026-01-12 15:44:05 [INFO] [CASO #5] 🔴 DESACTIVADO EXITO: Contenedor 'entretenimiento_adulto'
+2026-01-12 15:44:05 [INFO] [CASO #5] 🟢 ACTIVADO EXITO: Contenedor 'entretenimiento_familiar'
+2026-01-12 15:44:06 [INFO] [CASO #5] ⚛️ EXITO HQC: Job completado. Costo=-2.0
+2026-01-12 15:44:06 [INFO] ✅ [CASO #5] Ciclo finalizado exitosamente. Visualización generada.
+2026-01-12 15:44:06 [INFO] 🏁 --- FIN CASO #5 ---
+2026-01-12 15:51:13 [INFO] 🔰 --- INICIO CASO #1 | ESCENARIO ID: 2 ---
+2026-01-12 15:51:13 [INFO] [CASO #1] PARÁMETROS: Escenario='Modo: Alta Demanda (Incertidumbre)' | ICA=64 | CP=261 | ColaQiskit=13s | Usuario='Evento Nocturno (Requiere Entr. Adulto)'
+2026-01-12 15:51:16 [INFO] [CASO #1] ✅ LLM Respondió. Razonamiento: Activado Entretenimiento Adulto por perfil 'Evento Nocturno'. HQC y Optimizacion de Rutas activados por alta complejidad (CP=261). Qiskit elegido por menor tiempo de cola y tasa de error, cumpliendo SLA de precisión.
+2026-01-12 15:51:16 [INFO] [CASO #1] ⚙️ Iniciando reconfiguración de infraestructura...
+2026-01-12 15:51:17 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'cirq_simulator'
+2026-01-12 15:51:18 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'vqe'
+2026-01-12 15:51:20 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'entretenimiento_tercera_edad'
+2026-01-12 15:51:21 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'entretenimiento_familiar'
+2026-01-12 15:51:22 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'deportes'
+2026-01-12 15:51:34 [INFO] [CASO #1] ⚛️ EXITO HQC: Job completado. Costo=22200.0
+2026-01-12 15:51:34 [INFO] ✅ [CASO #1] Ciclo finalizado exitosamente. Visualización generada.
+2026-01-12 15:51:34 [INFO] 🏁 --- FIN CASO #1 ---
+2026-01-12 15:53:42 [INFO] 🔰 --- INICIO CASO #2 | ESCENARIO ID: 4 ---
+2026-01-12 15:53:42 [INFO] [CASO #2] PARÁMETROS: Escenario='Modo: Fallos de Infraestructura' | ICA=59 | CP=236 | ColaQiskit=166s | Usuario='Evento Nocturno (Requiere Entr. Adulto)'
+2026-01-12 15:53:44 [INFO] [CASO #2] ✅ LLM Respondió. Razonamiento: Activado Entretenimiento Adulto por perfil. Turismo y Optimizacion de Rutas activados por CP. Cirq Simulator elegido por menor tiempo de cola (18s vs 166s) y prioridad SLA PRECISION. Ambientes cerrados activados por ICA 59 y perfil de evento nocturno.
+2026-01-12 15:53:44 [INFO] [CASO #2] ⚙️ Iniciando reconfiguración de infraestructura...
+2026-01-12 15:53:45 [INFO] [CASO #2] 🟢 ACTIVADO EXITO: Contenedor 'cirq_simulator'
+2026-01-12 15:53:46 [INFO] [CASO #2] 🔴 DESACTIVADO EXITO: Contenedor 'qiskit_simulator'
+2026-01-12 15:53:47 [INFO] [CASO #2] 🔴 DESACTIVADO EXITO: Contenedor 'ambientes_abiertos'
+2026-01-12 15:53:49 [INFO] [CASO #2] ⚛️ EXITO HQC: Job completado. Costo=-2.0
+2026-01-12 15:53:49 [INFO] ✅ [CASO #2] Ciclo finalizado exitosamente. Visualización generada.
+2026-01-12 15:53:49 [INFO] 🏁 --- FIN CASO #2 ---
+2026-01-12 15:54:06 [INFO] 🔰 --- INICIO CASO #3 | ESCENARIO ID: 4 ---
+2026-01-12 15:54:06 [INFO] [CASO #3] PARÁMETROS: Escenario='Modo: Fallos de Infraestructura' | ICA=62 | CP=371 | ColaQiskit=115s | Usuario='Turista Estándar (Solo Rutas)'
+2026-01-12 15:54:09 [INFO] [CASO #3] ✅ LLM Respondió. Razonamiento: Perfil 'Turista Estándar' minimiza servicios opcionales. CP alto (371) activa HQC y Optimizacion de Rutas. Cirq Simulator elegido por menor tiempo de cola (20s vs 115s) para cumplir SLA de Precisión.
+2026-01-12 15:54:09 [ERROR] [CASO #3] ❌ FALLO VALIDACIÓN: Configuración LLM viola reglas del modelo.
+2026-01-12 15:54:09 [WARNING] ⚠️ [CASO #3] Ciclo finalizado sin configuración válida (posible error del LLM).
+2026-01-12 15:54:09 [INFO] 🏁 --- FIN CASO #3 ---
+2026-01-12 15:54:14 [INFO] 🔰 --- INICIO CASO #4 | ESCENARIO ID: 2 ---
+2026-01-12 15:54:14 [INFO] [CASO #4] PARÁMETROS: Escenario='Modo: Alta Demanda (Incertidumbre)' | ICA=61 | CP=237 | ColaQiskit=18s | Usuario='Grupo Deportivo (Requiere Deportes)'
+2026-01-12 15:54:16 [INFO] [CASO #4] ✅ LLM Respondió. Razonamiento: Activado HQC y Optimizacion de Rutas por CP=237. Deportes desactivado por ICA=61 y perfil 'Grupo Deportivo'. Qiskit Simulator seleccionado por menor tiempo de cola y menor tasa de error.
+2026-01-12 15:54:16 [ERROR] [CASO #4] ❌ FALLO VALIDACIÓN: Configuración LLM viola reglas del modelo.
+2026-01-12 15:54:16 [WARNING] ⚠️ [CASO #4] Ciclo finalizado sin configuración válida (posible error del LLM).
+2026-01-12 15:54:16 [INFO] 🏁 --- FIN CASO #4 ---
+2026-01-12 15:54:28 [INFO] 🔰 --- INICIO CASO #5 | ESCENARIO ID: 1 ---
+2026-01-12 15:54:28 [INFO] [CASO #5] PARÁMETROS: Escenario='Modo: Operación Diaria (Variable)' | ICA=20 | CP=77 | ColaQiskit=5s | Usuario='Adulto Mayor (Requiere Entr. Tercera Edad)'
+2026-01-12 15:54:28 [ERROR] ❌ ERROR CRÍTICO LLM (Gemini): 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash-lite
+Please retry in 31.300542973s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-flash-lite"
+  }
+  quota_value: 20
+}
+, retry_delay {
+  seconds: 31
+}
+]
+2026-01-12 15:54:28 [ERROR] [CASO #5] ❌ FALLO LLM: El agente devolvió una configuración vacía o inválida.
+2026-01-12 15:54:28 [WARNING] ⚠️ [CASO #5] Ciclo finalizado sin configuración válida (posible error del LLM).
+2026-01-12 15:54:28 [INFO] 🏁 --- FIN CASO #5 ---
+2026-01-12 15:54:37 [INFO] 🔰 --- INICIO CASO #6 | ESCENARIO ID: 1 ---
+2026-01-12 15:54:37 [INFO] [CASO #6] PARÁMETROS: Escenario='Modo: Operación Diaria (Variable)' | ICA=25 | CP=50 | ColaQiskit=4s | Usuario='Adulto Mayor (Requiere Entr. Tercera Edad)'
+2026-01-12 15:54:41 [INFO] [CASO #6] ✅ LLM Respondió. Razonamiento: Activado Entretenimiento para tercera edad según perfil. Turismo y Ambientes Cerrados activados por ICA 25. Optimizacion de Rutas y HQC desactivados por CP 50. Cirq Simulator descartado por alta tasa de error.
+2026-01-12 15:54:41 [INFO] [CASO #6] ⚙️ Iniciando reconfiguración de infraestructura...
+2026-01-12 15:54:43 [INFO] [CASO #6] 🔴 DESACTIVADO EXITO: Contenedor 'cirq_simulator'
+2026-01-12 15:54:44 [INFO] [CASO #6] 🔴 DESACTIVADO EXITO: Contenedor 'qaoa'
+2026-01-12 15:54:45 [INFO] [CASO #6] 🔴 DESACTIVADO EXITO: Contenedor 'algoritmo'
+2026-01-12 15:54:46 [INFO] [CASO #6] 🔴 DESACTIVADO EXITO: Contenedor 'backend'
+2026-01-12 15:54:47 [INFO] [CASO #6] 🔴 DESACTIVADO EXITO: Contenedor 'hqc'
+2026-01-12 15:54:49 [INFO] [CASO #6] 🔴 DESACTIVADO EXITO: Contenedor 'optimizacion_de_rutas'
+2026-01-12 15:54:49 [INFO] [CASO #6] 🟢 ACTIVADO EXITO: Contenedor 'entretenimiento_tercera_edad'
+2026-01-12 15:54:50 [INFO] [CASO #6] 🔴 DESACTIVADO EXITO: Contenedor 'entretenimiento_adulto'
+2026-01-12 15:54:50 [INFO] ✅ [CASO #6] Ciclo finalizado exitosamente. Visualización generada.
+2026-01-12 15:54:50 [INFO] 🏁 --- FIN CASO #6 ---
+2026-01-12 15:55:01 [INFO] 🔰 --- INICIO CASO #7 | ESCENARIO ID: 2 ---
+2026-01-12 15:55:01 [INFO] [CASO #7] PARÁMETROS: Escenario='Modo: Alta Demanda (Incertidumbre)' | ICA=41 | CP=140 | ColaQiskit=13s | Usuario='Grupo Deportivo (Requiere Deportes)'
+2026-01-12 15:55:01 [ERROR] ❌ ERROR CRÍTICO LLM (Gemini): 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash-lite
+Please retry in 58.033832372s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-flash-lite"
+  }
+  quota_value: 20
+}
+, retry_delay {
+  seconds: 58
+}
+]
+2026-01-12 15:55:01 [ERROR] [CASO #7] ❌ FALLO LLM: El agente devolvió una configuración vacía o inválida.
+2026-01-12 15:55:01 [WARNING] ⚠️ [CASO #7] Ciclo finalizado sin configuración válida (posible error del LLM).
+2026-01-12 15:55:01 [INFO] 🏁 --- FIN CASO #7 ---
+2026-01-12 15:55:18 [INFO] 🔰 --- INICIO CASO #8 | ESCENARIO ID: 4 ---
+2026-01-12 15:55:18 [INFO] [CASO #8] PARÁMETROS: Escenario='Modo: Fallos de Infraestructura' | ICA=81 | CP=369 | ColaQiskit=134s | Usuario='Evento Nocturno (Requiere Entr. Adulto)'
+2026-01-12 15:55:18 [ERROR] ❌ ERROR CRÍTICO LLM (Gemini): 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash-lite
+Please retry in 41.2472611s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-flash-lite"
+  }
+  quota_value: 20
+}
+, retry_delay {
+  seconds: 41
+}
+]
+2026-01-12 15:55:18 [ERROR] [CASO #8] ❌ FALLO LLM: El agente devolvió una configuración vacía o inválida.
+2026-01-12 15:55:18 [WARNING] ⚠️ [CASO #8] Ciclo finalizado sin configuración válida (posible error del LLM).
+2026-01-12 15:55:18 [INFO] 🏁 --- FIN CASO #8 ---
+2026-01-12 16:21:00 [INFO] 🔰 --- INICIO CASO #1 | ESCENARIO ID: 1 ---
+2026-01-12 16:21:00 [INFO] [CASO #1] PARÁMETROS: Escenario='Modo: Operación Diaria (Variable)' | ICA=99 | CP=119 | ColaQiskit=4s | Usuario='Grupo Deportivo (Requiere Deportes)'
+2026-01-12 16:21:01 [ERROR] ❌ ERROR CRÍTICO LLM (Gemini): 403 Your API key was reported as leaked. Please use another API key.
+2026-01-12 16:21:01 [ERROR] [CASO #1] ❌ FALLO LLM: El agente devolvió una configuración vacía o inválida.
+2026-01-12 16:21:01 [WARNING] ⚠️ [CASO #1] Ciclo finalizado sin configuración válida (posible error del LLM).
+2026-01-12 16:21:01 [INFO] 🏁 --- FIN CASO #1 ---
+2026-01-12 16:21:09 [INFO] 🔰 --- INICIO CASO #2 | ESCENARIO ID: 1 ---
+2026-01-12 16:21:09 [INFO] [CASO #2] PARÁMETROS: Escenario='Modo: Operación Diaria (Variable)' | ICA=89 | CP=101 | ColaQiskit=3s | Usuario='Turista Estándar (Solo Rutas)'
+2026-01-12 16:21:10 [ERROR] ❌ ERROR CRÍTICO LLM (Gemini): 403 Your API key was reported as leaked. Please use another API key.
+2026-01-12 16:21:10 [ERROR] [CASO #2] ❌ FALLO LLM: El agente devolvió una configuración vacía o inválida.
+2026-01-12 16:21:10 [WARNING] ⚠️ [CASO #2] Ciclo finalizado sin configuración válida (posible error del LLM).
+2026-01-12 16:21:10 [INFO] 🏁 --- FIN CASO #2 ---
+2026-01-12 16:21:21 [INFO] 🔰 --- INICIO CASO #3 | ESCENARIO ID: 2 ---
+2026-01-12 16:21:21 [INFO] [CASO #3] PARÁMETROS: Escenario='Modo: Alta Demanda (Incertidumbre)' | ICA=57 | CP=138 | ColaQiskit=32s | Usuario='Turista Estándar (Solo Rutas)'
+2026-01-12 16:21:21 [ERROR] ❌ ERROR CRÍTICO LLM (Gemini): 403 Your API key was reported as leaked. Please use another API key.
+2026-01-12 16:21:21 [ERROR] [CASO #3] ❌ FALLO LLM: El agente devolvió una configuración vacía o inválida.
+2026-01-12 16:21:21 [WARNING] ⚠️ [CASO #3] Ciclo finalizado sin configuración válida (posible error del LLM).
+2026-01-12 16:21:21 [INFO] 🏁 --- FIN CASO #3 ---
+2026-01-12 16:21:41 [INFO] 🔰 --- INICIO CASO #4 | ESCENARIO ID: 4 ---
+2026-01-12 16:21:41 [INFO] [CASO #4] PARÁMETROS: Escenario='Modo: Fallos de Infraestructura' | ICA=56 | CP=368 | ColaQiskit=110s | Usuario='Familia con Niños (Requiere Entr. Familiar)'
+2026-01-12 16:21:41 [ERROR] ❌ ERROR CRÍTICO LLM (Gemini): 403 Your API key was reported as leaked. Please use another API key.
+2026-01-12 16:21:41 [ERROR] [CASO #4] ❌ FALLO LLM: El agente devolvió una configuración vacía o inválida.
+2026-01-12 16:21:41 [WARNING] ⚠️ [CASO #4] Ciclo finalizado sin configuración válida (posible error del LLM).
+2026-01-12 16:21:41 [INFO] 🏁 --- FIN CASO #4 ---
+2026-01-12 16:21:45 [INFO] 🔰 --- INICIO CASO #5 | ESCENARIO ID: 3 ---
+2026-01-12 16:21:45 [INFO] [CASO #5] PARÁMETROS: Escenario='Modo: Crisis Ambiental' | ICA=214 | CP=99 | ColaQiskit=4s | Usuario='Grupo Deportivo (Requiere Deportes)'
+2026-01-12 16:21:45 [ERROR] ❌ ERROR CRÍTICO LLM (Gemini): 403 Your API key was reported as leaked. Please use another API key.
+2026-01-12 16:21:45 [ERROR] [CASO #5] ❌ FALLO LLM: El agente devolvió una configuración vacía o inválida.
+2026-01-12 16:21:45 [WARNING] ⚠️ [CASO #5] Ciclo finalizado sin configuración válida (posible error del LLM).
+2026-01-12 16:21:45 [INFO] 🏁 --- FIN CASO #5 ---
+2026-01-12 16:21:48 [INFO] 🔰 --- INICIO CASO #6 | ESCENARIO ID: 2 ---
+2026-01-12 16:21:48 [INFO] [CASO #6] PARÁMETROS: Escenario='Modo: Alta Demanda (Incertidumbre)' | ICA=68 | CP=225 | ColaQiskit=15s | Usuario='Evento Nocturno (Requiere Entr. Adulto)'
+2026-01-12 16:21:48 [ERROR] ❌ ERROR CRÍTICO LLM (Gemini): 403 Your API key was reported as leaked. Please use another API key.
+2026-01-12 16:21:48 [ERROR] [CASO #6] ❌ FALLO LLM: El agente devolvió una configuración vacía o inválida.
+2026-01-12 16:21:48 [WARNING] ⚠️ [CASO #6] Ciclo finalizado sin configuración válida (posible error del LLM).
+2026-01-12 16:21:48 [INFO] 🏁 --- FIN CASO #6 ---

@@ -3,7 +3,7 @@ import os
 
 # Configura tu clave API (mejor usar variables de entorno)
 # genai.configure(api_key=os.environ.get("GEMINI_API_KEY"))
-genai.configure(api_key="AIzaSyBvAXHZNiGElB8_XC8oDD6Ep1Te6j6W_OQ")
+genai.configure(api_key="")
 
 print("--- Todos los modelos disponibles ---")
 for model in genai.list_models():
