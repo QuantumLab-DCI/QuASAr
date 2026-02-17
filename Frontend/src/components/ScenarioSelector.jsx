@@ -72,13 +72,17 @@ const ScenarioSelector = ({ onScenarioChange, isSystemBusy }) => {
                     <h2>🕹️ Panel de Control (Simulación Estocástica)</h2>
 
                     {/* Indicador de Estado del Sistema */}
-                    {isSystemBusy && (
+                    {isSystemBusy ? (
                         <span className="status-badge processing">
                             <Loader2 size={14} className="spin-icon" />
                             PROCESANDO CICLO MAPE-K...
                         </span>
+                    ) : (
+                        <span className="status-badge ready pulse-green">
+                            <span className="dot-indicator"></span>
+                            SISTEMA ACTIVO
+                        </span>
                     )}
-                    {!isSystemBusy && <span className="status-badge ready">LISTO</span>}
                 </div>
             </div>
 
@@ -87,7 +91,6 @@ const ScenarioSelector = ({ onScenarioChange, isSystemBusy }) => {
                     <div
                         key={scenario.id}
                         onClick={() => handleSelect(scenario.id)}
-                        // Clase condicional para bloquear visualmente
                         className={`scenario-card 
                             ${activeId === scenario.id ? 'active' : ''} 
                             ${isSystemBusy ? 'disabled-card' : ''}
@@ -96,32 +99,41 @@ const ScenarioSelector = ({ onScenarioChange, isSystemBusy }) => {
                         {/* Overlay de bloqueo (Candado) */}
                         {isSystemBusy && (
                             <div className="card-overlay">
-                                <Lock size={24} className="text-gray-400" />
+                                <Lock size={32} className="lock-icon" />
                             </div>
                         )}
 
                         {activeId === scenario.id && !isSystemBusy && (
-                            <div className="active-badge"><CheckCircle size={12} /> ACTIVO</div>
+                            <div className="active-badge glow-effect">
+                                <CheckCircle size={14} /> ACTIVO
+                            </div>
                         )}
 
-                        <div className="card-header">
-                            <div className="icon-wrapper">{getIcon(scenario.id)}</div>
-                            <h3>{scenario.nombre}</h3>
-                        </div>
+                        <div className="card-content">
+                            <div className="card-header">
+                                <div className={`icon-wrapper icon-wrapper-${scenario.id}`}>
+                                    {getIcon(scenario.id)}
+                                </div>
+                                <h3>{scenario.nombre}</h3>
+                            </div>
 
-                        <p className="card-desc">{scenario.descripcion}</p>
+                            <p className="card-desc">{scenario.descripcion}</p>
 
-                        <div className="card-metrics">
-                            {/* Renderizado de Rangos Estocásticos (ej. 150-300) */}
-                            <span className="metric-tag">
-                                ICA: {scenario.rango_ica ? `${scenario.rango_ica[0]}-${scenario.rango_ica[1]}` : scenario.ica}
-                            </span>
-                            <span className="metric-tag">
-                                CP: {scenario.rango_cp ? `${scenario.rango_cp[0]}-${scenario.rango_cp[1]}` : scenario.cp}
-                            </span>
-                            <span className={`metric-tag sla-${getSlaLabel(scenario).toLowerCase()}`}>
-                                {getSlaLabel(scenario)}
-                            </span>
+                            <div className="card-footer">
+                                <div className="metrics-row">
+                                    <span className="metric-pill">
+                                        <span className="metric-label">ICA</span>
+                                        <span className="metric-val">{scenario.rango_ica ? `${scenario.rango_ica[0]}-${scenario.rango_ica[1]}` : scenario.ica}</span>
+                                    </span>
+                                    <span className="metric-pill">
+                                        <span className="metric-label">CP</span>
+                                        <span className="metric-val">{scenario.rango_cp ? `${scenario.rango_cp[0]}-${scenario.rango_cp[1]}` : scenario.cp}</span>
+                                    </span>
+                                </div>
+                                <span className={`sla-badge sla-${getSlaLabel(scenario).toLowerCase()}`}>
+                                    {getSlaLabel(scenario)}
+                                </span>
+                            </div>
                         </div>
                     </div>
                 ))}

@@ -1,14 +1,20 @@
-import itertools
-import numpy as np
-import csv
+from typing import List, Tuple, Optional, Any
 
 class Nodo:
-    def __init__(self, nombre):
-        self._nombre = nombre
-        self._relaciones = []
+    """
+    Representa un nodo en el Modelo de Características (Grafo).
+    Cada nodo tiene un nombre y una lista de relaciones con otros nodos.
+    """
+    def __init__(self, nombre: str):
+        self._nombre: str = nombre
+        self._relaciones: List[List[Any]] = [] # Lista de [Nodo, TipoRelacion]
 
-    def agregarRelacion(self, nodo):
-        self._relaciones.append(nodo)
+    def agregarRelacion(self, nodo_info: List[Any]):
+        """
+        Agrega una relación a este nodo.
+        :param nodo_info: Lista con [NombreNodoDestino, TipoRelacion]
+        """
+        self._relaciones.append(nodo_info)
 
     @property
     def getNombre(self):
@@ -19,26 +25,35 @@ class Nodo:
         return self._relaciones
 
 class ModeloCaracteristicas:
+    """
+    Gestiona el Modelo de Características como un grafo de Nodos.
+    Permite agregar características y definir relaciones entre ellas.
+    """
     def __init__(self):
-        self.caracteristicas = []
+        self.caracteristicas: List[Nodo] = []
 
-    def agregarCaracteristica(self, nodo):
+    def agregarCaracteristica(self, nodo: Nodo):
         self.caracteristicas.append(nodo)
 
-    def relacionar(self, nodo1, nodo2, tipoRelacion):
-        nodo1.agregarRelacion([nodo2.getNombre,tipoRelacion])
-        #nodo2.agregarRelacion([nodo1])
+    def relacionar(self, nodo1: Nodo, nodo2: Nodo, tipoRelacion: str):
+        """
+        Establece una relación unidireccional de nodo1 a nodo2.
+        :param tipoRelacion: "Obligatoria", "Opcional", "XOR", "OR", "Requiere"
+        """
+        # Guardamos [NombreNodo2, Tipo] en la lista de relaciones de Nodo1
+        nodo1.agregarRelacion([nodo2.getNombre, tipoRelacion])
 
-    def buscarCaracteristica(self, nombreCaracteristica):
+    def buscarCaracteristica(self, nombreCaracteristica: str) -> Optional[Nodo]:
+        """Busca un nodo por su nombre."""
         for rama in self.caracteristicas:
-            if(rama.getNombre == nombreCaracteristica):
+            if rama.getNombre == nombreCaracteristica:
                 return rama
         return None
     
     # --- INICIO DE NUEVA FUNCIÓN ---
     # ... (resto del código anterior)
 
-    def exportar_reglas_texto(self):
+    def exportar_reglas_texto(self) -> str:
         """
         Genera un string de texto simple que describe las reglas
         del modelo para el prompt del LLM.

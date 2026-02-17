@@ -1,35 +1,14 @@
-import os
 import traceback
+import os
 from app.core.mapek import Mapek
 from app.services import visualizador_grafo
-from app import app_path
-
-# Importamos el módulo 'app' para actualizar las variables globales
-import app as app_globals
+from app.config import APP_PATH, STATE_IMAGE_DIR
+from app.core.state import state_manager
+from app.services.file_service import FileService
 
 # --- NUEVO: Importar el logger de auditoría ---
 from app.core.audit_logger import get_logger 
 # ----------------------------------------------
-
-# --- Función para borrar evidencia antigua ---
-def _limpiar_evidencia_previa():
-    """Elimina imágenes de circuitos anteriores para evitar que el frontend muestre datos viejos."""
-    archivos_a_borrar = [
-        "qiskit_circuit_evidence.png",
-        "cirq_circuit_evidence.png",
-        "cirq_convergence_evidence.png"
-    ]
-    data_dir = os.path.join(app_path, 'data')
-    
-    print("🧹 TASK: Limpiando evidencia visual antigua...")
-    for archivo in archivos_a_borrar:
-        ruta_completa = os.path.join(data_dir, archivo)
-        if os.path.exists(ruta_completa):
-            try:
-                os.remove(ruta_completa)
-            except Exception as e:
-                print(f"   ⚠️ No se pudo borrar {archivo}: {e}")
-# ----------------------------------------------------
 
 def ejecutar_ciclo_bajo_demanda(mc, escenario_id):
     """
@@ -40,8 +19,8 @@ def ejecutar_ciclo_bajo_demanda(mc, escenario_id):
     logger = get_logger()
     
     # Incrementamos el contador global y capturamos el número del caso actual
-    app_globals.execution_counter += 1
-    caso_n = app_globals.execution_counter
+    state_manager.increment_counter()
+    caso_n = state_manager.get_counter()
     
     # Log de Inicio
     logger.info(f"🔰 --- INICIO CASO #{caso_n} | ESCENARIO ID: {escenario_id} ---")
@@ -50,7 +29,7 @@ def ejecutar_ciclo_bajo_demanda(mc, escenario_id):
     print(f"⚡ EVENTO RECIBIDO: Iniciando ciclo único para Escenario ID {escenario_id} (Caso #{caso_n})")
     
     # 2. LIMPIEZA PREVIA
-    _limpiar_evidencia_previa()
+    FileService.clear_evidence_files()
     
     try:
         # 3. Instanciar Mapek
@@ -60,17 +39,18 @@ def ejecutar_ciclo_bajo_demanda(mc, escenario_id):
         mapek.ejecutar_escenario_manual(mc, escenario_id, caso_n)
         
         # 5. Actualizar el estado global para que el frontend pueda leerlo
-        app_globals.pv_global = mapek.getConocimiento()
-        app_globals.regla_global = mapek.getReglaAdaptacion()
+        state_manager.set_pv(mapek.getConocimiento())
+        state_manager.set_regla_adaptacion(mapek.getReglaAdaptacion())
         
         # Guardar la traza de ejecución en la variable global
-        app_globals.trace_global = mapek.getTrace()
-        print(f"📝 TRAZA GUARDADA: {len(app_globals.trace_global)} pasos registrados para visualización.")
+        state_manager.set_trace(mapek.getTrace())
+        print(f"📝 TRAZA GUARDADA: {len(state_manager.get_trace())} pasos registrados para visualización.")
         
         # 6. Generar la visualización del estado actual (Grafo verde/rojo)
-        if app_globals.pv_global: 
-            img_path = os.path.join(app_path, 'data', 'estado_actual')
-            visualizador_grafo.generar_visualizacion_estado(app_globals.pv_global, mc, nombre_archivo=img_path)
+        pv = state_manager.get_pv()
+        if pv: 
+            img_path = STATE_IMAGE_DIR
+            visualizador_grafo.generar_visualizacion_estado(pv, mc, nombre_archivo=img_path)
             
             # Log de Éxito
             logger.info(f"✅ [CASO #{caso_n}] Ciclo finalizado exitosamente. Visualización generada.")
@@ -88,7 +68,7 @@ def ejecutar_ciclo_bajo_demanda(mc, escenario_id):
     
     # --- Bloque FINALLY para asegurar desbloqueo y cierre de log ---
     finally:
-        app_globals.en_ejecucion = False
+        state_manager.set_running(False)
         logger.info(f"🏁 --- FIN CASO #{caso_n} ---")
         print(f"🔓 SISTEMA LIBERADO: Ciclo finalizado. Listo para recibir instrucciones.")
     # -----------------------------------------------------

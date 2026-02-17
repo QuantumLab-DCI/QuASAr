@@ -1,62 +1,42 @@
-import os
 from flask import Flask
 from flask_cors import CORS
-from pathlib import Path
-
-# --- Definición de Rutas ---
-app_path = Path(__file__).resolve().parent.parent 
-
-# --- Variables Globales (Estado) ---
-mc_global = None
-pv_global = None
-regla_global = None
-trace_global = [] # <--- ¡NUEVO! Aquí se guardará el historial del ciclo MAPE-K
-
-# --- Variable de Control Interactivo ---
-escenario_activo_id = 1 
-
-# --- Semáforo de Estado ---
-# Indica si el sistema está procesando una solicitud MAPE-K actualmente
-en_ejecucion = False 
-# ---------------------------------
-
-# --- NUEVO: Contador Global para Auditoría ---
-execution_counter = 0  # <--- Asegúrate de que esta variable exista
-# ---------------------------------------------
-
-# --- Objeto App Global ---
-app = Flask(__name__)
+from app.core.state import state_manager
+from app.config import MODEL_IMAGE_DIR
+import os
 
 def create_app():
     """
     Application Factory: Crea y configura la instancia de la app Flask.
     """
-    global mc_global
+    # --- Objeto App Global ---
+    app = Flask(__name__)
     
     # Configurar CORS
     CORS(app, resources={r"/api/*": {"origins": "*"}}) 
-
+    
     # 1. Cargar el Modelo de Características
     from .core import grafo_mc
-    mc_global = grafo_mc.generarPosiblesEstados()
+    mc = grafo_mc.generarPosiblesEstados()
     
-    # 2. Registrar los endpoints
-    with app.app_context():
-        from . import routes
+    # 2. Inicializar el State Manager
+    state_manager.set_mc(mc)
     
-    return app, mc_global
+    # 3. Registrar los blueprints
+    from .api import dashboard_bp, control_bp, legacy_bp
+    app.register_blueprint(dashboard_bp, url_prefix='/api')
+    app.register_blueprint(control_bp, url_prefix='/api')
+    app.register_blueprint(legacy_bp, url_prefix='/api')
+    
+    return app, mc
 
 def setup_startup_tasks(mc):
     """ Tareas de inicio (Solo genera la imagen estática del modelo). """
     from .services import visualizador_grafo
     print("Generando visualización del modelo estático...")
     try:
-        model_img_path = os.path.join(app_path, 'data', 'modelo_caracteristicas')
         visualizador_grafo.generar_visualizacion_modelo(
-            mc, nombre_archivo=model_img_path
+            mc, nombre_archivo=MODEL_IMAGE_DIR
         )
-        print(f"Visualización guardada en {model_img_path}.png")
+        print(f"Visualización guardada en {MODEL_IMAGE_DIR}.png")
     except Exception as e:
         print(f"[startup] Error al generar la visualización del modelo: {e}")
-
-# --- NOTA: Se eliminó setup_background_tasks porque ahora usamos ejecución por eventos ---

@@ -1,24 +1,27 @@
+from typing import Dict, List, Optional, Any
 import json
-import docker
 import datetime
 import os
 import time
 import random 
 
-# Importamos el módulo 'app' para leer la variable global de selección
-import app as app_globals 
-
-# Imports del sistema
+# Imports del sistema refactorizados
 from . import punto_variacion
 from app.services import agente_llm
 from app.services import hqc_module
-from app import app_path 
+from app.config import APP_PATH, SCENARIOS_JSON
+from app.core.state import state_manager
+from app.services.docker_service import DockerService
 
 # --- NUEVO: Importar Logger de Auditoría ---
 from app.core.audit_logger import get_logger
 # -------------------------------------------
 
 class Mapek:
+    """
+    Motor del ciclo MAPE-K (Monitor, Analyze, Plan, Execute, Knowledge).
+    Gestiona la adaptación del sistema basándose en el contexto y modelos de IA.
+    """
     def __init__(self):
         self._puntoVariacion = None
         self._reglaAdaptacion_ICA = None 
@@ -35,18 +38,24 @@ class Mapek:
         # --- NUEVO: Traza de ejecución para el Frontend (Observabilidad) ---
         self._mapek_trace = [] 
         
+        # Inyectar servicios
+        self.docker_service = DockerService()
+
         # Cargar escenarios en memoria al iniciar
         self.scenarios = []
         try:
-            json_path = os.path.join(app_path, 'data', 'scenarios.json')
-            if os.path.exists(json_path):
-                with open(json_path, 'r', encoding='utf-8') as f:
+            if os.path.exists(SCENARIOS_JSON):
+                with open(SCENARIOS_JSON, 'r', encoding='utf-8') as f:
                     self.scenarios = json.load(f)
                 print(f"✅ MAPE-K: Cargados {len(self.scenarios)} escenarios para modo interactivo.")
         except Exception as e:
             print(f"⚠️ MAPE-K: Error cargando scenarios.json: {e}")
 
-    def _find_features_in_json(self, data: dict) -> dict:
+    def _find_features_in_json(self, data: Dict[str, Any]) -> Dict[str, bool]:
+        """
+        Busca recursivamente características booleanas en un diccionario JSON.
+        Normaliza las claves a formato 'snake_case'.
+        """
         features = {}
         if isinstance(data, dict):
             for k, v in data.items():
@@ -70,31 +79,34 @@ class Mapek:
         print(f"[{fase}] {mensaje}")
     # ---------------------------------------------------------
 
-    def _validar_configuracion(self, config_dict: dict, mc) -> bool:
+    def _validar_configuracion(self, config_dict: Dict[str, bool], mc) -> bool:
+        """
+        Valida que la configuración propuesta por el LLM cumpla con las reglas del Modelo de Características.
+        Verifica: Requiere, Obligatoria, XOR, OR y Jerarquía.
+        """
         print("VALIDATE: Verificando la configuración del LLM...")
         
-        # Validar 'Requiere'
-        reglas_requiere = []
+        # 1. Validar reglas de dependencia 'Requiere'
         for c in mc.caracteristicas:
             for rel in c.getRelaciones:
                 if rel[1] == "Requiere":
-                    req_key = c.getNombre.replace(" ", "_").lower()
-                    req_val = rel[0].replace(" ", "_").lower()
-                    reglas_requiere.append((req_key, req_val))
+                    quien_requiere = c.getNombre.replace(" ", "_").lower()
+                    quien_es_requerido = rel[0].replace(" ", "_").lower()
+                    
+                    if config_dict.get(quien_requiere) and not config_dict.get(quien_es_requerido):
+                        print(f"VALIDATE_ERROR: Regla 'Requiere' violada. '{quien_requiere}' activo sin '{quien_es_requerido}'.")
+                        return False
 
-        for (quien_requiere, quien_es_requerido) in reglas_requiere:
-            if config_dict.get(quien_requiere) and not config_dict.get(quien_es_requerido):
-                print(f"VALIDATE_ERROR: Regla 'Requiere' violada. '{quien_requiere}' activo sin '{quien_es_requerido}'.")
-                return False
-
-        # Validar Jerarquía
+        # 2. Validar Jerarquía y Restricciones de Grupo (XOR, OR)
         for c in mc.caracteristicas:
             nombre_padre = c.getNombre.replace(" ", "_").lower()
+            is_padre_activo = config_dict.get(nombre_padre) == True
             
-            if config_dict.get(nombre_padre) == True:
-                hijos_xor = [r[0].replace(" ", "_").lower() for r in c.getRelaciones if r[1] == "XOR"]
-                hijos_or = [r[0].replace(" ", "_").lower() for r in c.getRelaciones if r[1] == "OR"]
-
+            hijos_xor = [r[0].replace(" ", "_").lower() for r in c.getRelaciones if r[1] == "XOR"]
+            hijos_or = [r[0].replace(" ", "_").lower() for r in c.getRelaciones if r[1] == "OR"]
+            
+            if is_padre_activo:
+                # Validar hijos obligatorios
                 for rel in c.getRelaciones:
                     if rel[1] == "Obligatoria":
                         hijo_key = rel[0].replace(" ", "_").lower()
@@ -102,34 +114,40 @@ class Mapek:
                             print(f"VALIDATE_ERROR: Regla 'Obligatoria' violada en '{nombre_padre}'.")
                             return False
                 
+                # Validar grupos XOR (Exactamente uno activo)
                 if hijos_xor:
                     activos_xor = sum(1 for h in hijos_xor if config_dict.get(h) == True)
                     if activos_xor != 1:
                         print(f"VALIDATE_ERROR: Regla 'XOR' violada en '{nombre_padre}'. Activos: {activos_xor}")
                         return False
                 
+                # Validar grupos OR (Al menos uno activo)
                 if hijos_or:
                     activos_or = sum(1 for h in hijos_or if config_dict.get(h) == True)
                     if activos_or == 0:
                         print(f"VALIDATE_ERROR: Regla 'OR' violada en '{nombre_padre}'.")
                         return False
             
+            # Si el padre está inactivo, ningún hijo debería estar activo
             elif config_dict.get(nombre_padre) == False:
                  for rel in c.getRelaciones:
                     if rel[1] != "Requiere":
                         hijo_key = rel[0].replace(" ", "_").lower()
                         if config_dict.get(hijo_key) == True:
-                            print(f"VALIDATE_ERROR: Jerarquía violada. Padre '{nombre_padre}' inactivo.")
+                            print(f"VALIDATE_ERROR: Jerarquía violada. Padre '{nombre_padre}' inactivo pero hijo '{hijo_key}' activo.")
                             return False
 
         print("VALIDATE: Configuración del LLM es VÁLIDA.")
         return True
 
     # --- MÉTODO DE SIMULACIÓN ESTOCÁSTICA CON INTENCIÓN ---
-    # MODIFICADO: Recibe caso_n para logging
-    def ejecutar_escenario_manual(self, mc, target_id, caso_n=0):
+    def ejecutar_escenario_manual(self, mc, target_id: int, caso_n: int = 0) -> None:
         """ 
-        Paso 1: MONITOREAR (Simulación Estocástica + Intención de Negocio)
+        Paso 1: MONITOREAR (Simulación Estocástica + Intención de Negocio).
+        Simula los valores de los sensores (ICA, CP, Cola) basado en el escenario seleccionado.
+        :param mc: Instancia de ModeloCaracteristicas.
+        :param target_id: ID del escenario seleccionado.
+        :param caso_n: Número secuencial del caso para auditoría.
         """
         self._caso_actual = caso_n # Guardar contexto para logs posteriores
         
@@ -190,8 +208,8 @@ class Mapek:
         # Pasar los valores al análisis
         self.analizar(mc, ica_real, cp_real, prioridad, cola_real_qiskit, perfil_usuario)
 
-    def analizar(self, mc, ica, complejidad_problema, prioridad, cola_forzada=None, perfil_usuario="Estándar"):
-        """ Paso 2: ANALIZAR """
+    def analizar(self, mc, ica: int, complejidad_problema: int, prioridad: str, cola_forzada: Optional[int] = None, perfil_usuario: str = "Estándar") -> None:
+        """ Paso 2: ANALIZAR. Consulta al LLM para determinar la configuración óptima. """
         
         # --- TRACE: ANÁLISIS ---
         self._registrar_paso("ANÁLISIS", "Detectada necesidad de adaptación. Consultando Agente Inteligente...", {
@@ -207,7 +225,7 @@ class Mapek:
             metricas_nisq["Qiskit Simulator"]["queue_time_sec"] = cola_forzada
 
         contexto_actual = f"""
-        DATOS DEL ENTORNO EN TIEMPO REAL (Simulación Estocástica - Escenario {app_globals.escenario_activo_id}):
+        DATOS DEL ENTORNO EN TIEMPO REAL (Simulación Estocástica - Escenario {state_manager.get_escenario_id()}):
         
         1. **Perfil de Demanda (INTENCIÓN DE USUARIO):** "{perfil_usuario}"
            - Si es 'Deportivo', intenta activar 'Deportes' (si el aire lo permite).
@@ -284,8 +302,8 @@ class Mapek:
         self.conocimiento(configuracion_final, mc, ica, complejidad_problema)
         self.planificar()
 
-    def planificar(self):
-        """ Paso 3: PLANIFICAR """
+    def planificar(self) -> None:
+        """ Paso 3: PLANIFICAR. Genera el plan de reconfiguración (deltas) basado en el análisis. """
         if self._puntoVariacion:
             config = self._puntoVariacion.obtenerConfiguracion()
             # --- TRACE: PLANIFICACIÓN ---
@@ -296,8 +314,8 @@ class Mapek:
             })
             self.ejecutar(config)
 
-    def ejecutar(self, contenedores):
-        """ Paso 4: EJECUTAR """
+    def ejecutar(self, contenedores: Dict[str, bool]) -> None:
+        """ Paso 4: EJECUTAR. Aplica los cambios en la infraestructura (Docker) y ejecuta algoritmos. """
         if not contenedores: return
 
         # --- TRACE: EJECUCIÓN INICIO ---
@@ -306,22 +324,33 @@ class Mapek:
             "Estado": "Redireccionando servicios"
         })
 
-        client = docker.from_env()
-        log_path = os.path.join(app_path, "data", "cambios.log")
+        client = self.docker_service.client
+        log_path = os.path.join(APP_PATH, "data", "cambios.log")
         
         # --- AUDITORIA: INICIO RECONFIGURACION ---
         self.logger.info(f"[CASO #{self._caso_actual}] ⚙️ Iniciando reconfiguración de infraestructura...")
+        
+        # NOTE: Using direct file access for log here as it's specific to this execution flow and audit
+        # Could leverage FileService.append_log() but careful with locking if multiple threads write.
+        # For now, keeping local open to ensure atomic write block logic or similar if needed, 
+        # but FileService is simpler. Let's use standard open as before for simplicity in this critical loop.
         
         with open(log_path, "a", encoding="utf-8") as log_file:
             timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             log_file.write(f"\n--- RECONFIGURACIÓN {timestamp} ---\n")
             
             # --- MODIFICACIÓN PARA AUDITAR CADA CONTENEDOR ---
-            for container in client.containers.list(all=True):
+            # Using DockerService list_containers would be: self.docker_service.list_containers()
+            # But the logic iterates over all containers in Docker.
+            
+            containers_list = self.docker_service.list_containers(all=True)
+            
+            for container in containers_list:
                 estado_deseado = contenedores.get(container.name)
                 if estado_deseado is not None:
                     try:
-                        cont = client.containers.get(container.id)
+                        # Refresh container state
+                        cont = self.docker_service.get_container(container.id)
                         
                         if estado_deseado == True and cont.status == "exited":
                             cont.start()
@@ -376,7 +405,7 @@ class Mapek:
                     backend_adapter = hqc_module.get_backend_adapter(backend_nombre)
 
                     if backend_adapter:
-                        unique_id = f"{app_globals.escenario_activo_id}_{int(time.time())}"
+                        unique_id = f"{state_manager.get_escenario_id()}_{int(time.time())}"
                         params = {
                             "problema_id": unique_id,
                             "complejidad_cp": cp,
@@ -415,7 +444,7 @@ class Mapek:
     def getConocimiento(self):
         return self._puntoVariacion
 
-    def getReglaAdaptacion(self):
+    def getReglaAdaptacion(self) -> Dict[str, Any]:
         return {
             "calidad_aire_ica": self._reglaAdaptacion_ICA,
             "complejidad_problema_cp": self._reglaAdaptacion_CP,
@@ -424,6 +453,6 @@ class Mapek:
         }
     
     # --- NUEVO GETTER PARA LA TRAZA ---
-    def getTrace(self):
+    def getTrace(self) -> List[Dict[str, Any]]:
         """Devuelve el historial de ejecución del ciclo actual"""
         return self._mapek_trace
