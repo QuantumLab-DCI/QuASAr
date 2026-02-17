@@ -1478,3 +1478,6 @@
 [-] Contenedor 'cirq_simulator' detenido.
 [+] Contenedor 'qiskit_simulator' iniciado.
 [⚛️] Job HQC: Costo=153.0
+
+--- RECONFIGURACIÓN 2026-02-17 14:15:01 ---
+[⚛️] Job HQC: Costo=8007.0

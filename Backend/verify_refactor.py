@@ -16,15 +16,31 @@ try:
     from app.services.docker_service import DockerService
     from app.services.file_service import FileService
     from app.api import dashboard_bp, control_bp, legacy_bp
-    print("   ✅ Imports successful.")
+    
+    # New Modular Imports
+    from app.core.mapek import Mapek
+    from app.core.mapek_phases.monitor import Monitor
+    from app.core.mapek_phases.analyzer import Analyzer
+    from app.core.mapek_phases.planner import Planner
+    from app.core.mapek_phases.executor import Executor
+    
+    print("   ✅ Imports successful (Services & Modules).")
 
-    print("2. Testing App Factory...")
+    print("2. Testing App Factory & Mapek Initialization...")
     try:
         app, mc = create_app()
         print("   ✅ App created successfully.")
-        print(f"   ✅ Feature Model loaded: {mc is not None}")
+        
+        # Test Mapek Instantiation
+        mapek = Mapek()
+        print(f"   ✅ Mapek Initialized with phases: "
+              f"{mapek.monitor_phase.__class__.__name__}, "
+              f"{mapek.analyzer_phase.__class__.__name__}, "
+              f"{mapek.planner_phase.__class__.__name__}, "
+              f"{mapek.executor_phase.__class__.__name__}")
+              
     except Exception as e:
-        print(f"   ❌ App creation failed: {e}")
+        print(f"   ❌ Initialization failed: {e}")
         sys.exit(1)
 
     print("3. Testing Blueprint Registration...")

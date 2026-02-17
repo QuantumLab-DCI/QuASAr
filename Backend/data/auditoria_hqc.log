@@ -2222,3 +2222,67 @@ Please retry in 41.2472611s. [links {
 2026-02-17 13:06:09 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'hqc'
 2026-02-17 13:06:10 [INFO] ✅ [CASO #1] Ciclo finalizado exitosamente. Visualización generada.
 2026-02-17 13:06:10 [INFO] 🏁 --- FIN CASO #1 ---
+2026-02-17 13:18:14 [INFO] 🔰 --- INICIO CASO #1 | ESCENARIO ID: 3 ---
+2026-02-17 13:18:14 [INFO] ✅ MONITOR: Cargados 4 escenarios.
+2026-02-17 13:18:14 [INFO] [CASO #1] PARÁMETROS: Escenario='Modo: Crisis Ambiental' | ICA=250 | CP=134 | ColaQiskit=0s | Usuario='Evento Nocturno (Requiere Entr. Adulto)'
+2026-02-17 13:18:18 [INFO] [CASO #1] ✅ LLM Respondió. Razonamiento: El usuario solicita 'Evento Nocturno (Requiere Entr. Adulto)', lo que activa 'Entretenimiento' y 'Entretenimiento adulto'. El ICA de 250 (Malo) y la prioridad RAPIDEZ, junto con la complejidad CP 134, sugieren la necesidad de HQC. La regla 'Si HQC está ACTIVO -> Backend OBLIGATORIAMENTE ACTIVO' y 'Si HQC está ACTIVO -> Algoritmo OBLIGATORIAMENTE ACTIVO' se aplican. Dado que la infraestructura sugiere VQE para 'entorno_cuantico' y la regla 'Si Algoritmo está ACTIVO -> EXACTAMENTE UNO de [QAOA, VQE] debe estar activo', se selecciona VQE. La regla 'Si Backend está ACTIVO -> EXACTAMENTE UNO de [Qiskit Simulator, Cirq Simulator] debe estar activo' y la baja latencia y tasa de error de Qiskit Simulator lo hacen la opción preferida. Las reglas de dependencia de 'Gestor aire' (Turismo OBLIGATORIO) y las reglas de exclusión mutua (solo un tipo de ambiente abierto/cerrado) se respetan. Dado que el ICA es malo, se desactiva 'Ambientes abiertos' y 'Deportes' para evitar actividades al aire libre. 'Ambientes cerrados' se desactiva por falta de requerimiento explícito y para simplificar la configuración.
+2026-02-17 13:18:18 [ERROR] [CASO #1] ❌ FALLO VALIDACIÓN: Configuración LLM inválida.
+2026-02-17 13:18:18 [WARNING] ⚠️ [CASO #1] Ciclo finalizado sin configuración válida (posible error del LLM).
+2026-02-17 13:18:18 [INFO] 🏁 --- FIN CASO #1 ---
+2026-02-17 13:22:18 [INFO] 🔰 --- INICIO CASO #2 | ESCENARIO ID: 4 ---
+2026-02-17 13:22:18 [INFO] ✅ MONITOR: Cargados 4 escenarios.
+2026-02-17 13:22:18 [INFO] [CASO #2] PARÁMETROS: Escenario='Modo: Fallos de Infraestructura' | ICA=69 | CP=215 | ColaQiskit=57s | Usuario='Turista Estándar (Solo Rutas)'
+2026-02-17 13:22:21 [INFO] [CASO #2] ✅ LLM Respondió. Razonamiento: El usuario solicita 'Turista Estándar (Solo Rutas)', lo que implica activar 'optimizacion_de_rutas'. Según las reglas técnicas, 'optimizacion_de_rutas' requiere 'hqc', y 'hqc' requiere 'backend' y 'algoritmo'. Dado que la complejidad computacional es alta (CP=215) y el entorno cuántico sugiere 'QAOA' con 'ALTO' decoherencia, se prioriza 'QAOA' y 'Qiskit Simulator' por su menor tasa de error (0.002 vs 0.08), a pesar de tener un tiempo de cola mayor. La activación de 'optimizacion_de_rutas' también activa 'turismo' y 'gestor_aire' según la jerarquía. 'visualizador_calidad_aire' se activa porque 'gestor_aire' está activo. 'ambientes_abiertos' y 'deportes' se desactivan porque el perfil de usuario no los solicita y no hay reglas que los fuercen. 'ambientes_cerrados' y 'visualizador_restriccion_uso_lena' se desactivan por la misma razón. El entretenimiento se desactiva ya que no es requerido por el perfil ni por otras activaciones.
+2026-02-17 13:22:21 [ERROR] [CASO #2] ❌ FALLO VALIDACIÓN: Configuración LLM inválida.
+2026-02-17 13:22:21 [WARNING] ⚠️ [CASO #2] Ciclo finalizado sin configuración válida (posible error del LLM).
+2026-02-17 13:22:21 [INFO] 🏁 --- FIN CASO #2 ---
+2026-02-17 13:22:49 [INFO] 🔰 --- INICIO CASO #3 | ESCENARIO ID: 1 ---
+2026-02-17 13:22:49 [INFO] ✅ MONITOR: Cargados 4 escenarios.
+2026-02-17 13:22:49 [INFO] [CASO #3] PARÁMETROS: Escenario='Modo: Operación Diaria (Variable)' | ICA=28 | CP=81 | ColaQiskit=1s | Usuario='Grupo Deportivo (Requiere Deportes)'
+2026-02-17 13:22:52 [INFO] [CASO #3] ✅ LLM Respondió. Razonamiento: El usuario solicita 'Grupo Deportivo', lo que activa 'Deportes'. El 'Aire ICA' (28) es bueno, permitiendo 'Ambientes Abiertos'. La 'Complejidad CP' (81) y la infraestructura con 'Qiskit Simulator' rápido y 'entorno_cuantico' sugieren 'QAOA' para 'HQC'. Se prioriza 'Qiskit Simulator' por su menor tiempo de cola. 'Turismo' es obligatorio si 'Gestor aire' está activo. 'Ambientes abiertos' requiere 'Deportes'. 'HQC' requiere 'Backend' y 'Algoritmo', y 'QAOA' es el algoritmo seleccionado.
+2026-02-17 13:22:52 [INFO] KNOWLEDGE: Actualizando base de conocimiento y estado global.
+2026-02-17 13:22:52 [INFO] [CASO #3] ⚙️ Iniciando reconfiguración de infraestructura...
+2026-02-17 13:22:53 [INFO] [CASO #3] 🔴 DESACTIVADO EXITO: Contenedor 'entretenimiento_tercera_edad'
+2026-02-17 13:22:54 [INFO] [CASO #3] 🔴 DESACTIVADO EXITO: Contenedor 'entretenimiento_adulto'
+2026-02-17 13:22:56 [INFO] [CASO #3] 🔴 DESACTIVADO EXITO: Contenedor 'entretenimiento_familiar'
+2026-02-17 13:22:57 [INFO] [CASO #3] 🔴 DESACTIVADO EXITO: Contenedor 'entretenimiento'
+2026-02-17 13:22:58 [INFO] [CASO #3] 🔴 DESACTIVADO EXITO: Contenedor 'ambientes_cerrados'
+2026-02-17 13:22:59 [INFO] [CASO #3] 🔴 DESACTIVADO EXITO: Contenedor 'optimizacion_de_rutas'
+2026-02-17 13:23:01 [INFO] [CASO #3] 🔴 DESACTIVADO EXITO: Contenedor 'visualizador_restriccion_uso_lena'
+2026-02-17 13:23:02 [INFO] [CASO #3] 🔴 DESACTIVADO EXITO: Contenedor 'vqe'
+2026-02-17 13:23:03 [INFO] [CASO #3] 🔴 DESACTIVADO EXITO: Contenedor 'cirq_simulator'
+2026-02-17 13:23:04 [INFO] [CASO #3] ⚛️ Iniciando Job HQC en Qiskit Simulator (QAOA)...
+2026-02-17 13:23:10 [INFO] [CASO #3] ⚛️ EXITO HQC: Job completado. Costo=181.0
+2026-02-17 13:23:10 [INFO] ✅ [CASO #3] Ciclo finalizado exitosamente. Visualización generada.
+2026-02-17 13:23:10 [INFO] 🏁 --- FIN CASO #3 ---
+2026-02-17 13:40:51 [INFO] 🔰 --- INICIO CASO #1 | ESCENARIO ID: 1 ---
+2026-02-17 13:40:51 [INFO] ✅ MONITOR: Cargados 4 escenarios.
+2026-02-17 13:40:52 [INFO] [CASO #1] PARÁMETROS: Escenario='Modo: Operación Diaria (Variable)' | ICA=56 | CP=79 | ColaQiskit=2s | Usuario='Evento Nocturno (Requiere Entr. Adulto)'
+2026-02-17 13:40:55 [INFO] [CASO #1] ✅ LLM Respondió. Razonamiento: El usuario solicita 'Evento Nocturno (Requiere Entr. Adulto)', lo que activa 'entretenimiento' y 'entretenimiento_adulto'. La complejidad CP=79 y la prioridad RAPIDEZ, junto con la infraestructura de 'Qiskit Simulator' (menor tiempo de cola y error), activan 'hqc', 'backend', 'qiskit_simulator' y 'algoritmo'. La sugerencia de optimización 'VQE' activa 'vqe'. El 'gestor_aire' se activa por defecto y requiere 'turismo' y 'visualizador_calidad_aire'. Dado que 'turismo' está activo, se evalúan sus subcomponentes. 'Ambientes abiertos' y 'ambientes_cerrados' se desactivan para priorizar la demanda de entretenimiento y la infraestructura computacional. 'Optimizacion de rutas' se desactiva ya que no es requerida por 'turismo' en este escenario. 'Deportes' y 'visualizador_restriccion_uso_lena' se desactivan por herencia de sus padres inactivos. 'QAOA' se desactiva para cumplir la regla de que solo un algoritmo debe estar activo cuando 'algoritmo' está activo, y 'VQE' ya está seleccionado.
+2026-02-17 13:40:55 [ERROR] [CASO #1] ❌ FALLO VALIDACIÓN: Configuración LLM inválida.
+2026-02-17 13:40:55 [WARNING] ⚠️ [CASO #1] Ciclo finalizado sin configuración válida (posible error del LLM).
+2026-02-17 13:40:55 [INFO] 🏁 --- FIN CASO #1 ---
+2026-02-17 13:45:58 [INFO] 🔰 --- INICIO CASO #2 | ESCENARIO ID: 2 ---
+2026-02-17 13:45:58 [INFO] ✅ MONITOR: Cargados 4 escenarios.
+2026-02-17 13:45:58 [INFO] [CASO #2] PARÁMETROS: Escenario='Modo: Alta Demanda (Incertidumbre)' | ICA=47 | CP=216 | ColaQiskit=35s | Usuario='Evento Nocturno (Requiere Entr. Adulto)'
+2026-02-17 13:46:01 [INFO] [CASO #2] ✅ LLM Respondió. Razonamiento: El usuario solicita 'Evento Nocturno' que implica 'Entretenimiento Adulto', activando 'Entretenimiento'. La complejidad CP y la infraestructura sugieren 'VQE' y 'Cirq Simulator' para optimizar la precisión y el tiempo de cola. 'Gestor Aire' se activa por defecto. 'Turismo' es obligatorio con 'Gestor Aire'. Dado que el ICA es 47 (bueno), no se activan ambientes específicos. 'HQC' se activa por la necesidad de 'VQE'. 'Optimizacion de Rutas' no se activa ya que no hay demanda explícita ni se deriva de otras activaciones. 'Cirq Simulator' se elige sobre 'Qiskit Simulator' debido a su menor tiempo de cola y estado 'ONLINE', a pesar de una tasa de error ligeramente mayor, priorizando la disponibilidad y rapidez para la tarea computacional.
+2026-02-17 13:46:01 [ERROR] [CASO #2] ❌ FALLO VALIDACIÓN: Configuración LLM inválida.
+2026-02-17 13:46:01 [WARNING] ⚠️ [CASO #2] Ciclo finalizado sin configuración válida (posible error del LLM).
+2026-02-17 13:46:01 [INFO] 🏁 --- FIN CASO #2 ---
+2026-02-17 14:14:58 [INFO] 🔰 --- INICIO CASO #1 | ESCENARIO ID: 2 ---
+2026-02-17 14:14:58 [INFO] ✅ MONITOR: Cargados 4 escenarios.
+2026-02-17 14:14:58 [INFO] [CASO #1] PARÁMETROS: Escenario='Modo: Alta Demanda (Incertidumbre)' | ICA=53 | CP=265 | ColaQiskit=36s | Usuario='Grupo Deportivo (Requiere Deportes)'
+2026-02-17 14:15:01 [INFO] [CASO #1] ✅ LLM Respondió. Razonamiento: El perfil de demanda 'Grupo Deportivo' requiere 'Deportes', lo cual es compatible con 'Ambientes Abiertos' y 'Gestor Aire' activo. La calidad del aire (ICA=53) permite la activación de 'Visualizador Calidad Aire'. La complejidad computacional (CP=265) y la infraestructura sugieren la activación de 'HQC', 'Backend' y 'Algoritmo'. Dado que 'HQC' está activo, se activa 'Algoritmo'. La sugerencia de optimización 'QAOA' y la prioridad 'PRECISION' junto con el menor tiempo de cola de 'Qiskit Simulator' (36s vs 20s de Cirq) y su menor tasa de error (0.002 vs 0.08) justifican la elección de 'Qiskit Simulator' y 'QAOA'. 'Ambientes Cerrados' y 'Entretenimiento' se desactivan por defecto al no ser requeridos explícitamente y no haber dependencias que los activen. 'Optimizacion de rutas' se desactiva ya que 'Turismo' está activo pero no hay una regla que lo fuerce y no es requerido por 'HQC'.
+2026-02-17 14:15:01 [INFO] KNOWLEDGE: Actualizando base de conocimiento y estado global.
+2026-02-17 14:15:01 [INFO] [CASO #1] ⚙️ Iniciando reconfiguración de infraestructura...
+2026-02-17 14:15:01 [INFO] [CASO #1] ⚛️ Iniciando Job HQC en Qiskit Simulator (QAOA)...
+2026-02-17 14:15:10 [INFO] [CASO #1] ⚛️ EXITO HQC: Job completado. Costo=8007.0
+2026-02-17 14:15:10 [INFO] ✅ [CASO #1] Ciclo finalizado exitosamente. Visualización generada.
+2026-02-17 14:15:10 [INFO] 🏁 --- FIN CASO #1 ---
+2026-02-17 14:23:22 [INFO] 🔰 --- INICIO CASO #1 | ESCENARIO ID: 2 ---
+2026-02-17 14:23:22 [INFO] ✅ MONITOR: Cargados 4 escenarios.
+2026-02-17 14:23:22 [INFO] [CASO #1] PARÁMETROS: Escenario='Modo: Alta Demanda (Incertidumbre)' | ICA=51 | CP=158 | ColaQiskit=29s | Usuario='Evento Nocturno (Requiere Entr. Adulto)'
+2026-02-17 14:23:25 [INFO] [CASO #1] ✅ LLM Respondió. Razonamiento: El usuario solicita 'Evento Nocturno' que requiere 'Entretenimiento Adulto', por lo que 'Entretenimiento' y 'Entretenimiento Adulto' se activan. La complejidad computacional y la sugerencia de optimización 'VQE' activan 'HQC', 'Backend', 'Algoritmo' y específicamente 'Cirq Simulator' y 'VQE' debido a la prioridad de precisión y el estado de decoherencia bajo. 'Gestor Aire' se activa por defecto y activa 'Visualizador Calidad Aire' y 'Turismo'. Dado que 'Turismo' está activo, se activa uno de sus subcomponentes ('Ambientes Abiertos' o 'Ambientes Cerrados'). Como el ICA es 51 (calidad de aire moderada), se prioriza no activar 'Ambientes Abiertos' ni 'Ambientes Cerrados' para evitar restricciones, y por lo tanto, sus dependencias ('Deportes', 'Visualizador Restriccion Uso Lena') permanecen inactivas. 'Optimizacion de Rutas' no se activa ya que no es un requisito directo en este escenario.
+2026-02-17 14:23:25 [ERROR] [CASO #1] ❌ FALLO VALIDACIÓN: Configuración LLM inválida.
+2026-02-17 14:23:25 [WARNING] ⚠️ [CASO #1] Ciclo finalizado sin configuración válida (posible error del LLM).
+2026-02-17 14:23:25 [INFO] 🏁 --- FIN CASO #1 ---

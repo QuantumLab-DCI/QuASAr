@@ -20,7 +20,8 @@ class FileService:
             if not os.path.exists(LOG_FILE):
                 return "Waiting for first execution..."
             with open(LOG_FILE, "r", encoding="utf-8") as f:
-                return f.read()
+                lines = f.readlines()
+                return "".join(reversed(lines))
         except Exception:
             return "Error reading logs."
 
