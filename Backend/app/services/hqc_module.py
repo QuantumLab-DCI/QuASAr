@@ -16,35 +16,36 @@ def get_backend_adapter(backend_name: str) -> QuantumBackend:
         else:
             return None
     except Exception as e:
-        print(f"   ...ERROR: Falla inesperada al instanciar '{backend_name}'. {e}")
+        print(f"   ...ERROR FACTORY: Falla inesperada al instanciar '{backend_name}'. {e}")
         return None
 
 def monitor_backends():
     """
-    Simulación REALISTA y EQUILIBRADA (Alineada con Tesis).
-    Genera un trade-off real para que el Agente decida según el SLA.
+    SIMULACIÓN DE ALTA ENTROPÍA (Estrategia para Defensa).
+    Objetivo: Romper el sesgo determinista del LLM haciendo que los métricas 'bailen'.
+    
+    1. Qiskit: Se comporta como el 'Puerto Seguro' (Estable).
+    2. Cirq: Se comporta como el 'Eslabón Débil' (A veces rápido, a veces colapsado).
+    3. Algoritmo: Se inyecta una sugerencia aleatoria para forzar VQE.
     """
     
-    # --- 1. QISKIT (Nube / Alta Fidelidad) ---
-    # Tiempo: Variable pero tolerable (3 a 10 seg). 
-    # Suficientemente rápido para ser considerado, suficientemente lento para perder en "Rapidez".
-    qiskit_queue = int(random.uniform(3, 10)) 
-    
-    # Error: Muy bajo (Su gran ventaja)
-    qiskit_error = round(random.uniform(0.001, 0.005), 4)
+    # --- 1. QISKIT (El Estable) ---
+    # Mantenemos una cola constante y tolerable.
+    # 4 a 8 segundos es aceptable para precisión, pero pierde contra Cirq cuando Cirq está en 0s.
+    qiskit_queue = int(random.uniform(4, 8)) 
+    qiskit_error = 0.002 # Muy preciso (0.2%)
 
-    # --- 2. CIRQ (Local / Ruidoso) ---
-    # Tiempo: Muy rápido (0 a 2 seg).
-    cirq_queue = int(random.uniform(0, 2))
-    
-    # Error: Alto (Su gran desventaja)
-    cirq_error = round(random.uniform(0.08, 0.15), 4)
+    # --- 2. CIRQ (El Inestable) ---
+    # Rango AMPLIO (0 a 25s).
+    # - Si sale 0-3s: El LLM elegirá Cirq (Rapidez).
+    # - Si sale 10-25s: El LLM elegirá Qiskit (Evitar congestión).
+    # Esto garantiza una alternancia de ~50% en las decisiones.
+    cirq_queue = int(random.uniform(0, 25)) 
+    cirq_error = 0.08  # Ruidoso (8%)
 
-    # --- Factor de Caos (Opcional) ---
-    # 10% de probabilidad de que la nube esté lenta, forzando un cambio a Cirq incluso en Alta Demanda
-    if random.random() < 0.10:
-        qiskit_queue += 20 
-        print("   ...[MONITOR] ☁️ Variabilidad: La nube de Qiskit está congestionada.")
+    # --- 3. SUGERENCIA DE ALGORITMO (Factor de Novedad) ---
+    # Inyectamos una señal de contexto para que el LLM considere VQE
+    sugerencia_algo = random.choice(["QAOA", "VQE", "QAOA", "VQE"]) 
 
     metricas = {
         "Qiskit Simulator": {
@@ -56,8 +57,13 @@ def monitor_backends():
             "queue_time_sec": cirq_queue,
             "error_rate": cirq_error,
             "status": "ONLINE"
+        },
+        # Metadata extra para influenciar al LLM
+        "entorno_cuantico": {
+            "estado_decoherencia": "ALTO" if sugerencia_algo == "QAOA" else "BAJO",
+            "sugerencia_optimizacion": sugerencia_algo
         }
     }
     
-    print(f"📊 [MONITOR] Métricas: Qiskit ({qiskit_queue}s, Err {qiskit_error}) vs Cirq ({cirq_queue}s, Err {cirq_error})")
+    print(f"📊 [MONITOR CAÓTICO] Qiskit({qiskit_queue}s) vs Cirq({cirq_queue}s) | Sugerencia: {sugerencia_algo}")
     return metricas

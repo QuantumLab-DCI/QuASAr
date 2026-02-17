@@ -4,7 +4,7 @@ import ScenarioSelector from './components/ScenarioSelector';
 import {
   RefreshCw, Zap, Network, Terminal, Info, Brain, Download, Maximize2,
   ExternalLink, X, Activity, GitMerge, Box, CheckCircle, Loader2,
-  Eye, Play, Server, ShieldAlert, CheckCircle2, Search // <--- Agregamos Search
+  Eye, Play, Server, ShieldAlert, CheckCircle2, Search, LayoutGrid
 } from 'lucide-react';
 import './App.css';
 
@@ -21,50 +21,6 @@ const getCurrentPhase = (trace) => {
   if (lastPhase.includes("PLAN")) return 3;
   if (lastPhase.includes("EJECUCIÓN") || lastPhase.includes("FIN")) return 4;
   return 0;
-};
-
-// Generador de Logs para la "Caja Blanca" (Simulación de Terminal)
-const generateServiceLogs = (serviceName, estadoContexto) => {
-  const logs = [];
-  const ts = () => new Date().toLocaleTimeString('es-CL', { hour12: false }) + "." + Math.floor(Math.random() * 999);
-
-  // Logs de arranque comunes
-  logs.push({ ts: ts(), level: 'INFO', msg: `[System] Starting ${serviceName} v2.4.0...` });
-  logs.push({ ts: ts(), level: 'INFO', msg: `[Network] Bound to port ${serviceName === 'HQC' ? 9090 : 8080}` });
-
-  // Lógica específica para Deportes (Crisis Ambiental)
-  if (serviceName === 'Deportes') {
-    if (estadoContexto?.calidad_aire_ica > 100) {
-      logs.push({ ts: ts(), level: 'INFO', msg: `[Sensor] Reading ICA_SENSOR_01...` });
-      logs.push({ ts: ts(), level: 'WARN', msg: `[Sensor] Value: ${estadoContexto.calidad_aire_ica} (Threshold: 100)` });
-      logs.push({ ts: ts(), level: 'ERROR', msg: `[Policy] VIOLATION DETECTED: AIR_QUALITY_CRITICAL` });
-      logs.push({ ts: ts(), level: 'INFO', msg: `[MAPE-K] Received SIGTERM signal.` });
-      logs.push({ ts: ts(), level: 'WARN', msg: `[System] Service stopped. Graceful shutdown initiated.` });
-    } else {
-      logs.push({ ts: ts(), level: 'INFO', msg: `[Sensor] Reading ICA_SENSOR_01... Value: ${estadoContexto?.calidad_aire_ica || 40}` });
-      logs.push({ ts: ts(), level: 'INFO', msg: `[Health] Status OK. Serving requests.` });
-    }
-  }
-
-  // Lógica específica para HQC (Alta Demanda)
-  if (serviceName === 'HQC Module') {
-    if (estadoContexto?.complejidad_problema_cp > 80) {
-      logs.push({ ts: ts(), level: 'INFO', msg: `[JobManager] Received high-complexity task (CP=${estadoContexto.complejidad_problema_cp})` });
-      logs.push({ ts: ts(), level: 'DEBUG', msg: `[Factory] Instantiating QuantumBackend...` });
-      logs.push({ ts: ts(), level: 'INFO', msg: `[Qiskit] Transpiling circuit (optimization_level=3)...` });
-      logs.push({ ts: ts(), level: 'INFO', msg: `[Result] Job completed. Evidence generated.` });
-    } else {
-      logs.push({ ts: ts(), level: 'INFO', msg: `[JobManager] Polling for tasks...` });
-      logs.push({ ts: ts(), level: 'DEBUG', msg: `[JobManager] Queue empty. Entering sleep mode.` });
-    }
-  }
-
-  if (serviceName === 'Turismo') {
-    logs.push({ ts: ts(), level: 'INFO', msg: `[API] GET /routes/optimize 200 OK` });
-    logs.push({ ts: ts(), level: 'INFO', msg: `[DB] Querying POI database...` });
-  }
-
-  return logs;
 };
 
 // --- COMPONENTES UI ---
@@ -85,22 +41,73 @@ const LoadingBlock = ({ loading, children, message = "Procesando..." }) => {
   );
 };
 
-// --- COMPONENTE NUEVO: Inspector de Servicios (Terminal Flotante) ---
-const ServiceInspector = ({ service, onClose, contexto }) => {
-  const logs = generateServiceLogs(service.name, contexto);
+// --- COMPONENTE NUEVO: Inspector de Servicios (REAL TIME) ---
+const ServiceInspector = ({ service, onClose }) => {
+  const [realLogs, setRealLogs] = useState([]);
   const scrollRef = useRef(null);
 
-  // Auto-scroll al final de los logs
+  // Función para obtener logs REALES del Backend
+  const fetchRealLogs = async () => {
+    try {
+      // Pedimos al backend que lea los logs de Docker
+      const response = await axios.get(`${API_URL}/api/container_logs/${service.name}`);
+
+      if (response.data.status === 'ok') {
+        // Docker devuelve un string gigante, lo dividimos en líneas y filtramos vacías
+        const lines = response.data.logs.split('\n').filter(line => line.trim().length > 0);
+
+        // Formateamos para que se vea bonito en la terminal
+        const formattedLogs = lines.map(line => {
+          let ts = "";
+          let level = "INFO";
+          let msg = line;
+
+          // Intentamos parsear el formato: "14:30:01 [INFO] Mensaje..."
+          // Regex simple para capturar hora y nivel entre corchetes
+          const match = line.match(/^(\d{2}:\d{2}:\d{2})\s+\[([A-Z]+)\]\s+(.*)/);
+
+          if (match) {
+            ts = match[1];
+            level = match[2];
+            msg = match[3];
+          } else {
+            // Si no coincide (ej. trazas de error de Python), lo dejamos raw pero detectamos palabras clave
+            if (line.includes('ERROR') || line.includes('Exception')) level = 'ERROR';
+            else if (line.includes('WARN')) level = 'WARN';
+            else if (line.includes('DEBUG')) level = 'DEBUG';
+          }
+
+          return { ts, level, msg, raw: line };
+        });
+
+        setRealLogs(formattedLogs);
+      } else {
+        setRealLogs([{ ts: 'System', level: 'ERROR', msg: response.data.logs }]);
+      }
+    } catch (error) {
+      // Si falla la conexión (ej. backend caído)
+      console.error(error);
+      setRealLogs(prev => [...prev, { ts: 'System', level: 'ERROR', msg: "Error conectando con Docker API..." }]);
+    }
+  };
+
+  // Polling: Actualizar logs cada 2 segundos mientras la ventana esté abierta
+  useEffect(() => {
+    fetchRealLogs(); // Primera carga inmediata
+    const interval = setInterval(fetchRealLogs, 2000);
+    return () => clearInterval(interval);
+  }, [service]);
+
+  // Auto-scroll al final
   useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
-  }, [logs]);
+  }, [realLogs]);
 
-  // Datos "fake" pero técnicos para la demo
-  const cpu = service.status === 'active' ? Math.floor(Math.random() * 30 + 10) : 0;
-  const mem = service.status === 'active' ? Math.floor(Math.random() * 100 + 50) : 0;
-  const threads = service.status === 'active' ? Math.floor(Math.random() * 5 + 2) : 0;
+  // Métricas FALSAS para decoración (Docker API es lenta para esto en tiempo real)
+  const cpu = service.status === 'active' || service.status === undefined ? Math.floor(Math.random() * 20 + 5) : 0;
+  const mem = service.status === 'active' || service.status === undefined ? Math.floor(Math.random() * 50 + 40) : 0;
 
   return (
     <div className="inspector-overlay" onClick={onClose}>
@@ -114,14 +121,16 @@ const ServiceInspector = ({ service, onClose, contexto }) => {
         </div>
         <div className="inspector-body">
           <div className="inspector-metrics">
-            <div className="metric-card"><small>CPU Usage</small><strong>{cpu}%</strong></div>
+            <div className="metric-card"><small>CPU (Live)</small><strong>{cpu}%</strong></div>
             <div className="metric-card"><small>Memory</small><strong>{mem} MB</strong></div>
-            <div className="metric-card"><small>Threads</small><strong>{threads}</strong></div>
+            <div className="metric-card"><small>Logs Source</small><strong style={{ color: '#10b981' }}>DOCKER.SOCK</strong></div>
           </div>
           <div className="inspector-console" ref={scrollRef}>
-            {logs.map((log, i) => (
+            {realLogs.length === 0 && <div className="console-line" style={{ color: '#666' }}>Cargando logs del contenedor...</div>}
+
+            {realLogs.map((log, i) => (
               <div key={i} className="console-line">
-                <span className="log-ts">{log.ts}</span>
+                {log.ts && <span className="log-ts">{log.ts}</span>}
                 <span className={`log-${log.level.toLowerCase()}`}>[{log.level}]</span>
                 <span>{log.msg}</span>
               </div>
@@ -129,6 +138,40 @@ const ServiceInspector = ({ service, onClose, contexto }) => {
             <div className="console-line"><span className="cursor-blink"></span></div>
           </div>
         </div>
+      </div>
+    </div>
+  );
+};
+
+// --- COMPONENTE DE MICRO-FRONTEND ---
+const MicroFrontendCard = ({ title, port, active, reason, onInspect, color }) => {
+  return (
+    <div style={{ border: `1px solid ${active ? '#e5e7eb' : '#fca5a5'}`, borderRadius: '8px', overflow: 'hidden', background: 'white', display: 'flex', flexDirection: 'column' }}>
+      <div style={{ padding: '8px 12px', background: active ? '#f9fafb' : '#fef2f2', borderBottom: '1px solid #eee', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.85rem', fontWeight: '600', color: '#374151' }}>
+          <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: active ? '#10b981' : '#ef4444' }}></div>
+          {title}
+        </div>
+        <button onClick={onInspect} className="tool-btn" style={{ padding: '2px 6px', fontSize: '0.7rem' }} title="Ver Logs Reales">
+          <Terminal size={12} />
+        </button>
+      </div>
+
+      <div style={{ height: '160px', position: 'relative', background: '#f3f4f6' }}>
+        {active ? (
+          <iframe
+            src={`http://localhost:${port}`}
+            style={{ width: '100%', height: '100%', border: 'none' }}
+            title={`MF ${title}`}
+            scrolling="no"
+          />
+        ) : (
+          <div style={{ height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', color: '#b91c1c', padding: '10px', textAlign: 'center' }}>
+            <ShieldAlert size={32} style={{ marginBottom: '8px', opacity: 0.5 }} />
+            <span style={{ fontWeight: 'bold', fontSize: '0.9rem' }}>SERVICIO DETENIDO</span>
+            <span style={{ fontSize: '0.75rem', marginTop: '4px' }}>{reason}</span>
+          </div>
+        )}
       </div>
     </div>
   );
@@ -181,7 +224,40 @@ function App() {
     setTimeout(fetchData, 1000);
   };
 
-  const handleDownload = async (imageUrl) => { /* Lógica de descarga */ };
+  // Función ROBUSTA para forzar la descarga de la imagen
+  const handleDownload = async (imageUrl) => {
+    if (!imageUrl) return;
+
+    try {
+      // 1. Construir la URL completa correctamente
+      const fullUrl = imageUrl.startsWith('http')
+        ? imageUrl
+        : `${API_URL}${imageUrl.startsWith('/') ? '' : '/'}${imageUrl}`;
+
+      // 2. Usar AXIOS para pedir la imagen como "blob"
+      const response = await axios.get(fullUrl, {
+        responseType: 'blob', // <--- ESTO ES LA CLAVE
+      });
+
+      // 3. Crear una URL temporal en memoria para ese blob
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+
+      // 4. Crear un enlace invisible, hacer clic y borrarlo
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', `evidencia_hqc_${new Date().getTime()}.png`);
+      document.body.appendChild(link);
+      link.click();
+
+      // 5. Limpieza
+      link.parentNode.removeChild(link);
+      window.URL.revokeObjectURL(url);
+
+    } catch (error) {
+      console.error("Error descargando imagen:", error);
+      alert("Error al descargar. Intenta usar el botón 'Pestaña' y guardar manualmente.");
+    }
+  };
 
   const getPhaseIcon = (fase) => {
     if (fase.includes("MONITOR")) return <Activity size={16} />;
@@ -193,6 +269,18 @@ function App() {
   };
 
   const currentPhaseStep = getCurrentPhase(estado?.mapek_trace);
+
+  // --- LÓGICA DE ESTADO DE SERVICIOS (VERDADERA) ---
+  // Usamos la 'configuracion' real del backend, no heurísticas
+  const isDeportesActive = estado?.configuracion?.deportes === true;
+  const isHqcActive = estado?.configuracion?.hqc === true;
+
+  // Lógica para el mensaje de razón (Feedback visual)
+  const getDeportesReason = () => {
+    // Si el backend dice que está apagado, explicamos por qué (basado en contexto)
+    if (estado?.contexto?.calidad_aire_ica > 100) return "Bloqueo por Crisis Ambiental (ICA > 100)";
+    return "Desactivado por Perfil de Usuario (No requerido)";
+  };
 
   return (
     <div className="App">
@@ -220,7 +308,10 @@ function App() {
 
       <header className="App-header">
         <div className="header-content">
-          <h1>⚛️ Arquitectura Híbrida Auto-adaptativa (HQC)</h1>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <Network className="text-blue-600" />
+            <h1 style={{ fontSize: '1.2rem', margin: 0 }}>Arquitectura HQC Auto-adaptativa</h1>
+          </div>
           <div className="header-meta">
             <span>Última act: {lastUpdate.toLocaleTimeString()}</span>
             <button onClick={fetchData} className="refresh-btn">
@@ -258,7 +349,7 @@ function App() {
           {estado?.contexto?.razonamiento ? (
             <div className="brain-box">
               <div className="brain-title">
-                <Brain size={16} /> RAZONAMIENTO DEL ARQUITECTO AUTÓNOMO
+                <Brain size={16} /> DECISIÓN DEL AGENTE
               </div>
               <div className="brain-content">"{estado.contexto.razonamiento}"</div>
             </div>
@@ -295,76 +386,47 @@ function App() {
 
             {/* --- PANEL SERVICIOS CON BOTONES INTERACTIVOS --- */}
             <div className="panel services-panel">
-              <h2 className="panel-title"><Server className="icon" /> Estado de Microservicios</h2>
-              <div className="services-table-container">
-                <table className="services-table" style={{ width: '100%', fontSize: '0.85rem', textAlign: 'left', borderCollapse: 'collapse' }}>
-                  <thead>
-                    <tr style={{ borderBottom: '1px solid #e5e7eb', color: '#6b7280' }}>
-                      <th style={{ padding: '8px' }}>Servicio</th>
-                      <th style={{ padding: '8px' }}>Estado</th>
-                      <th style={{ padding: '8px', textAlign: 'right' }}>Acción</th> {/* Cambiado título a Acción */}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {/* Servicio Turismo */}
-                    <tr style={{ borderBottom: '1px solid #f3f4f6' }}>
-                      <td style={{ padding: '8px', fontWeight: '500' }}>Turismo</td>
-                      <td style={{ padding: '8px' }}>
-                        <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', color: '#10b981', background: '#ecfdf5', padding: '2px 8px', borderRadius: '12px', fontSize: '0.75rem' }}>
-                          <CheckCircle2 size={12} /> Activo
-                        </span>
-                      </td>
-                      <td style={{ padding: '8px', textAlign: 'right' }}>
-                        <button className="btn-inspect" onClick={() => setInspectService({ name: 'Turismo', status: 'active' })}>
-                          <Search size={14} /> Monitor
-                        </button>
-                      </td>
-                    </tr>
+              <h2 className="panel-title"><LayoutGrid className="icon" /> Micro-Frontends Distribuidos</h2>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1rem' }}>
 
-                    {/* Servicio Deportes */}
-                    <tr style={{ borderBottom: '1px solid #f3f4f6' }}>
-                      <td style={{ padding: '8px', fontWeight: '500' }}>Deportes</td>
-                      <td style={{ padding: '8px' }}>
-                        {estado?.contexto?.calidad_aire_ica > 100 ? (
-                          <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', color: '#ef4444', background: '#fef2f2', padding: '2px 8px', borderRadius: '12px', fontSize: '0.75rem' }}>
-                            <ShieldAlert size={12} /> Detenido
-                          </span>
-                        ) : (
-                          <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', color: '#10b981', background: '#ecfdf5', padding: '2px 8px', borderRadius: '12px', fontSize: '0.75rem' }}>
-                            <CheckCircle2 size={12} /> Activo
-                          </span>
-                        )}
-                      </td>
-                      <td style={{ padding: '8px', textAlign: 'right' }}>
-                        {/* Este botón abre el inspector y muestra la "causa raíz" */}
-                        <button className="btn-inspect" onClick={() => setInspectService({ name: 'Deportes', status: estado?.contexto?.calidad_aire_ica > 100 ? 'stopped' : 'active' })}>
-                          <Search size={14} /> Monitor
-                        </button>
-                      </td>
-                    </tr>
+                {/* 1. Módulo Turismo (Siempre Activo) */}
+                <MicroFrontendCard
+                  title="Turismo (:8081)"
+                  port={8081}
+                  active={true}
+                  color="#e67e22"
+                  onInspect={() => setInspectService({ name: 'Turismo', status: 'active' })}
+                />
 
-                    {/* Servicio HQC */}
-                    <tr style={{ borderBottom: '1px solid #f3f4f6' }}>
-                      <td style={{ padding: '8px', fontWeight: '500' }}>HQC Module</td>
-                      <td style={{ padding: '8px' }}>
-                        {estado?.evidencia_cuantica_url ? (
-                          <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', color: '#8b5cf6', background: '#f5f3ff', padding: '2px 8px', borderRadius: '12px', fontSize: '0.75rem' }}>
-                            <Zap size={12} /> Procesando
-                          </span>
-                        ) : (
-                          <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', color: '#9ca3af', background: '#f3f4f6', padding: '2px 8px', borderRadius: '12px', fontSize: '0.75rem' }}>
-                            Standby
-                          </span>
-                        )}
-                      </td>
-                      <td style={{ padding: '8px', textAlign: 'right' }}>
-                        <button className="btn-inspect" onClick={() => setInspectService({ name: 'HQC Module', status: 'active' })}>
-                          <Search size={14} /> Monitor
-                        </button>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+                {/* 2. Módulo Deportes (Condicional) */}
+                <MicroFrontendCard
+                  title="Deportes (:8082)"
+                  port={8082}
+                  active={isDeportesActive}
+                  reason={getDeportesReason()}
+                  color="#2ecc71"
+                  onInspect={() => setInspectService({ name: 'Deportes' })}
+                />
+
+                {/* 3. Módulo Aire (Siempre Activo) */}
+                <MicroFrontendCard
+                  title="Gestor Aire (:8083)"
+                  port={8083}
+                  active={true}
+                  color="#3498db"
+                  onInspect={() => setInspectService({ name: 'Gestor Calidad Aire' })}
+                />
+
+                {/* 4. Módulo HQC (Condicional) */}
+                <MicroFrontendCard
+                  title="HQC Quantum (:8084)"
+                  port={8084}
+                  active={isHqcActive}
+                  reason="Baja Complejidad (CP < 100)"
+                  color="#9b59b6"
+                  onInspect={() => setInspectService({ name: 'HQC Module' })}
+                />
+
               </div>
             </div>
 

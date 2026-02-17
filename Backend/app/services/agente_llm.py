@@ -1,99 +1,113 @@
 import os
 import google.generativeai as genai
 import json
-
-# --- NUEVO: Importar Logger de Auditoría ---
 from app.core.audit_logger import get_logger
-# -------------------------------------------
 
 # 1. Configura el cliente de Google
 try:
     genai.configure(api_key=os.environ.get("GOOGLE_API_KEY"))
 except Exception as e:
-    print(f"AGENTE_ERROR: No se pudo configurar la API de Google. ¿Estableciste la variable de entorno 'GOOGLE_API_KEY'? Error: {e}")
+    print(f"AGENTE_ERROR: Config API fallida: {e}")
 
 def obtener_configuracion_llm(contexto_actual: str, reglas_del_modelo: str) -> dict:
     """
-    Toma el contexto y las reglas, y pide a la API de Gemini la configuración óptima.
-    Incluye capacidad de 'improvisación' y EXPLICACIÓN detallada de decisiones.
+    Agente especializado con Prompting Reforzado para Dependencias Cruzadas.
     """
-    # Instanciamos el logger
     logger = get_logger()
     
-    # 2. Define el prompt del sistema (Arquitecto Explicativo)
+    # --- PROMPT DE SISTEMA BLINDADO V2 ---
     prompt_sistema = f"""
-    Eres el **Arquitecto Autónomo Principal** de un sistema híbrido crítico.
-    Tu misión es asegurar la continuidad operativa y **JUSTIFICAR TUS DECISIONES TÉCNICAS**.
+    Eres el **Motor de Inferencia de Configuración** de un sistema crítico MAPE-K.
+    Tu objetivo es generar un JSON válido que cumpla estrictamente el Modelo de Características.
 
-    Tienes este Modelo de Características (Reglas Ideales):
     --- REGLAS DEL MODELO ---
     {reglas_del_modelo}
-    --- FIN DE REGLAS ---
+    --- FIN REGLAS ---
 
-    **PROTOCOLO DE TOMA DE DECISIONES:**
-    1. **Analiza:** Lee el contexto completo (Intención del Usuario, Clima, Infraestructura).
-    2. **Decide:** Selecciona las características activas basándote en el perfil del usuario y las restricciones ambientales.
-    3. **Negocia:** Si hay conflicto crítico (ej. Qiskit saturado), improvisa una solución (Trade-off) y explica por qué.
-
-    **Formato de Salida Obligatorio (JSON):**
-    Tu respuesta DEBE ser un objeto JSON con exactamente DOS claves principales:
-    1. "configuracion": Un objeto plano con las características (claves snake_case, valores booleanos).
-    2. "razonamiento": **CADENA DE TEXTO EXPLICATIVA (Max 50 palabras).**
-       - Explica POR QUÉ activaste/desactivaste ramas opcionales (ej. "Activé Deportes por perfil Usuario Deportivo").
-       - Explica POR QUÉ elegiste el backend cuántico específico (ej. "Elegí Cirq por saturación crítica en Qiskit").
-       - Sé conciso pero específico.
-
-    **Ejemplo de Estructura:**
-    {{
-        "configuracion": {{ "gestor_aire": true, "deportes": true, "qiskit_simulator": false, "cirq_simulator": true, ... }},
-        "razonamiento": "Activé Deportes debido al perfil 'Grupo Deportivo' y buen clima (ICA 40). Seleccioné Cirq Simulator para evitar la cola de 120s en Qiskit."
-    }}
+    **REGLAS DE INTEGRIDAD CRÍTICAS (MEMORIZAR):**
     
-    Responde ÚNICAMENTE con este objeto JSON.
+    1. **Jerarquía (Padres/Hijos):**
+       - Si activas un HIJO, debes activar a su PADRE y ABUELO.
+       - Ejemplo: Si "cirq_simulator"=true -> ENTONCES "backend"=true Y "hqc"=true.
+    
+    2. **Dependencias Cruzadas (REQUIERE):**
+       - **Regla A:** Si activas "ambientes_abiertos" -> OBLIGATORIAMENTE activa "deportes" (aunque el usuario no lo pida).
+       - **Regla B:** Si activas "ambientes_cerrados" -> OBLIGATORIAMENTE activa "visualizador_restriccion_uso_lena".
+       - **Regla C:** Si activas "optimizacion_de_rutas" -> OBLIGATORIAMENTE activa "hqc" (y toda su rama).
+
+    3. **Completitud:**
+       - Devuelve TODAS las claves del sistema. Usa snake_case.
+
+    **EJEMPLO DE RAZONAMIENTO CORRECTO (CONFLICTO RESUELTO):**
+    Usuario: "Perfil: Familia (No quiere deportes). Clima: Bueno (Permite Aire Libre)."
+    Asistente:
+    {{
+        "configuracion": {{
+            "gestor_aire": true,
+            "turismo": true,
+            "ambientes_abiertos": true,
+            "deportes": true, 
+            "ambientes_cerrados": false
+            ...
+        }},
+        "razonamiento": "Aunque el perfil es Familia, activar 'Ambientes Abiertos' fuerza la activación técnica de 'Deportes' por regla de dependencia."
+    }}
     """
 
-    # 3. Define el prompt del usuario (el contexto en tiempo real)
     prompt_usuario = f"""
-    Contexto en tiempo real (Sensores, Usuario y Colas):
+    --- TU TURNO ---
+    Contexto en tiempo real:
     {contexto_actual}
 
-    Genera la configuración y explica el porqué de tus decisiones clave.
+    Genera el JSON. Si hay conflicto entre Usuario y Reglas Técnicas, PRIORIZA LAS REGLAS TÉCNICAS.
     """
 
-    print("AGENTE: Analizando escenario con Gemini...")
+    print("AGENTE: Analizando escenario con Gemini (Modo Estricto V2)...")
 
     try:
-        # 4. Configura el modelo y los ajustes de generación
         generation_config = genai.GenerationConfig(
             response_mime_type="application/json",
-            temperature=0.4 
+            temperature=0.0, # Cero creatividad para máxima obediencia
+            top_p=0.8,
+            top_k=40
         )
         
-        # Usando el modelo flash (rápido y económico)
         model = genai.GenerativeModel(
             'models/gemini-2.5-flash-lite',
             system_instruction=prompt_sistema,
             generation_config=generation_config
         )
 
-        # 5. Realiza la llamada a la API
         response = model.generate_content(prompt_usuario)
         
-        # --- AUDITORIA: Verificación de Respuesta ---
         if not response.parts:
-             logger.warning("AGENTE: Respuesta vacía recibida (Posible bloqueo de seguridad de Gemini).")
              return {}
-        # --------------------------------------------
         
-        respuesta_json = response.text
-        print(f"AGENTE: Respuesta JSON recibida.")
+        data = json.loads(response.text)
+        config = data.get("configuracion", {})
         
-        # 6. Devuelve la respuesta como un diccionario Python
-        return json.loads(respuesta_json)
+        # --- SAFETY NET (RED DE SEGURIDAD PYTHON) ---
+        # 1. Corrección de Jerarquía
+        if config.get("qiskit_simulator") or config.get("cirq_simulator"):
+            config["backend"] = True
+        if config.get("qaoa") or config.get("vqe"):
+            config["algoritmo"] = True
+        if config.get("backend") or config.get("algoritmo") or config.get("optimizacion_de_rutas"):
+            config["hqc"] = True
+            
+        # 2. Corrección de Dependencias Cruzadas (Lo que falló en tu log)
+        if config.get("ambientes_abiertos"):
+            if not config.get("deportes"):
+                print("AGENTE_WARN: Auto-corrigiendo -> Activando 'deportes' requerido por 'ambientes_abiertos'.")
+                config["deportes"] = True
+
+        if config.get("ambientes_cerrados"):
+            if not config.get("visualizador_restriccion_uso_lena"):
+                print("AGENTE_WARN: Auto-corrigiendo -> Activando 'visualizador_restriccion_uso_lena'.")
+                config["visualizador_restriccion_uso_lena"] = True
+
+        return data
 
     except Exception as e:
-        # --- AUDITORIA: Error Crítico ---
-        logger.error(f"❌ ERROR CRÍTICO LLM (Gemini): {str(e)}")
-        # --------------------------------
-        print(f"AGENTE_ERROR: No se pudo comunicar con la API de Google. Error: {e}")
-        return {} # Devuelve una config vacía en caso de error
+        logger.error(f"❌ ERROR CRÍTICO LLM: {str(e)}")
+        return {}

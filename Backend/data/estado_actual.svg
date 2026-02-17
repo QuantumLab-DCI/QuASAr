@@ -172,7 +172,7 @@
 <!-- Entretenimiento adulto -->
 <g id="node10" class="node">
 <title>Entretenimiento adulto</title>
-<path fill="#e31a1c" stroke="#e31a1c" stroke-width="1.2" d="M432,-296C432,-296 371,-296 371,-296 365,-296 359,-290 359,-284 359,-284 359,-272 359,-272 359,-266 365,-260 371,-260 371,-260 432,-260 432,-260 438,-260 444,-266 444,-272 444,-272 444,-284 444,-284 444,-290 438,-296 432,-296"/>
+<path fill="#33a02c" stroke="#33a02c" stroke-width="2.2" d="M432,-296C432,-296 371,-296 371,-296 365,-296 359,-290 359,-284 359,-284 359,-272 359,-272 359,-266 365,-260 371,-260 371,-260 432,-260 432,-260 438,-260 444,-266 444,-272 444,-272 444,-284 444,-284 444,-290 438,-296 432,-296"/>
 <text text-anchor="middle" x="401.5" y="-281" font-family="Arial" font-size="10.00" fill="white">Entretenimiento</text>
 <text text-anchor="middle" x="401.5" y="-270" font-family="Arial" font-size="10.00" fill="white">adulto</text>
 </g>
@@ -186,7 +186,7 @@
 <!-- Entretenimiento tercera edad -->
 <g id="node11" class="node">
 <title>Entretenimiento tercera edad</title>
-<path fill="#33a02c" stroke="#33a02c" stroke-width="2.2" d="M432,-231C432,-231 371,-231 371,-231 365,-231 359,-225 359,-219 359,-219 359,-207 359,-207 359,-201 365,-195 371,-195 371,-195 432,-195 432,-195 438,-195 444,-201 444,-207 444,-207 444,-219 444,-219 444,-225 438,-231 432,-231"/>
+<path fill="#e31a1c" stroke="#e31a1c" stroke-width="1.2" d="M432,-231C432,-231 371,-231 371,-231 365,-231 359,-225 359,-219 359,-219 359,-207 359,-207 359,-201 365,-195 371,-195 371,-195 432,-195 432,-195 438,-195 444,-201 444,-207 444,-207 444,-219 444,-219 444,-225 438,-231 432,-231"/>
 <text text-anchor="middle" x="401.5" y="-216" font-family="Arial" font-size="10.00" fill="white">Entretenimiento</text>
 <text text-anchor="middle" x="401.5" y="-205" font-family="Arial" font-size="10.00" fill="white">tercera edad</text>
 </g>

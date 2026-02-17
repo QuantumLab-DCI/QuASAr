@@ -4,6 +4,7 @@ import threading # <--- Necesario para la ejecución inmediata
 from flask import jsonify, send_from_directory, request
 from app import app, app_path
 import app as app_globals
+import docker 
 
 # Importamos el módulo de tareas para poder disparar el ciclo manualmente
 from app import task 
@@ -38,19 +39,26 @@ def get_estado_general():
     elif os.path.exists(os.path.join(data_dir, "cirq_convergence_evidence.png")):
         evidencia_cuantica = cirq_convergence_png
 
+    # --- NUEVO: Obtener la configuración real (on/off) de los servicios ---
+    config_real = {}
+    if app_globals.pv_global:
+        # Extraemos el diccionario plano { "deportes": true, "turismo": false ... }
+        config_real = app_globals.pv_global.obtenerConfiguracion()
+    # ----------------------------------------------------------------------
+
     return jsonify({
         "contexto": app_globals.regla_global,
+        "configuracion": config_real, # <--- AGREGADO: Envía el estado real al frontend
         "escenario_actual_id": app_globals.escenario_activo_id, 
         "imagen_estado_url": "/api/static/estado_actual.png", 
         "imagen_modelo_url": "/api/static/modelo_caracteristicas.png",
         "evidencia_cuantica_url": evidencia_cuantica,
         "en_ejecucion": app_globals.en_ejecucion,
         
-        # --- NUEVO: Enviamos la traza para la visualización paso a paso ---
+        # --- Enviamos la traza para la visualización paso a paso ---
         "mapek_trace": getattr(app_globals, 'trace_global', []) 
         # ------------------------------------------------------------------
     })
-
 # --- ENDPOINTS INTERACTIVOS ---
 
 @app.route("/api/escenarios", methods=['GET'])
@@ -156,3 +164,30 @@ def get_regla_adaptacion():
     if app_globals.regla_global is None:
          return jsonify({"regla_adaptacion_actual": "N/A"}), 503
     return jsonify({"contexto_de_entrada": app_globals.regla_global})
+
+@app.route("/api/container_logs/<string:container_name>")
+def get_container_logs_real(container_name):
+    """
+    Endpoint PUENTE:
+    Frontend -> Flask -> Docker Daemon -> Container STDOUT
+    """
+    try:
+        client = docker.from_env()
+        # Normalizamos el nombre (ej. "Turismo" -> "turismo")
+        name_clean = container_name.lower().replace(" ", "_")
+        
+        # Mapeo de nombres UI -> Nombres Docker (por si acaso)
+        if "hqc" in name_clean: name_clean = "hqc"
+        if "gestor" in name_clean: name_clean = "gestor_aire"
+        
+        container = client.containers.get(name_clean)
+        
+        # Obtenemos los últimos 50 logs reales y decodificamos bytes a string
+        logs_raw = container.logs(tail=50).decode('utf-8')
+        
+        return jsonify({"status": "ok", "logs": logs_raw})
+        
+    except docker.errors.NotFound:
+        return jsonify({"status": "error", "logs": f"Contenedor '{name_clean}' no encontrado o detenido."})
+    except Exception as e:
+        return jsonify({"status": "error", "logs": f"Error leyendo Docker API: {str(e)}"})

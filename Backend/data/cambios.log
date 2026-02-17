@@ -1054,3 +1054,396 @@
 [-] Contenedor 'optimizacion_de_rutas' detenido.
 [+] Contenedor 'entretenimiento_tercera_edad' iniciado.
 [-] Contenedor 'entretenimiento_adulto' detenido.
+
+--- RECONFIGURACIÓN 2026-01-12 16:27:24 ---
+[-] Contenedor 'cirq_simulator' detenido.
+[-] Contenedor 'vqe' detenido.
+[-] Contenedor 'qaoa' detenido.
+[-] Contenedor 'qiskit_simulator' detenido.
+[-] Contenedor 'algoritmo' detenido.
+[-] Contenedor 'backend' detenido.
+[-] Contenedor 'hqc' detenido.
+[-] Contenedor 'optimizacion_de_rutas' detenido.
+[-] Contenedor 'entretenimiento_tercera_edad' detenido.
+[-] Contenedor 'entretenimiento_adulto' detenido.
+[-] Contenedor 'deportes' detenido.
+
+--- RECONFIGURACIÓN 2026-01-12 16:29:10 ---
+[+] Contenedor 'cirq_simulator' iniciado.
+[+] Contenedor 'qaoa' iniciado.
+[+] Contenedor 'algoritmo' iniciado.
+[+] Contenedor 'backend' iniciado.
+[+] Contenedor 'hqc' iniciado.
+[+] Contenedor 'optimizacion_de_rutas' iniciado.
+[-] Contenedor 'ambientes_abiertos' detenido.
+[⚛️] Job HQC: Costo=-2.0
+
+--- RECONFIGURACIÓN 2026-01-12 16:29:29 ---
+[-] Contenedor 'entretenimiento_familiar' detenido.
+[-] Contenedor 'entretenimiento' detenido.
+[⚛️] Job HQC: Costo=-2.0
+
+--- RECONFIGURACIÓN 2026-01-12 16:29:44 ---
+[+] Contenedor 'entretenimiento_adulto' iniciado.
+[+] Contenedor 'entretenimiento' iniciado.
+[⚛️] Job HQC: Costo=-2.0
+
+--- RECONFIGURACIÓN 2026-01-12 16:29:59 ---
+[+] Contenedor 'entretenimiento_tercera_edad' iniciado.
+[-] Contenedor 'entretenimiento_adulto' detenido.
+[⚛️] Job HQC: Costo=-2.0
+
+--- RECONFIGURACIÓN 2026-01-12 16:30:11 ---
+[-] Contenedor 'entretenimiento_tercera_edad' detenido.
+[+] Contenedor 'entretenimiento_adulto' iniciado.
+[⚛️] Job HQC: Costo=-2.0
+
+--- RECONFIGURACIÓN 2026-01-12 16:30:32 ---
+[-] Contenedor 'entretenimiento_adulto' detenido.
+[-] Contenedor 'entretenimiento' detenido.
+[+] Contenedor 'deportes' iniciado.
+[+] Contenedor 'ambientes_abiertos' iniciado.
+[-] Contenedor 'ambientes_cerrados' detenido.
+[-] Contenedor 'visualizador_restriccion_uso_lena' detenido.
+[⚛️] Job HQC: Costo=-2.0
+
+--- RECONFIGURACIÓN 2026-01-12 16:30:45 ---
+[+] Contenedor 'entretenimiento_tercera_edad' iniciado.
+[+] Contenedor 'entretenimiento' iniciado.
+[-] Contenedor 'deportes' detenido.
+[+] Contenedor 'ambientes_cerrados' iniciado.
+[+] Contenedor 'visualizador_restriccion_uso_lena' iniciado.
+[⚛️] Job HQC: Costo=-2.0
+
+--- RECONFIGURACIÓN 2026-01-12 16:31:04 ---
+[-] Contenedor 'entretenimiento_tercera_edad' detenido.
+[+] Contenedor 'entretenimiento_familiar' iniciado.
+[-] Contenedor 'ambientes_abiertos' detenido.
+[⚛️] Job HQC: Costo=-2.0
+
+--- RECONFIGURACIÓN 2026-01-12 16:32:17 ---
+[-] Contenedor 'cirq_simulator' detenido.
+[+] Contenedor 'vqe' iniciado.
+[-] Contenedor 'qaoa' detenido.
+[+] Contenedor 'qiskit_simulator' iniciado.
+[+] Contenedor 'entretenimiento_tercera_edad' iniciado.
+[-] Contenedor 'entretenimiento_familiar' detenido.
+[⚛️] Job HQC: Costo=163.0
+
+--- RECONFIGURACIÓN 2026-01-12 16:33:01 ---
+[+] Contenedor 'cirq_simulator' iniciado.
+[-] Contenedor 'vqe' detenido.
+[+] Contenedor 'qaoa' iniciado.
+[-] Contenedor 'qiskit_simulator' detenido.
+[-] Contenedor 'entretenimiento_tercera_edad' detenido.
+[+] Contenedor 'entretenimiento_familiar' iniciado.
+[⚛️] Job HQC: Costo=-2.0
+
+--- RECONFIGURACIÓN 2026-01-12 16:33:49 ---
+[-] Contenedor 'cirq_simulator' detenido.
+[-] Contenedor 'qaoa' detenido.
+[-] Contenedor 'algoritmo' detenido.
+[-] Contenedor 'backend' detenido.
+[-] Contenedor 'hqc' detenido.
+[-] Contenedor 'optimizacion_de_rutas' detenido.
+
+--- RECONFIGURACIÓN 2026-01-12 16:34:12 ---
+[+] Contenedor 'cirq_simulator' iniciado.
+[+] Contenedor 'qaoa' iniciado.
+[+] Contenedor 'algoritmo' iniciado.
+[+] Contenedor 'backend' iniciado.
+[+] Contenedor 'hqc' iniciado.
+[+] Contenedor 'optimizacion_de_rutas' iniciado.
+[⚛️] Job HQC: Costo=-2.0
+
+--- RECONFIGURACIÓN 2026-01-12 16:34:38 ---
+[⚛️] Job HQC: Costo=-2.0
+
+--- RECONFIGURACIÓN 2026-01-12 16:34:45 ---
+[-] Contenedor 'cirq_simulator' detenido.
+[-] Contenedor 'qaoa' detenido.
+[-] Contenedor 'algoritmo' detenido.
+[-] Contenedor 'backend' detenido.
+[-] Contenedor 'hqc' detenido.
+[-] Contenedor 'optimizacion_de_rutas' detenido.
+[+] Contenedor 'entretenimiento_adulto' iniciado.
+[-] Contenedor 'entretenimiento_familiar' detenido.
+
+--- RECONFIGURACIÓN 2026-01-12 16:35:08 ---
+[+] Contenedor 'cirq_simulator' iniciado.
+[+] Contenedor 'qaoa' iniciado.
+[+] Contenedor 'algoritmo' iniciado.
+[+] Contenedor 'backend' iniciado.
+[+] Contenedor 'hqc' iniciado.
+[+] Contenedor 'optimizacion_de_rutas' iniciado.
+[-] Contenedor 'entretenimiento_adulto' detenido.
+[+] Contenedor 'entretenimiento_familiar' iniciado.
+[⚛️] Job HQC: Costo=-2.0
+
+--- RECONFIGURACIÓN 2026-01-12 16:42:34 ---
+[-] Contenedor 'cirq_simulator' detenido.
+[+] Contenedor 'qiskit_simulator' iniciado.
+[⚛️] Job HQC: Costo=158.0
+
+--- RECONFIGURACIÓN 2026-01-12 16:43:12 ---
+[+] Contenedor 'vqe' iniciado.
+[-] Contenedor 'qaoa' detenido.
+[+] Contenedor 'entretenimiento_adulto' iniciado.
+[-] Contenedor 'entretenimiento_familiar' detenido.
+[⚛️] Job HQC: Costo=148.0
+
+--- RECONFIGURACIÓN 2026-01-12 16:43:54 ---
+[-] Contenedor 'vqe' detenido.
+[+] Contenedor 'qaoa' iniciado.
+[+] Contenedor 'entretenimiento_tercera_edad' iniciado.
+[-] Contenedor 'entretenimiento_adulto' detenido.
+[⚛️] Job HQC: Costo=101.0
+
+--- RECONFIGURACIÓN 2026-01-12 16:44:24 ---
+[+] Contenedor 'vqe' iniciado.
+[-] Contenedor 'qaoa' detenido.
+[-] Contenedor 'entretenimiento_tercera_edad' detenido.
+[-] Contenedor 'entretenimiento' detenido.
+[⚛️] Job HQC: Costo=170.0
+
+--- RECONFIGURACIÓN 2026-01-12 16:45:25 ---
+[-] Contenedor 'vqe' detenido.
+[-] Contenedor 'qiskit_simulator' detenido.
+[-] Contenedor 'algoritmo' detenido.
+[-] Contenedor 'backend' detenido.
+[-] Contenedor 'hqc' detenido.
+[-] Contenedor 'optimizacion_de_rutas' detenido.
+
+--- RECONFIGURACIÓN 2026-01-12 16:45:49 ---
+[+] Contenedor 'vqe' iniciado.
+[+] Contenedor 'qiskit_simulator' iniciado.
+[+] Contenedor 'algoritmo' iniciado.
+[+] Contenedor 'backend' iniciado.
+[+] Contenedor 'hqc' iniciado.
+[+] Contenedor 'optimizacion_de_rutas' iniciado.
+[⚛️] Job HQC: Costo=117.0
+
+--- RECONFIGURACIÓN 2026-01-12 16:46:22 ---
+[-] Contenedor 'vqe' detenido.
+[-] Contenedor 'qiskit_simulator' detenido.
+[-] Contenedor 'algoritmo' detenido.
+[-] Contenedor 'backend' detenido.
+[-] Contenedor 'hqc' detenido.
+[-] Contenedor 'optimizacion_de_rutas' detenido.
+
+--- RECONFIGURACIÓN 2026-01-12 16:46:37 ---
+[+] Contenedor 'qaoa' iniciado.
+[+] Contenedor 'qiskit_simulator' iniciado.
+[+] Contenedor 'algoritmo' iniciado.
+[+] Contenedor 'backend' iniciado.
+[+] Contenedor 'hqc' iniciado.
+[+] Contenedor 'optimizacion_de_rutas' iniciado.
+[+] Contenedor 'entretenimiento_familiar' iniciado.
+[+] Contenedor 'entretenimiento' iniciado.
+[⚛️] Job HQC: Costo=214.0
+
+--- RECONFIGURACIÓN 2026-01-12 16:49:57 ---
+[-] Contenedor 'vqe' detenido.
+[-] Contenedor 'qiskit_simulator' detenido.
+[-] Contenedor 'entretenimiento_adulto' detenido.
+[-] Contenedor 'entretenimiento_familiar' detenido.
+[-] Contenedor 'deportes' detenido.
+[-] Contenedor 'ambientes_abiertos' detenido.
+[⚛️] Job HQC: Costo=-2.0
+
+--- RECONFIGURACIÓN 2026-01-12 16:50:50 ---
+[-] Contenedor 'entretenimiento_tercera_edad' detenido.
+[-] Contenedor 'entretenimiento' detenido.
+[+] Contenedor 'deportes' iniciado.
+[+] Contenedor 'ambientes_abiertos' iniciado.
+[-] Contenedor 'ambientes_cerrados' detenido.
+[-] Contenedor 'visualizador_restriccion_uso_lena' detenido.
+[⚛️] Job HQC: Costo=-2.0
+
+--- RECONFIGURACIÓN 2026-01-12 16:51:06 ---
+[-] Contenedor 'cirq_simulator' detenido.
+[-] Contenedor 'qaoa' detenido.
+[-] Contenedor 'algoritmo' detenido.
+[-] Contenedor 'backend' detenido.
+[-] Contenedor 'hqc' detenido.
+[-] Contenedor 'optimizacion_de_rutas' detenido.
+[+] Contenedor 'entretenimiento_adulto' iniciado.
+[+] Contenedor 'entretenimiento' iniciado.
+[-] Contenedor 'deportes' detenido.
+[+] Contenedor 'ambientes_cerrados' iniciado.
+[+] Contenedor 'visualizador_restriccion_uso_lena' iniciado.
+
+--- RECONFIGURACIÓN 2026-01-12 16:51:23 ---
+[+] Contenedor 'cirq_simulator' iniciado.
+[+] Contenedor 'vqe' iniciado.
+[+] Contenedor 'algoritmo' iniciado.
+[+] Contenedor 'backend' iniciado.
+[+] Contenedor 'hqc' iniciado.
+[+] Contenedor 'optimizacion_de_rutas' iniciado.
+[+] Contenedor 'entretenimiento_tercera_edad' iniciado.
+[-] Contenedor 'entretenimiento_adulto' detenido.
+[-] Contenedor 'ambientes_abiertos' detenido.
+[⚛️] Job HQC: Costo=-2.0
+
+--- RECONFIGURACIÓN 2026-01-12 16:51:51 ---
+[-] Contenedor 'vqe' detenido.
+[+] Contenedor 'qaoa' iniciado.
+[-] Contenedor 'entretenimiento_tercera_edad' detenido.
+[+] Contenedor 'entretenimiento_familiar' iniciado.
+[⚛️] Job HQC: Costo=-2.0
+
+--- RECONFIGURACIÓN 2026-01-12 16:52:24 ---
+[-] Contenedor 'cirq_simulator' detenido.
+[+] Contenedor 'qiskit_simulator' iniciado.
+[+] Contenedor 'entretenimiento_adulto' iniciado.
+[-] Contenedor 'entretenimiento_familiar' detenido.
+[⚛️] Job HQC: Costo=218.0
+
+--- RECONFIGURACIÓN 2026-01-12 19:46:16 ---
+[-] Contenedor 'cirq_simulator' detenido.
+[-] Contenedor 'vqe' detenido.
+[-] Contenedor 'qaoa' detenido.
+[-] Contenedor 'qiskit_simulator' detenido.
+[-] Contenedor 'algoritmo' detenido.
+[-] Contenedor 'backend' detenido.
+[-] Contenedor 'hqc' detenido.
+[-] Contenedor 'optimizacion_de_rutas' detenido.
+[-] Contenedor 'entretenimiento_adulto' detenido.
+[-] Contenedor 'entretenimiento_familiar' detenido.
+[-] Contenedor 'deportes' detenido.
+[-] Contenedor 'ambientes_abiertos' detenido.
+
+--- RECONFIGURACIÓN 2026-01-14 11:07:35 ---
+[-] Contenedor 'entretenimiento_adulto' detenido.
+[-] Contenedor 'entretenimiento_familiar' detenido.
+[-] Contenedor 'optimizacion_de_rutas' detenido.
+[-] Contenedor 'vqe' detenido.
+[-] Contenedor 'qaoa' detenido.
+[-] Contenedor 'algoritmo' detenido.
+[-] Contenedor 'backend' detenido.
+[-] Contenedor 'cirq_simulator' detenido.
+[-] Contenedor 'qiskit_simulator' detenido.
+[-] Contenedor 'hqc' detenido.
+[-] Contenedor 'deportes' detenido.
+
+--- RECONFIGURACIÓN 2026-01-14 11:09:22 ---
+[-] Contenedor 'entretenimiento_tercera_edad' detenido.
+[-] Contenedor 'entretenimiento' detenido.
+[-] Contenedor 'ambientes_abiertos' detenido.
+
+--- RECONFIGURACIÓN 2026-01-14 11:09:42 ---
+[+] Contenedor 'ambientes_abiertos' iniciado.
+[+] Contenedor 'optimizacion_de_rutas' iniciado.
+[+] Contenedor 'vqe' iniciado.
+[+] Contenedor 'algoritmo' iniciado.
+[+] Contenedor 'backend' iniciado.
+[+] Contenedor 'cirq_simulator' iniciado.
+[+] Contenedor 'hqc' iniciado.
+[+] Contenedor 'deportes' iniciado.
+[⚛️] Job HQC: Costo=-2.0
+
+--- RECONFIGURACIÓN 2026-01-14 11:10:51 ---
+[-] Contenedor 'optimizacion_de_rutas' detenido.
+[-] Contenedor 'vqe' detenido.
+[-] Contenedor 'algoritmo' detenido.
+[-] Contenedor 'backend' detenido.
+[-] Contenedor 'cirq_simulator' detenido.
+[-] Contenedor 'hqc' detenido.
+[-] Contenedor 'deportes' detenido.
+
+--- RECONFIGURACIÓN 2026-01-14 11:30:33 ---
+[-] Contenedor 'entretenimiento_tercera_edad' detenido.
+[-] Contenedor 'entretenimiento_adulto' detenido.
+[-] Contenedor 'entretenimiento_familiar' detenido.
+[-] Contenedor 'entretenimiento' detenido.
+[-] Contenedor 'ambientes_cerrados' detenido.
+[-] Contenedor 'visualizador_restriccion_uso_lena' detenido.
+[-] Contenedor 'qaoa' detenido.
+[-] Contenedor 'cirq_simulator' detenido.
+[⚛️] Job HQC: Costo=126.0
+
+--- RECONFIGURACIÓN 2026-01-14 11:34:17 ---
+[+] Contenedor 'entretenimiento_adulto' iniciado.
+[+] Contenedor 'entretenimiento' iniciado.
+[+] Contenedor 'ambientes_cerrados' iniciado.
+[-] Contenedor 'ambientes_abiertos' detenido.
+[+] Contenedor 'visualizador_restriccion_uso_lena' iniciado.
+[-] Contenedor 'deportes' detenido.
+[⚛️] Job HQC: Costo=120.0
+
+--- RECONFIGURACIÓN 2026-01-14 11:35:11 ---
+[-] Contenedor 'entretenimiento_adulto' detenido.
+[-] Contenedor 'entretenimiento' detenido.
+[⚛️] Job HQC: Costo=163.0
+
+--- RECONFIGURACIÓN 2026-01-14 11:36:05 ---
+[-] Contenedor 'ambientes_cerrados' detenido.
+[+] Contenedor 'ambientes_abiertos' iniciado.
+[-] Contenedor 'visualizador_restriccion_uso_lena' detenido.
+[-] Contenedor 'vqe' detenido.
+[+] Contenedor 'qaoa' iniciado.
+[+] Contenedor 'deportes' iniciado.
+[⚛️] Job HQC: Costo=5860.0
+
+--- RECONFIGURACIÓN 2026-01-14 11:37:07 ---
+[+] Contenedor 'ambientes_cerrados' iniciado.
+[-] Contenedor 'ambientes_abiertos' detenido.
+[-] Contenedor 'optimizacion_de_rutas' detenido.
+[+] Contenedor 'visualizador_restriccion_uso_lena' iniciado.
+[-] Contenedor 'qaoa' detenido.
+[-] Contenedor 'algoritmo' detenido.
+[-] Contenedor 'backend' detenido.
+[-] Contenedor 'qiskit_simulator' detenido.
+[-] Contenedor 'hqc' detenido.
+[-] Contenedor 'deportes' detenido.
+
+--- RECONFIGURACIÓN 2026-01-14 15:18:13 ---
+[-] Contenedor 'entretenimiento_tercera_edad' detenido.
+[-] Contenedor 'entretenimiento_familiar' detenido.
+[-] Contenedor 'ambientes_abiertos' detenido.
+[-] Contenedor 'qaoa' detenido.
+[-] Contenedor 'cirq_simulator' detenido.
+[-] Contenedor 'deportes' detenido.
+[⚛️] Job HQC: Costo=4048.0
+
+--- RECONFIGURACIÓN 2026-01-19 14:09:05 ---
+[-] Contenedor 'entretenimiento_adulto' detenido.
+[-] Contenedor 'entretenimiento_familiar' detenido.
+[-] Contenedor 'ambientes_abiertos' detenido.
+[-] Contenedor 'optimizacion_de_rutas' detenido.
+[-] Contenedor 'vqe' detenido.
+[-] Contenedor 'qaoa' detenido.
+[-] Contenedor 'algoritmo' detenido.
+[-] Contenedor 'backend' detenido.
+[-] Contenedor 'cirq_simulator' detenido.
+[-] Contenedor 'qiskit_simulator' detenido.
+[-] Contenedor 'hqc' detenido.
+[-] Contenedor 'deportes' detenido.
+
+--- RECONFIGURACIÓN 2026-01-19 14:12:02 ---
+[-] Contenedor 'entretenimiento_tercera_edad' detenido.
+[+] Contenedor 'entretenimiento_familiar' iniciado.
+[+] Contenedor 'optimizacion_de_rutas' iniciado.
+[+] Contenedor 'qaoa' iniciado.
+[+] Contenedor 'algoritmo' iniciado.
+[+] Contenedor 'backend' iniciado.
+[+] Contenedor 'cirq_simulator' iniciado.
+[+] Contenedor 'hqc' iniciado.
+[⚛️] Job HQC: Costo=-2.0
+
+--- RECONFIGURACIÓN 2026-01-19 16:42:22 ---
+[-] Contenedor 'entretenimiento_tercera_edad' detenido.
+[-] Contenedor 'entretenimiento_familiar' detenido.
+[-] Contenedor 'ambientes_abiertos' detenido.
+[-] Contenedor 'vqe' detenido.
+[-] Contenedor 'cirq_simulator' detenido.
+[-] Contenedor 'deportes' detenido.
+[⚛️] Job HQC: Costo=146.0
+
+--- RECONFIGURACIÓN 2026-01-19 16:42:51 ---
+[-] Contenedor 'optimizacion_de_rutas' detenido.
+[-] Contenedor 'qaoa' detenido.
+[-] Contenedor 'algoritmo' detenido.
+[-] Contenedor 'backend' detenido.
+[-] Contenedor 'qiskit_simulator' detenido.
+[-] Contenedor 'hqc' detenido.
