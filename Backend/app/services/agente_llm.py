@@ -30,10 +30,13 @@ def obtener_configuracion_llm(contexto_actual: str, reglas_del_modelo: str) -> d
        - Si activas un HIJO, debes activar a su PADRE y ABUELO.
        - Ejemplo: Si "cirq_simulator"=true -> ENTONCES "backend"=true Y "hqc"=true.
     
-    2. **Dependencias Cruzadas (REQUIERE):**
-       - **Regla A:** Si activas "ambientes_abiertos" -> OBLIGATORIAMENTE activa "deportes" (aunque el usuario no lo pida).
-       - **Regla B:** Si activas "ambientes_cerrados" -> OBLIGATORIAMENTE activa "visualizador_restriccion_uso_lena".
-       - **Regla C:** Si activas "optimizacion_de_rutas" -> OBLIGATORIAMENTE activa "hqc" (y toda su rama).
+    2. **Dependencias Cruzadas (REQUIERE) y Restricciones de Entorno (Umbrales Tesis):**
+       - **Regla A (Dependencias Fuertes):** Si activas "ambientes_abiertos" -> OBLIGATORIAMENTE activa "deportes". Si activas "ambientes_cerrados" -> OBLIGATORIAMENTE activa "visualizador_restriccion_uso_lena".
+       - **Regla B (Conexión Cuántica):** Si activas "optimizacion_de_rutas" -> OBLIGATORIAMENTE activa "hqc" (y toda su rama cuántica).
+       - **Regla C (Umbral ICA > 150 - Crisis Ambiental):** Si el ICA es MAYOR a 150, el sistema DEBE FORZAR la desactivación de servicios no esenciales como "deportes" y "ambientes_abiertos" (priorizando el negocio sobre el deseo del usuario). Si ICA <= 150, se permite operación normal.
+       - **Regla D (Umbral CP > 100 - Activación HQC):** Activa "optimizacion_de_rutas" (y por ende "hqc") SOLO SI la Complejidad (CP) es MAYOR a 100. Para CP <= 100, MANTÉN APAGADO "optimizacion_de_rutas" y "hqc" (el sistema mantiene ejecución puramente clásica para ahorrar recursos).
+       - **Regla E (SLA Latencia > 60s - Saturación Qiskit):** Si el backend cuántico se activa, y el tiempo de cola de Qiskit es MAYOR a 60 segundos (violación SLA Rapidez), GATILLA OBLIGATORIAMENTE la migración al "cirq_simulator" local. Si la cola es <= 60s, usa "qiskit_simulator".
+       - **Regla F (No Huérfanos):** NO actives "hqc" (ni su rama cuántica) de forma huérfana. Solo se enciende si el CP lo amerita y "optimizacion_de_rutas" está activo.
 
     3. **Completitud:**
        - Devuelve TODAS las claves del sistema. Usa snake_case.
@@ -73,7 +76,7 @@ def obtener_configuracion_llm(contexto_actual: str, reglas_del_modelo: str) -> d
         )
         
         model = genai.GenerativeModel(
-            'models/gemini-2.5-flash-lite',
+            'models/gemini-2.5-flash',
             system_instruction=prompt_sistema,
             generation_config=generation_config
         )
@@ -105,6 +108,17 @@ def obtener_configuracion_llm(contexto_actual: str, reglas_del_modelo: str) -> d
             if not config.get("visualizador_restriccion_uso_lena"):
                 print("AGENTE_WARN: Auto-corrigiendo -> Activando 'visualizador_restriccion_uso_lena'.")
                 config["visualizador_restriccion_uso_lena"] = True
+
+        # --- REGLA ANTI-ALUCINACIÓN CUÁNTICA ---
+        if not config.get("optimizacion_de_rutas"):
+            nodos_cuanticos = ["hqc", "backend", "algoritmo", "qiskit_simulator", "cirq_simulator", "qaoa", "vqe"]
+            apagados = False
+            for nodo in nodos_cuanticos:
+                if config.get(nodo):
+                    config[nodo] = False
+                    apagados = True
+            if apagados:
+                print("AGENTE_WARN: Auto-corrigiendo -> Apagando 'hqc' y rama porque 'optimizacion_de_rutas' está inactivo.")
 
         return data
 

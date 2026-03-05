@@ -2286,3 +2286,499 @@ Please retry in 41.2472611s. [links {
 2026-02-17 14:23:25 [ERROR] [CASO #1] ❌ FALLO VALIDACIÓN: Configuración LLM inválida.
 2026-02-17 14:23:25 [WARNING] ⚠️ [CASO #1] Ciclo finalizado sin configuración válida (posible error del LLM).
 2026-02-17 14:23:25 [INFO] 🏁 --- FIN CASO #1 ---
+2026-03-04 21:54:13 [INFO] 🔰 --- INICIO CASO #1 | ESCENARIO ID: 1 ---
+2026-03-04 21:54:13 [INFO] ✅ MONITOR: Cargados 4 escenarios.
+2026-03-04 21:54:13 [INFO] [CASO #1] PARÁMETROS: Escenario='Modo: Operación Diaria (Variable)' | ICA=34 | CP=94 | ColaQiskit=3s | Usuario='Familia con Niños (Requiere Entr. Familiar)'
+2026-03-04 21:54:16 [INFO] [CASO #1] ✅ LLM Respondió. Razonamiento: El aire ICA es 34, lo que indica buena calidad, pero la regla de 'Turismo' requiere 'Ambientes Abiertos' o 'Ambientes Cerrados'. Dado que el usuario no especifica preferencia y la complejidad computacional es alta (CP=94), se prioriza 'Ambientes Cerrados' para una mejor gestión de recursos. La alta complejidad y la sugerencia de 'QAOA' para el entorno cuántico, junto con la prioridad de RAPIDEZ y el bajo tiempo de cola de 'Qiskit Simulator', activan 'HQC', 'Backend', 'Algoritmo' y específicamente 'QAOA'. La demanda de 'Familia con Niños' activa 'Entretenimiento Familiar'.
+2026-03-04 21:54:16 [INFO] KNOWLEDGE: Actualizando base de conocimiento y estado global.
+2026-03-04 21:54:16 [INFO] [CASO #1] ⚙️ Iniciando reconfiguración de infraestructura...
+2026-03-04 21:54:17 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'entretenimiento_tercera_edad'
+2026-03-04 21:54:19 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'entretenimiento_adulto'
+2026-03-04 21:54:20 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'ambientes_abiertos'
+2026-03-04 21:54:22 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'optimizacion_de_rutas'
+2026-03-04 21:54:23 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'vqe'
+2026-03-04 21:54:24 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'cirq_simulator'
+2026-03-04 21:54:26 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'deportes'
+2026-03-04 21:54:26 [INFO] [CASO #1] ⚛️ Iniciando Job HQC en Qiskit Simulator (QAOA)...
+2026-03-04 21:54:37 [INFO] [CASO #1] ⚛️ EXITO HQC: Job completado. Costo=194.0
+2026-03-04 21:54:37 [INFO] ✅ [CASO #1] Ciclo finalizado exitosamente. Visualización generada.
+2026-03-04 21:54:37 [INFO] 🏁 --- FIN CASO #1 ---
+2026-03-04 22:11:17 [INFO] 🔰 --- INICIO CASO #1 | ESCENARIO ID: 1 ---
+2026-03-04 22:11:17 [INFO] ✅ MONITOR: Cargados 4 escenarios.
+2026-03-04 22:11:17 [INFO] [CASO #1] PARÁMETROS: Escenario='Modo: Operación Diaria (Variable)' | ICA=84 | CP=86 | ColaQiskit=3s | Usuario='Familia con Niños (Requiere Entr. Familiar)'
+2026-03-04 22:11:19 [INFO] [CASO #1] ✅ LLM Respondió. Razonamiento: El usuario solicita 'Entrenamiento Familiar', lo que activa 'Entretenimiento' y 'Entretenimiento Familiar'. Dado que el ICA es 84 (moderado), no se activan las funcionalidades de aire libre o cerrado. La complejidad computacional no es lo suficientemente alta para justificar la activación de HQC y sus dependencias, ya que no hay una ruta de optimización explícita solicitada ni una necesidad crítica de computación cuántica según las reglas. Por lo tanto, HQC, Backend y Algoritmo permanecen inactivos.
+2026-03-04 22:11:19 [ERROR] [CASO #1] ❌ FALLO VALIDACIÓN: Configuración LLM inválida.
+2026-03-04 22:11:19 [WARNING] ⚠️ [CASO #1] Ciclo finalizado sin configuración válida (posible error del LLM).
+2026-03-04 22:11:19 [INFO] 🏁 --- FIN CASO #1 ---
+2026-03-04 22:11:30 [INFO] 🔰 --- INICIO CASO #2 | ESCENARIO ID: 1 ---
+2026-03-04 22:11:30 [INFO] ✅ MONITOR: Cargados 4 escenarios.
+2026-03-04 22:11:30 [INFO] [CASO #2] PARÁMETROS: Escenario='Modo: Operación Diaria (Variable)' | ICA=48 | CP=71 | ColaQiskit=0s | Usuario='Adulto Mayor (Requiere Entr. Tercera Edad)'
+2026-03-04 22:11:32 [INFO] [CASO #2] ✅ LLM Respondió. Razonamiento: El usuario solicita 'Entretenimiento Tercera Edad', lo que activa 'Entretenimiento'. Dado que la complejidad computacional (CP=71) y el estado de decoherencia ('ALTO') no sugieren la necesidad de computación cuántica, y la prioridad es RAPIDEZ, se desactiva la rama HQC. El aire ICA (48) no requiere restricciones activas, por lo que se desactivan las ramas de visualización de calidad del aire y ambientes.
+2026-03-04 22:11:32 [ERROR] [CASO #2] ❌ FALLO VALIDACIÓN: Configuración LLM inválida.
+2026-03-04 22:11:32 [WARNING] ⚠️ [CASO #2] Ciclo finalizado sin configuración válida (posible error del LLM).
+2026-03-04 22:11:32 [INFO] 🏁 --- FIN CASO #2 ---
+2026-03-04 22:11:54 [INFO] 🔰 --- INICIO CASO #3 | ESCENARIO ID: 1 ---
+2026-03-04 22:11:54 [INFO] ✅ MONITOR: Cargados 4 escenarios.
+2026-03-04 22:11:54 [INFO] [CASO #3] PARÁMETROS: Escenario='Modo: Operación Diaria (Variable)' | ICA=70 | CP=70 | ColaQiskit=4s | Usuario='Evento Nocturno (Requiere Entr. Adulto)'
+2026-03-04 22:11:56 [INFO] [CASO #3] ✅ LLM Respondió. Razonamiento: El usuario solicita 'Evento Nocturno (Requiere Entr. Adulto)', lo que activa 'entretenimiento' y 'entretenimiento_adulto'. Dado que el aire ICA es 70, se activa 'gestor_aire', 'visualizador_calidad_aire' y 'turismo'. La complejidad CP de 70 y la sugerencia de VQE de 'entorno_cuantico' no son suficientes para activar 'hqc' u 'optimizacion_de_rutas' debido a la Regla D ('No actives "hqc" (ni su rama cuántica) a menos que "optimizacion_de_rutas" esté activada'). La prioridad 'RAPIDEZ' y el estado de los backends no influyen en la activación de componentes, solo en la selección si estuvieran activos. No se activan 'ambientes_abiertos' ni 'deportes' ya que no hay indicación explícita del usuario ni requerimiento técnico. Tampoco se activan 'ambientes_cerrados' ni 'visualizador_restriccion_uso_lena' por la misma razón.
+2026-03-04 22:11:56 [ERROR] [CASO #3] ❌ FALLO VALIDACIÓN: Configuración LLM inválida.
+2026-03-04 22:11:56 [WARNING] ⚠️ [CASO #3] Ciclo finalizado sin configuración válida (posible error del LLM).
+2026-03-04 22:11:56 [INFO] 🏁 --- FIN CASO #3 ---
+2026-03-04 22:12:02 [INFO] 🔰 --- INICIO CASO #4 | ESCENARIO ID: 2 ---
+2026-03-04 22:12:02 [INFO] ✅ MONITOR: Cargados 4 escenarios.
+2026-03-04 22:12:02 [INFO] [CASO #4] PARÁMETROS: Escenario='Modo: Alta Demanda (Incertidumbre)' | ICA=45 | CP=289 | ColaQiskit=26s | Usuario='Grupo Deportivo (Requiere Deportes)'
+2026-03-04 22:22:02 [ERROR] ❌ ERROR CRÍTICO LLM: 504 Deadline Exceeded
+2026-03-04 22:22:02 [ERROR] [CASO #4] ❌ FALLO LLM: Configuración vacía.
+2026-03-04 22:22:02 [WARNING] ⚠️ [CASO #4] Ciclo finalizado sin configuración válida (posible error del LLM).
+2026-03-04 22:22:02 [INFO] 🏁 --- FIN CASO #4 ---
+2026-03-04 22:22:34 [INFO] 🔰 --- INICIO CASO #5 | ESCENARIO ID: 1 ---
+2026-03-04 22:22:34 [INFO] ✅ MONITOR: Cargados 4 escenarios.
+2026-03-04 22:22:34 [INFO] [CASO #5] PARÁMETROS: Escenario='Modo: Operación Diaria (Variable)' | ICA=21 | CP=119 | ColaQiskit=3s | Usuario='Adulto Mayor (Requiere Entr. Tercera Edad)'
+2026-03-04 22:22:36 [INFO] [CASO #5] ✅ LLM Respondió. Razonamiento: El perfil de usuario 'Adulto Mayor' activa 'Entretenimiento Tercera Edad'. Dado que 'Gestor Aire' está activo, 'Turismo' es obligatorio. Sin embargo, no hay requisitos explícitos para 'Ambientes Abiertos' o 'Ambientes Cerrados', y la complejidad computacional no justifica la activación de HQC o sus subcomponentes. Por lo tanto, 'Ambientes Abiertos' y 'Ambientes Cerrados' se desactivan. 'Deportes' se desactiva porque 'Ambientes Abiertos' está inactivo. 'Visualizador Restriccion Uso Lena' se desactiva porque 'Ambientes Cerrados' está inactivo. 'Optimizacion de Rutas', 'HQC', 'Backend' y 'Algoritmo' se desactivan ya que no son requeridos por ninguna regla activa y no hay una necesidad explícita de computación cuántica.
+2026-03-04 22:22:36 [ERROR] [CASO #5] ❌ FALLO VALIDACIÓN: Configuración LLM inválida.
+2026-03-04 22:22:36 [WARNING] ⚠️ [CASO #5] Ciclo finalizado sin configuración válida (posible error del LLM).
+2026-03-04 22:22:36 [INFO] 🏁 --- FIN CASO #5 ---
+2026-03-04 22:25:48 [INFO] 🔰 --- INICIO CASO #1 | ESCENARIO ID: 1 ---
+2026-03-04 22:25:48 [INFO] ✅ MONITOR: Cargados 4 escenarios.
+2026-03-04 22:25:48 [INFO] [CASO #1] PARÁMETROS: Escenario='Modo: Operación Diaria (Variable)' | ICA=65 | CP=101 | ColaQiskit=4s | Usuario='Turista Estándar (Solo Rutas)'
+2026-03-04 22:26:05 [INFO] [CASO #1] ✅ LLM Respondió. Razonamiento: El 'Gestor aire' está siempre activo. 'Turismo' y 'Visualizador calidad aire' son obligatorios. La intención de usuario 'Solo Rutas' activa 'Optimizacion de rutas', lo que a su vez fuerza la activación de 'HQC' por regla de dependencia. 'HQC' obliga a activar 'Algoritmo' y 'Backend'. Se selecciona 'QAOA' por sugerencia del entorno cuántico y 'Qiskit Simulator' por prioridad de rapidez. 'Turismo' requiere un ambiente, se elige 'Ambientes abiertos' por defecto. 'Ambientes abiertos' fuerza la activación de 'Deportes' por regla de dependencia. El resto de funcionalidades opcionales no se activan al no ser solicitadas o requeridas por reglas.
+2026-03-04 22:26:05 [INFO] KNOWLEDGE: Actualizando base de conocimiento y estado global.
+2026-03-04 22:26:05 [INFO] [CASO #1] ⚙️ Iniciando reconfiguración de infraestructura...
+2026-03-04 22:26:06 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'entretenimiento_familiar'
+2026-03-04 22:26:08 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'entretenimiento'
+2026-03-04 22:26:09 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'ambientes_cerrados'
+2026-03-04 22:26:09 [INFO] [CASO #1] 🟢 ACTIVADO EXITO: Contenedor 'ambientes_abiertos'
+2026-03-04 22:26:09 [INFO] [CASO #1] 🟢 ACTIVADO EXITO: Contenedor 'optimizacion_de_rutas'
+2026-03-04 22:26:11 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'visualizador_restriccion_uso_lena'
+2026-03-04 22:26:11 [INFO] [CASO #1] 🟢 ACTIVADO EXITO: Contenedor 'deportes'
+2026-03-04 22:26:11 [INFO] [CASO #1] ⚛️ Iniciando Job HQC en Qiskit Simulator (QAOA)...
+2026-03-04 22:26:22 [INFO] [CASO #1] ⚛️ EXITO HQC: Job completado. Costo=169.0
+2026-03-04 22:26:22 [INFO] ✅ [CASO #1] Ciclo finalizado exitosamente. Visualización generada.
+2026-03-04 22:26:22 [INFO] 🏁 --- FIN CASO #1 ---
+2026-03-04 22:37:36 [INFO] 🔰 --- INICIO CASO #1 | ESCENARIO ID: 1 ---
+2026-03-04 22:37:36 [INFO] ✅ MONITOR: Cargados 4 escenarios.
+2026-03-04 22:37:36 [INFO] [CASO #1] PARÁMETROS: Escenario='Modo: Operación Diaria (Variable)' | ICA=42 | CP=79 | ColaQiskit=4s | Usuario='Turista Estándar (Solo Rutas)'
+2026-03-04 22:37:53 [INFO] [CASO #1] ✅ LLM Respondió. Razonamiento: El nodo raíz 'Gestor aire' está siempre activo. 'Visualizador calidad aire' y 'Turismo' son obligatorios al activar 'Gestor aire'. La intención de usuario 'Turista Estándar (Solo Rutas)' activa 'Optimizacion de rutas'. La regla 'Optimizacion de rutas' REQUIERE 'HQC', lo que a su vez obliga a activar 'Backend' y 'Algoritmo'. Para 'Backend', se prioriza 'Qiskit Simulator' por su menor tiempo de cola y tasa de error (Prioridad RAPIDEZ). Para 'Algoritmo', se activa 'VQE' según la sugerencia de optimización del entorno cuántico. 'Turismo' requiere exactamente uno de 'Ambientes cerrados' o 'Ambientes abiertos'; se activa 'Ambientes cerrados' que, por regla, REQUIERE 'Visualizador restriccion uso lena'. 'Deportes' y 'Entretenimiento' se mantienen inactivos al no ser solicitados y ser opcionales.
+2026-03-04 22:37:53 [INFO] KNOWLEDGE: Actualizando base de conocimiento y estado global.
+2026-03-04 22:37:53 [INFO] [CASO #1] ⚙️ Iniciando reconfiguración de infraestructura...
+2026-03-04 22:37:54 [INFO] [CASO #1] 🟢 ACTIVADO EXITO: Contenedor 'ambientes_cerrados'
+2026-03-04 22:37:55 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'ambientes_abiertos'
+2026-03-04 22:37:56 [INFO] [CASO #1] 🟢 ACTIVADO EXITO: Contenedor 'visualizador_restriccion_uso_lena'
+2026-03-04 22:37:56 [INFO] [CASO #1] 🟢 ACTIVADO EXITO: Contenedor 'vqe'
+2026-03-04 22:37:57 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'qaoa'
+2026-03-04 22:37:59 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'deportes'
+2026-03-04 22:37:59 [INFO] [CASO #1] ⚛️ Iniciando Job HQC en Qiskit Simulator (VQE)...
+2026-03-04 22:38:21 [INFO] [CASO #1] ⚛️ EXITO HQC: Job completado. Costo=189.0
+2026-03-04 22:38:21 [INFO] ✅ [CASO #1] Ciclo finalizado exitosamente. Visualización generada.
+2026-03-04 22:38:21 [INFO] 🏁 --- FIN CASO #1 ---
+2026-03-04 22:41:03 [INFO] 🔰 --- INICIO CASO #2 | ESCENARIO ID: 1 ---
+2026-03-04 22:41:03 [INFO] ✅ MONITOR: Cargados 4 escenarios.
+2026-03-04 22:41:03 [INFO] [CASO #2] PARÁMETROS: Escenario='Modo: Operación Diaria (Variable)' | ICA=46 | CP=65 | ColaQiskit=2s | Usuario='Turista Estándar (Solo Rutas)'
+2026-03-04 22:41:22 [INFO] [CASO #2] ✅ LLM Respondió. Razonamiento: El nodo raíz 'Gestor aire' está activo por defecto. 'Turismo' y 'Visualizador calidad aire' se activan obligatoriamente al activar 'Gestor aire'. La intención de usuario 'Turista Estándar (Solo Rutas)' activa 'Optimizacion de rutas'. La regla crítica 'Optimizacion de rutas REQUIERE HQC' fuerza la activación de 'HQC' y, por ende, de 'Backend' y 'Algoritmo'. Para 'Algoritmo', se selecciona 'VQE' según la sugerencia de optimización del entorno cuántico. Para 'Backend', se elige 'Qiskit Simulator' por su menor tasa de error, priorizando la calidad sobre la rapidez (ambos simuladores tienen el mismo tiempo de cola). Para 'Turismo', se activa 'Ambientes abiertos' debido a la buena calidad del aire (ICA=46). La regla 'Ambientes abiertos REQUIERE Deportes' fuerza la activación de 'Deportes'. 'Ambientes cerrados' se desactiva para cumplir la regla de 'EXACTAMENTE UNO' para 'Turismo'. 'Visualizador restriccion uso lena' se desactiva porque 'Ambientes cerrados' está inactivo (regla crítica) y no es necesario por la buena calidad del aire. 'Entretenimiento' y sus hijos se desactivan al no ser parte de la intención de usuario 'Solo Rutas'.
+2026-03-04 22:41:22 [INFO] KNOWLEDGE: Actualizando base de conocimiento y estado global.
+2026-03-04 22:41:22 [INFO] [CASO #2] ⚙️ Iniciando reconfiguración de infraestructura...
+2026-03-04 22:41:24 [INFO] [CASO #2] 🔴 DESACTIVADO EXITO: Contenedor 'ambientes_cerrados'
+2026-03-04 22:41:24 [INFO] [CASO #2] 🟢 ACTIVADO EXITO: Contenedor 'ambientes_abiertos'
+2026-03-04 22:41:25 [INFO] [CASO #2] 🔴 DESACTIVADO EXITO: Contenedor 'visualizador_restriccion_uso_lena'
+2026-03-04 22:41:25 [INFO] [CASO #2] 🟢 ACTIVADO EXITO: Contenedor 'deportes'
+2026-03-04 22:41:25 [INFO] [CASO #2] ⚛️ Iniciando Job HQC en Qiskit Simulator (VQE)...
+2026-03-04 22:41:29 [INFO] [CASO #2] ⚛️ EXITO HQC: Job completado. Costo=174.0
+2026-03-04 22:41:30 [INFO] ✅ [CASO #2] Ciclo finalizado exitosamente. Visualización generada.
+2026-03-04 22:41:30 [INFO] 🏁 --- FIN CASO #2 ---
+2026-03-04 23:58:49 [INFO] 🔰 --- INICIO CASO #1 | ESCENARIO ID: 1 ---
+2026-03-04 23:58:49 [INFO] ✅ MONITOR: Cargados 4 escenarios.
+2026-03-04 23:58:49 [INFO] [CASO #1] PARÁMETROS: Escenario='Modo: Operación Diaria (Variable)' | ICA=88 | CP=81 | ColaQiskit=0s | Usuario='Turista Estándar (Solo Rutas)'
+2026-03-04 23:59:07 [INFO] [CASO #1] ✅ LLM Respondió. Razonamiento: El 'Gestor aire', 'Visualizador calidad aire' y 'Turismo' se activan obligatoriamente. La 'Complejidad CP' (81) no supera el umbral de 100, por lo que 'Optimizacion de rutas' y toda la rama 'HQC' (incluyendo 'Backend' y 'Algoritmo' con sus hijos) se mantienen INACTIVAS (Regla D). El ICA (88) permite la operación normal, por lo que no se fuerza la desactivación de 'Deportes' o 'Ambientes abiertos'. 'Turismo' requiere exactamente uno de 'Ambientes cerrados' o 'Ambientes abiertos'; se activa 'Ambientes abiertos' y, por dependencia, 'Deportes' (Regla A). 'Entretenimiento' se desactiva al no ser solicitado explícitamente por el perfil de usuario.
+2026-03-04 23:59:07 [INFO] KNOWLEDGE: Actualizando base de conocimiento y estado global.
+2026-03-04 23:59:07 [INFO] [CASO #1] ⚙️ Iniciando reconfiguración de infraestructura...
+2026-03-04 23:59:09 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'optimizacion_de_rutas'
+2026-03-04 23:59:10 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'vqe'
+2026-03-04 23:59:11 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'algoritmo'
+2026-03-04 23:59:13 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'backend'
+2026-03-04 23:59:14 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'qiskit_simulator'
+2026-03-04 23:59:15 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'hqc'
+2026-03-04 23:59:16 [INFO] ✅ [CASO #1] Ciclo finalizado exitosamente. Visualización generada.
+2026-03-04 23:59:16 [INFO] 🏁 --- FIN CASO #1 ---
+2026-03-05 00:00:38 [INFO] 🔰 --- INICIO CASO #2 | ESCENARIO ID: 2 ---
+2026-03-05 00:00:38 [INFO] ✅ MONITOR: Cargados 4 escenarios.
+2026-03-05 00:00:38 [INFO] [CASO #2] PARÁMETROS: Escenario='Modo: Alta Demanda (Incertidumbre)' | ICA=41 | CP=131 | ColaQiskit=34s | Usuario='Turista Estándar (Solo Rutas)'
+2026-03-05 00:14:27 [INFO] 🔰 --- INICIO CASO #1 | ESCENARIO ID: 1 ---
+2026-03-05 00:14:27 [INFO] ✅ MONITOR: Cargados 4 escenarios.
+2026-03-05 00:14:27 [INFO] [CASO #1] PARÁMETROS: Escenario='Modo: Operación Diaria (Variable)' | ICA=81 | CP=87 | ColaQiskit=1s | Usuario='Grupo Deportivo (Requiere Deportes)'
+2026-03-05 00:14:46 [INFO] [CASO #1] ✅ LLM Respondió. Razonamiento: El nodo raíz 'Gestor aire' está activo. 'Turismo' y 'Visualizador calidad aire' se activan obligatoriamente como hijos de 'Gestor aire'. El ICA (81) está por debajo del umbral de crisis (150), permitiendo la activación de servicios al aire libre. La Complejidad (CP=87) está por debajo del umbral (100), lo que desactiva 'Optimizacion de rutas' y toda la rama cuántica ('HQC', 'Backend', 'Algoritmo' y sus hijos) para mantener la ejecución clásica y ahorrar recursos (Regla D). El perfil de usuario 'Grupo Deportivo' requiere 'Deportes', lo que activa 'Deportes' y, por jerarquía y la regla 'Ambientes abiertos' REQUIERE 'Deportes', también activa 'Ambientes abiertos'. Dado que 'Turismo' requiere exactamente uno de 'Ambientes cerrados' o 'Ambientes abiertos', y 'Ambientes abiertos' está activo, 'Ambientes cerrados' se desactiva. La desactivación de 'Ambientes cerrados' fuerza la desactivación de su hijo 'Visualizador restriccion uso lena'. 'Entretenimiento' y sus hijos se mantienen inactivos al no ser solicitados y ser opcionales.
+2026-03-05 00:14:46 [INFO] KNOWLEDGE: Actualizando base de conocimiento y estado global.
+2026-03-05 00:14:46 [INFO] [CASO #1] ⚙️ Iniciando reconfiguración de infraestructura...
+2026-03-05 00:14:47 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'entretenimiento_tercera_edad'
+2026-03-05 00:14:48 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'entretenimiento_adulto'
+2026-03-05 00:14:50 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'entretenimiento_familiar'
+2026-03-05 00:14:51 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'entretenimiento'
+2026-03-05 00:14:52 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'ambientes_cerrados'
+2026-03-05 00:14:53 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'optimizacion_de_rutas'
+2026-03-05 00:14:54 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'visualizador_restriccion_uso_lena'
+2026-03-05 00:14:56 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'vqe'
+2026-03-05 00:14:57 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'qaoa'
+2026-03-05 00:14:58 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'algoritmo'
+2026-03-05 00:14:59 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'backend'
+2026-03-05 00:15:01 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'cirq_simulator'
+2026-03-05 00:15:02 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'qiskit_simulator'
+2026-03-05 00:15:03 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'hqc'
+2026-03-05 00:15:03 [INFO] ✅ [CASO #1] Ciclo finalizado exitosamente. Visualización generada.
+2026-03-05 00:15:03 [INFO] 🏁 --- FIN CASO #1 ---
+2026-03-05 00:21:25 [INFO] 🔰 --- INICIO CASO #2 | ESCENARIO ID: 4 ---
+2026-03-05 00:21:25 [INFO] ✅ MONITOR: Cargados 4 escenarios.
+2026-03-05 00:21:25 [INFO] [CASO #2] PARÁMETROS: Escenario='Modo: Fallos de Infraestructura' | ICA=55 | CP=361 | ColaQiskit=180s | Usuario='Grupo Deportivo (Requiere Deportes)'
+2026-03-05 00:21:44 [INFO] [CASO #2] ✅ LLM Respondió. Razonamiento: El 'Gestor aire' está siempre activo. 'Visualizador calidad aire' y 'Turismo' son obligatorios. El ICA (55) permite la activación de 'Ambientes abiertos' y 'Deportes' según el perfil de usuario 'Grupo Deportivo'. La Complejidad (CP=361) es mayor a 100, lo que activa 'Optimizacion de rutas' y, por ende, 'HQC'. 'HQC' activa 'Algoritmo' y 'Backend'. El tiempo de cola de Qiskit (180s) excede el SLA de 60s, forzando la migración a 'Cirq Simulator'. La sugerencia del entorno cuántico activa 'VQE'.
+2026-03-05 00:21:44 [INFO] KNOWLEDGE: Actualizando base de conocimiento y estado global.
+2026-03-05 00:21:44 [INFO] [CASO #2] ⚙️ Iniciando reconfiguración de infraestructura...
+2026-03-05 00:21:45 [INFO] [CASO #2] 🟢 ACTIVADO EXITO: Contenedor 'optimizacion_de_rutas'
+2026-03-05 00:21:45 [INFO] [CASO #2] 🟢 ACTIVADO EXITO: Contenedor 'vqe'
+2026-03-05 00:21:45 [INFO] [CASO #2] 🟢 ACTIVADO EXITO: Contenedor 'algoritmo'
+2026-03-05 00:21:45 [INFO] [CASO #2] 🟢 ACTIVADO EXITO: Contenedor 'backend'
+2026-03-05 00:21:46 [INFO] [CASO #2] 🟢 ACTIVADO EXITO: Contenedor 'cirq_simulator'
+2026-03-05 00:21:46 [INFO] [CASO #2] 🟢 ACTIVADO EXITO: Contenedor 'hqc'
+2026-03-05 00:21:46 [INFO] [CASO #2] ⚛️ Iniciando Job HQC en Cirq Simulator (VQE)...
+2026-03-05 00:21:47 [INFO] [CASO #2] ⚛️ EXITO HQC: Job completado. Costo=-2.0
+2026-03-05 00:21:47 [INFO] ✅ [CASO #2] Ciclo finalizado exitosamente. Visualización generada.
+2026-03-05 00:21:47 [INFO] 🏁 --- FIN CASO #2 ---
+2026-03-05 00:24:05 [INFO] 🔰 --- INICIO CASO #3 | ESCENARIO ID: 1 ---
+2026-03-05 00:24:05 [INFO] ✅ MONITOR: Cargados 4 escenarios.
+2026-03-05 00:24:05 [INFO] [CASO #3] PARÁMETROS: Escenario='Modo: Operación Diaria (Variable)' | ICA=86 | CP=67 | ColaQiskit=3s | Usuario='Turista Estándar (Solo Rutas)'
+2026-03-05 00:24:24 [INFO] [CASO #3] ✅ LLM Respondió. Razonamiento: El perfil de usuario 'Turista Estándar (Solo Rutas)' sugiere activar la optimización de rutas. Sin embargo, la Complejidad Computacional (CP=67) es inferior al umbral de 100. Según la Regla D, esto fuerza la desactivación de 'optimizacion_de_rutas' y toda la rama cuántica ('HQC', 'Backend', 'Algoritmo' y sus hijos) para mantener una ejecución clásica y ahorrar recursos. Dado que 'Turismo' está activo, y 'Optimizacion de rutas' está inactivo, se activa 'Ambientes cerrados' (y por ende 'Visualizador restriccion uso lena') para cumplir con la regla de 'EXACTAMENTE UNO' para los ambientes. El ICA (86) no supera el umbral de 150, por lo que no hay restricciones ambientales adicionales.
+2026-03-05 00:24:24 [INFO] KNOWLEDGE: Actualizando base de conocimiento y estado global.
+2026-03-05 00:24:24 [INFO] [CASO #3] ⚙️ Iniciando reconfiguración de infraestructura...
+2026-03-05 00:24:24 [INFO] [CASO #3] 🟢 ACTIVADO EXITO: Contenedor 'ambientes_cerrados'
+2026-03-05 00:24:26 [INFO] [CASO #3] 🔴 DESACTIVADO EXITO: Contenedor 'ambientes_abiertos'
+2026-03-05 00:24:27 [INFO] [CASO #3] 🔴 DESACTIVADO EXITO: Contenedor 'optimizacion_de_rutas'
+2026-03-05 00:24:27 [INFO] [CASO #3] 🟢 ACTIVADO EXITO: Contenedor 'visualizador_restriccion_uso_lena'
+2026-03-05 00:24:28 [INFO] [CASO #3] 🔴 DESACTIVADO EXITO: Contenedor 'vqe'
+2026-03-05 00:24:30 [INFO] [CASO #3] 🔴 DESACTIVADO EXITO: Contenedor 'algoritmo'
+2026-03-05 00:24:31 [INFO] [CASO #3] 🔴 DESACTIVADO EXITO: Contenedor 'backend'
+2026-03-05 00:24:32 [INFO] [CASO #3] 🔴 DESACTIVADO EXITO: Contenedor 'cirq_simulator'
+2026-03-05 00:24:34 [INFO] [CASO #3] 🔴 DESACTIVADO EXITO: Contenedor 'hqc'
+2026-03-05 00:24:35 [INFO] [CASO #3] 🔴 DESACTIVADO EXITO: Contenedor 'deportes'
+2026-03-05 00:24:35 [INFO] ✅ [CASO #3] Ciclo finalizado exitosamente. Visualización generada.
+2026-03-05 00:24:35 [INFO] 🏁 --- FIN CASO #3 ---
+2026-03-05 00:29:06 [INFO] 🔰 --- INICIO CASO #4 | ESCENARIO ID: 1 ---
+2026-03-05 00:29:06 [INFO] ✅ MONITOR: Cargados 4 escenarios.
+2026-03-05 00:29:06 [INFO] [CASO #4] PARÁMETROS: Escenario='Modo: Operación Diaria (Variable)' | ICA=62 | CP=97 | ColaQiskit=3s | Usuario='Evento Nocturno (Requiere Entr. Adulto)'
+2026-03-05 00:29:24 [INFO] [CASO #4] ✅ LLM Respondió. Razonamiento: El 'Gestor aire' está activo por defecto. 'Visualizador calidad aire' y 'Turismo' se activan obligatoriamente. El perfil de usuario 'Evento Nocturno (Requiere Entr. Adulto)' activa 'Entretenimiento' y 'Entretenimiento adulto'. Para cumplir la regla de 'Turismo' (EXACTAMENTE UNO de [Ambientes cerrados, Ambientes abiertos]), se activa 'Ambientes cerrados' por ser más coherente con un evento nocturno, lo que a su vez fuerza la activación de 'Visualizador restriccion uso lena'. La 'Complejidad CP' (97) es menor o igual a 100, por lo que 'Optimizacion de rutas' y toda la rama 'HQC' permanecen inactivos según la Regla D, priorizando la eficiencia computacional.
+2026-03-05 00:29:24 [INFO] KNOWLEDGE: Actualizando base de conocimiento y estado global.
+2026-03-05 00:29:24 [INFO] [CASO #4] ⚙️ Iniciando reconfiguración de infraestructura...
+2026-03-05 00:29:25 [INFO] [CASO #4] 🟢 ACTIVADO EXITO: Contenedor 'entretenimiento_adulto'
+2026-03-05 00:29:25 [INFO] [CASO #4] 🟢 ACTIVADO EXITO: Contenedor 'entretenimiento'
+2026-03-05 00:29:25 [INFO] ✅ [CASO #4] Ciclo finalizado exitosamente. Visualización generada.
+2026-03-05 00:29:25 [INFO] 🏁 --- FIN CASO #4 ---
+2026-03-05 00:29:47 [INFO] 🔰 --- INICIO CASO #5 | ESCENARIO ID: 1 ---
+2026-03-05 00:29:47 [INFO] ✅ MONITOR: Cargados 4 escenarios.
+2026-03-05 00:29:47 [INFO] [CASO #5] PARÁMETROS: Escenario='Modo: Operación Diaria (Variable)' | ICA=51 | CP=68 | ColaQiskit=4s | Usuario='Adulto Mayor (Requiere Entr. Tercera Edad)'
+2026-03-05 00:30:01 [INFO] [CASO #5] ✅ LLM Respondió. Razonamiento: El nodo raíz 'Gestor aire' está activo. 'Visualizador calidad aire' y 'Turismo' se activan obligatoriamente. El ICA (51) es bajo, permitiendo 'Ambientes abiertos'. La activación de 'Ambientes abiertos' fuerza la activación de 'Deportes' por dependencia técnica, a pesar de no ser una solicitud explícita del perfil. El perfil 'Adulto Mayor' activa 'Entretenimiento' y específicamente 'Entretenimiento tercera edad'. La Complejidad (CP=68) es menor o igual a 100, lo que desactiva 'Optimizacion de rutas' y toda la rama 'HQC' (incluyendo 'Backend' y 'Algoritmo') para mantener la ejecución clásica y ahorrar recursos, según la Regla D y F.
+2026-03-05 00:30:01 [INFO] KNOWLEDGE: Actualizando base de conocimiento y estado global.
+2026-03-05 00:30:01 [INFO] [CASO #5] ⚙️ Iniciando reconfiguración de infraestructura...
+2026-03-05 00:30:03 [INFO] [CASO #5] 🔴 DESACTIVADO EXITO: Contenedor 'entretenimiento_adulto'
+2026-03-05 00:30:05 [INFO] [CASO #5] 🔴 DESACTIVADO EXITO: Contenedor 'entretenimiento_familiar'
+2026-03-05 00:30:06 [INFO] [CASO #5] 🔴 DESACTIVADO EXITO: Contenedor 'ambientes_cerrados'
+2026-03-05 00:30:07 [INFO] [CASO #5] 🔴 DESACTIVADO EXITO: Contenedor 'optimizacion_de_rutas'
+2026-03-05 00:30:09 [INFO] [CASO #5] 🔴 DESACTIVADO EXITO: Contenedor 'visualizador_restriccion_uso_lena'
+2026-03-05 00:30:10 [INFO] [CASO #5] 🔴 DESACTIVADO EXITO: Contenedor 'vqe'
+2026-03-05 00:30:11 [INFO] [CASO #5] 🔴 DESACTIVADO EXITO: Contenedor 'qaoa'
+2026-03-05 00:30:13 [INFO] [CASO #5] 🔴 DESACTIVADO EXITO: Contenedor 'algoritmo'
+2026-03-05 00:30:14 [INFO] [CASO #5] 🔴 DESACTIVADO EXITO: Contenedor 'backend'
+2026-03-05 00:30:15 [INFO] [CASO #5] 🔴 DESACTIVADO EXITO: Contenedor 'cirq_simulator'
+2026-03-05 00:30:16 [INFO] [CASO #5] 🔴 DESACTIVADO EXITO: Contenedor 'qiskit_simulator'
+2026-03-05 00:30:18 [INFO] [CASO #5] 🔴 DESACTIVADO EXITO: Contenedor 'hqc'
+2026-03-05 00:30:18 [INFO] ✅ [CASO #5] Ciclo finalizado exitosamente. Visualización generada.
+2026-03-05 00:30:18 [INFO] 🏁 --- FIN CASO #5 ---
+2026-03-05 00:42:44 [INFO] 🔰 --- INICIO CASO #6 | ESCENARIO ID: 3 ---
+2026-03-05 00:42:44 [INFO] ✅ MONITOR: Cargados 4 escenarios.
+2026-03-05 00:42:44 [INFO] [CASO #6] PARÁMETROS: Escenario='Modo: Crisis Ambiental' | ICA=264 | CP=60 | ColaQiskit=8s | Usuario='Turista Estándar (Solo Rutas)'
+2026-03-05 00:43:01 [INFO] [CASO #6] ✅ LLM Respondió. Razonamiento: El nodo raíz 'Gestor aire' está siempre activo. 'Visualizador calidad aire' y 'Turismo' se activan obligatoriamente al estar 'Gestor aire' activo. Debido a que el ICA es 264 (mayor a 150), la Regla C de Umbral ICA fuerza la desactivación de 'Deportes' y 'Ambientes abiertos'. Como 'Turismo' está activo y requiere exactamente uno entre 'Ambientes cerrados' y 'Ambientes abiertos', y 'Ambientes abiertos' está inactivo, 'Ambientes cerrados' se activa. 'Visualizador restriccion uso lena' se activa porque 'Ambientes cerrados' lo requiere y es relevante dado el alto ICA. La Complejidad (CP) es 60 (menor o igual a 100), por lo que la Regla D de Umbral CP fuerza la desactivación de 'Optimizacion de rutas' y 'HQC' (y toda su rama cuántica), priorizando la ejecución clásica y el ahorro de recursos sobre la intención de usuario de 'Solo Rutas'. 'Entretenimiento' y sus hijos permanecen inactivos al no ser solicitados y no ser forzados por ninguna regla.
+2026-03-05 00:43:01 [INFO] KNOWLEDGE: Actualizando base de conocimiento y estado global.
+2026-03-05 00:43:01 [INFO] [CASO #6] ⚙️ Iniciando reconfiguración de infraestructura...
+2026-03-05 00:43:02 [INFO] [CASO #6] 🔴 DESACTIVADO EXITO: Contenedor 'entretenimiento_tercera_edad'
+2026-03-05 00:43:03 [INFO] [CASO #6] 🔴 DESACTIVADO EXITO: Contenedor 'entretenimiento'
+2026-03-05 00:43:04 [INFO] [CASO #6] 🟢 ACTIVADO EXITO: Contenedor 'ambientes_cerrados'
+2026-03-05 00:43:05 [INFO] [CASO #6] 🔴 DESACTIVADO EXITO: Contenedor 'ambientes_abiertos'
+2026-03-05 00:43:05 [INFO] [CASO #6] 🟢 ACTIVADO EXITO: Contenedor 'visualizador_restriccion_uso_lena'
+2026-03-05 00:43:07 [INFO] [CASO #6] 🔴 DESACTIVADO EXITO: Contenedor 'deportes'
+2026-03-05 00:43:07 [INFO] ✅ [CASO #6] Ciclo finalizado exitosamente. Visualización generada.
+2026-03-05 00:43:07 [INFO] 🏁 --- FIN CASO #6 ---
+2026-03-05 00:43:37 [INFO] 🔰 --- INICIO CASO #7 | ESCENARIO ID: 4 ---
+2026-03-05 00:43:37 [INFO] ✅ MONITOR: Cargados 4 escenarios.
+2026-03-05 00:43:38 [INFO] [CASO #7] PARÁMETROS: Escenario='Modo: Fallos de Infraestructura' | ICA=54 | CP=278 | ColaQiskit=188s | Usuario='Adulto Mayor (Requiere Entr. Tercera Edad)'
+2026-03-05 00:43:55 [INFO] [CASO #7] ✅ LLM Respondió. Razonamiento: El nodo raíz 'Gestor aire' está activo. 'Visualizador calidad aire' y 'Turismo' se activan obligatoriamente. El ICA (54) es bajo, por lo que 'Visualizador restriccion uso lena' permanece inactivo. La Complejidad (CP=278) es mayor a 100, lo que activa 'Optimizacion de rutas' y, por ende, 'HQC' (Regla D y B). 'HQC' activo obliga a activar 'Backend' y 'Algoritmo'. El tiempo de cola de Qiskit (188s) excede el SLA de 60s, forzando la migración a 'Cirq Simulator' (Regla E). La sugerencia del entorno cuántico activa 'VQE'. Para 'Turismo', se activa 'Ambientes abiertos' ya que el ICA es bajo, lo que a su vez obliga a activar 'Deportes' (Regla A), priorizando la regla técnica sobre una posible preferencia de usuario. El perfil 'Adulto Mayor' activa 'Entretenimiento' y 'Entretenimiento tercera edad'.
+2026-03-05 00:43:55 [INFO] KNOWLEDGE: Actualizando base de conocimiento y estado global.
+2026-03-05 00:43:55 [INFO] [CASO #7] ⚙️ Iniciando reconfiguración de infraestructura...
+2026-03-05 00:43:55 [INFO] [CASO #7] 🟢 ACTIVADO EXITO: Contenedor 'entretenimiento_tercera_edad'
+2026-03-05 00:43:56 [INFO] [CASO #7] 🟢 ACTIVADO EXITO: Contenedor 'entretenimiento'
+2026-03-05 00:43:57 [INFO] [CASO #7] 🔴 DESACTIVADO EXITO: Contenedor 'ambientes_cerrados'
+2026-03-05 00:43:57 [INFO] [CASO #7] 🟢 ACTIVADO EXITO: Contenedor 'ambientes_abiertos'
+2026-03-05 00:43:58 [INFO] [CASO #7] 🟢 ACTIVADO EXITO: Contenedor 'optimizacion_de_rutas'
+2026-03-05 00:43:59 [INFO] [CASO #7] 🔴 DESACTIVADO EXITO: Contenedor 'visualizador_restriccion_uso_lena'
+2026-03-05 00:43:59 [INFO] [CASO #7] 🟢 ACTIVADO EXITO: Contenedor 'vqe'
+2026-03-05 00:43:59 [INFO] [CASO #7] 🟢 ACTIVADO EXITO: Contenedor 'algoritmo'
+2026-03-05 00:44:00 [INFO] [CASO #7] 🟢 ACTIVADO EXITO: Contenedor 'backend'
+2026-03-05 00:44:00 [INFO] [CASO #7] 🟢 ACTIVADO EXITO: Contenedor 'cirq_simulator'
+2026-03-05 00:44:01 [INFO] [CASO #7] 🟢 ACTIVADO EXITO: Contenedor 'hqc'
+2026-03-05 00:44:01 [INFO] [CASO #7] 🟢 ACTIVADO EXITO: Contenedor 'deportes'
+2026-03-05 00:44:01 [INFO] [CASO #7] ⚛️ Iniciando Job HQC en Cirq Simulator (VQE)...
+2026-03-05 00:44:02 [INFO] [CASO #7] ⚛️ EXITO HQC: Job completado. Costo=-2.0
+2026-03-05 00:44:02 [INFO] ✅ [CASO #7] Ciclo finalizado exitosamente. Visualización generada.
+2026-03-05 00:44:02 [INFO] 🏁 --- FIN CASO #7 ---
+2026-03-05 00:47:19 [INFO] 🔰 --- INICIO CASO #8 | ESCENARIO ID: 1 ---
+2026-03-05 00:47:19 [INFO] ✅ MONITOR: Cargados 4 escenarios.
+2026-03-05 00:47:19 [INFO] [CASO #8] PARÁMETROS: Escenario='Modo: Operación Diaria (Variable)' | ICA=80 | CP=100 | ColaQiskit=2s | Usuario='Familia con Niños (Requiere Entr. Familiar)'
+2026-03-05 00:47:36 [INFO] [CASO #8] ✅ LLM Respondió. Razonamiento: El nodo raíz 'gestor_aire' está activo. 'Visualizador calidad aire' y 'Turismo' se activan obligatoriamente. La complejidad computacional (CP=100) no supera el umbral de 100, por lo que 'optimizacion_de_rutas' y 'HQC' (y toda su rama cuántica) permanecen inactivos según la Regla D. El ICA (80) permite la operación normal sin restricciones ambientales (Regla C). La intención del usuario 'Familia con Niños' activa 'Entretenimiento' y 'Entretenimiento familiar'. Para cumplir con la regla de 'Turismo' de tener exactamente uno de los ambientes activos, se activa 'Ambientes abiertos', lo que a su vez fuerza la activación de 'Deportes' por la Regla Global 'Ambientes abiertos REQUIERE Deportes' (Regla A).
+2026-03-05 00:47:36 [INFO] KNOWLEDGE: Actualizando base de conocimiento y estado global.
+2026-03-05 00:47:36 [INFO] [CASO #8] ⚙️ Iniciando reconfiguración de infraestructura...
+2026-03-05 00:47:37 [INFO] [CASO #8] 🔴 DESACTIVADO EXITO: Contenedor 'entretenimiento_tercera_edad'
+2026-03-05 00:47:38 [INFO] [CASO #8] 🟢 ACTIVADO EXITO: Contenedor 'entretenimiento_familiar'
+2026-03-05 00:47:39 [INFO] [CASO #8] 🔴 DESACTIVADO EXITO: Contenedor 'optimizacion_de_rutas'
+2026-03-05 00:47:40 [INFO] [CASO #8] 🔴 DESACTIVADO EXITO: Contenedor 'vqe'
+2026-03-05 00:47:41 [INFO] [CASO #8] 🔴 DESACTIVADO EXITO: Contenedor 'algoritmo'
+2026-03-05 00:47:43 [INFO] [CASO #8] 🔴 DESACTIVADO EXITO: Contenedor 'backend'
+2026-03-05 00:47:44 [INFO] [CASO #8] 🔴 DESACTIVADO EXITO: Contenedor 'cirq_simulator'
+2026-03-05 00:47:45 [INFO] [CASO #8] 🔴 DESACTIVADO EXITO: Contenedor 'hqc'
+2026-03-05 00:47:46 [INFO] ✅ [CASO #8] Ciclo finalizado exitosamente. Visualización generada.
+2026-03-05 00:47:46 [INFO] 🏁 --- FIN CASO #8 ---
+2026-03-05 00:52:59 [INFO] 🔰 --- INICIO CASO #9 | ESCENARIO ID: 4 ---
+2026-03-05 00:52:59 [INFO] ✅ MONITOR: Cargados 4 escenarios.
+2026-03-05 00:52:59 [INFO] [CASO #9] PARÁMETROS: Escenario='Modo: Fallos de Infraestructura' | ICA=81 | CP=275 | ColaQiskit=57s | Usuario='Turista Estándar (Solo Rutas)'
+2026-03-05 00:53:16 [INFO] [CASO #9] ✅ LLM Respondió. Razonamiento: El nodo raíz 'gestor_aire' está siempre activo. 'Turismo' y 'visualizador_calidad_aire' se activan obligatoriamente por 'gestor_aire'. La complejidad computacional (CP=275) es mayor a 100, lo que activa 'optimizacion_de_rutas' y, por ende, 'hqc' (Regla D y B). La activación de 'hqc' obliga a activar 'algoritmo' y 'backend'. La sugerencia del entorno cuántico es 'QAOA', por lo que se activa 'qaoa'. El tiempo de cola de Qiskit (57s) es menor o igual a 60s, por lo que se selecciona 'qiskit_simulator' (Regla E). El ICA (81) es menor o igual a 150, permitiendo la activación de servicios al aire libre. 'Turismo' requiere exactamente uno de 'ambientes_cerrados' o 'ambientes_abiertos'; se elige 'ambientes_abiertos' para las rutas. La activación de 'ambientes_abiertos' obliga a activar 'deportes'. 'Entretenimiento' y 'visualizador_restriccion_uso_lena' permanecen inactivos al no ser requeridos por el perfil de usuario ni por otras reglas obligatorias.
+2026-03-05 00:53:16 [INFO] KNOWLEDGE: Actualizando base de conocimiento y estado global.
+2026-03-05 00:53:16 [INFO] [CASO #9] ⚙️ Iniciando reconfiguración de infraestructura...
+2026-03-05 00:53:17 [INFO] [CASO #9] 🔴 DESACTIVADO EXITO: Contenedor 'entretenimiento_familiar'
+2026-03-05 00:53:19 [INFO] [CASO #9] 🔴 DESACTIVADO EXITO: Contenedor 'entretenimiento'
+2026-03-05 00:53:19 [INFO] [CASO #9] 🟢 ACTIVADO EXITO: Contenedor 'optimizacion_de_rutas'
+2026-03-05 00:53:19 [INFO] [CASO #9] 🟢 ACTIVADO EXITO: Contenedor 'qaoa'
+2026-03-05 00:53:20 [INFO] [CASO #9] 🟢 ACTIVADO EXITO: Contenedor 'algoritmo'
+2026-03-05 00:53:20 [INFO] [CASO #9] 🟢 ACTIVADO EXITO: Contenedor 'backend'
+2026-03-05 00:53:21 [INFO] [CASO #9] 🟢 ACTIVADO EXITO: Contenedor 'qiskit_simulator'
+2026-03-05 00:53:21 [INFO] [CASO #9] 🟢 ACTIVADO EXITO: Contenedor 'hqc'
+2026-03-05 00:53:22 [INFO] [CASO #9] ⚛️ Iniciando Job HQC en Qiskit Simulator (QAOA)...
+2026-03-05 00:53:46 [INFO] [CASO #9] ⚛️ EXITO HQC: Job completado. Costo=13542.0
+2026-03-05 00:53:46 [INFO] ✅ [CASO #9] Ciclo finalizado exitosamente. Visualización generada.
+2026-03-05 00:53:46 [INFO] 🏁 --- FIN CASO #9 ---
+2026-03-05 00:55:52 [INFO] 🔰 --- INICIO CASO #10 | ESCENARIO ID: 1 ---
+2026-03-05 00:55:52 [INFO] ✅ MONITOR: Cargados 4 escenarios.
+2026-03-05 00:55:52 [INFO] [CASO #10] PARÁMETROS: Escenario='Modo: Operación Diaria (Variable)' | ICA=29 | CP=113 | ColaQiskit=5s | Usuario='Turista Estándar (Solo Rutas)'
+2026-03-05 00:56:13 [INFO] [CASO #10] ✅ LLM Respondió. Razonamiento: El nodo raíz 'Gestor aire' está activo. 'Visualizador calidad aire' y 'Turismo' se activan obligatoriamente. El ICA (29) permite la activación de servicios al aire libre. La Complejidad (CP=113) es mayor a 100, lo que fuerza la activación de 'Optimizacion de rutas' y, por ende, de 'HQC' y toda su rama cuántica. Dentro de 'HQC', 'Backend' y 'Algoritmo' se activan obligatoriamente. La cola de Qiskit (5s) es menor a 60s, por lo que se selecciona 'Qiskit Simulator' (Regla E). La sugerencia de optimización es 'QAOA'. Para 'Turismo', se debe activar exactamente uno entre 'Ambientes cerrados' y 'Ambientes abiertos'. Como 'Ambientes cerrados' requiere 'Visualizador restriccion uso lena' (que no está activo por ser opcional y no solicitado), se activa 'Ambientes abiertos'. 'Ambientes abiertos' a su vez requiere 'Deportes', activándolo. 'Entretenimiento' y sus hijos permanecen inactivos al ser opcionales y no solicitados.
+2026-03-05 00:56:13 [INFO] KNOWLEDGE: Actualizando base de conocimiento y estado global.
+2026-03-05 00:56:13 [INFO] [CASO #10] ⚙️ Iniciando reconfiguración de infraestructura...
+2026-03-05 00:56:13 [INFO] [CASO #10] ⚛️ Iniciando Job HQC en Qiskit Simulator (QAOA)...
+2026-03-05 00:56:20 [INFO] [CASO #10] ⚛️ EXITO HQC: Job completado. Costo=173.0
+2026-03-05 00:56:20 [INFO] ✅ [CASO #10] Ciclo finalizado exitosamente. Visualización generada.
+2026-03-05 00:56:20 [INFO] 🏁 --- FIN CASO #10 ---
+2026-03-05 00:57:04 [INFO] 🔰 --- INICIO CASO #11 | ESCENARIO ID: 2 ---
+2026-03-05 00:57:04 [INFO] ✅ MONITOR: Cargados 4 escenarios.
+2026-03-05 00:57:04 [INFO] [CASO #11] PARÁMETROS: Escenario='Modo: Alta Demanda (Incertidumbre)' | ICA=45 | CP=295 | ColaQiskit=34s | Usuario='Turista Estándar (Solo Rutas)'
+2026-03-05 00:57:18 [INFO] [CASO #11] ✅ LLM Respondió. Razonamiento: El nodo raíz 'Gestor aire' está siempre activo. 'Visualizador calidad aire' y 'Turismo' se activan obligatoriamente al activar 'Gestor aire'. La Complejidad (CP=295) es mayor a 100, lo que fuerza la activación de 'Optimizacion de rutas' y, por ende, de 'HQC' y toda su rama cuántica ('Backend', 'Algoritmo'). El tiempo de cola de Qiskit (34s) es menor o igual a 60s, por lo que se selecciona 'Qiskit Simulator'. La sugerencia de optimización es 'VQE', por lo que se activa 'VQE'. Aunque la intención del usuario es 'Solo Rutas', la regla de 'Turismo' exige que 'EXACTAMENTE UNO de [Ambientes cerrados, Ambientes abiertos]' esté activo. Se elige 'Ambientes abiertos' para cumplir esta regla, lo que a su vez fuerza la activación de 'Deportes' por dependencia. El ICA (45) permite la operación normal de servicios.
+2026-03-05 00:57:18 [INFO] KNOWLEDGE: Actualizando base de conocimiento y estado global.
+2026-03-05 00:57:18 [INFO] [CASO #11] ⚙️ Iniciando reconfiguración de infraestructura...
+2026-03-05 00:57:18 [INFO] [CASO #11] 🟢 ACTIVADO EXITO: Contenedor 'vqe'
+2026-03-05 00:57:20 [INFO] [CASO #11] 🔴 DESACTIVADO EXITO: Contenedor 'qaoa'
+2026-03-05 00:57:20 [INFO] [CASO #11] ⚛️ Iniciando Job HQC en Qiskit Simulator (VQE)...
+2026-03-05 00:57:57 [INFO] [CASO #11] ⚛️ EXITO HQC: Job completado. Costo=6078.0
+2026-03-05 00:57:57 [INFO] ✅ [CASO #11] Ciclo finalizado exitosamente. Visualización generada.
+2026-03-05 00:57:57 [INFO] 🏁 --- FIN CASO #11 ---
+2026-03-05 01:00:03 [INFO] 🔰 --- INICIO CASO #12 | ESCENARIO ID: 1 ---
+2026-03-05 01:00:03 [INFO] ✅ MONITOR: Cargados 4 escenarios.
+2026-03-05 01:00:03 [INFO] [CASO #12] PARÁMETROS: Escenario='Modo: Operación Diaria (Variable)' | ICA=64 | CP=110 | ColaQiskit=2s | Usuario='Turista Estándar (Solo Rutas)'
+2026-03-05 01:00:22 [INFO] [CASO #12] ✅ LLM Respondió. Razonamiento: El 'Gestor aire' y 'Turismo' se activan obligatoriamente. La 'Complejidad CP' (110) es mayor a 100, lo que activa 'Optimizacion de rutas' y, por ende, 'HQC' y toda su rama cuántica. El tiempo de cola de 'Qiskit Simulator' (2s) está dentro del SLA (<60s), por lo que se selecciona sobre 'Cirq Simulator'. La sugerencia del entorno cuántico activa 'QAOA'. Para 'Turismo', se activa 'Ambientes cerrados' (cumpliendo la regla de 'exactamente uno') lo que a su vez fuerza la activación de 'Visualizador restriccion uso lena'. 'Ambientes abiertos' y 'Deportes' se desactivan al no ser seleccionados y por la regla de dependencia. 'Entretenimiento' se desactiva al no ser solicitado.
+2026-03-05 01:00:22 [INFO] KNOWLEDGE: Actualizando base de conocimiento y estado global.
+2026-03-05 01:00:22 [INFO] [CASO #12] ⚙️ Iniciando reconfiguración de infraestructura...
+2026-03-05 01:00:23 [INFO] [CASO #12] 🟢 ACTIVADO EXITO: Contenedor 'ambientes_cerrados'
+2026-03-05 01:00:24 [INFO] [CASO #12] 🔴 DESACTIVADO EXITO: Contenedor 'ambientes_abiertos'
+2026-03-05 01:00:25 [INFO] [CASO #12] 🟢 ACTIVADO EXITO: Contenedor 'visualizador_restriccion_uso_lena'
+2026-03-05 01:00:26 [INFO] [CASO #12] 🔴 DESACTIVADO EXITO: Contenedor 'vqe'
+2026-03-05 01:00:26 [INFO] [CASO #12] 🟢 ACTIVADO EXITO: Contenedor 'qaoa'
+2026-03-05 01:00:28 [INFO] [CASO #12] 🔴 DESACTIVADO EXITO: Contenedor 'deportes'
+2026-03-05 01:00:28 [INFO] [CASO #12] ⚛️ Iniciando Job HQC en Qiskit Simulator (QAOA)...
+2026-03-05 01:00:34 [INFO] [CASO #12] ⚛️ EXITO HQC: Job completado. Costo=165.0
+2026-03-05 01:00:34 [INFO] ✅ [CASO #12] Ciclo finalizado exitosamente. Visualización generada.
+2026-03-05 01:00:34 [INFO] 🏁 --- FIN CASO #12 ---
+2026-03-05 01:03:42 [INFO] 🔰 --- INICIO CASO #1 | ESCENARIO ID: 1 ---
+2026-03-05 01:03:42 [INFO] ✅ MONITOR: Cargados 4 escenarios.
+2026-03-05 01:03:42 [INFO] [CASO #1] PARÁMETROS: Escenario='Modo: Operación Diaria (Variable)' | ICA=103 | CP=113 | ColaQiskit=2s | Usuario='Grupo Deportivo (Requiere Deportes)'
+2026-03-05 01:03:59 [INFO] [CASO #1] ✅ LLM Respondió. Razonamiento: El 'Gestor aire' está activo por defecto. 'Turismo' y 'Visualizador calidad aire' se activan obligatoriamente. El perfil de usuario 'Grupo Deportivo' y un ICA de 103 (no crítico) permiten activar 'Ambientes abiertos' y 'Deportes'. La complejidad computacional (CP=113 > 100) fuerza la activación de 'Optimizacion de rutas' y, por ende, de 'HQC', 'Backend' y 'Algoritmo'. La sugerencia del entorno cuántico activa 'VQE'. La baja latencia de Qiskit (2s <= 60s) prioriza el 'Qiskit Simulator' sobre Cirq. 'Ambientes cerrados' y 'Entretenimiento' se mantienen inactivos al no ser requeridos y para cumplir la regla de 'exactamente uno' para ambientes.
+2026-03-05 01:03:59 [INFO] KNOWLEDGE: Actualizando base de conocimiento y estado global.
+2026-03-05 01:03:59 [INFO] [CASO #1] ⚙️ Iniciando reconfiguración de infraestructura...
+2026-03-05 01:04:00 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'entretenimiento_tercera_edad'
+2026-03-05 01:04:02 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'entretenimiento_adulto'
+2026-03-05 01:04:03 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'entretenimiento_familiar'
+2026-03-05 01:04:04 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'entretenimiento'
+2026-03-05 01:04:05 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'ambientes_cerrados'
+2026-03-05 01:04:06 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'visualizador_restriccion_uso_lena'
+2026-03-05 01:04:08 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'qaoa'
+2026-03-05 01:04:09 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'cirq_simulator'
+2026-03-05 01:04:09 [INFO] [CASO #1] ⚛️ Iniciando Job HQC en Qiskit Simulator (VQE)...
+2026-03-05 01:04:25 [INFO] [CASO #1] ⚛️ EXITO HQC: Job completado. Costo=173.0
+2026-03-05 01:04:25 [INFO] ✅ [CASO #1] Ciclo finalizado exitosamente. Visualización generada.
+2026-03-05 01:04:25 [INFO] 🏁 --- FIN CASO #1 ---
+2026-03-05 01:06:58 [INFO] 🔰 --- INICIO CASO #2 | ESCENARIO ID: 4 ---
+2026-03-05 01:06:58 [INFO] ✅ MONITOR: Cargados 4 escenarios.
+2026-03-05 01:06:58 [INFO] [CASO #2] PARÁMETROS: Escenario='Modo: Fallos de Infraestructura' | ICA=62 | CP=235 | ColaQiskit=114s | Usuario='Grupo Deportivo (Requiere Deportes)'
+2026-03-05 01:07:14 [INFO] [CASO #2] ✅ LLM Respondió. Razonamiento: El 'Gestor aire' está activo por defecto. 'Visualizador calidad aire' y 'Turismo' se activan obligatoriamente. El perfil 'Grupo Deportivo' y un ICA de 62 (no crítico) permiten activar 'Ambientes abiertos' y 'Deportes'. La 'Complejidad CP' de 235 (mayor a 100) activa 'Optimizacion de rutas' y, por ende, 'HQC', 'Backend' y 'Algoritmo' (Regla D y B). Debido a la cola de Qiskit (114s > 60s), se gatilla obligatoriamente la migración a 'Cirq Simulator' (Regla E). La sugerencia de optimización del entorno cuántico activa 'VQE'. 'Ambientes cerrados' y 'Entretenimiento' y sus hijos se desactivan para cumplir las reglas de exclusividad y por no ser requeridos.
+2026-03-05 01:07:14 [INFO] KNOWLEDGE: Actualizando base de conocimiento y estado global.
+2026-03-05 01:07:14 [INFO] [CASO #2] ⚙️ Iniciando reconfiguración de infraestructura...
+2026-03-05 01:07:15 [INFO] [CASO #2] 🟢 ACTIVADO EXITO: Contenedor 'cirq_simulator'
+2026-03-05 01:07:17 [INFO] [CASO #2] 🔴 DESACTIVADO EXITO: Contenedor 'qiskit_simulator'
+2026-03-05 01:07:17 [INFO] [CASO #2] ⚛️ Iniciando Job HQC en Cirq Simulator (VQE)...
+2026-03-05 01:07:18 [INFO] [CASO #2] ⚛️ EXITO HQC: Job completado. Costo=-2.0
+2026-03-05 01:07:18 [INFO] ✅ [CASO #2] Ciclo finalizado exitosamente. Visualización generada.
+2026-03-05 01:07:18 [INFO] 🏁 --- FIN CASO #2 ---
+2026-03-05 01:10:06 [INFO] 🔰 --- INICIO CASO #3 | ESCENARIO ID: 1 ---
+2026-03-05 01:10:06 [INFO] ✅ MONITOR: Cargados 4 escenarios.
+2026-03-05 01:10:06 [INFO] [CASO #3] PARÁMETROS: Escenario='Modo: Operación Diaria (Variable)' | ICA=26 | CP=111 | ColaQiskit=2s | Usuario='Evento Nocturno (Requiere Entr. Adulto)'
+2026-03-05 01:10:25 [INFO] [CASO #3] ✅ LLM Respondió. Razonamiento: El 'Gestor aire' está activo por defecto. El 'Visualizador calidad aire' y 'Turismo' se activan obligatoriamente. La 'Complejidad CP' (111 > 100) activa 'Optimizacion de rutas' y 'HQC'. Dado que 'HQC' está activo, 'Backend' y 'Algoritmo' se activan obligatoriamente. La cola de Qiskit (2s <= 60s) prioriza 'Qiskit Simulator' sobre 'Cirq Simulator'. La sugerencia de optimización cuántica activa 'QAOA'. El 'ICA' (26 <= 150) no restringe 'Deportes' ni 'Ambientes abiertos'. La intención de usuario 'Evento Nocturno' activa 'Entretenimiento' y 'Entretenimiento adulto'. Para 'Turismo', se requiere exactamente uno de 'Ambientes cerrados' o 'Ambientes abiertos'. Como 'Ambientes cerrados' requiere 'Visualizador restriccion uso lena' (que no se activa por falta de contexto), se activa 'Ambientes abiertos'. 'Ambientes abiertos' a su vez requiere 'Deportes'.
+2026-03-05 01:10:25 [INFO] KNOWLEDGE: Actualizando base de conocimiento y estado global.
+2026-03-05 01:10:25 [INFO] [CASO #3] ⚙️ Iniciando reconfiguración de infraestructura...
+2026-03-05 01:10:25 [INFO] [CASO #3] 🟢 ACTIVADO EXITO: Contenedor 'entretenimiento_adulto'
+2026-03-05 01:10:25 [INFO] [CASO #3] 🟢 ACTIVADO EXITO: Contenedor 'entretenimiento'
+2026-03-05 01:10:27 [INFO] [CASO #3] 🔴 DESACTIVADO EXITO: Contenedor 'vqe'
+2026-03-05 01:10:27 [INFO] [CASO #3] 🟢 ACTIVADO EXITO: Contenedor 'qaoa'
+2026-03-05 01:10:28 [INFO] [CASO #3] 🔴 DESACTIVADO EXITO: Contenedor 'cirq_simulator'
+2026-03-05 01:10:29 [INFO] [CASO #3] 🟢 ACTIVADO EXITO: Contenedor 'qiskit_simulator'
+2026-03-05 01:10:29 [INFO] [CASO #3] ⚛️ Iniciando Job HQC en Qiskit Simulator (QAOA)...
+2026-03-05 01:10:35 [INFO] [CASO #3] ⚛️ EXITO HQC: Job completado. Costo=224.0
+2026-03-05 01:10:36 [INFO] ✅ [CASO #3] Ciclo finalizado exitosamente. Visualización generada.
+2026-03-05 01:10:36 [INFO] 🏁 --- FIN CASO #3 ---
+2026-03-05 01:13:38 [INFO] 🔰 --- INICIO CASO #4 | ESCENARIO ID: 3 ---
+2026-03-05 01:13:38 [INFO] ✅ MONITOR: Cargados 4 escenarios.
+2026-03-05 01:13:38 [INFO] [CASO #4] PARÁMETROS: Escenario='Modo: Crisis Ambiental' | ICA=249 | CP=81 | ColaQiskit=2s | Usuario='Adulto Mayor (Requiere Entr. Tercera Edad)'
+2026-03-05 01:13:52 [INFO] [CASO #4] ✅ LLM Respondió. Razonamiento: El nodo raíz 'Gestor aire' está activo. Debido a que el ICA (249) es MAYOR a 150 (Regla C - Crisis Ambiental), se desactivan 'deportes' y 'ambientes_abiertos'. La Complejidad (CP=81) es MENOR o IGUAL a 100 (Regla D), lo que fuerza la desactivación de 'optimizacion_de_rutas' y toda la rama cuántica ('HQC', 'Backend', 'Algoritmo' y sus hijos). 'Turismo' es obligatorio y, al estar 'ambientes_abiertos' inactivo por el ICA, se activa 'ambientes_cerrados' para cumplir la regla de 'EXACTAMENTE UNO'. 'Ambientes cerrados' requiere 'Visualizador restriccion uso lena', que también es activado. El perfil de usuario 'Adulto Mayor' activa 'Entretenimiento' y 'Entretenimiento tercera edad', cumpliendo la regla de 'AL MENOS UNO' para 'Entretenimiento'.
+2026-03-05 01:13:52 [INFO] KNOWLEDGE: Actualizando base de conocimiento y estado global.
+2026-03-05 01:13:52 [INFO] [CASO #4] ⚙️ Iniciando reconfiguración de infraestructura...
+2026-03-05 01:13:54 [INFO] [CASO #4] 🔴 DESACTIVADO EXITO: Contenedor 'entretenimiento_adulto'
+2026-03-05 01:13:55 [INFO] [CASO #4] 🔴 DESACTIVADO EXITO: Contenedor 'entretenimiento_familiar'
+2026-03-05 01:13:56 [INFO] [CASO #4] 🔴 DESACTIVADO EXITO: Contenedor 'ambientes_abiertos'
+2026-03-05 01:13:57 [INFO] [CASO #4] 🔴 DESACTIVADO EXITO: Contenedor 'optimizacion_de_rutas'
+2026-03-05 01:13:59 [INFO] [CASO #4] 🔴 DESACTIVADO EXITO: Contenedor 'vqe'
+2026-03-05 01:14:00 [INFO] [CASO #4] 🔴 DESACTIVADO EXITO: Contenedor 'qaoa'
+2026-03-05 01:14:01 [INFO] [CASO #4] 🔴 DESACTIVADO EXITO: Contenedor 'algoritmo'
+2026-03-05 01:14:02 [INFO] [CASO #4] 🔴 DESACTIVADO EXITO: Contenedor 'backend'
+2026-03-05 01:14:04 [INFO] [CASO #4] 🔴 DESACTIVADO EXITO: Contenedor 'cirq_simulator'
+2026-03-05 01:14:05 [INFO] [CASO #4] 🔴 DESACTIVADO EXITO: Contenedor 'qiskit_simulator'
+2026-03-05 01:14:06 [INFO] [CASO #4] 🔴 DESACTIVADO EXITO: Contenedor 'hqc'
+2026-03-05 01:14:08 [INFO] [CASO #4] 🔴 DESACTIVADO EXITO: Contenedor 'deportes'
+2026-03-05 01:14:08 [INFO] ✅ [CASO #4] Ciclo finalizado exitosamente. Visualización generada.
+2026-03-05 01:14:08 [INFO] 🏁 --- FIN CASO #4 ---
+2026-03-05 01:14:31 [INFO] 🔰 --- INICIO CASO #5 | ESCENARIO ID: 4 ---
+2026-03-05 01:14:31 [INFO] ✅ MONITOR: Cargados 4 escenarios.
+2026-03-05 01:14:31 [INFO] [CASO #5] PARÁMETROS: Escenario='Modo: Fallos de Infraestructura' | ICA=74 | CP=332 | ColaQiskit=168s | Usuario='Familia con Niños (Requiere Entr. Familiar)'
+2026-03-05 01:14:47 [INFO] [CASO #5] ✅ LLM Respondió. Razonamiento: El nodo raíz 'Gestor aire' está siempre activo. 'Visualizador calidad aire' y 'Turismo' son obligatorios. El ICA (74) permite operación normal, por lo que 'Ambientes abiertos' se activa para 'Turismo'. Esto, a su vez, fuerza la activación de 'Deportes' por la regla 'Ambientes abiertos REQUIERE Deportes'. La Complejidad (CP=332) es mayor a 100, lo que activa 'Optimizacion de rutas' y, por ende, 'HQC' y toda su rama cuántica. 'Algoritmo' y 'Backend' son obligatorios para 'HQC'. La sugerencia de optimización es 'QAOA', activándolo. La latencia de Qiskit (168s) excede el umbral de 60s, forzando la migración a 'Cirq Simulator'. El perfil de usuario 'Familia con Niños' activa 'Entretenimiento' y 'Entretenimiento familiar'.
+2026-03-05 01:14:47 [INFO] KNOWLEDGE: Actualizando base de conocimiento y estado global.
+2026-03-05 01:14:47 [INFO] [CASO #5] ⚙️ Iniciando reconfiguración de infraestructura...
+2026-03-05 01:14:49 [INFO] [CASO #5] 🔴 DESACTIVADO EXITO: Contenedor 'entretenimiento_tercera_edad'
+2026-03-05 01:14:49 [INFO] [CASO #5] 🟢 ACTIVADO EXITO: Contenedor 'entretenimiento_familiar'
+2026-03-05 01:14:50 [INFO] [CASO #5] 🔴 DESACTIVADO EXITO: Contenedor 'ambientes_cerrados'
+2026-03-05 01:14:50 [INFO] [CASO #5] 🟢 ACTIVADO EXITO: Contenedor 'ambientes_abiertos'
+2026-03-05 01:14:51 [INFO] [CASO #5] 🟢 ACTIVADO EXITO: Contenedor 'optimizacion_de_rutas'
+2026-03-05 01:14:52 [INFO] [CASO #5] 🔴 DESACTIVADO EXITO: Contenedor 'visualizador_restriccion_uso_lena'
+2026-03-05 01:14:52 [INFO] [CASO #5] 🟢 ACTIVADO EXITO: Contenedor 'qaoa'
+2026-03-05 01:14:53 [INFO] [CASO #5] 🟢 ACTIVADO EXITO: Contenedor 'algoritmo'
+2026-03-05 01:14:53 [INFO] [CASO #5] 🟢 ACTIVADO EXITO: Contenedor 'backend'
+2026-03-05 01:14:53 [INFO] [CASO #5] 🟢 ACTIVADO EXITO: Contenedor 'cirq_simulator'
+2026-03-05 01:14:54 [INFO] [CASO #5] 🟢 ACTIVADO EXITO: Contenedor 'hqc'
+2026-03-05 01:14:54 [INFO] [CASO #5] 🟢 ACTIVADO EXITO: Contenedor 'deportes'
+2026-03-05 01:14:54 [INFO] [CASO #5] ⚛️ Iniciando Job HQC en Cirq Simulator (QAOA)...
+2026-03-05 01:14:55 [INFO] [CASO #5] ⚛️ EXITO HQC: Job completado. Costo=-2.0
+2026-03-05 01:14:55 [INFO] ✅ [CASO #5] Ciclo finalizado exitosamente. Visualización generada.
+2026-03-05 01:14:55 [INFO] 🏁 --- FIN CASO #5 ---
+2026-03-05 18:42:44 [INFO] 🔰 --- INICIO CASO #1 | ESCENARIO ID: 1 ---
+2026-03-05 18:42:44 [INFO] ✅ MONITOR: Cargados 4 escenarios.
+2026-03-05 18:42:44 [INFO] [CASO #1] PARÁMETROS: Escenario='Modo: Operación Diaria (Variable)' | ICA=83 | CP=82 | ColaQiskit=2s | Usuario='Turista Estándar (Solo Rutas)'
+2026-03-05 18:42:57 [INFO] [CASO #1] ✅ LLM Respondió. Razonamiento: El perfil de usuario 'Turista Estándar (Solo Rutas)' sugiere la activación de 'Optimizacion de rutas'. Sin embargo, la Complejidad Computacional (CP=82) es menor o igual a 100, lo que, según la Regla D, fuerza la desactivación de 'Optimizacion de rutas' y toda la rama cuántica ('HQC'). Se activa 'Ambientes abiertos' y, por dependencia, 'Deportes', ya que el ICA (83) permite actividades al aire libre.
+2026-03-05 18:42:57 [INFO] KNOWLEDGE: Actualizando base de conocimiento y estado global.
+2026-03-05 18:42:57 [INFO] [CASO #1] ⚙️ Iniciando reconfiguración de infraestructura...
+2026-03-05 18:42:59 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'entretenimiento_tercera_edad'
+2026-03-05 18:43:00 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'entretenimiento_adulto'
+2026-03-05 18:43:01 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'entretenimiento_familiar'
+2026-03-05 18:43:02 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'entretenimiento'
+2026-03-05 18:43:03 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'ambientes_cerrados'
+2026-03-05 18:43:05 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'optimizacion_de_rutas'
+2026-03-05 18:43:06 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'visualizador_restriccion_uso_lena'
+2026-03-05 18:43:07 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'vqe'
+2026-03-05 18:43:09 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'qaoa'
+2026-03-05 18:43:10 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'algoritmo'
+2026-03-05 18:43:11 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'backend'
+2026-03-05 18:43:12 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'cirq_simulator'
+2026-03-05 18:43:14 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'qiskit_simulator'
+2026-03-05 18:43:15 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'hqc'
+2026-03-05 18:43:15 [INFO] ✅ [CASO #1] Ciclo finalizado exitosamente. Visualización generada.
+2026-03-05 18:43:15 [INFO] 🏁 --- FIN CASO #1 ---
+2026-03-05 18:48:03 [INFO] 🔰 --- INICIO CASO #1 | ESCENARIO ID: 1 ---
+2026-03-05 18:48:03 [INFO] ✅ MONITOR: Cargados 4 escenarios.
+2026-03-05 18:48:03 [INFO] [CASO #1] PARÁMETROS: Escenario='Modo: Operación Diaria (Variable)' | ICA=57 | CP=83 | ColaQiskit=5s | Usuario='Grupo Deportivo (Requiere Deportes)'
+2026-03-05 18:48:17 [INFO] [CASO #1] ✅ LLM Respondió. Razonamiento: 1. 'Gestor aire' es la raíz y siempre está activo. 2. 'Visualizador calidad aire' y 'Turismo' se activan obligatoriamente al activar 'Gestor aire'. 3. El ICA (57) es menor o igual a 150, por lo que no hay restricciones ambientales que desactiven 'Deportes' o 'Ambientes abiertos'. 4. El perfil de usuario 'Grupo Deportivo' requiere 'Deportes', lo que lleva a activar 'Ambientes abiertos' (ya que 'Turismo' requiere exactamente uno de los ambientes y 'Ambientes abiertos' requiere 'Deportes'). 5. 'Ambientes cerrados' se desactiva porque 'Ambientes abiertos' está activo. 6. La Complejidad (CP=83) es menor o igual a 100, por lo que 'Optimizacion de rutas' y 'HQC' (y toda su rama cuántica) se mantienen INACTIVOS según la Regla D, priorizando la ejecución clásica para ahorrar recursos. 7. 'Entretenimiento' y sus hijos se mantienen inactivos al no ser solicitados y ser opcionales.
+2026-03-05 18:48:17 [INFO] KNOWLEDGE: Actualizando base de conocimiento y estado global.
+2026-03-05 18:48:17 [INFO] [CASO #1] ⚙️ Iniciando reconfiguración de infraestructura...
+2026-03-05 18:48:19 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'entretenimiento_tercera_edad'
+2026-03-05 18:48:20 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'entretenimiento_adulto'
+2026-03-05 18:48:22 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'entretenimiento_familiar'
+2026-03-05 18:48:23 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'entretenimiento'
+2026-03-05 18:48:24 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'ambientes_cerrados'
+2026-03-05 18:48:26 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'optimizacion_de_rutas'
+2026-03-05 18:48:27 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'visualizador_restriccion_uso_lena'
+2026-03-05 18:48:28 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'vqe'
+2026-03-05 18:48:29 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'qaoa'
+2026-03-05 18:48:31 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'algoritmo'
+2026-03-05 18:48:32 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'backend'
+2026-03-05 18:48:33 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'cirq_simulator'
+2026-03-05 18:48:35 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'qiskit_simulator'
+2026-03-05 18:48:36 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'hqc'
+2026-03-05 18:48:36 [INFO] ✅ [CASO #1] Ciclo finalizado exitosamente. Visualización generada.
+2026-03-05 18:48:36 [INFO] 🏁 --- FIN CASO #1 ---
+2026-03-05 18:49:47 [INFO] 🔰 --- INICIO CASO #2 | ESCENARIO ID: 2 ---
+2026-03-05 18:49:47 [INFO] ✅ MONITOR: Cargados 4 escenarios.
+2026-03-05 18:49:47 [INFO] [CASO #2] PARÁMETROS: Escenario='Modo: Alta Demanda (Incertidumbre)' | ICA=80 | CP=91 | ColaQiskit=19s | Usuario='Turista Estándar (Solo Rutas)'
+2026-03-05 18:50:05 [INFO] [CASO #2] ✅ LLM Respondió. Razonamiento: El nodo raíz 'Gestor aire' está activo. 'Visualizador calidad aire' y 'Turismo' se activan obligatoriamente. Aunque el perfil de usuario solicita 'Solo Rutas', la Regla D (Umbral CP > 100) fuerza la desactivación de 'Optimizacion de rutas' y 'HQC' (y toda su rama cuántica) porque la Complejidad (CP=91) es menor o igual a 100. Para 'Turismo', se activa 'Ambientes cerrados' (cumpliendo la regla de 'exactamente uno' con 'Ambientes abiertos' inactivo), lo que a su vez requiere la activación de 'Visualizador restriccion uso lena'. El ICA (80) permite la operación normal sin restricciones adicionales.
+2026-03-05 18:50:05 [INFO] KNOWLEDGE: Actualizando base de conocimiento y estado global.
+2026-03-05 18:50:05 [INFO] [CASO #2] ⚙️ Iniciando reconfiguración de infraestructura...
+2026-03-05 18:50:06 [INFO] [CASO #2] 🟢 ACTIVADO EXITO: Contenedor 'ambientes_cerrados'
+2026-03-05 18:50:07 [INFO] [CASO #2] 🔴 DESACTIVADO EXITO: Contenedor 'ambientes_abiertos'
+2026-03-05 18:50:07 [INFO] [CASO #2] 🟢 ACTIVADO EXITO: Contenedor 'visualizador_restriccion_uso_lena'
+2026-03-05 18:50:09 [INFO] [CASO #2] 🔴 DESACTIVADO EXITO: Contenedor 'deportes'
+2026-03-05 18:50:09 [INFO] ✅ [CASO #2] Ciclo finalizado exitosamente. Visualización generada.
+2026-03-05 18:50:09 [INFO] 🏁 --- FIN CASO #2 ---
+2026-03-05 18:52:11 [INFO] 🔰 --- INICIO CASO #1 | ESCENARIO ID: 1 ---
+2026-03-05 18:52:11 [INFO] ✅ MONITOR: Cargados 4 escenarios.
+2026-03-05 18:52:11 [INFO] [CASO #1] PARÁMETROS: Escenario='Modo: Operación Diaria (Variable)' | ICA=47 | CP=100 | ColaQiskit=1s | Usuario='Adulto Mayor (Requiere Entr. Tercera Edad)'
+2026-03-05 18:52:30 [INFO] [CASO #1] ✅ LLM Respondió. Razonamiento: El 'Gestor aire', 'Visualizador calidad aire' y 'Turismo' están activos por ser obligatorios. El ICA (47) es bajo, permitiendo la operación normal. La Complejidad (CP=100) NO es mayor a 100, por lo que 'Optimizacion de rutas' y 'HQC' (y toda su rama cuántica) DEBEN permanecer INACTIVOS. Para 'Turismo', se activó 'Ambientes cerrados' (y por ende 'Visualizador restriccion uso lena' por dependencia) y se desactivó 'Ambientes abiertos'. El perfil de usuario 'Adulto Mayor' activa 'Entretenimiento' y específicamente 'Entretenimiento tercera edad'.
+2026-03-05 18:52:30 [INFO] KNOWLEDGE: Actualizando base de conocimiento y estado global.
+2026-03-05 18:52:30 [INFO] [CASO #1] ⚙️ Iniciando reconfiguración de infraestructura...
+2026-03-05 18:52:32 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'entretenimiento_adulto'
+2026-03-05 18:52:33 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'entretenimiento_familiar'
+2026-03-05 18:52:34 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'ambientes_abiertos'
+2026-03-05 18:52:35 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'optimizacion_de_rutas'
+2026-03-05 18:52:37 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'vqe'
+2026-03-05 18:52:38 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'qaoa'
+2026-03-05 18:52:39 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'algoritmo'
+2026-03-05 18:52:41 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'backend'
+2026-03-05 18:52:42 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'cirq_simulator'
+2026-03-05 18:52:43 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'qiskit_simulator'
+2026-03-05 18:52:45 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'hqc'
+2026-03-05 18:52:46 [INFO] [CASO #1] 🔴 DESACTIVADO EXITO: Contenedor 'deportes'
+2026-03-05 18:52:46 [INFO] ✅ [CASO #1] Ciclo finalizado exitosamente. Visualización generada.
+2026-03-05 18:52:46 [INFO] 🏁 --- FIN CASO #1 ---
+2026-03-05 18:53:30 [INFO] 🔰 --- INICIO CASO #2 | ESCENARIO ID: 2 ---
+2026-03-05 18:53:30 [INFO] ✅ MONITOR: Cargados 4 escenarios.
+2026-03-05 18:53:30 [INFO] [CASO #2] PARÁMETROS: Escenario='Modo: Alta Demanda (Incertidumbre)' | ICA=71 | CP=166 | ColaQiskit=24s | Usuario='Familia con Niños (Requiere Entr. Familiar)'
+2026-03-05 18:53:47 [INFO] [CASO #2] ✅ LLM Respondió. Razonamiento: El 'Gestor aire' está activo por defecto. 'Visualizador calidad aire' y 'Turismo' son obligatorios. La 'Complejidad CP' (166) es mayor a 100, lo que activa 'Optimizacion de rutas' y, por ende, 'HQC' y toda su rama cuántica. Dentro de 'HQC', 'Algoritmo' y 'Backend' son obligatorios. El 'entorno_cuantico' sugiere 'QAOA'. El tiempo de cola de 'Qiskit Simulator' (24s) es menor o igual a 60s, por lo que se activa 'Qiskit Simulator'. El 'ICA' (71) es menor o igual a 150, permitiendo 'Ambientes abiertos'. 'Turismo' requiere exactamente uno de 'Ambientes cerrados' o 'Ambientes abiertos'; se elige 'Ambientes abiertos'. La activación de 'Ambientes abiertos' fuerza la activación de 'Deportes' por regla de dependencia. El perfil de usuario 'Familia con Niños' requiere 'Entretenimiento familiar', activando 'Entretenimiento' y 'Entretenimiento familiar'.
+2026-03-05 18:53:47 [INFO] KNOWLEDGE: Actualizando base de conocimiento y estado global.
+2026-03-05 18:53:47 [INFO] [CASO #2] ⚙️ Iniciando reconfiguración de infraestructura...
+2026-03-05 18:53:48 [INFO] [CASO #2] 🔴 DESACTIVADO EXITO: Contenedor 'entretenimiento_tercera_edad'
+2026-03-05 18:53:49 [INFO] [CASO #2] 🟢 ACTIVADO EXITO: Contenedor 'entretenimiento_familiar'
+2026-03-05 18:53:50 [INFO] [CASO #2] 🔴 DESACTIVADO EXITO: Contenedor 'ambientes_cerrados'
+2026-03-05 18:53:50 [INFO] [CASO #2] 🟢 ACTIVADO EXITO: Contenedor 'ambientes_abiertos'
+2026-03-05 18:53:51 [INFO] [CASO #2] 🟢 ACTIVADO EXITO: Contenedor 'optimizacion_de_rutas'
+2026-03-05 18:53:52 [INFO] [CASO #2] 🔴 DESACTIVADO EXITO: Contenedor 'visualizador_restriccion_uso_lena'
+2026-03-05 18:53:52 [INFO] [CASO #2] 🟢 ACTIVADO EXITO: Contenedor 'qaoa'
+2026-03-05 18:53:52 [INFO] [CASO #2] 🟢 ACTIVADO EXITO: Contenedor 'algoritmo'
+2026-03-05 18:53:53 [INFO] [CASO #2] 🟢 ACTIVADO EXITO: Contenedor 'backend'
+2026-03-05 18:53:53 [INFO] [CASO #2] 🟢 ACTIVADO EXITO: Contenedor 'qiskit_simulator'
+2026-03-05 18:53:53 [INFO] [CASO #2] 🟢 ACTIVADO EXITO: Contenedor 'hqc'
+2026-03-05 18:53:54 [INFO] [CASO #2] 🟢 ACTIVADO EXITO: Contenedor 'deportes'
+2026-03-05 18:53:54 [INFO] [CASO #2] ⚛️ Iniciando Job HQC en Qiskit Simulator (QAOA)...
+2026-03-05 18:53:59 [INFO] [CASO #2] ⚛️ EXITO HQC: Job completado. Costo=206.0
+2026-03-05 18:53:59 [INFO] ✅ [CASO #2] Ciclo finalizado exitosamente. Visualización generada.
+2026-03-05 18:53:59 [INFO] 🏁 --- FIN CASO #2 ---
