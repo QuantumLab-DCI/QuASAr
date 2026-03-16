@@ -1,4 +1,4 @@
-# Scandia05-ML-FMweb-K-Quantum
+# FMweb-K-Quantum
 
 Plataforma unificada para simulaciones cuánticas, machine learning y gestión de trabajos utilizando Qiskit y Cirq.
 
