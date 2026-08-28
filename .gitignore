@@ -1,0 +1,7 @@
+.gitignore
+Frontend/node_modules/* 
+Backend/.env
+venv/*
+data/*
+node_modules/*
+Archivos_Extra/*
