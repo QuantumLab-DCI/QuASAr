@@ -1,84 +1,190 @@
 # FMweb-K-Quantum
 
-Unified platform for quantum simulations, machine learning, and job management using Qiskit and Cirq.
+FMweb-K-Quantum is a research artifact for studying self-adaptation in a hybrid
+quantum-classical (HQC) system. It models an air-quality management product line,
+observes stochastic operating scenarios, and uses a MAPE-K feedback loop to select
+and enact a feature configuration. The artifact combines Gemini-assisted decision
+making, feature-model validation, Qiskit or Cirq simulation, optional Docker
+service reconfiguration, and a React dashboard for inspecting each adaptation.
 
-## Prerequisites
+<div align="center">
+  <a href="https://www.python.org/"><img src="https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white" alt="Python 3.10+"></a>
+  <a href="https://flask.palletsprojects.com/"><img src="https://img.shields.io/badge/Flask-3.0-000000?logo=flask&logoColor=white" alt="Flask 3.0"></a>
+  <a href="https://react.dev/"><img src="https://img.shields.io/badge/React-19-20232A?logo=react&logoColor=61DAFB" alt="React 19"></a>
+  <a href="https://www.ibm.com/quantum/qiskit"><img src="https://img.shields.io/badge/Qiskit-0.45-6929C4?logo=qiskit&logoColor=white" alt="Qiskit 0.45"></a>
+  <a href="https://quantumai.google/cirq"><img src="https://img.shields.io/badge/Cirq-1.3-4285F4" alt="Cirq 1.3"></a>
+</div>
 
-- [Python 3.10+](https://www.python.org/downloads/)
-- [Node.js 18+](https://nodejs.org/) and npm
-- [Docker](https://www.docker.com/) (if containerized services are required)
+## Contents
 
-## Clone the Repository
+- [Research context](#research-context)
+- [Architecture](#architecture)
+- [MAPE-K feedback loop](#mape-k-feedback-loop)
+- [Setup](#setup)
+- [API routes](#api-routes)
+- [Verification](#verification)
+- [Documentation](#documentation)
+- [Reproducibility notes](#reproducibility-notes)
+
+## Research context
+
+The artifact supports experimentation with runtime variability in an HQC software
+product line. A selected scenario supplies simulated environmental, workload,
+infrastructure, and user observations. The system derives a configuration that
+must satisfy the feature model, applies available classical service changes, and
+runs a QAOA or VQE workload when the selected configuration enables the quantum
+branch. The dashboard exposes the monitored context, decision rationale,
+configuration graph, execution evidence, logs, and phase trace.
+
+## Architecture
+
+| Component | Responsibility |
+| --- | --- |
+| `Frontend/` | React 19 and Vite dashboard; selects scenarios and polls backend state and logs every three seconds. |
+| `Backend/run.py` | Primary Flask entry point; loads `.env`, creates the application, generates the feature-model visualization, and listens on port `8000`. |
+| `Backend/app/api/` | Dashboard, control, artifact, and transitional HTTP routes under `/api`. |
+| `Backend/app/core/` | Feature model, variation point, process-local knowledge base, MAPE-K controller, and phase implementations. |
+| `Backend/app/services/` | Gemini integration, Qiskit/Cirq adapters, Docker API bridge, file access, and graph generation. |
+| `Backend/data/` | Scenario definitions and generated runtime logs, graphs, and quantum evidence. |
+
+Scenario selection starts one background adaptation thread. Shared runtime state is
+held by the process-local `KnowledgeBase`; this implementation is therefore a
+single-process research prototype rather than a distributed state service.
+
+## MAPE-K feedback loop
+
+MAPE-K denotes **Monitor, Analyze, Plan, Execute over shared Knowledge**:
+
+1. **Monitor** samples the selected scenario's air-quality index, problem
+   complexity, Qiskit queue time, SLA priority, and user profile.
+2. **Analyze** combines those observations with backend metrics, requests a
+   Gemini configuration, and rejects configurations that violate feature-model
+   constraints.
+3. **Plan** converts the accepted features into a runtime `VariationPoint` and
+   records it as knowledge.
+4. **Execute** starts or stops matching Docker containers when available and runs
+   the selected Qiskit or Cirq workload when HQC features are enabled.
+5. **Knowledge** retains the feature model, current variation point, monitored
+   context, selected scenario, running status, and trace exposed by the API.
+
+## Setup
+
+### Prerequisites
+
+- Python 3.10 or 3.11 and `pip` (the pinned TensorFlow 2.15 stack constrains
+  supported Python versions)
+- Node.js `^20.19.0` or `>=22.12.0` and npm, as required by the locked Vite package
+- [Graphviz](https://graphviz.org/) with the `dot` executable on `PATH`
+- A Google API key with access to `models/gemini-2.5-flash`
+- Optional: a running Docker daemon if the experiment should inspect or
+  reconfigure containers; the repository does not include Compose or deployment
+  definitions
+
+### Backend
+
+From the repository root:
 
 ```bash
-git clone <repository-url>
-cd Scandia05-ML-FMweb-K-Quantum
+cd Backend
+python -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements.txt
+cp .env.example .env
 ```
 
----
+On Windows, activate the environment with `.venv\Scripts\activate` instead.
 
-## Backend Setup and Installation (Python)
+Set the variable copied from `Backend/.env.example`:
 
-The Flask-based backend handles API integrations and Qiskit and Cirq processes.
+| Variable | Purpose |
+| --- | --- |
+| `GOOGLE_API_KEY` | Authenticates Gemini requests made during the Analyze phase. |
 
-1. **Navigate to the Backend directory:**
-   ```bash
-   cd Backend
-   ```
+Do not commit the populated `.env` file. Start the backend through the primary
+entry point:
 
-2. **Create a virtual environment (recommended):**
-   ```bash
-   python -m venv .venv
-   ```
+```bash
+python run.py
+```
 
-3. **Activate the virtual environment:**
-   - **Windows:**
-     ```bash
-     .venv\Scripts\activate
-     ```
-   - **Linux/Mac:**
-     ```bash
-     source .venv/bin/activate
-     ```
+The API is available at `http://127.0.0.1:8000`. The server binds to `0.0.0.0`;
+the host and port are constants in `Backend/app/config.py`, not environment
+variables.
 
-4. **Install the dependencies:**
-   ```bash
-   pip install -r requirements.txt
-   ```
+### Frontend
 
-5. **Configure the environment variables:**
-   - Copy the `.env.example` file to `.env`:
-     ```bash
-     cp .env.example .env
-     ```
-   - Edit the `.env` file to add the required credentials (such as `IBM_QUANTUM_TOKEN`, `GEMINI_API_KEY`, etc.).
+In a second terminal, from the repository root:
 
-6. **Run the Backend server:**
-   ```bash
-   python main.py
-   ```
-   > By default, the backend will run at `http://localhost:5000` (or the configured port).
+```bash
+cd Frontend
+npm ci
+npm run dev
+```
 
----
+Open `http://localhost:5173`. The current frontend has no `.env` configuration
+and connects directly to `http://127.0.0.1:8000`; run the backend on its configured
+port. See the [frontend README](Frontend/README.md) for interface-specific details.
 
-## Frontend Setup and Installation (React + Vite)
+## API routes
 
-The frontend is built with React and Vite.
+All routes are served by the Flask backend on port `8000`.
 
-1. **Open a new terminal** (keep the backend running).
+| Method | Route | Purpose |
+| --- | --- | --- |
+| `GET` | `/api/scenarios` | Return the stochastic scenarios defined in `Backend/data/scenarios.json`. |
+| `POST` | `/api/select-scenario` | Start a MAPE-K cycle; JSON body: `{"scenario_id": 1}`. Returns `423` while another cycle is running. |
+| `GET` | `/api/state` | Return context, configuration, artifact URLs, running status, and the MAPE-K trace. Returns `503` before a cycle establishes state. |
+| `GET` | `/api/logs` | Return the adaptation log content. |
+| `GET` | `/api/static/<filename>` | Serve a generated graph or quantum evidence file. |
+| `GET` | `/api/links/<name>` | Return a named configuration level through the transitional service API. |
+| `GET` | `/api/link/<name>` | Return the state of a named feature through the transitional service API. |
+| `GET` | `/api/adaptation-rule` | Return the current monitored context and adaptation rationale. |
+| `GET` | `/api/container_logs/<container_name>` | Return recent output from a Docker container through the API bridge. |
 
-2. **Navigate to the Frontend directory:**
-   ```bash
-   cd Frontend
-   ```
+For a running backend, initiate and inspect a cycle with:
 
-3. **Install the Node dependencies:**
-   ```bash
-   npm install
-   ```
+```bash
+curl http://127.0.0.1:8000/api/scenarios
+curl -X POST http://127.0.0.1:8000/api/select-scenario \
+  -H 'Content-Type: application/json' \
+  -d '{"scenario_id": 1}'
+curl http://127.0.0.1:8000/api/state
+```
 
-4. **Start the development server:**
-   ```bash
-   npm run dev
-   ```
-   > The development frontend will typically open at `http://localhost:5173`. Visit that URL in your browser to view the application.
+The adaptation runs asynchronously; wait until `is_running` is `false` before
+interpreting the final state.
+
+## Verification
+
+The repository provides a backend architecture verifier and frontend static
+checks, but no automated test suite:
+
+```bash
+cd Backend
+python verify_backend.py
+
+cd ../Frontend
+npm run lint
+npm run build
+```
+
+`verify_backend.py` checks imports, application initialization, MAPE-K phase
+construction, and required route registration. It does not execute a complete
+Gemini or quantum adaptation cycle.
+
+## Documentation
+
+- [Frontend README](Frontend/README.md): dashboard setup, integration behavior,
+  source layout, and available npm commands.
+- Backend implementation documentation is maintained in module docstrings under
+  `Backend/app/`; no separate backend README is present.
+
+## Reproducibility notes
+
+Scenario observations and backend metrics are sampled at runtime, and adaptation
+decisions depend on an external Gemini model. Results can therefore differ across
+runs even for the same scenario. Generated evidence and logs are written under
+`Backend/data/`. Docker reconfiguration affects only pre-existing containers whose
+names match selected English feature keys; this repository does not provision them.
+The dashboard integrations expect `air_quality_manager`, `tourism`, `sports`, and
+`hybrid_quantum_computing` when those managed-service containers are deployed.
