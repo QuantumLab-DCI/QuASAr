@@ -1,25 +1,16 @@
-"""Experimental container-oriented FastAPI prototype for MAPE-K research."""
+"""Partial FastAPI research template using the English domain contracts."""
 
 from fastapi import BackgroundTasks, FastAPI, HTTPException
-from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
 from app.adaptation_task import run_on_demand_adaptation_cycle
-from app.core.feature_model import build_air_quality_feature_model
+from app.core.feature_model import FeatureModel, build_air_quality_feature_model
 from app.core.knowledge import knowledge_base
 from app.services.file_service import FileService
 
 
 app = FastAPI()
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["http://oasis.ceisufro.cl"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
-feature_model = build_air_quality_feature_model()
+feature_model: FeatureModel = build_air_quality_feature_model()
 knowledge_base.set_feature_model(feature_model)
 
 
@@ -27,13 +18,9 @@ class ScenarioSelection(BaseModel):
     scenario_id: int
 
 
-@app.get("/")
-def read_root():
-    return {"service": "FMweb-K Quantum Backend", "status": "available"}
-
-
 @app.get("/api/state")
-def get_system_state():
+async def get_system_state():
+    """Return the same state contract exposed by the active Flask backend."""
     adaptation_rule = knowledge_base.get_adaptation_rule()
     if adaptation_rule is None:
         raise HTTPException(
@@ -55,20 +42,21 @@ def get_system_state():
 
 
 @app.get("/api/scenarios")
-def get_scenarios():
+async def get_scenarios():
     return FileService.read_scenarios()
 
 
 @app.get("/api/logs")
-def get_logs():
+async def get_logs():
     return {"log_content": FileService.read_logs()}
 
 
 @app.post("/api/select-scenario")
-def select_scenario(
+async def select_scenario(
     selection: ScenarioSelection,
     background_tasks: BackgroundTasks,
 ):
+    """Select a scenario and schedule one on-demand MAPE-K cycle."""
     if knowledge_base.is_running():
         raise HTTPException(
             status_code=423,
@@ -91,7 +79,7 @@ def select_scenario(
 
 
 @app.get("/api/links/{feature_key}")
-def get_links(feature_key: str):
+async def get_links(feature_key: str):
     variation_point = knowledge_base.get_variation_point()
     if not variation_point:
         raise HTTPException(status_code=503, detail="The system is starting.")
@@ -99,7 +87,7 @@ def get_links(feature_key: str):
 
 
 @app.get("/api/link/{feature_key}")
-def get_link(feature_key: str):
+async def get_link(feature_key: str):
     variation_point = knowledge_base.get_variation_point()
     if not variation_point:
         raise HTTPException(status_code=503, detail="The system is starting.")
@@ -107,7 +95,7 @@ def get_link(feature_key: str):
 
 
 @app.get("/api/adaptation-rule")
-def get_adaptation_rule():
+async def get_adaptation_rule():
     adaptation_rule = knowledge_base.get_adaptation_rule()
     if adaptation_rule is None:
         raise HTTPException(status_code=503, detail="The system is starting.")

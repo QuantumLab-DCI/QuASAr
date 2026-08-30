@@ -1,19 +1,18 @@
 import http.server
-import socketserver
-import json
-import random
-import os
-import time
-import threading
 import logging
+import os
+import random
+import socketserver
 import sys
+import threading
+import time
 from datetime import datetime
 
 # --- CONFIGURATION ---
 PORT = int(os.environ.get("PORT", 80))
-SERVICE_NAME = os.environ.get("SERVICE_NAME", "Servicio Base")
+SERVICE_NAME = os.environ.get("SERVICE_NAME", "Base Service")
 THEME_COLOR = os.environ.get("THEME_COLOR", "#333333")
-LOG_FILE = "servicio.log"
+LOG_FILE = "service.log"
 
 # --- 1. CONFIGURE REAL LOGGING (Console + File) ---
 # This makes logs appear both in Docker Desktop and in the internal file
@@ -34,67 +33,71 @@ file_handler.setFormatter(formatter)
 logger.addHandler(file_handler)
 
 # --- 2. BUSINESS PROCESS SIMULATION (Background Threads) ---
-def tarea_simulada():
+def simulate_service_activity():
     """Generate background activity consistent with the service."""
-    logger.info(f"✅ {SERVICE_NAME} iniciado correctamente. PID: {os.getpid()}")
-    logger.info("📡 Conectando al bus de eventos... CONECTADO.")
-    
+    logger.info("%s started successfully. PID: %s", SERVICE_NAME, os.getpid())
+    logger.info("Connected to the event bus.")
+
     while True:
         try:
             time.sleep(random.uniform(2, 8)) # Variable interval
-            
+
             # Service-specific logic
-            if "turismo" in SERVICE_NAME.lower():
-                acciones = [
-                    f"Consultando DB de POIs (Query ID: {random.randint(1000,9999)})",
-                    "Actualizando disponibilidad de guías: Zona Volcán",
-                    f"Calculando ruta óptima para usuario #{random.randint(50,500)}...",
-                    "Sincronizando con API de Clima..."
+            if "tourism" in SERVICE_NAME.lower():
+                actions = [
+                    f"Querying the points-of-interest database (query ID: {random.randint(1000,9999)})",
+                    "Updating guide availability for the volcano zone.",
+                    f"Computing an optimal route for user {random.randint(50,500)}.",
+                    "Synchronizing with the weather API.",
                 ]
-                logger.info(random.choice(acciones))
-                
-            elif "deportes" in SERVICE_NAME.lower():
+                logger.info(random.choice(actions))
+
+            elif "sports" in SERVICE_NAME.lower():
                 # Simulate sensor readings
-                ica_simulado = random.randint(20, 120)
-                nivel = "CRÍTICO" if ica_simulado > 100 else "NORMAL"
-                log_func = logger.warning if ica_simulado > 100 else logger.info
-                
-                logger.debug(f"Leyendo sensor IoT_Canopy_01... Valor Raw: {random.random()}")
-                log_func(f"Monitor Ambiental: ICA={ica_simulado} Estado={nivel}")
-                
-            elif "hqc" in SERVICE_NAME.lower():
-                acciones = [
-                    f"Calibrando Qubits (Fidelidad: 99.{random.randint(10,99)}%)",
-                    "Limpiando cola de trabajos pendientes...",
-                    f"Recibida telemetría de Backend Qiskit: Latencia {random.randint(2,15)}ms",
-                    "Ejecutando corrección de errores cuánticos (Surface Code)..."
+                simulated_aqi = random.randint(20, 120)
+                level = "CRITICAL" if simulated_aqi > 100 else "NORMAL"
+                log_func = logger.warning if simulated_aqi > 100 else logger.info
+
+                logger.debug("Reading sensor IoT_Canopy_01; raw value: %s", random.random())
+                log_func("Environmental monitor: AQI=%s status=%s", simulated_aqi, level)
+
+            elif SERVICE_NAME.lower().replace(" ", "_") in {
+                "hybrid_quantum_computing",
+                "qiskit_simulator",
+                "cirq_simulator",
+            }:
+                actions = [
+                    f"Calibrating qubits (fidelity: 99.{random.randint(10,99)}%).",
+                    "Clearing the pending-job queue.",
+                    f"Received Qiskit backend telemetry: {random.randint(2,15)} ms latency.",
+                    "Running surface-code quantum error correction.",
                 ]
-                logger.info(random.choice(acciones))
-                
-            elif "aire" in SERVICE_NAME.lower():
-                logger.info(f"Muestreando estaciones remotas [1/5]... OK")
-                
+                logger.info(random.choice(actions))
+
+            elif "air" in SERVICE_NAME.lower():
+                logger.info("Sampling remote stations [1/5]: OK.")
+
             else:
-                logger.debug("Heartbeat: Sistema operativo y estable.")
-                
-        except Exception as e:
-            logger.error(f"Error en hilo de simulación: {e}")
+                logger.debug("Heartbeat: system is operational and stable.")
+
+        except Exception as error:
+            logger.error("Simulation thread failed: %s", error)
 
 # Start the background thread (daemonized so it stops when the script stops)
-hilo_fondo = threading.Thread(target=tarea_simulada, daemon=True)
-hilo_fondo.start()
+background_thread = threading.Thread(target=simulate_service_activity, daemon=True)
+background_thread.start()
 
 # --- 3. REAL WEB SERVER (Request Handling) ---
 class RealLogHandler(http.server.SimpleHTTPRequestHandler):
-    
+
     def log_message(self, format, *args):
         # Override this method to use the configured logger instead of default stderr
-        logger.info(f"🌐 HTTP Request: {self.client_address[0]} - {format%args}")
+        logger.info("HTTP request: %s - %s", self.client_address[0], format % args)
 
     def do_GET(self):
         # Simulate a short processing delay
-        # time.sleep(0.05) 
-        
+        # time.sleep(0.05)
+
         self.send_response(200)
         self.send_header('Content-type', 'text/html; charset=utf-8')
         self.send_header('Access-Control-Allow-Origin', '*') # CORS required for the iframe
@@ -102,8 +105,8 @@ class RealLogHandler(http.server.SimpleHTTPRequestHandler):
 
         # Dynamic data for the HTML
         uptime = int(time.time()) % 1000
-        memoria = random.randint(12, 64)
-        
+        memory_mb = random.randint(12, 64)
+
         # HTML displayed in the micro-frontend
         html = f"""
         <!DOCTYPE html>
@@ -122,10 +125,10 @@ class RealLogHandler(http.server.SimpleHTTPRequestHandler):
             <div class="card">
                 <h3><span class="live-indicator"></span> {SERVICE_NAME}</h3>
                 <div style="font-size: 24px; font-weight: bold; color: #333;">
-                    Activo
+                    Active
                 </div>
                 <div style="font-size: 12px; color: #666; margin-bottom: 5px;">
-                    Uptime: {uptime}s | Mem: {memoria}MB
+                    Uptime: {uptime}s | Memory: {memory_mb} MB
                 </div>
                 <div style="font-size: 10px; color: #999; font-style: italic;">
                     Last Refreshed: {datetime.now().strftime('%H:%M:%S')}
@@ -137,6 +140,6 @@ class RealLogHandler(http.server.SimpleHTTPRequestHandler):
         self.wfile.write(html.encode('utf-8'))
 
 # --- STARTUP ---
-logger.info(f"🚀 Iniciando servidor web en puerto {PORT}")
+logger.info("Starting the web server on port %s.", PORT)
 with socketserver.TCPServer(("", PORT), RealLogHandler) as httpd:
     httpd.serve_forever()
