@@ -2,7 +2,7 @@ from typing import Dict, List, Any, Optional
 import datetime
 from app.core.audit_logger import get_logger
 
-# Importar las fases
+# Import the phases
 from app.core.mapek_phases.monitor import Monitor
 from app.core.mapek_phases.analyzer import Analyzer
 from app.core.mapek_phases.planner import Planner
@@ -10,23 +10,23 @@ from app.core.mapek_phases.executor import Executor
 
 class Mapek:
     """
-    Motor del ciclo MAPE-K (Refactorizado - Orquestador).
-    Coordina Monitor, Analyzer, Planner, Execute, Knowledge phases.
+    MAPE-K cycle engine (refactored orchestrator).
+    Coordinate the Monitor, Analyzer, Planner, Execute, and Knowledge phases.
     """
     def __init__(self):
         self.logger = get_logger()
         self._mapek_trace = []
         self._caso_actual = 0
         
-        # Inicializar Fases
+        # Initialize phases
         self.monitor_phase = Monitor()
         self.analyzer_phase = Analyzer()
         self.planner_phase = Planner()
         self.executor_phase = Executor()
         
-        self._last_context = {} # Cache para getters legacy
+        self._last_context = {} # Cache for legacy getters
 
-    # --- Helper para registrar pasos en el timeline (Frontend) ---
+    # --- Helper for recording steps in the timeline (Frontend) ---
     def _registrar_paso(self, fase, mensaje, detalles=None):
         paso = {
             "fase": fase,
@@ -40,15 +40,15 @@ class Mapek:
 
     def ejecutar_escenario_manual(self, mc, target_id: int, caso_n: int = 0) -> None:
         """ 
-        Orquesta el ciclo completo MAPE-K.
+        Orchestrate the complete MAPE-K cycle.
         """
         self._caso_actual = caso_n
-        self._mapek_trace = [] # Limpiar traza anterior
+        self._mapek_trace = [] # Clear the previous trace
         self._registrar_paso("INICIO", f"Iniciando ciclo MAPE-K para Escenario ID {target_id}")
 
         # 1. MONITOR
         contexto = self.monitor_phase.monitorear(target_id, caso_n)
-        self._last_context = contexto # Guardar para getters
+        self._last_context = contexto # Store for getters
         
         self._registrar_paso("MONITOREO", "Sensores leídos y Perfil de usuario detectado.", {
             "ICA (Aire)": contexto['ica'],
@@ -75,7 +75,7 @@ class Mapek:
         })
 
         # 3. PLAN + KNOWLEDGE (Update)
-        # La fase planner actualiza el conocimiento (PuntoVariacion) y retorna el plan ejecutable
+        # The planner phase updates knowledge (PuntoVariacion) and returns the executable plan
         config_ejecutable = self.planner_phase.planificar(
             config_plana, mc, contexto['ica'], contexto['complejidad_problema']
         )
@@ -91,17 +91,17 @@ class Mapek:
             "Mecanismo": "Docker API + HQC Factory",
         })
         
-        # Ejecutar y capturar sub-trazas (ej. HQC jobs)
+        # Execute and capture sub-traces (for example, HQC jobs)
         sub_trace = self.executor_phase.ejecutar(config_ejecutable, caso_n, contexto)
         
-        # Integrar trazas de ejecución (si las hay)
+        # Integrate execution traces, if any
         if sub_trace:
             for paso in sub_trace:
                 self._mapek_trace.append(paso)
 
         self._registrar_paso("FIN", "Ciclo MAPE-K completado exitosamente.")
 
-    # --- Getters Legacy (Mantener compatibilidad API) ---
+    # --- Legacy Getters (Maintain API Compatibility) ---
     def getConocimiento(self):
         return self.planner_phase.get_conocimiento()
 

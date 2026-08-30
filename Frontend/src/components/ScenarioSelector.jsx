@@ -2,16 +2,16 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Activity, Cloud, AlertTriangle, Clock, CheckCircle, Play, Loader2, Lock } from 'lucide-react';
 
-// Asegúrate de que coincida con tu backend (localhost o 127.0.0.1)
+// Ensure this matches the backend host (localhost or 127.0.0.1)
 const API_URL = 'http://127.0.0.1:8000';
 
-// Recibimos isSystemBusy como prop desde App.jsx para bloquear la UI
+// Receive isSystemBusy from App.jsx to lock the UI
 const ScenarioSelector = ({ onScenarioChange, isSystemBusy }) => {
     const [scenarios, setScenarios] = useState([]);
     const [activeId, setActiveId] = useState(null);
     const [error, setError] = useState(null);
 
-    // 1. Cargar escenarios al montar el componente
+    // 1. Load scenarios when the component mounts
     useEffect(() => {
         const loadScenarios = async () => {
             try {
@@ -25,21 +25,21 @@ const ScenarioSelector = ({ onScenarioChange, isSystemBusy }) => {
         loadScenarios();
     }, []);
 
-    // 2. Manejar el clic en un escenario
+    // 2. Handle scenario selection
     const handleSelect = async (id) => {
-        // Bloqueo de seguridad frontend: si está ocupado, no hacemos nada
+        // Frontend safeguard: do nothing while the system is busy
         if (isSystemBusy) return;
 
         try {
             const res = await axios.post(`${API_URL}/api/seleccionar_escenario`, { id: id });
             if (res.data.status === 'ok') {
                 setActiveId(id);
-                // Avisamos al componente padre (App) para que refresque el estado
+                // Notify the parent component (App) to refresh the status
                 if (onScenarioChange) onScenarioChange();
             }
         } catch (err) {
             console.error("Error seleccionando escenario:", err);
-            // Manejamos el error 423 (Locked) específicamente por si el bloqueo visual falla
+            // Handle 423 (Locked) explicitly in case the visual lock fails
             if (err.response && err.response.status === 423) {
                 alert("⚠️ El sistema está ocupado procesando una solicitud. Por favor espera.");
             } else {
@@ -48,19 +48,19 @@ const ScenarioSelector = ({ onScenarioChange, isSystemBusy }) => {
         }
     };
 
-    // Helper para iconos visuales
+    // Select the visual icon for each scenario
     const getIcon = (id) => {
         switch (id) {
             case 1: return <Activity size={20} className="icon-green" />; // Base
-            case 2: return <AlertTriangle size={20} className="icon-orange" />; // Alerta
+            case 2: return <AlertTriangle size={20} className="icon-orange" />; // Alert
             case 3: return <Cloud size={20} className="icon-blue" />; // Qiskit
             case 4: return <Clock size={20} className="icon-purple" />; // Cirq
-            case 5: case 99: return <AlertTriangle size={20} style={{ color: 'red' }} />; // Caos/Evento X
+            case 5: case 99: return <AlertTriangle size={20} style={{ color: 'red' }} />; // Chaos/Event X
             default: return <Play size={20} className="icon-gray" />;
         }
     };
 
-    // Helper para formatear el SLA (Manejo de fallback por si la clave cambia en backend)
+    // Format the SLA with a fallback in case the backend key changes
     const getSlaLabel = (scenario) => scenario.sla_prioridad || scenario.sla || "N/A";
 
     if (error) return <div className="error-msg">{error}</div>;
@@ -71,7 +71,7 @@ const ScenarioSelector = ({ onScenarioChange, isSystemBusy }) => {
                 <div className="flex items-center gap-2" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                     <h2>🕹️ Panel de Control (Simulación Estocástica)</h2>
 
-                    {/* Indicador de Estado del Sistema */}
+                    {/* System status indicator */}
                     {isSystemBusy ? (
                         <span className="status-badge processing">
                             <Loader2 size={14} className="spin-icon" />
@@ -96,7 +96,7 @@ const ScenarioSelector = ({ onScenarioChange, isSystemBusy }) => {
                             ${isSystemBusy ? 'disabled-card' : ''}
                         `}
                     >
-                        {/* Overlay de bloqueo (Candado) */}
+                        {/* Lock overlay */}
                         {isSystemBusy && (
                             <div className="card-overlay">
                                 <Lock size={32} className="lock-icon" />

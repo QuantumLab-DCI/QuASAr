@@ -4,8 +4,8 @@ from app.core.audit_logger import get_logger
 
 class Planner:
     """
-    Fase 3: PLAN
-    Responsable de generar el plan de reconfiguración (deltas) basado en el análisis del LLM.
+    Phase 3: PLAN
+    Generate the reconfiguration plan (deltas) based on the LLM analysis.
     """
     def __init__(self):
         self.logger = get_logger()
@@ -13,14 +13,14 @@ class Planner:
 
     def planificar(self, configuracion_llm: Dict[str, bool], mc, ica: int, complejidad_problema: int) -> Dict[str, Any]:
         """
-        - Actualiza el Punto de Variación con la nueva configuración.
-        - Genera el diccionario de configuración plana para el Executor.
+        - Update the Variation Point with the new configuration.
+        - Generate the flat configuration dictionary for the Executor.
         """
-        # Convertir diccionario plano booleano a lista de proposiciones ["FeatA activada", ...]
-        # Esto es necesario para la clase PuntoVariacion actual (legacy logic)
+        # Convert the flat Boolean dictionary to a list of propositions such as
+        # ["FeatA activada", ...]. This is required by the current PuntoVariacion class.
         configuracion_formal = []
         for key, value in configuracion_llm.items(): 
-            # Buscar nombre formal en el MC
+            # Find the formal name in the feature model
             nombre_formal = next(
                 (c.getNombre for c in mc.caracteristicas 
                     if c.getNombre.replace(" ", "_").lower() == key.lower()), 
@@ -31,14 +31,14 @@ class Planner:
 
         self.logger.info("KNOWLEDGE: Actualizando base de conocimiento y estado global.")
         
-        # Actualizamos el objeto de gestión de configuración
+        # Update the configuration management object
         self._puntoVariacion = punto_variacion.PuntoVariacion(configuracion_formal, mc, "gestor_aire")
         
-        # Obtenemos el diccionario limpio de {feature: bool} para ejecución
+        # Obtain the clean {feature: bool} dictionary for execution
         config_ejecutable = self._puntoVariacion.obtenerConfiguracion()
         
         return config_ejecutable
     
     def get_conocimiento(self):
-        """Devuelve el último punto de variación gestionado."""
+        """Return the most recently managed variation point."""
         return self._puntoVariacion

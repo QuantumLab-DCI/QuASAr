@@ -29,7 +29,7 @@ def get_regla_adaptacion():
 @legacy_bp.route("/container_logs/<string:container_name>")
 def get_container_logs_real(container_name):
     """
-    Endpoint PUENTE:
+    BRIDGE endpoint:
     Frontend -> Flask -> Docker Daemon -> Container STDOUT
     """
     return jsonify(docker_service.get_container_logs(container_name))

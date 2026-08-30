@@ -279,7 +279,7 @@ body {
   color: #9a3412;
 }
 
-/* Alerta */
+/* Alert */
 .icon-wrapper-3 {
   background: #dbeafe;
   color: #1e40af;
@@ -407,7 +407,7 @@ body {
   box-shadow: 0 2px 4px rgba(16, 185, 129, 0.2);
 }
 
-/* Badge de estado en el header del panel */
+/* Status badge in the panel header */
 .status-badge {
   font-size: 0.75rem;
   padding: 4px 10px;

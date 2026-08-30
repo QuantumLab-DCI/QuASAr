@@ -8,31 +8,31 @@ from . import control_bp
 @control_bp.route("/seleccionar_escenario", methods=['POST'])
 def set_escenario():
     """ 
-    Permite al usuario elegir un escenario y DISPARA LA EJECUCIÓN INMEDIATA.
+    Allow the user to select a scenario and TRIGGER IMMEDIATE EXECUTION.
     """
     data = request.json
     nuevo_id = data.get('id')
     
-    # Bloqueo de seguridad
+    # Safety lock
     if state_manager.is_running():
         return jsonify({"error": "Sistema ocupado. Espere a que finalice el ciclo actual."}), 423 
     
     if nuevo_id is not None:
         try:
-            # 1. Actualizar variable global (Memoria)
+            # 1. Update the global variable (memory)
             act_id = int(nuevo_id)
             state_manager.set_escenario_id(act_id)
             
             print(f"🕹️ INTERACCIÓN: Usuario seleccionó Escenario ID {act_id}")
 
-            # Bloquear sistema
+            # Lock the system
             state_manager.set_running(True)
             print(f"🔒 SISTEMA BLOQUEADO: Iniciando ciclo MAPE-K para Escenario {act_id}")
 
-            # 2. DISPARAR EL EVENTO (Threading)
-            # Pasamos solo el ID, ya que el MC se obtiene del state_manager dentro de la task si es necesario
-            # o se pasa aqui. El task original recibia mc.
-            # Vamos a refactorizar task para que use state_manager tambien.
+            # 2. TRIGGER THE EVENT (Threading)
+            # Pass only the ID because the task obtains the feature model from
+            # state_manager if needed. The original task received mc directly.
+            # Refactor the task to use state_manager as well.
             
             thread = threading.Thread(
                 target=ejecutar_ciclo_bajo_demanda,

@@ -8,16 +8,16 @@ import os
 @dashboard_bp.route("/estado")
 def get_estado_general():
     """ 
-    Endpoint principal para el dashboard.
-    Devuelve el contexto, la configuración activa, la evidencia visual
-    y la TRAZA DETALLADA del ciclo MAPE-K.
+    Main dashboard endpoint.
+    Return the context, active configuration, visual evidence, and
+    DETAILED TRACE of the MAPE-K cycle.
     """
     if state_manager.get_regla_adaptacion() is None:
          return jsonify({"error": "El sistema está arrancando. Seleccione un escenario."}), 503
     
     evidencia_cuantica = FileService.get_evidence_path()
     
-    # Obtener configuración real
+    # Get the actual configuration
     config_real = {}
     pv = state_manager.get_pv()
     if pv:
@@ -36,7 +36,7 @@ def get_estado_general():
 
 @dashboard_bp.route("/escenarios", methods=['GET'])
 def get_escenarios():
-    """ Devuelve la lista de escenarios desde el JSON. """
+    """ Return the list of scenarios from the JSON file. """
     scenarios = FileService.read_scenarios()
     return jsonify(scenarios)
 
@@ -46,10 +46,10 @@ def get_logs():
 
 @dashboard_bp.route("/static/<path:filename>")
 def static_files(filename):
-    """ Sirve los archivos generados (imágenes) desde el directorio /data. """
+    """ Serve generated files (images) from the /data directory. """
     try:
         response = send_from_directory(DATA_DIR, filename)
-        # Desactivar caché para imágenes dinámicas
+        # Disable caching for dynamic images
         response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
         response.headers["Pragma"] = "no-cache"
         response.headers["Expires"] = "0"

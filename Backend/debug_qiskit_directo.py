@@ -2,7 +2,7 @@
 import sys
 import os
 
-# Aseguramos que Python encuentre los módulos de 'app'
+# Ensure Python can find the 'app' modules
 sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
 
 try:
@@ -15,7 +15,7 @@ def test_qiskit_force():
     print("\n🚀 INICIANDO PRUEBA FORZADA DE QISKIT ADAPTER")
     print("===============================================")
 
-    # 1. Instanciar el adaptador
+    # 1. Instantiate the adapter
     try:
         adapter = QiskitAdapter()
         print("✅ Adaptador instanciado correctamente.")
@@ -23,13 +23,13 @@ def test_qiskit_force():
         print(f"❌ Fallo al instanciar adaptador: {e}")
         return
 
-    # 2. Definir los parámetros que causan el error (Alta complejidad)
-    # Según tus logs: TSP 5 ciudades, Profundidad 2
+    # 2. Define the parameters that cause the error (high complexity)
+    # According to the logs: 5-city TSP, depth 2
     params_simulados = {
         "problema_id": "debug_manual_001",
-        "complejidad_cp": 100, # Complejidad media
-        "size": 3,             # <--- CAMBIO: 3 Ciudades (9 Qubits = Muy rápido)
-        "depth": 1             # <--- CAMBIO: Profundidad 1 (Circuito más corto)
+        "complejidad_cp": 100, # Medium complexity
+        "size": 3,             # <--- CHANGE: 3 cities (9 qubits = very fast)
+        "depth": 1             # <--- CHANGE: Depth 1 (shorter circuit)
     }
     
     algoritmo = "QAOA"
@@ -38,7 +38,7 @@ def test_qiskit_force():
     print(f"⚙️  Algoritmo: {algoritmo}")
     print("-----------------------------------------------")
 
-    # 3. Ejecutar el trabajo directamente
+    # 3. Execute the job directly
     try:
         resultado = adapter.execute_job(algoritmo, params_simulados)
         

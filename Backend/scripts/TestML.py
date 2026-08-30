@@ -47,23 +47,23 @@ def generarCurvasROC():
     ]
     fig, ax = plt.subplots()
     for modelo in modelos:
-        # Realiza las predicciones en los datos de prueba
+        # Make predictions on the test data
         y_pred = modelo.predict(X_test, probabilities=True)
         y_pred = np.array(y_pred).ravel()
-        # Calcula el AUC de la curva ROC
+        # Calculate the AUC of the ROC curve
         auc = roc_auc_score(y_test, y_pred, multi_class='ovo', average=None)
 
-        # Traza la curva ROC en el eje
+        # Plot the ROC curve on the axis
         metrics.plot_roc_curve(modelo, X_test, y_test, ax=ax, name=f'{type(modelo).__name__}, AUC={auc:.2f}')
 
-    # Añade una línea diagonal para representar el clasificador aleatorio
+    # Add a diagonal line representing the random classifier
     ax.plot([0, 1], [0, 1], linestyle='--', color='r', label='Clasificador aleatorio')
 
-    # Añade una leyenda y un título al gráfico
+    # Add a legend and title to the plot
     ax.legend()
     ax.set_title('Curvas ROC')
 
-    # Muestra el gráfico
+    # Display the plot
     plt.show()
 
 def generarComparacion():
@@ -82,12 +82,12 @@ def generarComparacion():
     print("regresion lineal", len(y_predRegresionLineal))
     print("redes neuronales", len(y_predRedesNeuronales))
     print("regresion lineal regularizada", len(y_predRegresionLinealRegularizada))
-    # Calcular el coeficiente de determinación R^2 para cada modelo
+    # Calculate the coefficient of determination (R^2) for each model
     r2_1 = r2_score(y_test, y_predRegresionLineal)
     r2_2 = r2_score(y_test, y_predRedesNeuronales)
     r2_3 = r2_score(y_test, y_predRegresionLinealRegularizada)
 
-    # Crear el gráfico de dispersión
+    # Create the scatter plot
     #
     plt.figure(figsize=(8, 6))
     plt.scatter(y_test, y_predRegresionLineal, label=f'Modelo regresión lineal múltiple (R²={r2_1:.2f})')
@@ -133,7 +133,7 @@ def generarCurvasROC2():
     ]
     fig, ax = plt.subplots()
     for modelo in modelos:
-        # Realiza las predicciones en los datos de prueba
+        # Make predictions on the test data
         y_pred = modelo.predict(X_test)
         if type(modelo).__name__ == "LinearRegression":
             y_pred = binarize(y_pred.reshape(1, -1), threshold=0.5)[0]
@@ -141,20 +141,20 @@ def generarCurvasROC2():
             y_pred = modelo.predict(X_test, probabilities=True)
             y_pred = y_pred[:, 1]
 
-        # Calcula el AUC de la curva ROC
+        # Calculate the AUC of the ROC curve
         auc = roc_auc_score(y_test, y_pred, multi_class='ovo', average=None)
 
-        # Traza la curva ROC en el eje
+        # Plot the ROC curve on the axis
         metrics.plot_roc_curve(modelo, X_test, y_test, ax=ax, name=f'{type(modelo).__name__}, AUC={auc:.2f}')
 
-    # Añade una línea diagonal para representar el clasificador aleatorio
+    # Add a diagonal line representing the random classifier
     ax.plot([0, 1], [0, 1], linestyle='--', color='r', label='Clasificador aleatorio')
 
-    # Añade una leyenda y un título al gráfico
+    # Add a legend and title to the plot
     ax.legend()
     ax.set_title('Curvas ROC')
 
-    # Muestra el gráfico
+    # Display the plot
     plt.show()
 
 def generarComparacionEvaluacionModelos():
@@ -174,12 +174,12 @@ def generarComparacionEvaluacionModelos():
     print("regresion lineal", len(y_predRegresionLineal))
     print("redes neuronales", len(y_predRedesNeuronales))
     print("regresion lineal regularizada", len(y_predRegresionLinealRegularizada))
-    # Calcular el coeficiente de determinación R^2 para cada modelo
+    # Calculate the coefficient of determination (R^2) for each model
     r2_1 = r2_score(y_test, y_predRegresionLineal)
     r2_2 = r2_score(y_test, y_predRedesNeuronales)
     r2_3 = r2_score(y_test, y_predRegresionLinealRegularizada)
 
-    # Crear el gráfico de dispersión
+    # Create the scatter plot
     #
     plt.figure(figsize=(8, 6))
     plt.scatter(y_test, y_predRegresionLineal, label=f'Modelo regresión lineal múltiple (R²={r2_1:.2f})')
@@ -197,11 +197,11 @@ def filtrar_csv(input_file, output_file, columna, valor):
             lector = csv.reader(archivo_entrada, delimiter=',')
             escritor = csv.writer(archivo_salida, delimiter=',')
 
-            # Copiar la cabecera del archivo original al archivo filtrado
+            # Copy the original file header to the filtered file
             cabecera = next(lector)
             escritor.writerow(cabecera)
 
-            # Filtrar y guardar filas en el nuevo archivo
+            # Filter and save rows in the new file
             for fila in lector:
                 if fila[columna] == valor:
                     escritor.writerow(fila)
@@ -217,4 +217,4 @@ aprendizaje_automatico.guardarPredicciones(
         aprendizaje_automatico.entrenamientoPorEtapas(),
     "data/datos_redesneuronalesprofundas.csv")
 
-#revisar encoders, quizas puedo agregar el datos csv como el ultimo encoder
+# Review encoders; perhaps add the CSV data as the final encoder

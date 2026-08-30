@@ -1,7 +1,7 @@
 import sys
 import os
 
-# 1. Configurar el Path para encontrar los módulos de 'app'
+# 1. Configure the path to find the 'app' modules
 sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
 
 try:
@@ -15,7 +15,7 @@ def test_cirq_force():
     print("\n🚀 INICIANDO PRUEBA FORZADA DE CIRQ ADAPTER (TFQ)")
     print("===================================================")
 
-    # 2. Instanciar el adaptador
+    # 2. Instantiate the adapter
     try:
         adapter = CirqAdapter()
         print("✅ Adaptador Cirq instanciado correctamente.")
@@ -23,23 +23,23 @@ def test_cirq_force():
         print(f"❌ Fallo al instanciar adaptador: {e}")
         return
 
-    # 3. Definir parámetros de prueba
-    # Usamos 3 nodos y profundidad 1 para una prueba rápida.
-    # Puedes subir 'size' a 4 para probar carga media.
+    # 3. Define test parameters
+    # Use 3 nodes and depth 1 for a quick test.
+    # Increase 'size' to 4 to test a medium load.
     params_simulados = {
         "problema_id": "debug_cirq_manual_001",
-        "size": 3,       # 3 Nodos (Max-Cut en triángulo)
-        "depth": 1       # 1 Capa de QAOA/VQE
+        "size": 3,       # 3 nodes (Max-Cut on a triangle)
+        "depth": 1       # 1 QAOA/VQE layer
     }
     
-    # Probamos QAOA (puedes cambiar a "VQE" si prefieres)
+    # Test QAOA (change to "VQE" if preferred)
     algoritmo = "QAOA"
 
     print(f"⚙️  Parámetros: {params_simulados}")
     print(f"⚙️  Algoritmo: {algoritmo}")
     print("---------------------------------------------------")
 
-    # 4. Ejecutar el trabajo directamente
+    # 4. Execute the job directly
     try:
         print("⏳ Ejecutando simulación en TensorFlow Quantum...")
         resultado = adapter.execute_job(algoritmo, params_simulados)
@@ -53,9 +53,9 @@ def test_cirq_force():
         evidencia = resultado.get('evidencia_visual')
         print(f"Evidencia visual: {evidencia}")
         
-        # Verificación extra de archivo
+        # Additional file verification
         if evidencia and "No generado" not in evidencia:
-            # Convertir ruta relativa de API a ruta absoluta de sistema para verificar
+            # Convert the relative API path to an absolute filesystem path for verification
             ruta_real = os.path.abspath(os.path.join(os.path.dirname(__file__), 'data', os.path.basename(evidencia)))
             if os.path.exists(ruta_real):
                 print(f"📂 Archivo verificado en disco: {ruta_real}")

@@ -1,37 +1,37 @@
 # FMweb-K-Quantum
 
-Plataforma unificada para simulaciones cuánticas, machine learning y gestión de trabajos utilizando Qiskit y Cirq.
+Unified platform for quantum simulations, machine learning, and job management using Qiskit and Cirq.
 
-## Requisitos Previos
+## Prerequisites
 
 - [Python 3.10+](https://www.python.org/downloads/)
-- [Node.js 18+](https://nodejs.org/) y npm
-- [Docker](https://www.docker.com/) (si se requieren los servicios dockerizados)
+- [Node.js 18+](https://nodejs.org/) and npm
+- [Docker](https://www.docker.com/) (if containerized services are required)
 
-## Clonar el Repositorio
+## Clone the Repository
 
 ```bash
-git clone <url-del-repositorio>
+git clone <repository-url>
 cd Scandia05-ML-FMweb-K-Quantum
 ```
 
 ---
 
-## Configuración e Instalación del Backend (Python)
+## Backend Setup and Installation (Python)
 
-El backend en base a Flask maneja la integración con APIs y los procesos de Qiskit y Cirq.
+The Flask-based backend handles API integrations and Qiskit and Cirq processes.
 
-1. **Navegar al directorio del Backend:**
+1. **Navigate to the Backend directory:**
    ```bash
    cd Backend
    ```
 
-2. **Crear un entorno virtual (recomendado):**
+2. **Create a virtual environment (recommended):**
    ```bash
    python -m venv .venv
    ```
 
-3. **Activar el entorno virtual:**
+3. **Activate the virtual environment:**
    - **Windows:**
      ```bash
      .venv\Scripts\activate
@@ -41,44 +41,44 @@ El backend en base a Flask maneja la integración con APIs y los procesos de Qis
      source .venv/bin/activate
      ```
 
-4. **Instalar las dependencias:**
+4. **Install the dependencies:**
    ```bash
    pip install -r requirements.txt
    ```
 
-5. **Configurar las variables de entorno:**
-   - Copiar el archivo de ejemplo `.env.example` a `.env`:
+5. **Configure the environment variables:**
+   - Copy the `.env.example` file to `.env`:
      ```bash
      cp .env.example .env
      ```
-   - Editar el archivo `.env` para agregar las credenciales necesarias (como `IBM_QUANTUM_TOKEN`, `GEMINI_API_KEY`, etc.).
+   - Edit the `.env` file to add the required credentials (such as `IBM_QUANTUM_TOKEN`, `GEMINI_API_KEY`, etc.).
 
-6. **Ejecutar el servidor del Backend:**
+6. **Run the Backend server:**
    ```bash
    python main.py
    ```
-   > El backend estará corriendo por defecto en `http://localhost:5000` (o el puerto configurado).
+   > By default, the backend will run at `http://localhost:5000` (or the configured port).
 
 ---
 
-## Configuración e Instalación del Frontend (React + Vite)
+## Frontend Setup and Installation (React + Vite)
 
-El frontend está construido usando React y Vite.
+The frontend is built with React and Vite.
 
-1. **Abrir una nueva terminal** (manteniendo el backend corriendo).
+1. **Open a new terminal** (keep the backend running).
 
-2. **Navegar al directorio del Frontend:**
+2. **Navigate to the Frontend directory:**
    ```bash
    cd Frontend
    ```
 
-3. **Instalar las dependencias de Node:**
+3. **Install the Node dependencies:**
    ```bash
    npm install
    ```
 
-4. **Iniciar el servidor de desarrollo:**
+4. **Start the development server:**
    ```bash
    npm run dev
    ```
-   > El frontend de desarrollo se abrirá típicamente en `http://localhost:5173`. Visita esa URL en tu navegador para ver la aplicación.
+   > The development frontend will typically open at `http://localhost:5173`. Visit that URL in your browser to view the application.

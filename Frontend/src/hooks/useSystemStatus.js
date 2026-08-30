@@ -46,7 +46,7 @@ export const useSystemStatus = () => {
         setTimeout(fetchData, 1000);
     };
 
-    // Función de descarga (utilidad)
+    // Image download utility
     const downloadImage = async (imageUrl) => {
         if (!imageUrl) return;
         try {

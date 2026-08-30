@@ -35,7 +35,7 @@ class FileService:
 
     @staticmethod
     def clear_evidence_files():
-        """Elimina imágenes de evidencias antiguas."""
+        """Delete old evidence images."""
         files_to_remove = [
             QISKIT_EVIDENCE,
             CIRQ_CIRCUIT_EVIDENCE,

@@ -1,25 +1,25 @@
 from graphviz import Digraph
-# --- INICIO DE MODIFICACIÓN DE IMPORTS ---
-# Apuntamos a los módulos que ahora están en 'app/core'
+# --- START OF IMPORT MODIFICATION ---
+# Reference the modules that are now in 'app/core'
 from app.core import grafo_mc
 from app.core import punto_variacion
-import os  # <--- NUEVO: Necesario para verificar si existe evidencia física
-# --- FIN DE MODIFICACIÓN DE IMPORTS ---
+import os  # <--- NEW: Required to check whether physical evidence exists
+# --- END OF IMPORT MODIFICATION ---
 
-# ====== Ajustes visuales reutilizables ======
+# ====== Reusable Visual Settings ======
 FONT_NAME = "Arial"
 EDGE_COLOR = "#4d4d4d"
-FEATURE_FILL = "#eef3ff"   # azul muy claro para el modelo
+FEATURE_FILL = "#eef3ff"   # very light blue for the model
 FEATURE_BORDER = "#7aa6ff"
 
 ACTIVE_GREEN = "#33a02c"
 INACTIVE_RED = "#e31a1c"
-EVIDENCE_PURPLE = "#984ea3" # <--- NUEVO: Color para nodos con evidencia cuántica
+EVIDENCE_PURPLE = "#984ea3" # <--- NEW: Color for nodes with quantum evidence
 STATE_TEXT = "white"
 
 def _wrap_label(text: str, width: int = 18) -> str:
     """
-    Envuelve etiquetas largas para que no desborden los nodos.
+    Wrap long labels so they do not overflow the nodes.
     """
     if not text:
         return ""
@@ -42,10 +42,10 @@ def _wrap_label(text: str, width: int = 18) -> str:
 
 def _base_graph(comment: str) -> Digraph:
     """
-    Crea un grafo con atributos visuales mejorados.
+    Create a graph with enhanced visual attributes.
     """
     dot = Digraph(comment=comment)
-    # Layout horizontal, más espacio entre nodos, líneas suaves
+    # Horizontal layout, more space between nodes, smooth lines
     dot.attr(
         rankdir="LR", splines="spline", overlap="false",
         nodesep="0.4", ranksep="0.6", pad="0.1",
@@ -63,7 +63,7 @@ def _base_graph(comment: str) -> Digraph:
 
 def _legend(dot: Digraph, es_estado: bool = False) -> None:
     """
-    Leyenda compacta para entender colores.
+    Provide a compact legend for interpreting colors.
     """
     with dot.subgraph(name="cluster_legend") as c:
         c.attr(label="Leyenda", style="rounded", color="#d9d9d9",
@@ -75,11 +75,11 @@ def _legend(dot: Digraph, es_estado: bool = False) -> None:
             c.node("L_INA", "Inactivo", shape="box",
                    style="rounded,filled", fillcolor=INACTIVE_RED,
                    fontcolor=STATE_TEXT, color=INACTIVE_RED)
-            # --- NUEVO ITEM DE LEYENDA ---
+            # --- NEW LEGEND ITEM ---
             c.node("L_EVI", "Con Evidencia Cuántica", shape="box",
                    style="rounded,filled", fillcolor=EVIDENCE_PURPLE,
                    fontcolor=STATE_TEXT, color=EVIDENCE_PURPLE)
-            c.edge("L_ACT", "L_INA", style="invis")  # mantener compacto
+            c.edge("L_ACT", "L_INA", style="invis")  # Keep it compact
             c.edge("L_INA", "L_EVI", style="invis")
         else:
             c.node("L_F", "Característica", shape="box",
@@ -93,26 +93,26 @@ def _legend(dot: Digraph, es_estado: bool = False) -> None:
 
 def generar_visualizacion_modelo(mc, nombre_archivo='modelo_caracteristicas'):
     """
-    Genera una visualización estática del Modelo de Características completo.
-    - Layout horizontal (LR)
-    - Etiquetas envueltas
-    - Leyenda
-    - Exporta SVG y PNG
+    Generate a static visualization of the complete Feature Model.
+    - Horizontal layout (LR)
+    - Wrapped labels
+    - Legend
+    - Export to SVG and PNG
     """
     dot = _base_graph(comment="Modelo de Características")
 
-    # Añadir todas las características como nodos
+    # Add all features as nodes
     for caracteristica in mc.caracteristicas:
         nombre = caracteristica.getNombre
         dot.node(nombre, _wrap_label(nombre))
 
-    # Añadir las relaciones como flechas
+    # Add relationships as arrows
     for caracteristica in mc.caracteristicas:
         nombre_padre = caracteristica.getNombre
         for relacion in caracteristica.getRelaciones:
             nombre_hijo, tipo_relacion = relacion[0], relacion[1]
             if tipo_relacion == "Requiere":
-                # Dependencia punteada y color morado suave
+                # Dotted dependency with a soft purple color
                 dot.edge(
                     nombre_padre, nombre_hijo,
                     style="dashed", arrowhead="normal",
@@ -121,7 +121,7 @@ def generar_visualizacion_modelo(mc, nombre_archivo='modelo_caracteristicas'):
                     constraint="false"
                 )
             else:
-                # Jerárquica normal
+                # Standard hierarchical relationship
                 dot.edge(
                     nombre_padre, nombre_hijo,
                     label=_wrap_label(tipo_relacion, 14),
@@ -130,7 +130,7 @@ def generar_visualizacion_modelo(mc, nombre_archivo='modelo_caracteristicas'):
 
     _legend(dot, es_estado=False)
 
-    # Exportar SVG y PNG
+    # Export to SVG and PNG
     dot.format = "svg"
     dot.render(nombre_archivo, view=False, cleanup=True)
     dot.format = "png"
@@ -140,31 +140,31 @@ def generar_visualizacion_modelo(mc, nombre_archivo='modelo_caracteristicas'):
 
 def generar_visualizacion_estado(punto_variacion, mc, nombre_archivo='estado_actual'):
     """
-    Genera una visualización del estado actual del sistema:
-    - Nodos ACTIVOS en VERDE, INACTIVOS en ROJO (texto blanco)
-    - Si hay evidencia cuántica real (archivos generados), el nodo HQC se pinta PÚRPURA.
-    - Activos con borde más grueso
-    - Layout horizontal, etiquetas envueltas, leyenda
-    - Exporta SVG y PNG
+    Generate a visualization of the current system state:
+    - ACTIVE nodes in GREEN and INACTIVE nodes in RED (white text)
+    - If real quantum evidence exists (generated files), render the HQC node in PURPLE.
+    - Active nodes have a thicker border
+    - Horizontal layout, wrapped labels, and legend
+    - Export to SVG and PNG
     """
     dot = _base_graph(comment="Estado Actual del Sistema")
 
-    # Actualizamos esquema de colores por estado (sobrescribe defaults)
-    # Nota: para el estado, definimos nodos individualmente
-    # Obtener configuración actual desde el punto de variación
+    # Update the state color scheme (overrides defaults)
+    # Note: define nodes individually for the state visualization
+    # Get the current configuration from the variation point
     configuracion = {}
     try:
         configuracion = punto_variacion.obtenerConfiguracion()
     except Exception:
         configuracion = {}
 
-    # Nombres de todas las características
+    # Names of all features
     nombres_caracteristicas = [c.getNombre for c in mc.caracteristicas]
 
-    # Normalizamos diccionario de estado: por defecto, inactivo
+    # Normalize the state dictionary; inactive by default
     nodos_agregados = {n: False for n in nombres_caracteristicas}
 
-    # Mapear llaves del dict de config (que suelen venir normalizadas)
+    # Map configuration dictionary keys, which are usually normalized
     for nombre, estado in configuracion.items():
         nombre_formal = next(
             (n for n in nombres_caracteristicas
@@ -174,17 +174,17 @@ def generar_visualizacion_estado(punto_variacion, mc, nombre_archivo='estado_act
         if nombre_formal is not None:
             nodos_agregados[nombre_formal] = bool(estado)
 
-    # --- INICIO DE MODIFICACIÓN: DETECCIÓN DE EVIDENCIA ---
-    # Verificamos si existen los archivos de evidencia generados por los adaptadores.
-    # La ruta es relativa a este archivo: app/services/visualizador_grafo.py -> ../../data
+    # --- START OF MODIFICATION: EVIDENCE DETECTION ---
+    # Check whether evidence files generated by the adapters exist.
+    # The path is relative to this file: app/services/visualizador_grafo.py -> ../../data
     base_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../data'))
     tiene_evidencia = False
     if os.path.exists(os.path.join(base_path, "qiskit_circuit_evidence.png")) or \
        os.path.exists(os.path.join(base_path, "cirq_convergence_evidence.png")):
         tiene_evidencia = True
-    # --- FIN DE MODIFICACIÓN ---
+    # --- END OF MODIFICATION ---
 
-    # Dibujar nodos según estado
+    # Draw nodes according to their state
     for nombre, activo in nodos_agregados.items():
         color_fill = INACTIVE_RED
         color_font = STATE_TEXT
@@ -194,11 +194,11 @@ def generar_visualizacion_estado(punto_variacion, mc, nombre_archivo='estado_act
             color_fill = ACTIVE_GREEN
             pen_width = "2.2"
             
-            # --- INICIO DE MODIFICACIÓN: COLOR PÚRPURA PARA HQC ---
-            # Si hay evidencia física y el nodo es relevante (HQC o Simuladores), usar púrpura
+            # --- START OF MODIFICATION: PURPLE COLOR FOR HQC ---
+            # Use purple when physical evidence exists and the node is relevant (HQC or simulators)
             if tiene_evidencia and (nombre == "HQC" or "Simulator" in nombre):
                 color_fill = EVIDENCE_PURPLE
-            # --- FIN DE MODIFICACIÓN ---
+            # --- END OF MODIFICATION ---
 
         dot.node(
             nombre, _wrap_label(nombre),
@@ -206,7 +206,7 @@ def generar_visualizacion_estado(punto_variacion, mc, nombre_archivo='estado_act
             color=color_fill, penwidth=pen_width
         )
 
-    # Añadir relaciones (igual que en el modelo) para mantener coherencia
+    # Add relationships, as in the model, to maintain consistency
     for caracteristica in mc.caracteristicas:
         nombre_padre = caracteristica.getNombre
         for relacion in caracteristica.getRelaciones:
@@ -228,7 +228,7 @@ def generar_visualizacion_estado(punto_variacion, mc, nombre_archivo='estado_act
 
     _legend(dot, es_estado=True)
 
-    # Exportar SVG y PNG
+    # Export to SVG and PNG
     dot.format = "svg"
     dot.render(nombre_archivo, view=False, cleanup=True)
     dot.format = "png"

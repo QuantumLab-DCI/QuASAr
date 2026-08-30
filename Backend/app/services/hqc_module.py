@@ -5,7 +5,7 @@ from .hqc_backends.qiskit_adapter import QiskitAdapter
 from .hqc_backends.cirq_adapter import CirqAdapter
 
 def get_backend_adapter(backend_name: str) -> QuantumBackend:
-    """ FÁBRICA (Factory) de Backends Cuánticos. """
+    """ Factory for quantum backends. """
     print(f"⚛️  HQC_Factory: Solicitud para instanciar backend: '{backend_name}'")
     backend_name_lower = backend_name.lower()
     try:
@@ -21,30 +21,30 @@ def get_backend_adapter(backend_name: str) -> QuantumBackend:
 
 def monitor_backends():
     """
-    SIMULACIÓN DE ALTA ENTROPÍA (Estrategia para Defensa).
-    Objetivo: Romper el sesgo determinista del LLM haciendo que los métricas 'bailen'.
+    HIGH-ENTROPY SIMULATION (thesis-defense strategy).
+    Objective: Break the LLM's deterministic bias by making the metrics fluctuate.
     
-    1. Qiskit: Se comporta como el 'Puerto Seguro' (Estable).
-    2. Cirq: Se comporta como el 'Eslabón Débil' (A veces rápido, a veces colapsado).
-    3. Algoritmo: Se inyecta una sugerencia aleatoria para forzar VQE.
+    1. Qiskit: Behaves as the 'Safe Harbor' (stable).
+    2. Cirq: Behaves as the 'Weak Link' (sometimes fast, sometimes overloaded).
+    3. Algorithm: Inject a random suggestion to force VQE.
     """
     
-    # --- 1. QISKIT (El Estable) ---
-    # Mantenemos una cola constante y tolerable.
-    # 4 a 8 segundos es aceptable para precisión, pero pierde contra Cirq cuando Cirq está en 0s.
+    # --- 1. QISKIT (The Stable Option) ---
+    # Maintain a consistent and tolerable queue.
+    # 4 to 8 seconds is acceptable for accuracy, but loses to Cirq when Cirq is at 0 seconds.
     qiskit_queue = int(random.uniform(4, 8)) 
-    qiskit_error = 0.002 # Muy preciso (0.2%)
+    qiskit_error = 0.002 # Very accurate (0.2%)
 
-    # --- 2. CIRQ (El Inestable) ---
-    # Rango AMPLIO (0 a 25s).
-    # - Si sale 0-3s: El LLM elegirá Cirq (Rapidez).
-    # - Si sale 10-25s: El LLM elegirá Qiskit (Evitar congestión).
-    # Esto garantiza una alternancia de ~50% en las decisiones.
+    # --- 2. CIRQ (The Unstable Option) ---
+    # WIDE range (0 to 25 seconds).
+    # - At 0-3 seconds, the LLM will select Cirq (speed).
+    # - At 10-25 seconds, the LLM will select Qiskit (avoids congestion).
+    # This produces an approximately 50% alternation in decisions.
     cirq_queue = int(random.uniform(0, 25)) 
-    cirq_error = 0.08  # Ruidoso (8%)
+    cirq_error = 0.08  # Noisy (8%)
 
-    # --- 3. SUGERENCIA DE ALGORITMO (Factor de Novedad) ---
-    # Inyectamos una señal de contexto para que el LLM considere VQE
+    # --- 3. ALGORITHM SUGGESTION (Novelty Factor) ---
+    # Inject a context signal so the LLM considers VQE
     sugerencia_algo = random.choice(["QAOA", "VQE", "QAOA", "VQE"]) 
 
     metricas = {
@@ -58,7 +58,7 @@ def monitor_backends():
             "error_rate": cirq_error,
             "status": "ONLINE"
         },
-        # Metadata extra para influenciar al LLM
+        # Additional metadata for influencing the LLM
         "entorno_cuantico": {
             "estado_decoherencia": "ALTO" if sugerencia_algo == "QAOA" else "BAJO",
             "sugerencia_optimizacion": sugerencia_algo

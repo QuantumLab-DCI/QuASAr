@@ -9,24 +9,24 @@ const ServiceInspector = ({ service, onClose }) => {
     const [realLogs, setRealLogs] = useState([]);
     const scrollRef = useRef(null);
 
-    // Función para obtener logs REALES del Backend
+    // Fetch real logs from the backend
     const fetchRealLogs = async () => {
         try {
-            // Pedimos al backend que lea los logs de Docker
+            // Ask the backend to read the Docker logs
             const response = await axios.get(`${API_URL}/api/container_logs/${service.name}`);
 
             if (response.data.status === 'ok') {
-                // Docker devuelve un string gigante, lo dividimos en líneas y filtramos vacías
+                // Docker returns one large string, so split it into lines and remove empty ones
                 const lines = response.data.logs.split('\n').filter(line => line.trim().length > 0);
 
-                // Formateamos para que se vea bonito en la terminal
+                // Format the logs for readable terminal output
                 const formattedLogs = lines.map(line => {
                     let ts = "";
                     let level = "INFO";
                     let msg = line;
 
-                    // Intentamos parsear el formato: "14:30:01 [INFO] Mensaje..."
-                    // Regex simple para capturar hora y nivel entre corchetes
+                    // Try to parse the format: "14:30:01 [INFO] Message..."
+                    // Simple regex to capture the time and bracketed level
                     const match = line.match(/^(\d{2}:\d{2}:\d{2})\s+\[([A-Z]+)\]\s+(.*)/);
 
                     if (match) {
@@ -34,7 +34,7 @@ const ServiceInspector = ({ service, onClose }) => {
                         level = match[2];
                         msg = match[3];
                     } else {
-                        // Si no coincide (ej. trazas de error de Python), lo dejamos raw pero detectamos palabras clave
+                        // If it does not match (for example, Python tracebacks), keep it raw but detect keywords
                         if (line.includes('ERROR') || line.includes('Exception')) level = 'ERROR';
                         else if (line.includes('WARN')) level = 'WARN';
                         else if (line.includes('DEBUG')) level = 'DEBUG';
@@ -48,27 +48,27 @@ const ServiceInspector = ({ service, onClose }) => {
                 setRealLogs([{ ts: 'System', level: 'ERROR', msg: response.data.logs }]);
             }
         } catch (error) {
-            // Si falla la conexión (ej. backend caído)
+            // Handle connection failures (for example, when the backend is down)
             console.error(error);
             setRealLogs(prev => [...prev, { ts: 'System', level: 'ERROR', msg: "Error conectando con Docker API..." }]);
         }
     };
 
-    // Polling: Actualizar logs cada 2 segundos mientras la ventana esté abierta
+    // Poll every 2 seconds while the window is open
     useEffect(() => {
-        fetchRealLogs(); // Primera carga inmediata
+        fetchRealLogs(); // Load immediately on the first request
         const interval = setInterval(fetchRealLogs, 2000);
         return () => clearInterval(interval);
     }, [service]);
 
-    // Auto-scroll al final
+    // Automatically scroll to the bottom
     useEffect(() => {
         if (scrollRef.current) {
             scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
         }
     }, [realLogs]);
 
-    // Métricas FALSAS para decoración (Docker API es lenta para esto en tiempo real)
+    // Simulated metrics for display purposes (the Docker API is too slow for real-time updates)
     const cpu = service.status === 'active' || service.status === undefined ? Math.floor(Math.random() * 20 + 5) : 0;
     const mem = service.status === 'active' || service.status === undefined ? Math.floor(Math.random() * 50 + 40) : 0;
 

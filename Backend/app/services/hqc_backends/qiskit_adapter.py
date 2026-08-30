@@ -1,15 +1,15 @@
-# app/services/hqc_backends/qiskit_adapter.py (Ruta Corregida: Backend/data)
+# app/services/hqc_backends/qiskit_adapter.py (Corrected Path: Backend/data)
 from .base_backend import QuantumBackend
 import numpy as np
-# --- CORRECCIÓN CRÍTICA: Backend No Interactivo ---
+# --- CRITICAL FIX: Non-Interactive Backend ---
 import matplotlib
-# Forzamos el backend 'Agg' para evitar errores de GUI en hilos secundarios
+# Force the 'Agg' backend to prevent GUI errors in background threads
 matplotlib.use('Agg') 
 import matplotlib.pyplot as plt
 # --------------------------------------------------
 import os
 
-# Mover los imports que fallan a un bloque 'try'
+# Move imports that may fail into a 'try' block
 try:
     from qiskit_algorithms.utils import algorithm_globals
     QISKIT_BASE_DISPONIBLE = True
@@ -19,9 +19,9 @@ except ImportError:
 
 class QiskitAdapter(QuantumBackend):
     """
-    Adaptador específico para Qiskit (Modernizado para Primitivas V2).
-    Implementa la lógica real de optimización de rutas usando QAOA o VQE.
-    Soporta Adaptación de Carga de Trabajo (Tamaño y Profundidad variables).
+    Qiskit-specific adapter (modernized for V2 primitives).
+    Implement real route optimization logic using QAOA or VQE.
+    Support workload adaptation (variable size and depth).
     """
 
     def __init__(self):
@@ -29,7 +29,7 @@ class QiskitAdapter(QuantumBackend):
             raise ImportError("Dependencias base de Qiskit no encontradas o incompatibles.")
         
         try:
-            # Primitivas V2
+            # V2 primitives
             from qiskit_aer.primitives import SamplerV2, EstimatorV2
             
             self.sampler = SamplerV2() 
@@ -47,7 +47,7 @@ class QiskitAdapter(QuantumBackend):
             raise ImportError(f"Fallo crítico al inicializar Qiskit Aer: {e}")
 
     def _create_tsp_qubo(self, n, distance_matrix):
-        """ Crea manualmente el programa cuadrático (QUBO) para el TSP. """
+        """ Manually create the quadratic program (QUBO) for the TSP. """
         from qiskit_optimization import QuadraticProgram
         
         qp = QuadraticProgram()
@@ -70,7 +70,7 @@ class QiskitAdapter(QuantumBackend):
 
         qp.minimize(linear=linear, quadratic=quadratic)
         
-        # Restricciones (Constraints explícitos)
+        # Constraints (explicit constraints)
         for i in range(n):
             qp.linear_constraint(linear={f'x_{i}_{p}': 1 for p in range(n)}, sense='==', rhs=1, name=f'city_{i}')
         for p in range(n):
@@ -80,8 +80,8 @@ class QiskitAdapter(QuantumBackend):
 
     def _solve_tsp(self, solver_instance, qp, n_ciudades):
         """
-        Función genérica que resuelve un TSP.
-        CORREGIDA: Ruta de evidencia apunta a Backend/data (../../../data).
+        Generic function that solves a TSP.
+        FIXED: The evidence path points to Backend/data (../../../data).
         """
         from qiskit_optimization.algorithms import MinimumEigenOptimizer
         from qiskit_optimization.converters import QuadraticProgramToQubo 
@@ -91,16 +91,16 @@ class QiskitAdapter(QuantumBackend):
         
         print(f"   ...Problema TSP mapeado a QuadraticProgram (Constraints explícitos).")
 
-        # 1. CONVERSIÓN A QUBO
+        # 1. CONVERSION TO QUBO
         print("   ...[CONVERSIÓN] Transformando restricciones a penalizaciones (QUBO)...")
         conv = QuadraticProgramToQubo()
         qubo = conv.convert(qp)
         
-        # 2. OBTENER OPERADOR ISING
+        # 2. GET THE ISING OPERATOR
         operator, offset = qubo.to_ising()
         print(f"      -> Operador Ising generado: {operator.num_qubits} Qubits.")
 
-        # 3. PREPARAR SOLVER
+        # 3. PREPARE THE SOLVER
         real_solver = solver_instance
         
         if isinstance(solver_instance, dict) and solver_instance.get("type") == "QAOA":
@@ -119,7 +119,7 @@ class QiskitAdapter(QuantumBackend):
             )
             real_solver.ansatz = ansatz 
 
-        # 4. GENERACIÓN DE EVIDENCIA VISUAL
+        # 4. VISUAL EVIDENCE GENERATION
         print("   ...[PRUEBA DE CÓMPUTO] Extrayendo circuito (Ansatz) para evidencia...")
         evidence_path = "No generado"
         try:
@@ -128,7 +128,7 @@ class QiskitAdapter(QuantumBackend):
                 ansatz_to_draw = real_solver.ansatz
             
             if ansatz_to_draw:
-                # CORRECCIÓN DE RUTA: 3 niveles arriba (app/services/hqc_backends -> app/services -> app -> Backend)
+                # PATH FIX: 3 levels up (app/services/hqc_backends -> app/services -> app -> Backend)
                 base_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../data'))
                 
                 if not os.path.exists(base_path):
@@ -137,7 +137,7 @@ class QiskitAdapter(QuantumBackend):
                 img_filename = "qiskit_circuit_evidence.png"
                 full_path = os.path.join(base_path, img_filename)
                 
-                # Visualizar
+                # Render
                 ansatz_to_draw.decompose().draw(output='mpl', filename=full_path)
                 evidence_path = f"/api/static/{img_filename}"
                 print(f"   ...[EVIDENCIA] Circuito guardado en: {full_path}")
@@ -147,7 +147,7 @@ class QiskitAdapter(QuantumBackend):
         except Exception as e:
             print(f"   ...WARN Visualización: {e}")
 
-        # 5. EJECUCIÓN
+        # 5. EXECUTION
         optimizer = MinimumEigenOptimizer(real_solver)
         print(f"   ...Ejecutando optimización (Sampling)...")
         
@@ -203,9 +203,9 @@ class QiskitAdapter(QuantumBackend):
             print(f"   ...Configurando VQE (reps={depth})...")
             num_qubits = n_ciudades * n_ciudades 
             raw_ansatz = TwoLocal(num_qubits, 'ry', 'cz', reps=depth, entanglement='linear')
-            # Usamos SamplingVQE también para VQE estándar para mantener consistencia
-            # --- AQUÍ ESTÁ LA MAGIA: .decompose() ---
-            # Esto rompe la caja negra 'TwoLocal' en compuertas simples (RY, CZ)
+            # Also use SamplingVQE for standard VQE to maintain consistency
+            # --- THIS IS THE KEY: .decompose() ---
+            # This decomposes the 'TwoLocal' black box into simple gates (RY, CZ)
             ansatz = raw_ansatz.decompose() 
             # -----------------------------------------
             solver = SamplingVQE(sampler=self.sampler, optimizer=SLSQP(), ansatz=ansatz)

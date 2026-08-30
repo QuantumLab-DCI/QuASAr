@@ -1,7 +1,7 @@
 import google.generativeai as genai
 import os
 
-# Configura tu clave API (mejor usar variables de entorno)
+# Configure the API key (prefer environment variables)
 # genai.configure(api_key=os.environ.get("GEMINI_API_KEY"))
 genai.configure(api_key="")
 
@@ -11,6 +11,6 @@ for model in genai.list_models():
 
 print("\n--- Modelos que SÍ pueden generar contenido (texto/chat) ---")
 for model in genai.list_models():
-  # Filtramos por los que soportan el método "generateContent"
+  # Filter for models that support the "generateContent" method
   if 'generateContent' in model.supported_generation_methods:
     print(model.name)

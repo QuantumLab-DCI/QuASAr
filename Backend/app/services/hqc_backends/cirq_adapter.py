@@ -1,18 +1,18 @@
-# app/services/hqc_backends/cirq_adapter.py (Versión Final: SVG -> PNG con CairoSVG)
+# app/services/hqc_backends/cirq_adapter.py (Final Version: SVG -> PNG with CairoSVG)
 from .base_backend import QuantumBackend
 import numpy as np
 import os
 
-# --- Dependencias de Cirq, TFQ y Herramientas Gráficas ---
+# --- Cirq, TFQ, and Graphics Tool Dependencies ---
 try:
     import cirq
     import tensorflow as tf
     import tensorflow_quantum as tfq
     import sympy
     
-    # Herramientas para visualización
-    from cirq.contrib.svg import SVGCircuit # Genera el SVG bonito
-    import cairosvg                         # Convierte SVG a PNG
+    # Visualization tools
+    from cirq.contrib.svg import SVGCircuit # Generate the formatted SVG
+    import cairosvg                         # Convert SVG to PNG
     
     CIRQ_DISPONIBLE = True
 except ImportError as e:
@@ -22,8 +22,8 @@ except ImportError as e:
 
 class CirqAdapter(QuantumBackend):
     """
-    Adaptador Cirq: Resuelve Max-Cut usando TFQ.
-    Genera EVIDENCIA VISUAL DEL CIRCUITO COMO PNG (vía CairoSVG).
+    Cirq adapter: solve Max-Cut using TFQ.
+    Generate VISUAL CIRCUIT EVIDENCE AS PNG (via CairoSVG).
     """
 
     def __init__(self):
@@ -86,38 +86,38 @@ class CirqAdapter(QuantumBackend):
 
     def _solve_problem_tfq(self, algoritmo: str, hamiltonian, qubits, depth=1):
         
-        # 1. Construir circuito
+        # 1. Build the circuit
         if "QAOA" in algoritmo:
             circuit, symbols = self._build_qaoa_circuit(qubits, hamiltonian, p=depth)
         else: 
             circuit, symbols = self._build_vqe_circuit(qubits, layers=depth)
 
-        # --- GENERACIÓN DE EVIDENCIA VISUAL (SVG -> PNG) ---
+        # --- VISUAL EVIDENCE GENERATION (SVG -> PNG) ---
         print(f"   ...[PRUEBA DE CÓMPUTO] Generando diagrama PNG del circuito {algoritmo}...")
         evidence_path = "No generado"
         try:
-            # Ruta base: Backend/data
+            # Base path: Backend/data
             base_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../data'))
             
             if not os.path.exists(base_path):
                 os.makedirs(base_path, exist_ok=True)
 
-            # Nombres de archivo
+            # File names
             svg_filename = "cirq_circuit_evidence.svg"
             png_filename = "cirq_circuit_evidence.png"
             
             full_path_svg = os.path.join(base_path, svg_filename)
             full_path_png = os.path.join(base_path, png_filename)
 
-            # 1. Generar contenido SVG con Cirq
+            # 1. Generate SVG content with Cirq
             svg_content = SVGCircuit(circuit)._repr_svg_()
 
-            # Guardar SVG temporalmente (útil para debug)
+            # Save the SVG temporarily (useful for debugging)
             with open(full_path_svg, "w", encoding="utf-8") as f:
                 f.write(svg_content)
 
-            # 2. Convertir a PNG usando CairoSVG
-            # scale=2.0 mejora la resolución de la imagen resultante
+            # 2. Convert to PNG using CairoSVG
+            # scale=2.0 improves the resolution of the resulting image
             cairosvg.svg2png(url=full_path_svg, write_to=full_path_png, scale=2.0)
 
             print(f"   ...[EVIDENCIA] Diagrama PNG guardado en: {full_path_png}")
@@ -125,10 +125,10 @@ class CirqAdapter(QuantumBackend):
             
         except Exception as e:
             print(f"   ...WARN Visualización PNG: {e}")
-            print(circuit) # Fallback a texto en consola
+            print(circuit) # Fall back to text in the console
         # --------------------------------------
 
-        # 2. Ejecución (Optimización)
+        # 2. Execution (optimization)
         print(f"   ...Inicializando motor TFQ...")
         expectation_layer = tfq.layers.Expectation()
         

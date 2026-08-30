@@ -2,17 +2,17 @@ from typing import List, Tuple, Optional, Any
 
 class Nodo:
     """
-    Representa un nodo en el Modelo de Características (Grafo).
-    Cada nodo tiene un nombre y una lista de relaciones con otros nodos.
+    Represent a node in the Feature Model graph.
+    Each node has a name and a list of relationships with other nodes.
     """
     def __init__(self, nombre: str):
         self._nombre: str = nombre
-        self._relaciones: List[List[Any]] = [] # Lista de [Nodo, TipoRelacion]
+        self._relaciones: List[List[Any]] = [] # List of [Node, RelationshipType]
 
     def agregarRelacion(self, nodo_info: List[Any]):
         """
-        Agrega una relación a este nodo.
-        :param nodo_info: Lista con [NombreNodoDestino, TipoRelacion]
+        Add a relationship to this node.
+        :param nodo_info: List containing [DestinationNodeName, RelationshipType]
         """
         self._relaciones.append(nodo_info)
 
@@ -26,8 +26,8 @@ class Nodo:
 
 class ModeloCaracteristicas:
     """
-    Gestiona el Modelo de Características como un grafo de Nodos.
-    Permite agregar características y definir relaciones entre ellas.
+    Manage the Feature Model as a graph of nodes.
+    Support adding features and defining relationships between them.
     """
     def __init__(self):
         self.caracteristicas: List[Nodo] = []
@@ -37,44 +37,44 @@ class ModeloCaracteristicas:
 
     def relacionar(self, nodo1: Nodo, nodo2: Nodo, tipoRelacion: str):
         """
-        Establece una relación unidireccional de nodo1 a nodo2.
+        Establish a unidirectional relationship from nodo1 to nodo2.
         :param tipoRelacion: "Obligatoria", "Opcional", "XOR", "OR", "Requiere"
         """
-        # Guardamos [NombreNodo2, Tipo] en la lista de relaciones de Nodo1
+        # Store [Node2Name, Type] in Nodo1's relationship list
         nodo1.agregarRelacion([nodo2.getNombre, tipoRelacion])
 
     def buscarCaracteristica(self, nombreCaracteristica: str) -> Optional[Nodo]:
-        """Busca un nodo por su nombre."""
+        """Find a node by name."""
         for rama in self.caracteristicas:
             if rama.getNombre == nombreCaracteristica:
                 return rama
         return None
     
-    # --- INICIO DE NUEVA FUNCIÓN ---
-    # ... (resto del código anterior)
+    # --- START OF NEW FUNCTION ---
+    # ... (remainder of the previous code)
 
     def exportar_reglas_texto(self) -> str:
         """
-        Genera un string de texto simple que describe las reglas
-        del modelo para el prompt del LLM.
-        MEJORA: Incluye reglas negativas explícitas para evitar alucinaciones.
+        Generate a simple text string that describes the model rules
+        for the LLM prompt.
+        IMPROVEMENT: Include explicit negative rules to prevent hallucinations.
         """
         reglas = []
         
-        # Iterar sobre las características y sus relaciones
+        # Iterate over the features and their relationships
         for caracteristica in self.caracteristicas:
             nombre_padre = caracteristica.getNombre
             
-            # Reglas de Jerarquía (Obligatoria, Opcional, XOR, OR)
+            # Hierarchy rules (Mandatory, Optional, XOR, OR)
             hijos_xor = []
             hijos_or = []
             
-            # --- NUEVO: Lista de todos los hijos para reglas negativas ---
+            # --- NEW: List of all children for negative rules ---
             todos_hijos = [] 
 
             for rel in caracteristica.getRelaciones:
                 nombre_hijo, tipo = rel[0], rel[1]
-                todos_hijos.append(nombre_hijo) # Guardamos el hijo
+                todos_hijos.append(nombre_hijo) # Store the child
 
                 if tipo == "Obligatoria":
                     reglas.append(f"- Si '{nombre_padre}' está ACTIVO -> '{nombre_hijo}' OBLIGATORIAMENTE ACTIVO.")
@@ -85,8 +85,8 @@ class ModeloCaracteristicas:
                 elif tipo == "OR":
                     hijos_or.append(nombre_hijo)
             
-            # --- MEJORA CRÍTICA: REGLA NEGATIVA EXPLÍCITA ---
-            # Esto soluciona la alucinación de activar hijos sin padre
+            # --- CRITICAL IMPROVEMENT: EXPLICIT NEGATIVE RULE ---
+            # This prevents the hallucinated activation of children without their parent
             if todos_hijos:
                 lista_hijos_str = ", ".join([f"'{h}'" for h in todos_hijos])
                 reglas.append(f"- CRÍTICO: Si '{nombre_padre}' está INACTIVO (False) -> TODOS sus hijos ({lista_hijos_str}) DEBEN estar INACTIVOS.")
@@ -99,30 +99,30 @@ class ModeloCaracteristicas:
                 hijos_str = ", ".join(hijos_or)
                 reglas.append(f"- Si '{nombre_padre}' está ACTIVO -> AL MENOS UNO de [{hijos_str}] debe estar activo.")
 
-            # Reglas 'Requiere'
+            # 'Requires' rules
             for rel in caracteristica.getRelaciones:
                 if rel[1] == "Requiere":
                     reglas.append(f"- REGLA GLOBAL: '{nombre_padre}' REQUIERE '{rel[0]}'. (No activar '{nombre_padre}' si '{rel[0]}' está inactivo).")
 
-        # Limpiar duplicados y ordenar
+        # Remove duplicates and sort
         reglas_unicas = sorted(list(set(reglas)))
         
-        # Encontrar la raíz
+        # Find the root
         raiz = self.buscarCaracteristica("Gestor aire")
         if raiz:
             reglas_unicas.insert(0, "El nodo raíz 'Gestor aire' está siempre activo.")
 
         return "\n".join(reglas_unicas)
-    # --- FIN DE NUEVA FUNCIÓN ---
+    # --- END OF NEW FUNCTION ---
 
     #
-    # --- FUNCIONES OBSOLETAS ELIMINADAS ---
+    # --- OBSOLETE FUNCTIONS REMOVED ---
     # (removerRelacionesInvalidas, permutarCaracteristicas, estadoTipoRelacion, etc.)
     #
 
     def obtenerRelacionesCaracteristicaConRestriccion(self, nombreCaracteristica):
         """
-        Esta función la usa 'punto_variacion.py', así que la conservamos.
+        This function is used by 'punto_variacion.py', so it is retained.
         """
         caracteristica = self.buscarCaracteristica(nombreCaracteristica)
         subCaracteristicas = []
@@ -146,22 +146,22 @@ def generarPosiblesEstados():
     mc.agregarCaracteristica(Nodo("Entretenimiento adulto"))
     mc.agregarCaracteristica(Nodo("Entretenimiento tercera edad"))
 
-        # --- INICIO DE TU MODIFICACIÓN ---
-    mc.agregarCaracteristica(Nodo("HQC")) # El nodo principal
+        # --- START OF MODIFICATION ---
+    mc.agregarCaracteristica(Nodo("HQC")) # Main node
     mc.agregarCaracteristica(Nodo("Backend"))
     mc.agregarCaracteristica(Nodo("Algoritmo"))
 
-    # Backends (ejemplo con 3)
+    # Backends (3 shown as an example)
     mc.agregarCaracteristica(Nodo("Qiskit Simulator"))
-    mc.agregarCaracteristica(Nodo("Cirq Simulator")) # <--- NUEVO
+    mc.agregarCaracteristica(Nodo("Cirq Simulator")) # <--- NEW
 
-    # Algoritmos (ejemplo con 2)
+    # Algorithms (2 shown as an example)
     mc.agregarCaracteristica(Nodo("QAOA"))
     mc.agregarCaracteristica(Nodo("VQE"))
 
-    # Tu nueva funcionalidad clásica que usará el HQC
+    # New classical functionality that will use HQC
     mc.agregarCaracteristica(Nodo("Optimizacion de rutas"))
-    # --- FIN DE TU MODIFICACIÓN ---
+    # --- END OF MODIFICATION ---
 
     mc.relacionar(mc.buscarCaracteristica("Gestor aire"),mc.buscarCaracteristica("Visualizador calidad aire"), "Obligatoria")
     mc.relacionar(mc.buscarCaracteristica("Gestor aire"), mc.buscarCaracteristica("Turismo"), "Obligatoria")
@@ -175,31 +175,31 @@ def generarPosiblesEstados():
     mc.relacionar(mc.buscarCaracteristica("Entretenimiento"), mc.buscarCaracteristica("Entretenimiento familiar"), "OR")
     mc.relacionar(mc.buscarCaracteristica("Entretenimiento"), mc.buscarCaracteristica("Entretenimiento adulto"), "OR")
     mc.relacionar(mc.buscarCaracteristica("Entretenimiento"), mc.buscarCaracteristica("Entretenimiento tercera edad"), "OR")
-    # --- INICIO DE TU MODIFICACIÓN ---
-    # 1. HQC es opcional y depende de Gestor aire
+    # --- START OF MODIFICATION ---
+    # 1. HQC is optional and depends on Gestor aire
     mc.relacionar(mc.buscarCaracteristica("Gestor aire"), mc.buscarCaracteristica("HQC"), "Opcional")
 
-    # 2. HQC *requiere* sus dos sub-características obligatorias
+    # 2. HQC *requires* its two mandatory subfeatures
     mc.relacionar(mc.buscarCaracteristica("HQC"), mc.buscarCaracteristica("Backend"), "Obligatoria")
     mc.relacionar(mc.buscarCaracteristica("HQC"), mc.buscarCaracteristica("Algoritmo"), "Obligatoria")
 
-    # 3. Relaciones XOR para elegir UN Backend
+    # 3. XOR relationships for selecting ONE backend
     mc.relacionar(mc.buscarCaracteristica("Backend"), mc.buscarCaracteristica("Qiskit Simulator"), "XOR")
-    mc.relacionar(mc.buscarCaracteristica("Backend"), mc.buscarCaracteristica("Cirq Simulator"), "XOR") # <--- NUEVO
+    mc.relacionar(mc.buscarCaracteristica("Backend"), mc.buscarCaracteristica("Cirq Simulator"), "XOR") # <--- NEW
 
-    # 4. Relaciones XOR para elegir UN Algoritmo
+    # 4. XOR relationships for selecting ONE algorithm
     mc.relacionar(mc.buscarCaracteristica("Algoritmo"), mc.buscarCaracteristica("QAOA"), "XOR")
     mc.relacionar(mc.buscarCaracteristica("Algoritmo"), mc.buscarCaracteristica("VQE"), "XOR")
 
-    # 5. Conectar tu nueva funcionalidad clásica
+    # 5. Connect the new classical functionality
     mc.relacionar(mc.buscarCaracteristica("Turismo"), mc.buscarCaracteristica("Optimizacion de rutas"), "Opcional")
 
-    # 6. Esta es la conexión clave: Clásico -> Cuántico
+    # 6. This is the key connection: Classical -> Quantum
     mc.relacionar(mc.buscarCaracteristica("Optimizacion de rutas"), mc.buscarCaracteristica("HQC"), "Requiere")
-    # --- FIN DE TU MODIFICACIÓN ---
+    # --- END OF MODIFICATION ---
     
-    # --- SE ELIMINÓ LA LLAMADA A ALMACENAR CSV ---
+    # --- THE CALL THAT STORED THE CSV WAS REMOVED ---
     
     return mc
 
-# --- SE ELIMINÓ EL BLOQUE if __name__ == "__main__": ---
+# --- THE if __name__ == "__main__": BLOCK WAS REMOVED ---

@@ -1,28 +1,28 @@
 import csv
 import random
 
-# --- DEFINE TUS REGLAS DE ETIQUETADO AQUÍ ---
-# Esta lógica debe reflejar el "cerebro" de tu sistema.
+# --- DEFINE LABELING RULES HERE ---
+# This logic should reflect the system's decision-making process.
 def asignar_regla(fila_caracteristicas):
     
-    # REGLA 1: Lógica HQC (La más importante)
-    # Usamos la columna 10 como índice de "HQC activada" (ajusta si es necesario)
-    # Una forma más robusta es buscar por el string:
+    # RULE 1: HQC logic (the most important rule)
+    # Use column 10 as the index of "HQC activada" (adjust if necessary)
+    # A more robust approach is to search for the string:
     
     if "HQC activada" in fila_caracteristicas:
-        # Si HQC está activo, es un problema de ALTA complejidad.
-        # Asignamos un valor aleatorio en el rango alto.
+        # If HQC is active, this is a HIGH-complexity problem.
+        # Assign a random value in the high range.
         return random.randint(300, 350)
     
     else:
-        # --- CASO CLÁSICO (Sin HQC) ---
-        # Aquí puedes ser tan simple o complejo como quieras.
+        # --- CLASSICAL CASE (Without HQC) ---
+        # This can be as simple or complex as needed.
         
-        # Estrategia Simple:
+        # Simple strategy:
         # return random.randint(1, 299)
         
-        # Estrategia "Más Inteligente" (Opcional, pero recomendada):
-        # Asigna complejidad basada en cuántas features clásicas están activas.
+        # "Smarter" strategy (optional but recommended):
+        # Assign complexity based on the number of active classical features.
         score = 0
         if "Deportes activada" in fila_caracteristicas:
             score += 80
@@ -33,19 +33,19 @@ def asignar_regla(fila_caracteristicas):
         if "Visualizador restriccion uso lena activada" in fila_caracteristicas:
             score += 50
             
-        # Aseguramos que el score base sea al menos 1 y no pase del umbral
+        # Ensure that the base score is at least 1 and does not exceed the threshold
         if score == 0:
-            return random.randint(1, 20) # Configuración muy básica
+            return random.randint(1, 20) # Very basic configuration
         else:
-            # Normaliza el score para que quepa bajo el umbral de 300
-            # ej. si tu score max es 230 (80+60+40+50), suma un poco de ruido
+            # Normalize the score to remain below the threshold of 300
+            # For example, if the maximum score is 230 (80+60+40+50), add some noise
             return min(score + random.randint(1, 50), 299)
 
 
-# --- SCRIPT PRINCIPAL PARA PROCESAR EL ARCHIVO ---
+# --- MAIN FILE-PROCESSING SCRIPT ---
 def procesar_csv():
-    archivo_entrada = 'data/datos.csv' # Leemos las permutaciones limpias
-    archivo_salida = 'data/dataset.csv' # Escribimos el dataset de entrenamiento
+    archivo_entrada = 'data/datos.csv' # Read the clean permutations
+    archivo_salida = 'data/dataset.csv' # Write the training dataset
     
     filas_nuevas = []
     
@@ -55,30 +55,30 @@ def procesar_csv():
         with open(archivo_entrada, 'r', encoding='utf-8') as f_in:
             reader = csv.reader(f_in)
             
-            # Leemos todas las filas
+            # Read all rows
             filas_originales = list(reader)
             
-            # Si `datos.csv` tiene un encabezado, lo saltamos o procesamos
-            # Asumamos que no tiene encabezado por ahora.
+            # If `datos.csv` has a header, skip or process it
+            # Assume for now that it has no header.
             
             for fila in filas_originales:
-                if not fila: # Omitir filas vacías
+                if not fila: # Skip empty rows
                     continue
                     
-                # 1. Asignar la regla de adaptación
+                # 1. Assign the adaptation rule
                 regla = asignar_regla(fila)
                 
-                # 2. Crear la nueva fila (features + regla)
+                # 2. Create the new row (features + rule)
                 nueva_fila = fila + [regla]
                 filas_nuevas.append(nueva_fila)
 
         print(f"Se procesaron {len(filas_nuevas)} filas.")
         
-        # 3. Escribir el nuevo archivo dataset.csv
+        # 3. Write the new dataset.csv file
         with open(archivo_salida, 'w', newline='', encoding='utf-8') as f_out:
             writer = csv.writer(f_out)
             
-            # (Opcional) Escribir un encabezado
+            # Optionally write a header
             # num_features = len(filas_nuevas[0]) - 1
             # header = [f"feature_{i}" for i in range(num_features)] + ["regla_adaptacion"]
             # writer.writerow(header)
@@ -93,6 +93,6 @@ def procesar_csv():
     except Exception as e:
         print(f"Ocurrió un error: {e}")
 
-# --- Ejecutar el script ---
+# --- Run the Script ---
 if __name__ == "__main__":
     procesar_csv()

@@ -9,21 +9,21 @@ from flask import Flask, jsonify, send_from_directory
 from flask_cors import CORS
 from pathlib import Path
 
-# --- Configuración de la App ---
+# --- Application Configuration ---
 app = Flask(__name__)
-# Obtener la ruta absoluta del directorio del script
+# Get the absolute path of the script directory
 PROJECT_ROOT = Path(__file__).resolve().parent
-os.chdir(PROJECT_ROOT) # Asegurarse de que estamos en el directorio correcto
+os.chdir(PROJECT_ROOT) # Ensure the process is in the correct directory
 
-# Permitir peticiones desde tu front-end de React (ej. localhost:3000)
-CORS(app, resources={r"/api/*": {"origins": "*"}}) # Puedes cambiar "*" a "http://localhost:3000"
+# Allow requests from the React frontend (for example, localhost:3000)
+CORS(app, resources={r"/api/*": {"origins": "*"}}) # Change "*" to "http://localhost:3000" if needed
 
-# --- Variables Globales (Estado del Sistema) ---
+# --- Global Variables (System State) ---
 mc = None
 puntoVariacion = None
 reglaAdaptacion = None
 
-# --- Tarea Periódica (Versión Síncrona con Thread) ---
+# --- Periodic Task (Synchronous Thread Version) ---
 def periodic_task_sync():
     global puntoVariacion, reglaAdaptacion, mc
     print("Iniciando bucle de adaptación periódica (cada 120s)...")
@@ -32,19 +32,19 @@ def periodic_task_sync():
         print("\n" + "="*50)
         print(f"INICIANDO NUEVO CICLO DE ADAPTACIÓN (espera de 120s)")
         
-        # 1. Instanciar Mapek
+        # 1. Instantiate Mapek
         mapek = Mapek()
         
-        # 2. Llamar a monitoreo (que dispara el ciclo completo)
+        # 2. Call monitoring (which triggers the complete cycle)
         mapek.monitoreo(mc)
         
-        # 3. Actualizar el estado global para los endpoints GET
+        # 3. Update global state for the GET endpoints
         puntoVariacion = mapek.getConocimiento()
         reglaAdaptacion = mapek.getReglaAdaptacion()
         
-        # 4. Generar la visualización del estado actual en cada ciclo
+        # 4. Generate the current-state visualization on each cycle
         if puntoVariacion: 
-            # Guardar la imagen en el directorio del backend
+            # Save the image in the backend directory
             img_path = os.path.join(PROJECT_ROOT, 'estado_actual')
             visualizador_grafo.generar_visualizacion_estado(puntoVariacion, mc, nombre_archivo=img_path)
         else:
@@ -53,30 +53,30 @@ def periodic_task_sync():
         print(f"CICLO COMPLETO. Durmiendo por 120 segundos...")
         print("="*50 + "\n")
         
-        # 5. Esperar 2 minutos (versión síncrona)
+        # 5. Wait 2 minutes (synchronous version)
         time.sleep(120)
 
-# --- Endpoints de la API (Solo JSON) ---
+# --- API Endpoints (JSON Only) ---
 
 @app.route("/api/estado")
 def get_estado_general():
     """ 
-    Endpoint principal para el dashboard de React.
-    Devuelve toda la info que el dashboard necesita en una sola llamada. 
+    Main endpoint for the React dashboard.
+    Returns all information required by the dashboard in a single call.
     """
     if reglaAdaptacion is None:
          return jsonify({"error": "El sistema está arrancando. Espere al primer ciclo."}), 503
          
     return jsonify({
         "contexto": reglaAdaptacion,
-        # Proporciona las rutas de API para que el front-end las consuma
+        # Provide API paths for the frontend to consume
         "imagen_estado_url": "/api/static/estado_actual.png", 
         "imagen_modelo_url": "/api/static/modelo_caracteristicas.png"
     })
 
 @app.route("/api/logs")
 def get_logs():
-    """ Devuelve los logs como un objeto JSON. """
+    """ Return the logs as a JSON object. """
     log_path = os.path.join(PROJECT_ROOT, 'cambios.log')
     try:
         with open(log_path, "r", encoding="utf-8") as f:
@@ -86,10 +86,10 @@ def get_logs():
 
 @app.route("/api/static/<path:filename>")
 def static_files(filename):
-    """ Sirve los archivos generados (imágenes) desde el directorio del backend. """
+    """ Serve generated files (images) from the backend directory. """
     return send_from_directory(PROJECT_ROOT, filename)
 
-# --- Endpoints de tu API original (adaptados a Flask) ---
+# --- Original API Endpoints (Adapted to Flask) ---
 
 @app.route("/api/links")
 def get_links(name : str):
@@ -110,14 +110,14 @@ def get_regla_adaptacion():
     return jsonify({"contexto_de_entrada": reglaAdaptacion})
 
 
-# --- Arranque del Servidor ---
+# --- Server Startup ---
 if __name__ == '__main__':
     print("Iniciando aplicación Flask...")
     
-    # 1. Cargar el Modelo de Características
+    # 1. Load the Feature Model
     mc = grafo_mc.generarPosiblesEstados() 
     
-    # 2. Generar la imagen del MODELO
+    # 2. Generate the MODEL image
     try:
         model_img_path = os.path.join(PROJECT_ROOT, 'modelo_caracteristicas')
         visualizador_grafo.generar_visualizacion_modelo(
@@ -127,11 +127,11 @@ if __name__ == '__main__':
     except Exception as e:
         print(f"[startup] Error al generar la visualización del modelo: {e}")
     
-    # 3. Iniciar el bucle MAPE-K en un hilo separado
-    # daemon=True asegura que el hilo se cierre cuando cerremos la app
+    # 3. Start the MAPE-K loop in a separate thread
+    # daemon=True ensures that the thread stops when the application closes
     mapek_thread = threading.Thread(target=periodic_task_sync, daemon=True)
     mapek_thread.start()
     
-    # 4. Iniciar el servidor Flask
+    # 4. Start the Flask server
     print(f"Iniciando servidor Flask en http://127.0.0.1:8000")
-    app.run(port=8000, debug=False) # 'debug=True' puede causar problemas con threading
+    app.run(port=8000, debug=False) # 'debug=True' may cause threading issues

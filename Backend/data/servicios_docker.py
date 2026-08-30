@@ -9,41 +9,41 @@ import logging
 import sys
 from datetime import datetime
 
-# --- CONFIGURACIÓN ---
+# --- CONFIGURATION ---
 PORT = int(os.environ.get("PORT", 80))
 SERVICE_NAME = os.environ.get("SERVICE_NAME", "Servicio Base")
 THEME_COLOR = os.environ.get("THEME_COLOR", "#333333")
 LOG_FILE = "servicio.log"
 
-# --- 1. CONFIGURAR LOGGING REAL (Consola + Archivo) ---
-# Esto hace que los logs aparezcan en Docker Desktop Y en el archivo interno
+# --- 1. CONFIGURE REAL LOGGING (Console + File) ---
+# This makes logs appear both in Docker Desktop and in the internal file
 logger = logging.getLogger(SERVICE_NAME)
 logger.setLevel(logging.DEBUG)
 
-# Formato profesional: [HORA] [NIVEL] [HILO] MENSAJE
+# Production-style format: [TIME] [LEVEL] [THREAD] MESSAGE
 formatter = logging.Formatter('%(asctime)s [%(levelname)s] %(message)s', datefmt='%H:%M:%S')
 
-# Salida a Consola (Docker Logs)
+# Console output (Docker logs)
 console_handler = logging.StreamHandler(sys.stdout)
 console_handler.setFormatter(formatter)
 logger.addHandler(console_handler)
 
-# Salida a Archivo (Para leer con 'tail -f' dentro del contenedor)
+# File output (for reading with 'tail -f' inside the container)
 file_handler = logging.FileHandler(LOG_FILE, mode='a')
 file_handler.setFormatter(formatter)
 logger.addHandler(file_handler)
 
-# --- 2. SIMULACIÓN DE PROCESOS DE NEGOCIO (Hilos de fondo) ---
+# --- 2. BUSINESS PROCESS SIMULATION (Background Threads) ---
 def tarea_simulada():
-    """Genera actividad de fondo coherente con el servicio"""
+    """Generate background activity consistent with the service."""
     logger.info(f"✅ {SERVICE_NAME} iniciado correctamente. PID: {os.getpid()}")
     logger.info("📡 Conectando al bus de eventos... CONECTADO.")
     
     while True:
         try:
-            time.sleep(random.uniform(2, 8)) # Intervalo variable
+            time.sleep(random.uniform(2, 8)) # Variable interval
             
-            # Lógica específica por servicio
+            # Service-specific logic
             if "turismo" in SERVICE_NAME.lower():
                 acciones = [
                     f"Consultando DB de POIs (Query ID: {random.randint(1000,9999)})",
@@ -54,7 +54,7 @@ def tarea_simulada():
                 logger.info(random.choice(acciones))
                 
             elif "deportes" in SERVICE_NAME.lower():
-                # Simular lectura de sensores
+                # Simulate sensor readings
                 ica_simulado = random.randint(20, 120)
                 nivel = "CRÍTICO" if ica_simulado > 100 else "NORMAL"
                 log_func = logger.warning if ica_simulado > 100 else logger.info
@@ -80,31 +80,31 @@ def tarea_simulada():
         except Exception as e:
             logger.error(f"Error en hilo de simulación: {e}")
 
-# Iniciar el hilo de fondo (Daemon para que muera si el script muere)
+# Start the background thread (daemonized so it stops when the script stops)
 hilo_fondo = threading.Thread(target=tarea_simulada, daemon=True)
 hilo_fondo.start()
 
-# --- 3. SERVIDOR WEB REAL (Manejo de Peticiones) ---
+# --- 3. REAL WEB SERVER (Request Handling) ---
 class RealLogHandler(http.server.SimpleHTTPRequestHandler):
     
     def log_message(self, format, *args):
-        # Sobreescribimos para usar nuestro logger en lugar del stderr por defecto
+        # Override this method to use the configured logger instead of default stderr
         logger.info(f"🌐 HTTP Request: {self.client_address[0]} - {format%args}")
 
     def do_GET(self):
-        # Simular pequeño tiempo de procesamiento
+        # Simulate a short processing delay
         # time.sleep(0.05) 
         
         self.send_response(200)
         self.send_header('Content-type', 'text/html; charset=utf-8')
-        self.send_header('Access-Control-Allow-Origin', '*') # CORS vital para Iframe
+        self.send_header('Access-Control-Allow-Origin', '*') # CORS required for the iframe
         self.end_headers()
 
-        # Datos dinámicos para el HTML
+        # Dynamic data for the HTML
         uptime = int(time.time()) % 1000
         memoria = random.randint(12, 64)
         
-        # HTML que se ve en el Micro-frontend
+        # HTML displayed in the micro-frontend
         html = f"""
         <!DOCTYPE html>
         <html>
@@ -136,7 +136,7 @@ class RealLogHandler(http.server.SimpleHTTPRequestHandler):
         """
         self.wfile.write(html.encode('utf-8'))
 
-# --- ARRANQUE ---
+# --- STARTUP ---
 logger.info(f"🚀 Iniciando servidor web en puerto {PORT}")
 with socketserver.TCPServer(("", PORT), RealLogHandler) as httpd:
     httpd.serve_forever()

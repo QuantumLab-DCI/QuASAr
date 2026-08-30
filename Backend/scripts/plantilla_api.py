@@ -27,35 +27,35 @@ async def obtenerReconfiguracionJSON(reglaAdaptacion1 : float):
     return puntoVariacion1
 
 
-#funcion que retorna el arbol completo de caracteristicas
+# Function that returns the complete feature tree
 @app.get("/obtenerArbol")
 async def obtenerCaracteristicas():
     return mc.obtenerArbol()
 
-#función que retorna las relaciones de una caracteristica
+# Function that returns the relationships of a feature
 @app.get("/obtenerRelacionesCaracteristica")
 async def obtenerRelacionesCaracteristica(caracteristica : str):
     return mc.obtenerRelacionesCaracteristica(caracteristica)
 
-#función que retorna todas las relaciones del mc
+# Function that returns all relationships in the feature model
 @app.get("/obtenerRelacionesMC")
 async def obtenerRelacionesMC():
     return mc.obtenerRelacionesMC()
 
 def inicializar():
-    #Generar el grafo para permutar todos los posibles estados del modelo
+    # Generate the graph to permute all possible model states
     mc = grafo_mc.generarPosiblesEstados()
-    #Asociar una regla de adaptación para cada punto de variación creado en la permutación
+    # Associate an adaptation rule with each variation point created in the permutation
     aprendizaje_automatico.guardarPredicciones(
         aprendizaje_automatico.redesNeuronales("data/dataset.csv", "data/datos.csv"),
         "data/datos_redesneuronales.csv")
 
-    #Crear una regla adaptación, idealmente debe ser un numero random
+    # Create an adaptation rule; ideally it should be a random number
     reglaAdaptacion1 = 250.2
-    #Entrego un numero aleatorio random, que asimila ser una regla de adaptación, el cual a partir de lo anterior clasifica un punto de variación
-    #Esta clasificación se realiza por medio del algoritmo de clasificación de arboles aleatorios
+    # Return a random number that simulates an adaptation rule and classifies a variation point
+    # This classification uses the random forest classification algorithm
     puntoVariacion1 = aprendizaje_automatico.arbolesAleatoriosInverso("data/datos_redesneuronales.csv", reglaAdaptacion1)
-    #presento el punto de variación 1
+    # Present variation point 1
     print("Punto de variación 1, ", puntoVariacion1)
 
     objetoPuntoVariacion = punto_variacion.PuntoVariacion(puntoVariacion1,mc)
@@ -64,4 +64,3 @@ def inicializar():
     print("Caracteristicas activas del sub nivel Entretenimiento ", objetoPuntoVariacion.obtenerConfiguracionNivel("Entretenimiento"))
 
 inicializar()
-

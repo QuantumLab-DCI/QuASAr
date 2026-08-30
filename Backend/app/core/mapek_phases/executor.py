@@ -10,8 +10,8 @@ from app.core.audit_logger import get_logger
 
 class Executor:
     """
-    Fase 4: EXECUTE
-    Responsable de aplicar los cambios en la infraestructura (Docker) y ejecutar algoritmos cuánticos.
+    Phase 4: EXECUTE
+    Apply infrastructure changes (Docker) and execute quantum algorithms.
     """
     def __init__(self):
         self.logger = get_logger()
@@ -20,7 +20,7 @@ class Executor:
 
     def ejecutar(self, plan_contenedores: Dict[str, bool], caso_n: int, contexto: Dict[str, Any]) -> List[Dict[str, Any]]:
         """
-        Ejecuta los cambios planificados y retorna una traza de ejecución.
+        Execute the planned changes and return an execution trace.
         """
         trace_pasos = []
 
@@ -29,10 +29,10 @@ class Executor:
 
         self.logger.info(f"[CASO #{caso_n}] ⚙️ Iniciando reconfiguración de infraestructura...")
 
-        # 1. Ejecución Docker (Infraestructura)
+        # 1. Docker execution (infrastructure)
         client = self.docker_service.client
         
-        # Logs de cambios físicos
+        # Physical change logs
         with open(self.log_path, "a", encoding="utf-8") as log_file:
             timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             log_file.write(f"\n--- RECONFIGURACIÓN {timestamp} ---\n")
@@ -61,7 +61,7 @@ class Executor:
                         accion = "ACTIVAR" if estado_deseado else "DESACTIVAR"
                         self.logger.error(f"[CASO #{caso_n}] ❌ ERROR AL {accion} nodo '{container.name}': {str(e)}")
 
-        # 2. Ejecución Cuántica (Adaptativa) - Si HQC está activo
+        # 2. Adaptive quantum execution when HQC is active
         if plan_contenedores.get("hqc") == True:
             trace_hqc = self._ejecutar_hqc(plan_contenedores, caso_n, contexto)
             if trace_hqc:
@@ -71,23 +71,23 @@ class Executor:
 
     def _ejecutar_hqc(self, contenedores: Dict[str, bool], caso_n: int, contexto: Dict[str, Any]) -> Dict[str, Any]:
         """
-        Sub-rutina para manejar la ejecución de algoritmos cuánticos si es necesario.
+        Handle quantum algorithm execution when necessary.
         """
         algoritmo_qaoa_activo = contenedores.get("qaoa") == True
         algoritmo_vqe_activo = contenedores.get("vqe") == True
 
         if algoritmo_qaoa_activo or algoritmo_vqe_activo:
             try:
-                # Determinar Backend
+                # Determine the backend
                 backend_key = next((b for b in ["qiskit_simulator", "cirq_simulator"] if contenedores.get(b)), None)
                 if not backend_key:
-                     return None # HQC activo pero sin backend seleccionado (raro, pero posible si validación fallara)
+                     return None # HQC is active without a selected backend (rare, but possible if validation fails)
 
                 algoritmo = "QAOA" if algoritmo_qaoa_activo else "VQE"
                 backend_nombre = backend_key.replace("_", " ").title()
 
-                # Adaptación de Carga (Basado en CP monitoreado)
-                # OJO: Necesitamos 'cp' del contexto. Se asume que viene en 'contexto'
+                # Load adaptation (based on monitored CP)
+                # NOTE: 'cp' is required from the context and is assumed to be in 'contexto'
                 cp = contexto.get('complejidad_problema', 100)
                 
                 if cp < 250:
@@ -99,7 +99,7 @@ class Executor:
                 if cp >= 400:
                     circuit_depth = 2
                 
-                # Ejecutar
+                # Execute
                 backend_adapter = hqc_module.get_backend_adapter(backend_nombre)
 
                 if backend_adapter:

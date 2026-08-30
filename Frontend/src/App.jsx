@@ -25,7 +25,7 @@ function App() {
 
   const [modalImage, setModalImage] = useState(null);
 
-  // Handler para cambio de escenario
+  // Handle scenario changes
   const handleScenarioChange = () => {
     refreshNow();
   };
@@ -33,7 +33,7 @@ function App() {
   return (
     <div className="App">
 
-      {/* RENDERIZADO DEL MODAL DE IMAGEN (Lightbox) */}
+      {/* IMAGE MODAL RENDERING (Lightbox) */}
       {modalImage && (
         <div className="modal-overlay" onClick={() => setModalImage(null)}>
           <div className="modal-content" onClick={e => e.stopPropagation()}>

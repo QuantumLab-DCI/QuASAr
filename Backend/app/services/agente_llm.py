@@ -3,7 +3,7 @@ import google.generativeai as genai
 import json
 from app.core.audit_logger import get_logger
 
-# 1. Configura el cliente de Google
+# 1. Configure the Google client
 try:
     genai.configure(api_key=os.environ.get("GOOGLE_API_KEY"))
 except Exception as e:
@@ -11,11 +11,11 @@ except Exception as e:
 
 def obtener_configuracion_llm(contexto_actual: str, reglas_del_modelo: str) -> dict:
     """
-    Agente especializado con Prompting Reforzado para Dependencias Cruzadas.
+    Specialized agent with reinforced prompting for cross-dependencies.
     """
     logger = get_logger()
     
-    # --- PROMPT DE SISTEMA BLINDADO V2 ---
+    # --- HARDENED SYSTEM PROMPT V2 ---
     prompt_sistema = f"""
     Eres el **Motor de Inferencia de Configuración** de un sistema crítico MAPE-K.
     Tu objetivo es generar un JSON válido que cumpla estrictamente el Modelo de Características.
@@ -70,7 +70,7 @@ def obtener_configuracion_llm(contexto_actual: str, reglas_del_modelo: str) -> d
     try:
         generation_config = genai.GenerationConfig(
             response_mime_type="application/json",
-            temperature=0.0, # Cero creatividad para máxima obediencia
+            temperature=0.0, # Zero creativity for maximum compliance
             top_p=0.8,
             top_k=40
         )
@@ -89,8 +89,8 @@ def obtener_configuracion_llm(contexto_actual: str, reglas_del_modelo: str) -> d
         data = json.loads(response.text)
         config = data.get("configuracion", {})
         
-        # --- SAFETY NET (RED DE SEGURIDAD PYTHON) ---
-        # 1. Corrección de Jerarquía
+        # --- SAFETY NET (PYTHON SAFETY NET) ---
+        # 1. Hierarchy correction
         if config.get("qiskit_simulator") or config.get("cirq_simulator"):
             config["backend"] = True
         if config.get("qaoa") or config.get("vqe"):
@@ -98,7 +98,7 @@ def obtener_configuracion_llm(contexto_actual: str, reglas_del_modelo: str) -> d
         if config.get("backend") or config.get("algoritmo") or config.get("optimizacion_de_rutas"):
             config["hqc"] = True
             
-        # 2. Corrección de Dependencias Cruzadas (Lo que falló en tu log)
+        # 2. Cross-dependency correction (the failure shown in the log)
         if config.get("ambientes_abiertos"):
             if not config.get("deportes"):
                 print("AGENTE_WARN: Auto-corrigiendo -> Activando 'deportes' requerido por 'ambientes_abiertos'.")
@@ -109,7 +109,7 @@ def obtener_configuracion_llm(contexto_actual: str, reglas_del_modelo: str) -> d
                 print("AGENTE_WARN: Auto-corrigiendo -> Activando 'visualizador_restriccion_uso_lena'.")
                 config["visualizador_restriccion_uso_lena"] = True
 
-        # --- REGLA ANTI-ALUCINACIÓN CUÁNTICA ---
+        # --- QUANTUM ANTI-HALLUCINATION RULE ---
         if not config.get("optimizacion_de_rutas"):
             nodos_cuanticos = ["hqc", "backend", "algoritmo", "qiskit_simulator", "cirq_simulator", "qaoa", "vqe"]
             apagados = False

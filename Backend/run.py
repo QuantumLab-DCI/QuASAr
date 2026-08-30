@@ -3,10 +3,10 @@ import sys
 from dotenv import load_dotenv
 from pathlib import Path
 
-# Cargar variables de entorno
+# Load environment variables
 load_dotenv()
 
-# --- Configuración de Rutas ---
+# --- Path Configuration ---
 PROJECT_ROOT = Path(__file__).resolve().parent
 sys.path.insert(0, str(PROJECT_ROOT))
 os.chdir(PROJECT_ROOT)
@@ -19,13 +19,13 @@ if __name__ == '__main__':
     
     print("🚀 Iniciando Backend HQC (Modo Interactivo)...")
     
-    # 1. Crear la instancia de la aplicación Flask y obtener el MC
+    # 1. Create the Flask application instance and obtain the feature model
     app, mc = create_app()
 
-    # 2. Ejecutar las tareas de inicio (Solo genera la imagen del modelo estático una vez)
+    # 2. Run startup tasks (generates the static model image only once)
     setup_startup_tasks(mc)
 
-    # 3. Iniciar el servidor Flask
+    # 3. Start the Flask server
     print(f"✅ Servidor listo en http://{DEFAULT_HOST}:{DEFAULT_PORT}")
     print(f"   Esperando interacción del usuario...")
     

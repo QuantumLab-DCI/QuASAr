@@ -7,15 +7,15 @@ from app.core.state import state_manager
 
 class Analyzer:
     """
-    Fase 2: ANALYZE
-    Responsable de interactuar con el LLM y validar reglas de negocio y modelo.
+    Phase 2: ANALYZE
+    Interact with the LLM and validate business and model rules.
     """
     def __init__(self):
         self.logger = get_logger()
         self._razonamiento_actual = "Esperando análisis..."
 
     def _find_features_in_json(self, data: Dict[str, Any]) -> Dict[str, bool]:
-        """Busca recursivamente características booleanas y normaliza keys."""
+        """Recursively find Boolean features and normalize keys."""
         features = {}
         if isinstance(data, dict):
             for k, v in data.items():
@@ -28,17 +28,16 @@ class Analyzer:
 
     def _validar_configuracion(self, config_dict: Dict[str, bool], mc) -> bool:
         """
-        Valida reglas de modelo: Requiere, Obligatoria, XOR, OR, Jerarquía.
+        Validate model rules: Requires, Mandatory, XOR, OR, and Hierarchy.
         """
-        # (Lógica idéntica a la original, migrada aquí)
-        # Por brevedad en la respuesta del agente, asumimos la lógica completa de mapek.py original
+        # (Logic is identical to the original and was migrated here)
+        # For brevity in the agent response, assume the complete logic from the original mapek.py
         # ... [Logic from original mapek.py] ...
         
-        # NOTA: Para no pegar las 50 líneas de validación de nuevo, 
-        # asumiré que está implementado igual que en el original.
-        # En la implementación real copio el código.
+        # NOTE: To avoid repeating the 50 validation lines, assume this is
+        # implemented in the same way as the original. Copy the code in the real implementation.
         
-        # 1. Validar reglas de dependencia 'Requiere'
+        # 1. Validate 'Requires' dependency rules
         for c in mc.caracteristicas:
             for rel in c.getRelaciones:
                 if rel[1] == "Requiere":
@@ -47,7 +46,7 @@ class Analyzer:
                     if config_dict.get(quien_requiere) and not config_dict.get(quien_es_requerido):
                         return False
 
-        # 2. Validar Jerarquía y Restricciones de Grupo (XOR, OR)
+        # 2. Validate hierarchy and group constraints (XOR, OR)
         for c in mc.caracteristicas:
             nombre_padre = c.getNombre.replace(" ", "_").lower()
             is_padre_activo = config_dict.get(nombre_padre) == True
@@ -79,7 +78,7 @@ class Analyzer:
 
     def analizar(self, mc, contexto_monitor: Dict[str, Any], caso_n: int) -> Optional[Dict[str, bool]]:
         """
-        Consulta al LLM y retorna la configuración validada.
+        Query the LLM and return the validated configuration.
         """
         ica = contexto_monitor['ica']
         cp = contexto_monitor['complejidad_problema']
@@ -90,7 +89,7 @@ class Analyzer:
         reglas_del_modelo = mc.exportar_reglas_texto()
         metricas_nisq = hqc_module.monitor_backends()
         
-        # Inyección de simulador de cola
+        # Queue simulator injection
         if cola is not None:
             metricas_nisq["Qiskit Simulator"]["queue_time_sec"] = cola
 
@@ -109,21 +108,21 @@ class Analyzer:
             self.logger.error(f"[CASO #{caso_n}] ❌ FALLO LLM: Configuración vacía.")
             return None
 
-        # Capturar razonamiento
+        # Capture reasoning
         if "razonamiento" in config_dict_llm:
             self._razonamiento_actual = config_dict_llm["razonamiento"]
             self.logger.info(f"[CASO #{caso_n}] ✅ LLM Respondió. Razonamiento: {self._razonamiento_actual}")
 
         config_plana = self._find_features_in_json(config_dict_llm)
         
-        # --- AUTO-REPARACIÓN (HQC Huerfano) ---
+        # --- SELF-REPAIR (Orphaned HQC) ---
         if config_plana.get('hqc') == False:
             nodos_cuanticos = ['backend', 'algoritmo', 'qiskit_simulator', 'cirq_simulator', 'qaoa', 'vqe']
             for nodo in nodos_cuanticos:
                 if config_plana.get(nodo) == True:
                     config_plana[nodo] = False
 
-        # Validación formal
+        # Formal validation
         config_plana_con_raiz = config_plana.copy()
         config_plana_con_raiz['gestor_aire'] = True 
         
