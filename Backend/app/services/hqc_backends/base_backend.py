@@ -4,11 +4,11 @@ from abc import ABC, abstractmethod
 class QuantumBackend(ABC):
     """
     Abstract base class (interface) for all quantum backend adapters.
-    Define a common contract that all backends (Qiskit, SpinQ, TQL) must follow.
+    Define a common contract that all supported backends must follow.
     """
 
     @abstractmethod
-    def execute_job(self, algoritmo: str, params: dict) -> dict:
+    def execute_job(self, algorithm_id: str, parameters: dict) -> dict:
         """
         Execute a quantum job for a given algorithm and parameters.
         """

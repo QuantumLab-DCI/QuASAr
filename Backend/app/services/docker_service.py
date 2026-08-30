@@ -1,12 +1,12 @@
 import docker
-from typing import Dict, Any, Optional
+from typing import Any
 
 class DockerService:
     def __init__(self):
         try:
             self.client = docker.from_env()
         except Exception as e:
-            print(f"⚠️ Docker Warning: Could not connect to Docker daemon: {e}")
+            print(f"Docker warning: Could not connect to the Docker daemon: {e}")
             self.client = None
 
     def list_containers(self, all=True):
@@ -25,7 +25,7 @@ class DockerService:
         except docker.errors.NotFound:
             return None
 
-    def get_container_logs(self, container_name: str, tail: int = 50) -> Dict[str, Any]:
+    def get_container_logs(self, container_name: str, tail: int = 50) -> dict[str, Any]:
         """
         Retrieves logs from a specific container.
         """
@@ -34,8 +34,10 @@ class DockerService:
         
         # Normalize name
         name_clean = container_name.lower().replace(" ", "_").strip()
-        if "hqc" in name_clean: name_clean = "hqc"
-        if "gestor" in name_clean: name_clean = "gestor_aire"
+        if "hybrid_quantum" in name_clean:
+            name_clean = "hybrid_quantum_computing"
+        if "air_quality" in name_clean:
+            name_clean = "air_quality_manager"
         
         try:
             container = self.client.containers.get(name_clean)
@@ -56,9 +58,9 @@ class DockerService:
 
         try:
             # We list all to find by name, or get directly if name is precise
-            # But the logic in original mapek.py iterates list. 
+            # The controller iterates over the available containers.
             # Here we can try to get it directly for efficiency if we trust the name, 
-            # but Mapek iterates. Let's provide a method to get by name.
+            # This method remains available for direct state changes.
             
             # This method assumes we know the exact name or ID.
             # However, the original code loops through ALL containers and checks against the plan.

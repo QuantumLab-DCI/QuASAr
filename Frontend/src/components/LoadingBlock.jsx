@@ -2,7 +2,7 @@
 import React from 'react';
 import { Loader2 } from 'lucide-react';
 
-const LoadingBlock = ({ loading, children, message = "Procesando..." }) => {
+const LoadingBlock = ({ loading, children, message = "Processing..." }) => {
     return (
         <div className="loading-wrapper">
             {loading && (

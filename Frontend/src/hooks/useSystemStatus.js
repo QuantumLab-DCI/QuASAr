@@ -1,49 +1,53 @@
 // src/hooks/useSystemStatus.js
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 
-const API_URL = 'http://127.0.0.1:8000';
+const API_BASE_URL = 'http://127.0.0.1:8000';
 const REFRESH_INTERVAL = 3000;
 
 export const useSystemStatus = () => {
-    const [estado, setEstado] = useState(null);
-    const [logs, setLogs] = useState("Sistema listo. Seleccione un escenario para iniciar.");
+    const [systemState, setSystemState] = useState(null);
+    const [logs, setLogs] = useState("System ready. Select a scenario to initiate adaptation.");
     const [lastUpdate, setLastUpdate] = useState(new Date());
     const [isSystemReady, setIsSystemReady] = useState(false);
     const [isProcessing, setIsProcessing] = useState(false);
 
-    const fetchData = async () => {
+    const fetchSystemStatus = useCallback(async () => {
         try {
             const timestamp = new Date().getTime();
-            const resEstado = await axios.get(`${API_URL}/api/estado?t=${timestamp}`);
-            let data = resEstado.data;
+            const stateResponse = await axios.get(`${API_BASE_URL}/api/state?t=${timestamp}`);
+            const data = stateResponse.data;
 
-            if (data.imagen_estado_url) data.imagen_estado_url += `?t=${timestamp}`;
-            if (data.evidencia_cuantica_url) data.evidencia_cuantica_url += `?t=${timestamp}`;
+            if (data.state_image_url) data.state_image_url += `?t=${timestamp}`;
+            if (data.model_image_url) data.model_image_url += `?t=${timestamp}`;
+            if (data.quantum_evidence_url) data.quantum_evidence_url += `?t=${timestamp}`;
 
-            setIsProcessing(data.en_ejecucion);
-            setEstado(data);
+            setIsProcessing(data.is_running);
+            setSystemState(data);
             setIsSystemReady(true);
 
-            const resLogs = await axios.get(`${API_URL}/api/logs`);
-            setLogs(resLogs.data.log_content);
+            const logsResponse = await axios.get(`${API_BASE_URL}/api/logs`);
+            setLogs(logsResponse.data.log_content);
             setLastUpdate(new Date());
 
-        } catch (err) {
-            if (err.response && err.response.status === 503) setIsSystemReady(false);
-            else console.error("Error de conexión:", err);
+        } catch (requestError) {
+            if (requestError.response && requestError.response.status === 503) setIsSystemReady(false);
+            else console.error("Backend connection error:", requestError);
         }
-    };
+    }, []);
 
     useEffect(() => {
-        fetchData();
-        const intervalId = setInterval(fetchData, REFRESH_INTERVAL);
-        return () => clearInterval(intervalId);
-    }, []);
+        const initialRequest = setTimeout(fetchSystemStatus, 0);
+        const intervalId = setInterval(fetchSystemStatus, REFRESH_INTERVAL);
+        return () => {
+            clearTimeout(initialRequest);
+            clearInterval(intervalId);
+        };
+    }, [fetchSystemStatus]);
 
     const refreshNow = () => {
         setIsProcessing(true);
-        setTimeout(fetchData, 1000);
+        setTimeout(fetchSystemStatus, 1000);
     };
 
     // Image download utility
@@ -52,31 +56,31 @@ export const useSystemStatus = () => {
         try {
             const fullUrl = imageUrl.startsWith('http')
                 ? imageUrl
-                : `${API_URL}${imageUrl.startsWith('/') ? '' : '/'}${imageUrl}`;
+                : `${API_BASE_URL}${imageUrl.startsWith('/') ? '' : '/'}${imageUrl}`;
 
             const response = await axios.get(fullUrl, { maxRedirects: 0, responseType: 'blob' });
             const url = window.URL.createObjectURL(new Blob([response.data]));
             const link = document.createElement('a');
             link.href = url;
-            link.setAttribute('download', `evidencia_hqc_${new Date().getTime()}.png`);
+            link.setAttribute('download', `hqc_execution_evidence_${new Date().getTime()}.png`);
             document.body.appendChild(link);
             link.click();
             link.parentNode.removeChild(link);
             window.URL.revokeObjectURL(url);
         } catch (error) {
-            console.error("Error descargando imagen:", error);
-            alert("Error al descargar la imagen.");
+            console.error("Image download error:", error);
+            alert("The image could not be downloaded.");
         }
     };
 
     return {
-        estado,
+        systemState,
         logs,
         lastUpdate,
         isSystemReady,
         isProcessing,
         refreshNow,
         downloadImage,
-        API_URL
+        apiBaseUrl: API_BASE_URL
     };
 };

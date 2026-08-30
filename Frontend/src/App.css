@@ -285,13 +285,13 @@ body {
   color: #1e40af;
 }
 
-/* Qiskit */
+/* Environmental crisis */
 .icon-wrapper-4 {
   background: #f3e8ff;
   color: #6b21a8;
 }
 
-/* Cirq */
+/* Infrastructure degradation and fallback */
 .icon-wrapper-5,
 .icon-wrapper-99 {
   background: #fee2e2;
@@ -355,12 +355,12 @@ body {
   width: fit-content;
 }
 
-.sla-rapidez {
+.sla-latency {
   background: #e0e7ff;
   color: #3730a3;
 }
 
-.sla-precision {
+.sla-accuracy {
   background: #d1fae5;
   color: #065f46;
 }
@@ -778,7 +778,7 @@ body {
   line-height: 1.4;
 }
 
-/* Phases Colors */
+/* Phase Colors */
 .phase-monitor .step-badge {
   background: #dbeafe;
   color: #1e40af;
@@ -788,14 +788,12 @@ body {
   border-left-color: #3b82f6;
 }
 
-.phase-análisis .step-badge,
-.phase-analisis .step-badge {
+.phase-analyze .step-badge {
   background: #f3e8ff;
   color: #6b21a8;
 }
 
-.mapek-step:has(.phase-analisis),
-.mapek-step:has(.phase-análisis) {
+.mapek-step:has(.phase-analyze) {
   border-left-color: #a855f7;
 }
 
@@ -808,14 +806,12 @@ body {
   border-left-color: #f59e0b;
 }
 
-.phase-ejecución .step-badge,
-.phase-ejecucion .step-badge {
+.phase-execute .step-badge {
   background: #d1fae5;
   color: #065f46;
 }
 
-.mapek-step:has(.phase-ejecucion),
-.mapek-step:has(.phase-ejecución) {
+.mapek-step:has(.phase-execute) {
   border-left-color: #10b981;
 }
 
@@ -848,11 +844,11 @@ body {
   font-size: 1rem;
 }
 
-.color-ica {
+.color-aqi {
   color: var(--primary);
 }
 
-.color-cp {
+.color-complexity {
   color: var(--quantum-purple);
 }
 
@@ -990,7 +986,7 @@ body {
   margin-bottom: 4px;
 }
 
-.log-ts {
+.log-timestamp {
   color: #64748b;
   min-width: 80px;
 }

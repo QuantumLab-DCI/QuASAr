@@ -3,8 +3,8 @@ import ScenarioSelector from './components/ScenarioSelector';
 import PhaseStepper from './components/PhaseStepper';
 import ServicesPanel from './components/panels/ServicesPanel';
 import QuantumPanel from './components/panels/QuantumPanel';
-import MapekHistoryPanel from './components/panels/MapekHistoryPanel';
-import MetricsPanel from './components/panels/MetricsPanel';
+import AdaptationTracePanel from './components/panels/AdaptationTracePanel';
+import MonitoredContextPanel from './components/panels/MonitoredContextPanel';
 import LogsPanel from './components/panels/LogsPanel';
 import StateGraphPanel from './components/panels/StateGraphPanel';
 import { useSystemStatus } from './hooks/useSystemStatus';
@@ -13,19 +13,18 @@ import './App.css';
 
 function App() {
   const {
-    estado,
+    systemState,
     logs,
     lastUpdate,
     isSystemReady,
     isProcessing,
     refreshNow,
     downloadImage,
-    API_URL
+    apiBaseUrl
   } = useSystemStatus();
 
-  const [modalImage, setModalImage] = useState(null);
+  const [modalImageUrl, setModalImageUrl] = useState(null);
 
-  // Handle scenario changes
   const handleScenarioChange = () => {
     refreshNow();
   };
@@ -33,14 +32,14 @@ function App() {
   return (
     <div className="App">
 
-      {/* IMAGE MODAL RENDERING (Lightbox) */}
-      {modalImage && (
-        <div className="modal-overlay" onClick={() => setModalImage(null)}>
+      {/* Image lightbox */}
+      {modalImageUrl && (
+        <div className="modal-overlay" onClick={() => setModalImageUrl(null)}>
           <div className="modal-content" onClick={e => e.stopPropagation()}>
-            <button className="modal-close" onClick={() => setModalImage(null)}>
+            <button className="modal-close" onClick={() => setModalImageUrl(null)}>
               <X size={24} />
             </button>
-            <img src={`${API_URL}${modalImage}`} alt="Evidencia Ampliada" />
+            <img src={`${apiBaseUrl}${modalImageUrl}`} alt="Expanded system evidence" />
           </div>
         </div>
       )}
@@ -49,11 +48,11 @@ function App() {
         <div className="header-content">
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
             <Network className="text-blue-600" />
-            <h1 style={{ fontSize: '1.2rem', margin: 0 }}>Arquitectura HQC Auto-adaptativa</h1>
+            <h1 style={{ fontSize: '1.2rem', margin: 0 }}>FMweb-K-Quantum Self-Adaptive HQC Architecture</h1>
           </div>
           <div className="header-meta">
-            <span>Última act: {lastUpdate.toLocaleTimeString()}</span>
-            <button onClick={refreshNow} className="refresh-btn">
+            <span>Last updated: {lastUpdate.toLocaleTimeString()}</span>
+            <button onClick={refreshNow} className="refresh-btn" title="Refresh system status">
               <RefreshCw size={18} />
             </button>
           </div>
@@ -70,18 +69,18 @@ function App() {
         </section>
 
         <section className="mapek-visualizer">
-          <PhaseStepper trace={estado?.mapek_trace} />
+          <PhaseStepper trace={systemState?.mapek_trace} />
 
-          {estado?.contexto?.razonamiento ? (
+          {systemState?.context?.reasoning ? (
             <div className="brain-box">
               <div className="brain-title">
-                <Brain size={16} /> DECISIÓN DEL AGENTE
+                <Brain size={16} /> ADAPTATION DECISION
               </div>
-              <div className="brain-content">"{estado.contexto.razonamiento}"</div>
+              <div className="brain-content">"{systemState.context.reasoning}"</div>
             </div>
           ) : (
             <div className="text-center text-gray-400 text-sm mt-2">
-              Esperando evento del entorno para iniciar ciclo de adaptación...
+              Awaiting a monitored-context event to initiate the MAPE-K feedback loop...
             </div>
           )}
         </section>
@@ -90,33 +89,33 @@ function App() {
 
           <div className="left-col">
             <StateGraphPanel
-              estado={estado}
+              systemState={systemState}
               isProcessing={isProcessing}
               isSystemReady={isSystemReady}
-              onOpenModal={setModalImage}
-              API_URL={API_URL}
+              onOpenModal={setModalImageUrl}
+              apiBaseUrl={apiBaseUrl}
             />
 
-            <ServicesPanel estado={estado} />
+            <ServicesPanel systemState={systemState} />
 
             <QuantumPanel
-              estado={estado}
+              systemState={systemState}
               isProcessing={isProcessing}
               isSystemReady={isSystemReady}
-              onOpenModal={setModalImage}
+              onOpenModal={setModalImageUrl}
               onDownload={downloadImage}
-              API_URL={API_URL}
+              apiBaseUrl={apiBaseUrl}
             />
           </div>
 
           <div className="right-col">
-            <MapekHistoryPanel
-              mapekTrace={estado?.mapek_trace}
+            <AdaptationTracePanel
+              mapekTrace={systemState?.mapek_trace}
               isProcessing={isProcessing}
             />
 
-            <MetricsPanel
-              contexto={estado?.contexto}
+            <MonitoredContextPanel
+              context={systemState?.context}
               isProcessing={isProcessing}
               isSystemReady={isSystemReady}
             />

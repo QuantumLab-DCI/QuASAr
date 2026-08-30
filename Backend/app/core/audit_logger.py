@@ -9,14 +9,14 @@ from pathlib import Path
 # .parent.parent -> app
 # .parent.parent.parent -> Backend (project root)
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
-LOG_FILE = os.path.join(BASE_DIR, 'data', 'auditoria_hqc.log')
+LOG_FILE = os.path.join(BASE_DIR, "data", "hqc_audit.log")
 
 def get_logger():
     """Configure and return the audit logger."""
     # Ensure that the data directory exists
     os.makedirs(os.path.dirname(LOG_FILE), exist_ok=True)
 
-    logger = logging.getLogger("audit_hqc")
+    logger = logging.getLogger("hqc_audit")
     
     # Singleton pattern: do not add handlers again if they already exist
     if not logger.handlers:

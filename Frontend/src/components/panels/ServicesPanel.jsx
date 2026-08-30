@@ -4,15 +4,15 @@ import { LayoutGrid } from 'lucide-react';
 import MicroFrontendCard from '../MicroFrontendCard';
 import ServiceInspector from '../ServiceInspector';
 
-const ServicesPanel = ({ estado }) => {
+const ServicesPanel = ({ systemState }) => {
     const [inspectService, setInspectService] = useState(null);
 
-    const isDeportesActive = estado?.configuracion?.deportes === true;
-    const isHqcActive = estado?.configuracion?.hqc === true;
+    const isSportsActive = systemState?.configuration?.sports === true;
+    const isHybridQuantumActive = systemState?.configuration?.hybrid_quantum_computing === true;
 
-    const getDeportesReason = () => {
-        if (estado?.contexto?.calidad_aire_ica > 100) return "Bloqueo por Crisis Ambiental (ICA > 100)";
-        return "Desactivado por Perfil de Usuario (No requerido)";
+    const getSportsReason = () => {
+        if (systemState?.context?.air_quality_index > 100) return "Disabled because hazardous air quality exceeds AQI 100";
+        return "Disabled because the monitored user profile does not require sports services";
     };
 
     return (
@@ -25,41 +25,37 @@ const ServicesPanel = ({ estado }) => {
             )}
 
             <div className="panel services-panel">
-                <h2 className="panel-title"><LayoutGrid className="icon" /> Micro-Frontends Distribuidos</h2>
+                <h2 className="panel-title"><LayoutGrid className="icon" /> Distributed Micro-Frontends</h2>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1rem' }}>
 
                     <MicroFrontendCard
-                        title="Turismo (:8081)"
+                        title="Tourism (:8081)"
                         port={8081}
                         active={true}
-                        color="#e67e22"
-                        onInspect={() => setInspectService({ name: 'Turismo', status: 'active' })}
+                        onInspect={() => setInspectService({ name: 'tourism', status: 'active' })}
                     />
 
                     <MicroFrontendCard
-                        title="Deportes (:8082)"
+                        title="Sports (:8082)"
                         port={8082}
-                        active={isDeportesActive}
-                        reason={getDeportesReason()}
-                        color="#2ecc71"
-                        onInspect={() => setInspectService({ name: 'Deportes' })}
+                        active={isSportsActive}
+                        reason={getSportsReason()}
+                        onInspect={() => setInspectService({ name: 'sports' })}
                     />
 
                     <MicroFrontendCard
-                        title="Gestor Aire (:8083)"
+                        title="Air Quality Manager (:8083)"
                         port={8083}
                         active={true}
-                        color="#3498db"
-                        onInspect={() => setInspectService({ name: 'Gestor Calidad Aire' })}
+                        onInspect={() => setInspectService({ name: 'air_quality_manager' })}
                     />
 
                     <MicroFrontendCard
-                        title="HQC Quantum (:8084)"
+                        title="Hybrid Quantum-Classical Computing (:8084)"
                         port={8084}
-                        active={isHqcActive}
-                        reason="Baja Complejidad (CP < 100)"
-                        color="#9b59b6"
-                        onInspect={() => setInspectService({ name: 'HQC Module' })}
+                        active={isHybridQuantumActive}
+                        reason="Disabled because the problem complexity does not warrant hybrid quantum-classical execution"
+                        onInspect={() => setInspectService({ name: 'hybrid_quantum_computing' })}
                     />
                 </div>
             </div>

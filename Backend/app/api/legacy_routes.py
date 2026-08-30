@@ -1,35 +1,39 @@
 from flask import jsonify
-from app.core.state import state_manager
+
+from app.core.knowledge import knowledge_base
 from app.services.docker_service import DockerService
+
 from . import legacy_bp
+
 
 docker_service = DockerService()
 
+
 @legacy_bp.route("/links/<string:name>")
 def get_links(name):
-    pv = state_manager.get_pv()
-    if not pv:
-        return jsonify({"error": "Sistema arrancando."}), 503
-    return jsonify(pv.obtenerConfiguracionNivel(name))
+    variation_point = knowledge_base.get_variation_point()
+    if not variation_point:
+        return jsonify({"error": "The system is starting."}), 503
+    return jsonify(variation_point.get_level_configuration(name))
+
 
 @legacy_bp.route("/link/<string:name>")
 def get_link(name):
-    pv = state_manager.get_pv()
-    if not pv:
-        return jsonify({"error": "Sistema arrancando."}), 503
-    return jsonify(pv.obtenerEstadoCaracteristica(name))
+    variation_point = knowledge_base.get_variation_point()
+    if not variation_point:
+        return jsonify({"error": "The system is starting."}), 503
+    return jsonify(variation_point.get_feature_state(name))
 
-@legacy_bp.route("/reglaAdaptacion")
-def get_regla_adaptacion():
-    regla = state_manager.get_regla_adaptacion()
-    if regla is None:
-         return jsonify({"regla_adaptacion_actual": "N/A"}), 503
-    return jsonify({"contexto_de_entrada": regla})
+
+@legacy_bp.route("/adaptation-rule")
+def get_adaptation_rule():
+    adaptation_rule = knowledge_base.get_adaptation_rule()
+    if adaptation_rule is None:
+        return jsonify({"adaptation_rule": None}), 503
+    return jsonify({"context": adaptation_rule})
+
 
 @legacy_bp.route("/container_logs/<string:container_name>")
-def get_container_logs_real(container_name):
-    """
-    BRIDGE endpoint:
-    Frontend -> Flask -> Docker Daemon -> Container STDOUT
-    """
+def get_container_logs(container_name):
+    """Return container output through the Flask-to-Docker API bridge."""
     return jsonify(docker_service.get_container_logs(container_name))
