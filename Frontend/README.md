@@ -6,7 +6,7 @@ the Flask API and presents the MAPE-K phase trace, monitored context, selected
 services, feature-model state, quantum execution evidence, and adaptation logs.
 
 See the [project README](../README.md) for the research context, backend setup,
-architecture, and complete API route reference.
+architecture, Docker Compose quick start, and complete API route reference.
 
 ## Requirements
 
@@ -51,4 +51,5 @@ npm run build    # Create a production bundle in dist/
 npm run preview  # Preview a previously built bundle
 ```
 
-The repository does not define frontend tests or deployment configuration.
+The repository does not define frontend tests. Its development container is
+orchestrated from the root `compose.yml`.

@@ -71,14 +71,54 @@ MAPE-K denotes **Monitor, Analyze, Plan, Execute over shared Knowledge**:
 
 ### Prerequisites
 
+For the Docker Compose setup:
+
+- Docker with the Compose plugin
+- A Google API key with access to `models/gemini-2.5-flash`
+
+For the manual setup:
+
 - Python 3.10 or 3.11 and `pip` (the pinned TensorFlow 2.15 stack constrains
   supported Python versions)
 - Node.js `^20.19.0` or `>=22.12.0` and npm, as required by the locked Vite package
 - [Graphviz](https://graphviz.org/) with the `dot` executable on `PATH`
 - A Google API key with access to `models/gemini-2.5-flash`
 - Optional: a running Docker daemon if the experiment should inspect or
-  reconfigure containers; the repository does not include Compose or deployment
-  definitions
+  reconfigure containers
+
+Docker Compose is the recommended option for a reproducible development setup. It
+does not require host installations of Python, Node.js, or Graphviz because the
+application dependencies are installed inside the images.
+
+### Docker Compose
+
+From the repository root, create the backend environment file and set a valid
+Google API key:
+
+```bash
+cp Backend/.env.example Backend/.env
+```
+
+Then build and start both services:
+
+```bash
+docker compose up --build
+```
+
+Open `http://localhost:5173`. The backend API remains available at
+`http://localhost:8000`. Source directories are mounted into the containers, so
+Vite and Flask reload when their source files change. Stop the services with
+`docker compose down`.
+
+The backend mounts `/var/run/docker.sock` so the MAPE-K executor can inspect,
+start, and stop existing containers. Access to this socket effectively grants the
+backend control over the host Docker daemon; only run trusted backend code with
+this configuration.
+
+The first backend image build can take several minutes because it installs the
+TensorFlow, Qiskit, and Cirq stacks. Later builds reuse Docker's dependency cache.
+
+The manual setup below remains available when Docker Compose is not desired.
 
 ### Backend
 

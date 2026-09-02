@@ -21,11 +21,17 @@ if __name__ == '__main__':
     # 1. Create the Flask application instance and obtain the feature model
     app, feature_model = create_app()
 
-    # 2. Run startup tasks (generates the static model image only once)
+    # 2. Run startup tasks (generates the static model image)
     setup_startup_tasks(feature_model)
 
     # 3. Start the Flask server
     print(f"Server available at http://{DEFAULT_HOST}:{DEFAULT_PORT}.")
     print("Waiting for user interaction.")
     
-    app.run(port=DEFAULT_PORT, debug=False, host=DEFAULT_HOST)
+    use_reloader = os.getenv("FLASK_RELOAD", "").lower() in {"1", "true", "yes"}
+    app.run(
+        port=DEFAULT_PORT,
+        debug=False,
+        host=DEFAULT_HOST,
+        use_reloader=use_reloader,
+    )
