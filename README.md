@@ -8,7 +8,7 @@ making, feature-model validation, Qiskit or Cirq simulation, optional Docker
 service reconfiguration, and a React dashboard for inspecting each adaptation.
 
 <div align="center">
-  <a href="https://www.python.org/"><img src="https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white" alt="Python 3.10+"></a>
+  <a href="https://www.python.org/"><img src="https://img.shields.io/badge/Python-3.10%20%7C%203.11-3776AB?logo=python&logoColor=white" alt="Python 3.10 or 3.11"></a>
   <a href="https://flask.palletsprojects.com/"><img src="https://img.shields.io/badge/Flask-3.0-000000?logo=flask&logoColor=white" alt="Flask 3.0"></a>
   <a href="https://react.dev/"><img src="https://img.shields.io/badge/React-19-20232A?logo=react&logoColor=61DAFB" alt="React 19"></a>
   <a href="https://www.ibm.com/quantum/qiskit"><img src="https://img.shields.io/badge/Qiskit-0.45-6929C4?logo=qiskit&logoColor=white" alt="Qiskit 0.45"></a>
@@ -78,13 +78,16 @@ For the Docker Compose setup:
 
 For the manual setup:
 
-- Python 3.10 or 3.11 and `pip` (the pinned TensorFlow 2.15 stack constrains
-  supported Python versions)
+- `uv` (Python 3.10 is pinned and installed automatically when needed)
 - Node.js `^20.19.0` or `>=22.12.0` and npm, as required by the locked Vite package
 - [Graphviz](https://graphviz.org/) with the `dot` executable on `PATH`
 - A Google API key with access to `models/gemini-2.5-flash`
 - Optional: a running Docker daemon if the experiment should inspect or
   reconfigure containers
+
+TensorFlow Quantum provides the required wheel for Linux x86_64. Docker Compose
+runs the backend as `linux/amd64`, including through Docker Desktop emulation on
+ARM hosts. The manual backend setup therefore requires a Linux x86_64 environment.
 
 Docker Compose is the recommended option for a reproducible development setup. It
 does not require host installations of Python, Node.js, or Graphviz because the
@@ -126,13 +129,9 @@ From the repository root:
 
 ```bash
 cd Backend
-python -m venv .venv
-source .venv/bin/activate
-python -m pip install -r requirements.txt
+uv sync --locked
 cp .env.example .env
 ```
-
-On Windows, activate the environment with `.venv\Scripts\activate` instead.
 
 Set the variable copied from `Backend/.env.example`:
 
@@ -144,7 +143,7 @@ Do not commit the populated `.env` file. Start the backend through the primary
 entry point:
 
 ```bash
-python run.py
+uv run --locked python run.py
 ```
 
 The API is available at `http://127.0.0.1:8000`. The server binds to `0.0.0.0`;
@@ -201,7 +200,7 @@ checks, but no automated test suite:
 
 ```bash
 cd Backend
-python verify_backend.py
+uv run --locked python verify_backend.py
 
 cd ../Frontend
 npm run lint

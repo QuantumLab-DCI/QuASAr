@@ -52,4 +52,4 @@ npm run preview  # Preview a previously built bundle
 ```
 
 The repository does not define frontend tests. Its development container is
-orchestrated from the root `compose.yml`.
+orchestrated from the root `docker-compose.yml`.
