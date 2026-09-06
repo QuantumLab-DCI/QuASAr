@@ -1,7 +1,9 @@
+"""Run a direct diagnostic workload against the Cirq adapter."""
+
 import sys
 import os
 
-# 1. Configure the path to find the 'app' modules
+# Run directly without installing the project package.
 sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
 
 try:
@@ -16,7 +18,6 @@ def test_cirq_adapter():
     print("\nSTARTING DIRECT CIRQ ADAPTER TEST (TFQ)")
     print("===================================================")
 
-    # 2. Instantiate the adapter
     try:
         adapter = CirqAdapter()
         print("Cirq adapter instantiated successfully.")
@@ -24,9 +25,7 @@ def test_cirq_adapter():
         print(f"Could not instantiate the Cirq adapter: {error}")
         return
 
-    # 3. Define test parameters
-    # Use 3 nodes and depth 1 for a quick test.
-    # Increase problem_size to 4 to test a medium load.
+    # Keep the workload small for quick diagnostics.
     parameters = {
         "problem_id": "cirq_debug_001",
         "problem_complexity": 100,
@@ -34,14 +33,12 @@ def test_cirq_adapter():
         "circuit_depth": 1,
     }
 
-    # Test QAOA (change to "VQE" if preferred)
     algorithm_id = "QAOA"
 
     print(f"Parameters: {parameters}")
     print(f"Algorithm: {algorithm_id}")
     print("---------------------------------------------------")
 
-    # 4. Execute the job directly
     try:
         print("Executing the TensorFlow Quantum simulation...")
         result = adapter.execute_job(algorithm_id, parameters)
@@ -55,9 +52,8 @@ def test_cirq_adapter():
         artifact_url = result.get('artifact_url')
         print(f"Artifact URL: {artifact_url}")
 
-        # Additional file verification
         if artifact_url:
-            # Convert the relative API path to an absolute filesystem path for verification
+            # Translate the API URL to the artifact's local path.
             artifact_path = os.path.abspath(os.path.join(os.path.dirname(__file__), 'data', os.path.basename(artifact_url)))
             if os.path.exists(artifact_path):
                 print(f"Artifact verified on disk: {artifact_path}")

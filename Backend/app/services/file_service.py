@@ -11,8 +11,11 @@ from app.config import (
 )
 
 class FileService:
+    """Read application data and manage generated artifacts."""
+
     @staticmethod
     def read_scenarios():
+        """Return scenarios, or an empty list when loading fails."""
         try:
             if not os.path.exists(SCENARIOS_JSON):
                 return []
@@ -24,6 +27,7 @@ class FileService:
 
     @staticmethod
     def read_logs():
+        """Return adaptation logs with the newest entries first."""
         try:
             if not os.path.exists(LOG_FILE):
                 return "Waiting for first execution..."
@@ -35,6 +39,7 @@ class FileService:
 
     @staticmethod
     def append_log(message: str):
+        """Append text to the adaptation log."""
         try:
             with open(LOG_FILE, "a", encoding="utf-8") as log_file:
                 log_file.write(message)

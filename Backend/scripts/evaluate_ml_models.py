@@ -46,6 +46,7 @@ def evaluate_autoencoder():
 
 
 def plot_roc_curves():
+    """Plot ROC curves for the evaluated models."""
     test_features, test_targets = _load_evaluation_data()
     figure, axis = plt.subplots()
     for model in _train_comparison_models():
@@ -65,6 +66,7 @@ def plot_roc_curves():
 
 
 def plot_regression_comparison():
+    """Plot actual and predicted regression values."""
     test_features, test_targets = _load_evaluation_data()
     models = _train_comparison_models()
     predictions = [np.asarray(model.predict(test_features)).ravel() for model in models]
@@ -96,6 +98,7 @@ def plot_regression_comparison():
 
 
 def plot_unlabeled_data_comparison():
+    """Plot model predictions for unlabeled configurations."""
     data = pd.read_csv(CONFIGURATIONS_PATH, header=None)
     prediction_features = machine_learning.transform_dataset(
         data.values,
@@ -118,6 +121,7 @@ def plot_unlabeled_data_comparison():
 
 
 def plot_binarized_roc_curves():
+    """Plot ROC curves from binarized model predictions."""
     test_features, test_targets = _load_evaluation_data()
     figure, axis = plt.subplots()
     for model in _train_comparison_models():
@@ -141,6 +145,7 @@ def plot_binarized_roc_curves():
 
 
 def plot_model_evaluation_comparison():
+    """Plot evaluation metrics across models."""
     test_features, test_targets = _load_evaluation_data(
         EVALUATION_DATASET_PATH,
         header=None,

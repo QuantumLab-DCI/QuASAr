@@ -1,4 +1,3 @@
-// src/components/PhaseStepper.jsx
 import React from 'react';
 import { Eye, Brain, GitMerge, Play } from 'lucide-react';
 
@@ -12,6 +11,7 @@ const getCurrentPhase = (trace) => {
     return 0;
 };
 
+/** Render progress using the final trace event as the current phase. */
 const PhaseStepper = ({ trace }) => {
     const currentPhaseStep = getCurrentPhase(trace);
 

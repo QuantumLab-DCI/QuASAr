@@ -1,3 +1,5 @@
+"""Expose compatibility endpoints for legacy clients."""
+
 from flask import jsonify
 
 from app.core.knowledge import knowledge_base
@@ -11,6 +13,7 @@ docker_service = DockerService()
 
 @legacy_bp.route("/links/<string:name>")
 def get_links(name):
+    """Return enabled child links for a feature."""
     variation_point = knowledge_base.get_variation_point()
     if not variation_point:
         return jsonify({"error": "The system is starting."}), 503
@@ -19,6 +22,7 @@ def get_links(name):
 
 @legacy_bp.route("/link/<string:name>")
 def get_link(name):
+    """Return link metadata for an enabled feature."""
     variation_point = knowledge_base.get_variation_point()
     if not variation_point:
         return jsonify({"error": "The system is starting."}), 503
@@ -27,6 +31,7 @@ def get_link(name):
 
 @legacy_bp.route("/adaptation-rule")
 def get_adaptation_rule():
+    """Return the latest adaptation context."""
     adaptation_rule = knowledge_base.get_adaptation_rule()
     if adaptation_rule is None:
         return jsonify({"adaptation_rule": None}), 503

@@ -15,6 +15,8 @@ knowledge_base.set_feature_model(feature_model)
 
 
 class ScenarioSelection(BaseModel):
+    """Identify the scenario to activate."""
+
     scenario_id: int
 
 
@@ -43,11 +45,13 @@ async def get_system_state():
 
 @app.get("/api/scenarios")
 async def get_scenarios():
+    """Return available scenarios."""
     return FileService.read_scenarios()
 
 
 @app.get("/api/logs")
 async def get_logs():
+    """Return adaptation logs."""
     return {"log_content": FileService.read_logs()}
 
 
@@ -80,6 +84,7 @@ async def select_scenario(
 
 @app.get("/api/links/{feature_key}")
 async def get_links(feature_key: str):
+    """Return enabled child links for a feature."""
     variation_point = knowledge_base.get_variation_point()
     if not variation_point:
         raise HTTPException(status_code=503, detail="The system is starting.")
@@ -88,6 +93,7 @@ async def get_links(feature_key: str):
 
 @app.get("/api/link/{feature_key}")
 async def get_link(feature_key: str):
+    """Return link metadata for an enabled feature."""
     variation_point = knowledge_base.get_variation_point()
     if not variation_point:
         raise HTTPException(status_code=503, detail="The system is starting.")
@@ -96,6 +102,7 @@ async def get_link(feature_key: str):
 
 @app.get("/api/adaptation-rule")
 async def get_adaptation_rule():
+    """Return the latest adaptation context."""
     adaptation_rule = knowledge_base.get_adaptation_rule()
     if adaptation_rule is None:
         raise HTTPException(status_code=503, detail="The system is starting.")

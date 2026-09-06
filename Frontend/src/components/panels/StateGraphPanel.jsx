@@ -1,4 +1,3 @@
-// src/components/panels/StateGraphPanel.jsx
 import React from 'react';
 import { Network, Info } from 'lucide-react';
 import LoadingBlock from '../LoadingBlock';

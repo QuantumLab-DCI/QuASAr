@@ -1,4 +1,3 @@
-// src/components/panels/QuantumPanel.jsx
 import React from 'react';
 import { Zap, Download, Maximize2 } from 'lucide-react';
 import LoadingBlock from '../LoadingBlock';

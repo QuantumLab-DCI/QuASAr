@@ -1,10 +1,10 @@
-// src/components/ServiceInspector.jsx
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import axios from 'axios';
 import { Terminal, X } from 'lucide-react';
 
 const API_BASE_URL = 'http://127.0.0.1:8000';
 
+/** Display live container logs and simulated resource metrics. */
 const ServiceInspector = ({ service, onClose }) => {
     const [containerLogs, setContainerLogs] = useState([]);
     const scrollRef = useRef(null);
@@ -47,7 +47,6 @@ const ServiceInspector = ({ service, onClose }) => {
         }
     }, [service.name]);
 
-    // Poll every 2 seconds while the window is open
     useEffect(() => {
         const initialRequest = setTimeout(fetchContainerLogs, 0);
         const interval = setInterval(fetchContainerLogs, 2000);
@@ -57,14 +56,13 @@ const ServiceInspector = ({ service, onClose }) => {
         };
     }, [fetchContainerLogs]);
 
-    // Automatically scroll to the bottom
     useEffect(() => {
         if (scrollRef.current) {
             scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
         }
     }, [containerLogs]);
 
-    // These display-only estimates avoid adding another high-frequency Docker request.
+    // Display placeholders, not Docker telemetry.
     const isActive = service.status === 'active' || service.status === undefined;
     const [cpu] = useState(() => isActive ? Math.floor(Math.random() * 20 + 5) : 0);
     const [memory] = useState(() => isActive ? Math.floor(Math.random() * 50 + 40) : 0);

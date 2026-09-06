@@ -32,7 +32,6 @@ function App() {
   return (
     <div className="App">
 
-      {/* Image lightbox */}
       {modalImageUrl && (
         <div className="modal-overlay" onClick={() => setModalImageUrl(null)}>
           <div className="modal-content" onClick={e => e.stopPropagation()}>

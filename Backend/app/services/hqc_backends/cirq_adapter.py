@@ -138,7 +138,7 @@ class CirqAdapter(QuantumBackend):
         }
 
     def execute_job(self, algorithm_id: str, parameters: dict) -> dict:
-        """Execute an adaptive QAOA or VQE workload."""
+        """Execute a supported QAOA or VQE workload."""
         print(f"CirqAdapter: Executing adaptive {algorithm_id} job.")
         node_count = parameters.get("problem_size", 3)
         depth = parameters.get("circuit_depth", 1)

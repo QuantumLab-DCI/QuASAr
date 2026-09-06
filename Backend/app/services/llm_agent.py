@@ -13,7 +13,7 @@ except Exception as error:
 
 
 def get_llm_configuration(runtime_context: str, feature_model_rules: str) -> dict:
-    """Request a feature configuration under explicit integrity constraints."""
+    """Request a constrained configuration, returning empty data on failure."""
     logger = get_logger()
     system_prompt = f"""
     You are the configuration inference engine for a self-adaptive system that

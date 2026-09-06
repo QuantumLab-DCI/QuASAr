@@ -1,7 +1,9 @@
+"""Run a direct diagnostic workload against the Qiskit adapter."""
+
 import sys
 import os
 
-# Ensure Python can find the 'app' modules
+# Run directly without installing the project package.
 sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
 
 try:
@@ -15,7 +17,6 @@ def test_qiskit_adapter():
     print("\nSTARTING DIRECT QISKIT ADAPTER TEST")
     print("===============================================")
 
-    # 1. Instantiate the adapter
     try:
         adapter = QiskitAdapter()
         print("Qiskit adapter instantiated successfully.")
@@ -23,7 +24,6 @@ def test_qiskit_adapter():
         print(f"Could not instantiate the Qiskit adapter: {error}")
         return
 
-    # 2. Define a compact route-optimization workload for rapid diagnosis.
     parameters = {
         "problem_id": "qiskit_debug_001",
         "problem_complexity": 100,
@@ -36,7 +36,6 @@ def test_qiskit_adapter():
     print(f"Algorithm: {algorithm_id}")
     print("-----------------------------------------------")
 
-    # 3. Execute the job directly
     try:
         result = adapter.execute_job(algorithm_id, parameters)
 

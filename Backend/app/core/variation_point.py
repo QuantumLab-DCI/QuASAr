@@ -42,6 +42,7 @@ class VariationPoint:
         }
 
     def get_level_configuration(self, feature_key: str) -> dict | None:
+        """Return enabled child links, or None for an unknown feature."""
         for feature in self._configured_features:
             if feature.feature_key == feature_key:
                 return {
@@ -54,6 +55,7 @@ class VariationPoint:
         return None
 
     def get_feature_state(self, feature_key: str) -> dict[str, str]:
+        """Return link metadata for an enabled feature."""
         for feature in self._configured_features:
             if feature.feature_key == feature_key and feature.is_enabled:
                 return {"name": feature.feature_key, "href": feature.href}

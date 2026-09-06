@@ -43,6 +43,7 @@ def _transform_all_features(features):
 
 
 def train_linear_regression(dataset_path):
+    """Train a linear regressor from a labeled dataset."""
     dataset = pd.read_csv(dataset_path)
     features = _transform_all_features(dataset.iloc[:, :-1].values)
     labels = dataset.iloc[:, -1].values
@@ -55,6 +56,7 @@ def train_linear_regression(dataset_path):
 
 
 def train_decision_tree(dataset_path, categorical_columns):
+    """Train a decision-tree classifier from categorical features."""
     dataset = pd.read_csv(dataset_path)
     features = transform_dataset(dataset.iloc[:, :-1].values, categorical_columns)
     labels = dataset.iloc[:, -1].values
@@ -67,6 +69,7 @@ def train_decision_tree(dataset_path, categorical_columns):
 
 
 def predict_model_results(model, prediction_data_path):
+    """Append model predictions to configuration rows."""
     rows = pd.read_csv(prediction_data_path, header=None).values
     predictions = model.predict(_transform_all_features(rows))
     results = rows.tolist()
@@ -84,6 +87,7 @@ def save_predictions(dataset, output_path):
 
 
 def train_label_propagation(labeled_dataset_path, unlabeled_dataset_path):
+    """Train label propagation from labeled and unlabeled rows."""
     labeled_data = pd.read_csv(labeled_dataset_path)
     unlabeled_features = pd.read_csv(unlabeled_dataset_path).values
     labeled_features = _transform_all_features(labeled_data.iloc[:, :-1].values)
@@ -101,6 +105,7 @@ def train_label_propagation(labeled_dataset_path, unlabeled_dataset_path):
 
 
 def train_lasso_regression(dataset_path):
+    """Train a cross-validated Lasso regressor."""
     dataset = pd.read_csv(dataset_path)
     features = _transform_all_features(dataset.iloc[:, :-1].values)
     labels = dataset.iloc[:, -1].values
@@ -110,6 +115,7 @@ def train_lasso_regression(dataset_path):
 
 
 def train_random_forest_classifier(dataset_path):
+    """Train a random-forest classifier."""
     dataset = pd.read_csv(dataset_path)
     features = _transform_all_features(dataset.iloc[:, :-1].values)
     labels = dataset.iloc[:, -1].values
@@ -122,6 +128,7 @@ def train_random_forest_classifier(dataset_path):
 
 
 def train_random_forest_regressor(dataset_path):
+    """Train a random-forest regressor."""
     dataset = pd.read_csv(dataset_path)
     features = _transform_all_features(dataset.iloc[:, :-1].values)
     labels = dataset.iloc[:, -1].values
@@ -134,6 +141,7 @@ def train_random_forest_regressor(dataset_path):
 
 
 def train_naive_bayes(dataset_path):
+    """Train a Gaussian naive Bayes classifier."""
     dataset = pd.read_csv(dataset_path)
     features = _transform_all_features(dataset.iloc[:, :-1].values)
     labels = dataset.iloc[:, -1].values
@@ -146,6 +154,7 @@ def train_naive_bayes(dataset_path):
 
 
 def train_neural_network(dataset_path):
+    """Train a single-layer regression network."""
     dataset = pd.read_csv(dataset_path)
     features = _transform_all_features(dataset.iloc[:, :-1].values)
     labels = dataset.iloc[:, -1].values
@@ -163,6 +172,7 @@ def train_neural_network(dataset_path):
 
 
 def predict_neural_network_results(model, prediction_data_path):
+    """Append neural-network predictions to configuration rows."""
     rows = pd.read_csv(prediction_data_path, header=None).values
     predictions = model.predict(_transform_all_features(rows))
     results = rows.tolist()
@@ -172,6 +182,7 @@ def predict_neural_network_results(model, prediction_data_path):
 
 
 def train_knn_classifier(dataset_path):
+    """Train a k-nearest-neighbors classifier."""
     dataset = pd.read_csv(dataset_path)
     features = _transform_all_features(dataset.iloc[:, :-1].values)
     labels = dataset.iloc[:, -1].values
@@ -211,6 +222,7 @@ def configuration_to_json(configuration_tokens):
 
 
 def train_autoencoder():
+    """Train an autoencoder from labeled and generated configurations."""
     labeled_data = pd.read_csv(LABELED_DATASET_PATH)
     labeled_features = _transform_all_features(labeled_data.iloc[:, :-1].values)
     labeled_targets = np.reshape(labeled_data.iloc[:, -1].values, (-1, 1))
@@ -240,6 +252,7 @@ def train_autoencoder():
 
 
 def train_convolutional_neural_network():
+    """Train and evaluate a convolutional network."""
     dataset = pd.read_csv(LABELED_DATASET_PATH)
     features = _transform_all_features(dataset.iloc[:, :-1].values)
     labels = dataset.iloc[:, -1].values
@@ -284,6 +297,7 @@ def _split_and_scale_transfer_data(emissions_path=UNFILTERED_EMISSIONS_PATH):
 
 
 def train_transfer_learning_model():
+    """Train a transfer-learning regressor across both datasets."""
     data = _split_and_scale_transfer_data()
     large_train, large_test, large_y_train, large_y_test, small_train, small_test, small_y_train, small_y_test = data
     source_model = Sequential([Dense(128, activation="relu", input_shape=(large_train.shape[1],)), Dense(64, activation="relu"), Dense(1, activation="linear")])
@@ -299,6 +313,7 @@ def train_transfer_learning_model():
 
 
 def create_base_model(input_dimension):
+    """Build the shared dense feature extractor."""
     inputs = Input(shape=(input_dimension,))
     features = Dense(128, activation="relu")(inputs)
     features = Dense(64, activation="relu")(features)
@@ -307,6 +322,7 @@ def create_base_model(input_dimension):
 
 
 def train_final_transfer_networks():
+    """Train source and target transfer networks."""
     data = _split_and_scale_transfer_data()
     large_train, large_test, large_y_train, large_y_test, small_train, small_test, small_y_train, small_y_test = data
     source_base = create_base_model(large_train.shape[1])
@@ -324,6 +340,7 @@ def train_final_transfer_networks():
 
 
 def train_neural_autoencoder():
+    """Train an emissions encoder and adaptation regressor."""
     large_features, large_targets, small_features, small_targets = _load_transfer_datasets()
     large_train, large_test, _large_y_train, _large_y_test = train_test_split(large_features, large_targets, test_size=0.2, random_state=42)
     scaler = MaxAbsScaler()
@@ -345,6 +362,7 @@ def train_neural_autoencoder():
 
 
 def train_neural_autoencoder_v2():
+    """Train staged autoencoders and an adaptation regressor."""
     large_features, large_targets, small_features, small_targets = _load_transfer_datasets()
     large_train, large_test, _large_y_train, _large_y_test = train_test_split(large_features, large_targets, test_size=0.2, random_state=42)
     small_train, small_test, small_y_train, small_y_test = train_test_split(small_features, small_targets, test_size=0.2, random_state=42)
@@ -375,6 +393,7 @@ def train_neural_autoencoder_v2():
 
 
 def train_staged_transfer_model():
+    """Train staged transfer models and return configuration predictions."""
     print("\n" + "=" * 50)
     print("DEBUG [train_staged_transfer_model]: STARTING TRAINING")
     try:
@@ -428,6 +447,7 @@ def train_staged_transfer_model():
 
 
 def predict_deep_neural_network_results(model, resize_model, feature_extractor, prediction_data_path):
+    """Append staged-network predictions to configuration rows."""
     rows = pd.read_csv(prediction_data_path, header=None).values
     transformed_rows = _transform_all_features(rows)
     predictions = model.predict(feature_extractor.predict(resize_model.predict(transformed_rows)))

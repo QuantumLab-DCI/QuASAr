@@ -24,7 +24,7 @@ def get_backend_adapter(backend_name: str) -> QuantumBackend | None:
 
 
 def monitor_backends() -> dict:
-    """Generate variable NISQ backend observations for adaptation analysis."""
+    """Generate simulated NISQ observations for adaptation analysis."""
     qiskit_queue_time = int(random.uniform(4, 8))
     cirq_queue_time = int(random.uniform(0, 25))
     suggested_algorithm = random.choice(["QAOA", "VQE", "QAOA", "VQE"])

@@ -1,10 +1,10 @@
-// src/hooks/useSystemStatus.js
 import { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 
 const API_BASE_URL = 'http://127.0.0.1:8000';
 const REFRESH_INTERVAL = 3000;
 
+/** Poll backend status and expose dashboard state and actions. */
 export const useSystemStatus = () => {
     const [systemState, setSystemState] = useState(null);
     const [logs, setLogs] = useState("System ready. Select a scenario to initiate adaptation.");
@@ -50,7 +50,6 @@ export const useSystemStatus = () => {
         setTimeout(fetchSystemStatus, 1000);
     };
 
-    // Image download utility
     const downloadImage = async (imageUrl) => {
         if (!imageUrl) return;
         try {

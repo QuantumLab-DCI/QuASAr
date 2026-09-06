@@ -1,4 +1,3 @@
-// src/components/panels/MonitoredContextPanel.jsx
 import React from 'react';
 import LoadingBlock from '../LoadingBlock';
 

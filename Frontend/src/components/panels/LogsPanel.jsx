@@ -1,4 +1,3 @@
-// src/components/panels/LogsPanel.jsx
 import React from 'react';
 import { Terminal } from 'lucide-react';
 

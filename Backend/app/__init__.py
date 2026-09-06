@@ -5,21 +5,16 @@ from app.config import MODEL_IMAGE_DIR
 from app.core.knowledge import knowledge_base
 
 def create_app():
-    """
-    Application factory: create and configure the Flask application instance.
-    """
+    """Create the Flask application and its feature model."""
     app = Flask(__name__)
     
-    # Configure CORS
-    CORS(app, resources={r"/api/*": {"origins": "*"}}) 
+    CORS(app, resources={r"/api/*": {"origins": "*"}})
     
-    # Load the feature model and initialize the shared knowledge base.
     from .core.feature_model import build_air_quality_feature_model
     feature_model = build_air_quality_feature_model()
     
     knowledge_base.set_feature_model(feature_model)
     
-    # Register API blueprints.
     from .api import dashboard_bp, control_bp, legacy_bp
     app.register_blueprint(dashboard_bp, url_prefix="/api")
     app.register_blueprint(control_bp, url_prefix="/api")

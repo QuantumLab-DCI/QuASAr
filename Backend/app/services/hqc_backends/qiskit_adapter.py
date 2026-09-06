@@ -77,6 +77,7 @@ class QiskitAdapter(QuantumBackend):
         return quadratic_program
 
     def _solve_tsp(self, solver_configuration, quadratic_program, city_count: int) -> dict:
+        """Convert the problem to QUBO, solve it, and return metadata."""
         from qiskit import transpile
         from qiskit.circuit.library import QAOAAnsatz
         from qiskit_algorithms import SamplingVQE
@@ -138,7 +139,7 @@ class QiskitAdapter(QuantumBackend):
         }
 
     def execute_job(self, algorithm_id: str, parameters: dict) -> dict:
-        """Execute an adaptive QAOA or VQE workload."""
+        """Execute a QAOA or VQE route-optimization workload."""
         print(f"QiskitAdapter: Executing adaptive {algorithm_id.upper()} job.")
         try:
             from qiskit.circuit.library import TwoLocal

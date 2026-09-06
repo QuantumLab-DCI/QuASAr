@@ -1,9 +1,11 @@
+"""List Gemini models and their content-generation support."""
+
 import os
 
 import google.generativeai as genai
 from dotenv import load_dotenv
 
-# Configure the API client from the same environment variable used by the backend.
+# Use the same API key as the backend.
 load_dotenv()
 genai.configure(api_key=os.environ.get("GOOGLE_API_KEY", ""))
 
@@ -13,6 +15,5 @@ for model in genai.list_models():
 
 print("\n--- Models that support text or chat content generation ---")
 for model in genai.list_models():
-    # Retain only models that support the generateContent method.
     if "generateContent" in model.supported_generation_methods:
         print(model.name)

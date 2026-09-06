@@ -1,17 +1,11 @@
-# app/services/hqc_backends/base_backend.py
 from abc import ABC, abstractmethod
 
 class QuantumBackend(ABC):
-    """
-    Abstract base class (interface) for all quantum backend adapters.
-    Define a common contract that all supported backends must follow.
-    """
+    """Define the contract for quantum backend adapters."""
 
     @abstractmethod
     def execute_job(self, algorithm_id: str, parameters: dict) -> dict:
-        """
-        Execute a quantum job for a given algorithm and parameters.
-        """
+        """Execute an algorithm and return its backend-specific result."""
         pass
 
     def __repr__(self):

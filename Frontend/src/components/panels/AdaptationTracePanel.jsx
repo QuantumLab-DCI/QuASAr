@@ -1,4 +1,3 @@
-// src/components/panels/AdaptationTracePanel.jsx
 import React from 'react';
 import { Activity, Brain, GitMerge, Box, Info } from 'lucide-react';
 import LoadingBlock from '../LoadingBlock';

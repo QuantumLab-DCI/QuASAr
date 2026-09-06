@@ -24,16 +24,20 @@ knowledge_base.set_feature_model(feature_model)
 
 
 class ScenarioSelection(BaseModel):
+    """Identify the scenario to activate."""
+
     scenario_id: int
 
 
 @app.get("/")
 def read_root():
+    """Return service availability."""
     return {"service": "FMweb-K Quantum Backend", "status": "available"}
 
 
 @app.get("/api/state")
 def get_system_state():
+    """Return the current system state."""
     adaptation_rule = knowledge_base.get_adaptation_rule()
     if adaptation_rule is None:
         raise HTTPException(
@@ -56,11 +60,13 @@ def get_system_state():
 
 @app.get("/api/scenarios")
 def get_scenarios():
+    """Return available scenarios."""
     return FileService.read_scenarios()
 
 
 @app.get("/api/logs")
 def get_logs():
+    """Return adaptation logs."""
     return {"log_content": FileService.read_logs()}
 
 
@@ -69,6 +75,7 @@ def select_scenario(
     selection: ScenarioSelection,
     background_tasks: BackgroundTasks,
 ):
+    """Schedule an adaptation cycle for a scenario."""
     if knowledge_base.is_running():
         raise HTTPException(
             status_code=423,
@@ -92,6 +99,7 @@ def select_scenario(
 
 @app.get("/api/links/{feature_key}")
 def get_links(feature_key: str):
+    """Return enabled child links for a feature."""
     variation_point = knowledge_base.get_variation_point()
     if not variation_point:
         raise HTTPException(status_code=503, detail="The system is starting.")
@@ -100,6 +108,7 @@ def get_links(feature_key: str):
 
 @app.get("/api/link/{feature_key}")
 def get_link(feature_key: str):
+    """Return link metadata for an enabled feature."""
     variation_point = knowledge_base.get_variation_point()
     if not variation_point:
         raise HTTPException(status_code=503, detail="The system is starting.")
@@ -108,6 +117,7 @@ def get_link(feature_key: str):
 
 @app.get("/api/adaptation-rule")
 def get_adaptation_rule():
+    """Return the latest adaptation context."""
     adaptation_rule = knowledge_base.get_adaptation_rule()
     if adaptation_rule is None:
         raise HTTPException(status_code=503, detail="The system is starting.")

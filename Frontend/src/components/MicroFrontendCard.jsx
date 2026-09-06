@@ -1,4 +1,3 @@
-// src/components/MicroFrontendCard.jsx
 import React from 'react';
 import { Terminal, ShieldAlert } from 'lucide-react';
 

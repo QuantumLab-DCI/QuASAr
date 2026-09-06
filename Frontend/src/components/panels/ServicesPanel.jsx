@@ -1,4 +1,3 @@
-// src/components/panels/ServicesPanel.jsx
 import React, { useState } from 'react';
 import { LayoutGrid } from 'lucide-react';
 import MicroFrontendCard from '../MicroFrontendCard';

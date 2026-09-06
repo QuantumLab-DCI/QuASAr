@@ -42,6 +42,7 @@ def get_scenarios():
 
 @dashboard_bp.route("/logs")
 def get_logs():
+    """Return adaptation logs with the newest entries first."""
     return jsonify({"log_content": FileService.read_logs()})
 
 

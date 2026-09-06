@@ -1,3 +1,5 @@
+"""Run a simulated service activity loop and status server."""
+
 import http.server
 import logging
 import os
@@ -8,31 +10,25 @@ import threading
 import time
 from datetime import datetime
 
-# --- CONFIGURATION ---
 PORT = int(os.environ.get("PORT", 80))
 SERVICE_NAME = os.environ.get("SERVICE_NAME", "Base Service")
 THEME_COLOR = os.environ.get("THEME_COLOR", "#333333")
 LOG_FILE = "service.log"
 
-# --- 1. CONFIGURE REAL LOGGING (Console + File) ---
-# This makes logs appear both in Docker Desktop and in the internal file
+# Emit logs to container output and the file served by this process.
 logger = logging.getLogger(SERVICE_NAME)
 logger.setLevel(logging.DEBUG)
 
-# Production-style format: [TIME] [LEVEL] [THREAD] MESSAGE
 formatter = logging.Formatter('%(asctime)s [%(levelname)s] %(message)s', datefmt='%H:%M:%S')
 
-# Console output (Docker logs)
 console_handler = logging.StreamHandler(sys.stdout)
 console_handler.setFormatter(formatter)
 logger.addHandler(console_handler)
 
-# File output (for reading with 'tail -f' inside the container)
 file_handler = logging.FileHandler(LOG_FILE, mode='a')
 file_handler.setFormatter(formatter)
 logger.addHandler(file_handler)
 
-# --- 2. BUSINESS PROCESS SIMULATION (Background Threads) ---
 def simulate_service_activity():
     """Generate background activity consistent with the service."""
     logger.info("%s started successfully. PID: %s", SERVICE_NAME, os.getpid())
@@ -40,9 +36,8 @@ def simulate_service_activity():
 
     while True:
         try:
-            time.sleep(random.uniform(2, 8)) # Variable interval
+            time.sleep(random.uniform(2, 8))
 
-            # Service-specific logic
             if "tourism" in SERVICE_NAME.lower():
                 actions = [
                     f"Querying the points-of-interest database (query ID: {random.randint(1000,9999)})",
@@ -53,7 +48,6 @@ def simulate_service_activity():
                 logger.info(random.choice(actions))
 
             elif "sports" in SERVICE_NAME.lower():
-                # Simulate sensor readings
                 simulated_aqi = random.randint(20, 120)
                 level = "CRITICAL" if simulated_aqi > 100 else "NORMAL"
                 log_func = logger.warning if simulated_aqi > 100 else logger.info
@@ -83,31 +77,27 @@ def simulate_service_activity():
         except Exception as error:
             logger.error("Simulation thread failed: %s", error)
 
-# Start the background thread (daemonized so it stops when the script stops)
+# The daemon stops with the server process.
 background_thread = threading.Thread(target=simulate_service_activity, daemon=True)
 background_thread.start()
 
-# --- 3. REAL WEB SERVER (Request Handling) ---
 class RealLogHandler(http.server.SimpleHTTPRequestHandler):
+    """Serve service status and route requests through the logger."""
 
     def log_message(self, format, *args):
-        # Override this method to use the configured logger instead of default stderr
+        """Route access messages through the configured logger."""
         logger.info("HTTP request: %s - %s", self.client_address[0], format % args)
 
     def do_GET(self):
-        # Simulate a short processing delay
-        # time.sleep(0.05)
-
+        """Return the simulated service status page."""
         self.send_response(200)
         self.send_header('Content-type', 'text/html; charset=utf-8')
-        self.send_header('Access-Control-Allow-Origin', '*') # CORS required for the iframe
+        self.send_header('Access-Control-Allow-Origin', '*')  # Required by the iframe.
         self.end_headers()
 
-        # Dynamic data for the HTML
         uptime = int(time.time()) % 1000
         memory_mb = random.randint(12, 64)
 
-        # HTML displayed in the micro-frontend
         html = f"""
         <!DOCTYPE html>
         <html>
@@ -139,7 +129,6 @@ class RealLogHandler(http.server.SimpleHTTPRequestHandler):
         """
         self.wfile.write(html.encode('utf-8'))
 
-# --- STARTUP ---
 logger.info("Starting the web server on port %s.", PORT)
 with socketserver.TCPServer(("", PORT), RealLogHandler) as httpd:
     httpd.serve_forever()
