@@ -1,42 +1,35 @@
 from flask import Flask
 from flask_cors import CORS
-from app.core.state import state_manager
+
 from app.config import MODEL_IMAGE_DIR
-import os
+from app.core.knowledge import knowledge_base
 
 def create_app():
-    """
-    Application Factory: Crea y configura la instancia de la app Flask.
-    """
-    # --- Objeto App Global ---
+    """Create the Flask application and its feature model."""
     app = Flask(__name__)
     
-    # Configurar CORS
-    CORS(app, resources={r"/api/*": {"origins": "*"}}) 
+    CORS(app, resources={r"/api/*": {"origins": "*"}})
     
-    # 1. Cargar el Modelo de Características
-    from .core import grafo_mc
-    mc = grafo_mc.generarPosiblesEstados()
+    from .core.feature_model import build_air_quality_feature_model
+    feature_model = build_air_quality_feature_model()
     
-    # 2. Inicializar el State Manager
-    state_manager.set_mc(mc)
+    knowledge_base.set_feature_model(feature_model)
     
-    # 3. Registrar los blueprints
     from .api import dashboard_bp, control_bp, legacy_bp
-    app.register_blueprint(dashboard_bp, url_prefix='/api')
-    app.register_blueprint(control_bp, url_prefix='/api')
-    app.register_blueprint(legacy_bp, url_prefix='/api')
+    app.register_blueprint(dashboard_bp, url_prefix="/api")
+    app.register_blueprint(control_bp, url_prefix="/api")
+    app.register_blueprint(legacy_bp, url_prefix="/api")
     
-    return app, mc
+    return app, feature_model
 
-def setup_startup_tasks(mc):
-    """ Tareas de inicio (Solo genera la imagen estática del modelo). """
-    from .services import visualizador_grafo
-    print("Generando visualización del modelo estático...")
+def setup_startup_tasks(feature_model):
+    """Generate the static feature-model image during application startup."""
+    from .services import graph_visualizer
+    print("Generating the static feature-model visualization.")
     try:
-        visualizador_grafo.generar_visualizacion_modelo(
-            mc, nombre_archivo=MODEL_IMAGE_DIR
+        graph_visualizer.generate_feature_model_visualization(
+            feature_model, filename=MODEL_IMAGE_DIR
         )
-        print(f"Visualización guardada en {MODEL_IMAGE_DIR}.png")
+        print(f"Feature-model visualization saved to {MODEL_IMAGE_DIR}.png.")
     except Exception as e:
-        print(f"[startup] Error al generar la visualización del modelo: {e}")
+        print(f"[startup] Could not generate the feature-model visualization: {e}")

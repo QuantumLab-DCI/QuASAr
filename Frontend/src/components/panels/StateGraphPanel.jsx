@@ -1,25 +1,24 @@
-// src/components/panels/StateGraphPanel.jsx
 import React from 'react';
 import { Network, Info } from 'lucide-react';
 import LoadingBlock from '../LoadingBlock';
 
-const StateGraphPanel = ({ estado, isProcessing, isSystemReady, onOpenModal, API_URL }) => {
+const StateGraphPanel = ({ systemState, isProcessing, isSystemReady, onOpenModal, apiBaseUrl }) => {
     return (
         <div className="panel graph-panel">
-            <h2 className="panel-title"><Network className="icon" /> Estado Actual (LPSD)</h2>
-            <LoadingBlock loading={isProcessing} message="Reconfigurando Arquitectura...">
+            <h2 className="panel-title"><Network className="icon" /> Current Configuration (DSPL)</h2>
+            <LoadingBlock loading={isProcessing} message="Reconfiguring the system architecture...">
                 <div className="image-container state-graph">
-                    {isSystemReady && estado?.imagen_estado_url ? (
+                    {isSystemReady && systemState?.state_image_url ? (
                         <img
-                            src={`${API_URL}${estado.imagen_estado_url}`}
-                            alt="Grafo de Estado"
+                            src={`${apiBaseUrl}${systemState.state_image_url}`}
+                            alt="Current self-adaptive system configuration graph"
                             className="clickable-image"
-                            onClick={() => !isProcessing && onOpenModal(estado.imagen_estado_url)}
+                            onClick={() => !isProcessing && onOpenModal(systemState.state_image_url)}
                         />
                     ) : (
                         <div className="placeholder-state">
                             <Info size={40} className="text-gray-300 mb-2" />
-                            <p className="text-gray-400">Sin arquitectura activa.</p>
+                            <p className="text-gray-400">No active configuration is available.</p>
                         </div>
                     )}
                 </div>

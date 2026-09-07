@@ -1,137 +1,131 @@
-from typing import Dict, Any, Optional
-from app.services import agente_llm
-from app.services import hqc_module
-from app.core import grafo_mc
+from typing import Any
+
 from app.core.audit_logger import get_logger
-from app.core.state import state_manager
+from app.core.feature_model import EXCLUDES, MANDATORY, REQUIRES
+from app.core.knowledge import knowledge_base
+from app.services import hybrid_quantum_service, llm_agent
+
 
 class Analyzer:
-    """
-    Fase 2: ANALYZE
-    Responsable de interactuar con el LLM y validar reglas de negocio y modelo.
-    """
-    def __init__(self):
-        self.logger = get_logger()
-        self._razonamiento_actual = "Esperando análisis..."
+    """Query the LLM and validate the proposed feature configuration."""
 
-    def _find_features_in_json(self, data: Dict[str, Any]) -> Dict[str, bool]:
-        """Busca recursivamente características booleanas y normaliza keys."""
-        features = {}
-        if isinstance(data, dict):
-            for k, v in data.items():
-                key_normalizada = k.replace(" ", "_").lower()
-                if isinstance(v, bool):
-                    features[key_normalizada] = v
-                elif isinstance(v, dict):
-                    features.update(self._find_features_in_json(v))
+    def __init__(self) -> None:
+        self.logger = get_logger()
+        self._current_reasoning = "Awaiting analysis."
+
+    def _find_features_in_json(self, data: dict[str, Any]) -> dict[str, bool]:
+        features: dict[str, bool] = {}
+        for key, value in data.items():
+            normalized_key = key.replace(" ", "_").lower()
+            if isinstance(value, bool):
+                features[normalized_key] = value
+            elif isinstance(value, dict):
+                features.update(self._find_features_in_json(value))
         return features
 
-    def _validar_configuracion(self, config_dict: Dict[str, bool], mc) -> bool:
-        """
-        Valida reglas de modelo: Requiere, Obligatoria, XOR, OR, Jerarquía.
-        """
-        # (Lógica idéntica a la original, migrada aquí)
-        # Por brevedad en la respuesta del agente, asumimos la lógica completa de mapek.py original
-        # ... [Logic from original mapek.py] ...
-        
-        # NOTA: Para no pegar las 50 líneas de validación de nuevo, 
-        # asumiré que está implementado igual que en el original.
-        # En la implementación real copio el código.
-        
-        # 1. Validar reglas de dependencia 'Requiere'
-        for c in mc.caracteristicas:
-            for rel in c.getRelaciones:
-                if rel[1] == "Requiere":
-                    quien_requiere = c.getNombre.replace(" ", "_").lower()
-                    quien_es_requerido = rel[0].replace(" ", "_").lower()
-                    if config_dict.get(quien_requiere) and not config_dict.get(quien_es_requerido):
+    def _validate_configuration(self, configuration: dict[str, bool], feature_model) -> bool:
+        for feature in feature_model.features:
+            for child_key, relationship_type in feature.relationships:
+                if (
+                    relationship_type == REQUIRES
+                    and configuration.get(feature.key)
+                    and not configuration.get(child_key)
+                ):
+                    return False
+                if (
+                    relationship_type == EXCLUDES
+                    and configuration.get(feature.key)
+                    and configuration.get(child_key)
+                ):
+                    return False
+
+        for feature in feature_model.features:
+            parent_enabled = configuration.get(feature.key) is True
+            xor_children = [
+                child_key
+                for child_key, relationship_type in feature.relationships
+                if relationship_type == "XOR"
+            ]
+            or_children = [
+                child_key
+                for child_key, relationship_type in feature.relationships
+                if relationship_type == "OR"
+            ]
+
+            if parent_enabled:
+                for child_key, relationship_type in feature.relationships:
+                    if relationship_type == MANDATORY and not configuration.get(child_key):
                         return False
-
-        # 2. Validar Jerarquía y Restricciones de Grupo (XOR, OR)
-        for c in mc.caracteristicas:
-            nombre_padre = c.getNombre.replace(" ", "_").lower()
-            is_padre_activo = config_dict.get(nombre_padre) == True
-            
-            hijos_xor = [r[0].replace(" ", "_").lower() for r in c.getRelaciones if r[1] == "XOR"]
-            hijos_or = [r[0].replace(" ", "_").lower() for r in c.getRelaciones if r[1] == "OR"]
-            
-            if is_padre_activo:
-                for rel in c.getRelaciones:
-                    if rel[1] == "Obligatoria":
-                        hijo_key = rel[0].replace(" ", "_").lower()
-                        if not config_dict.get(hijo_key): return False
-                
-                if hijos_xor:
-                    activos_xor = sum(1 for h in hijos_xor if config_dict.get(h) == True)
-                    if activos_xor != 1: return False
-                
-                if hijos_or:
-                    activos_or = sum(1 for h in hijos_or if config_dict.get(h) == True)
-                    if activos_or == 0: return False
-            
-            elif config_dict.get(nombre_padre) == False:
-                 for rel in c.getRelaciones:
-                    if rel[1] != "Requiere":
-                        hijo_key = rel[0].replace(" ", "_").lower()
-                        if config_dict.get(hijo_key) == True: return False
-
+                if xor_children and sum(bool(configuration.get(key)) for key in xor_children) != 1:
+                    return False
+                if or_children and not any(configuration.get(key) for key in or_children):
+                    return False
+            elif configuration.get(feature.key) is False:
+                for child_key, relationship_type in feature.relationships:
+                    if relationship_type not in {REQUIRES, EXCLUDES} and configuration.get(child_key):
+                        return False
         return True
 
-    def analizar(self, mc, contexto_monitor: Dict[str, Any], caso_n: int) -> Optional[Dict[str, bool]]:
-        """
-        Consulta al LLM y retorna la configuración validada.
-        """
-        ica = contexto_monitor['ica']
-        cp = contexto_monitor['complejidad_problema']
-        prioridad = contexto_monitor['prioridad']
-        cola = contexto_monitor['cola_qiskit']
-        perfil = contexto_monitor['perfil_usuario']
-        
-        reglas_del_modelo = mc.exportar_reglas_texto()
-        metricas_nisq = hqc_module.monitor_backends()
-        
-        # Inyección de simulador de cola
-        if cola is not None:
-            metricas_nisq["Qiskit Simulator"]["queue_time_sec"] = cola
+    def analyze(
+        self,
+        feature_model,
+        runtime_context: dict[str, Any],
+        case_number: int,
+    ) -> dict[str, bool] | None:
+        """Return a validated configuration proposed for the runtime context."""
+        backend_metrics = hybrid_quantum_service.monitor_backends()
+        backend_metrics["Qiskit Simulator"]["queue_time_seconds"] = runtime_context[
+            "qiskit_queue_time"
+        ]
+        prompt_context = f"""
+        REAL-TIME RUNTIME CONTEXT (stochastic simulation, scenario
+        {knowledge_base.get_current_scenario_id()}):
 
-        prompt_contexto = f"""
-        DATOS DEL ENTORNO EN TIEMPO REAL (Simulación Estocástica - Escenario {state_manager.get_escenario_id()}):
-        
-        1. **Perfil de Demanda (INTENCIÓN DE USUARIO):** "{perfil}"
-        2. **Condiciones Ambientales:** Aire ICA = {ica}.
-        3. **Requerimiento Computacional:** Complejidad CP = {cp}.
-        4. **Infraestructura:** Prioridad {prioridad}, Backends {metricas_nisq}
+        1. User demand profile: "{runtime_context['user_profile']}"
+        2. Environmental condition: AQI = {runtime_context['air_quality_index']}
+        3. Computational workload complexity = {runtime_context['problem_complexity']}
+        4. Infrastructure: SLA priority = {runtime_context['sla_priority']};
+           backend observations = {backend_metrics}
         """
-        
-        config_dict_llm = agente_llm.obtener_configuracion_llm(prompt_contexto, reglas_del_modelo)
-
-        if not config_dict_llm:
-            self.logger.error(f"[CASO #{caso_n}] ❌ FALLO LLM: Configuración vacía.")
+        llm_response = llm_agent.get_llm_configuration(
+            prompt_context,
+            feature_model.export_rules_text(),
+        )
+        if not llm_response:
+            self.logger.error("[CASE #%s] LLM returned an empty configuration.", case_number)
             return None
 
-        # Capturar razonamiento
-        if "razonamiento" in config_dict_llm:
-            self._razonamiento_actual = config_dict_llm["razonamiento"]
-            self.logger.info(f"[CASO #{caso_n}] ✅ LLM Respondió. Razonamiento: {self._razonamiento_actual}")
+        if "reasoning" in llm_response:
+            self._current_reasoning = llm_response["reasoning"]
+            self.logger.info(
+                "[CASE #%s] LLM reasoning: %s",
+                case_number,
+                self._current_reasoning,
+            )
 
-        config_plana = self._find_features_in_json(config_dict_llm)
-        
-        # --- AUTO-REPARACIÓN (HQC Huerfano) ---
-        if config_plana.get('hqc') == False:
-            nodos_cuanticos = ['backend', 'algoritmo', 'qiskit_simulator', 'cirq_simulator', 'qaoa', 'vqe']
-            for nodo in nodos_cuanticos:
-                if config_plana.get(nodo) == True:
-                    config_plana[nodo] = False
+        flat_configuration = self._find_features_in_json(llm_response)
+        if flat_configuration.get("hybrid_quantum_computing") is False:
+            quantum_features = [
+                "quantum_backend",
+                "quantum_algorithm",
+                "qiskit_simulator",
+                "cirq_simulator",
+                "qaoa",
+                "vqe",
+            ]
+            for feature_key in quantum_features:
+                if flat_configuration.get(feature_key) is True:
+                    flat_configuration[feature_key] = False
 
-        # Validación formal
-        config_plana_con_raiz = config_plana.copy()
-        config_plana_con_raiz['gestor_aire'] = True 
-        
-        if not self._validar_configuracion(config_plana_con_raiz, mc):
-            self.logger.error(f"[CASO #{caso_n}] ❌ FALLO VALIDACIÓN: Configuración LLM inválida.")
+        configuration_with_root = flat_configuration.copy()
+        configuration_with_root["air_quality_manager"] = True
+        if not self._validate_configuration(configuration_with_root, feature_model):
+            self.logger.error(
+                "[CASE #%s] Feature-model validation rejected the LLM configuration.",
+                case_number,
+            )
             return None
+        return flat_configuration
 
-        return config_plana
-
-    def get_razonamiento(self):
-        return self._razonamiento_actual
+    def get_reasoning(self) -> str:
+        return self._current_reasoning

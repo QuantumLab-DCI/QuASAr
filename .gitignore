@@ -1,7 +1,34 @@
-.gitignore
-Frontend/node_modules/* 
-Backend/.env
-venv/*
-data/*
-node_modules/*
-Archivos_Extra/*
+# Python bytecode and tool caches
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+
+# Python environments
+.venv/
+venv/
+env/
+ENV/
+
+# Local environment files (keep shareable templates)
+.env
+.env.*
+!.env.example
+!**/.env.example
+
+# JavaScript dependencies and generated frontend builds
+node_modules/
+Frontend/node_modules/
+Frontend/dist/
+Frontend/dist-ssr/
+
+# Backend runtime logs and generated visual artifacts
+Backend/**/*.log
+Backend/data/*.svg
+Backend/data/*.png
+Backend/MC.svg

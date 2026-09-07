@@ -1,55 +1,49 @@
-from flask import jsonify, request
-from app.core.state import state_manager
-from app.task import ejecutar_ciclo_bajo_demanda
 import threading
+
+from flask import jsonify, request
+
+from app.adaptation_task import run_on_demand_adaptation_cycle
+from app.core.knowledge import knowledge_base
 
 from . import control_bp
 
-@control_bp.route("/seleccionar_escenario", methods=['POST'])
-def set_escenario():
-    """ 
-    Permite al usuario elegir un escenario y DISPARA LA EJECUCIÓN INMEDIATA.
-    """
-    data = request.json
-    nuevo_id = data.get('id')
-    
-    # Bloqueo de seguridad
-    if state_manager.is_running():
-        return jsonify({"error": "Sistema ocupado. Espere a que finalice el ciclo actual."}), 423 
-    
-    if nuevo_id is not None:
-        try:
-            # 1. Actualizar variable global (Memoria)
-            act_id = int(nuevo_id)
-            state_manager.set_escenario_id(act_id)
-            
-            print(f"🕹️ INTERACCIÓN: Usuario seleccionó Escenario ID {act_id}")
 
-            # Bloquear sistema
-            state_manager.set_running(True)
-            print(f"🔒 SISTEMA BLOQUEADO: Iniciando ciclo MAPE-K para Escenario {act_id}")
+@control_bp.route("/select-scenario", methods=["POST"])
+def select_scenario():
+    """Select a scenario and start an on-demand MAPE-K cycle."""
+    payload = request.json or {}
+    scenario_id = payload.get("scenario_id")
+    if knowledge_base.is_running():
+        return jsonify(
+            {"error": "The system is busy. Wait for the current cycle to finish."}
+        ), 423
 
-            # 2. DISPARAR EL EVENTO (Threading)
-            # Pasamos solo el ID, ya que el MC se obtiene del state_manager dentro de la task si es necesario
-            # o se pasa aqui. El task original recibia mc.
-            # Vamos a refactorizar task para que use state_manager tambien.
-            
-            thread = threading.Thread(
-                target=ejecutar_ciclo_bajo_demanda,
-                args=(state_manager.get_mc(), act_id)
-            )
-            thread.start()
+    if scenario_id is None:
+        return jsonify({"error": "scenario_id is required."}), 400
 
-            return jsonify({
-                "status": "ok", 
-                "mensaje": f"Escenario {act_id} activado. Ejecutando ciclo...", 
-                "id": act_id
-            })
-        except ValueError:
-            return jsonify({"error": "ID debe ser un número"}), 400
-        except Exception as e:
-             print(f"❌ Error lanzando hilo: {e}")
-             state_manager.set_running(False)
-             return jsonify({"error": str(e)}), 500
-    else:
-        return jsonify({"error": "Falta el ID"}), 400
+    try:
+        selected_scenario_id = int(scenario_id)
+        knowledge_base.set_current_scenario_id(selected_scenario_id)
+        print(f"User selected scenario {selected_scenario_id}.")
+        knowledge_base.set_running(True)
+        thread = threading.Thread(
+            target=run_on_demand_adaptation_cycle,
+            args=(knowledge_base.get_feature_model(), selected_scenario_id),
+        )
+        thread.start()
+        return jsonify(
+            {
+                "status": "ok",
+                "message": (
+                    f"Scenario {selected_scenario_id} selected; the adaptation "
+                    "cycle is running."
+                ),
+                "scenario_id": selected_scenario_id,
+            }
+        )
+    except ValueError:
+        return jsonify({"error": "scenario_id must be an integer."}), 400
+    except Exception as error:
+        print(f"Could not start the adaptation thread: {error}")
+        knowledge_base.set_running(False)
+        return jsonify({"error": str(error)}), 500

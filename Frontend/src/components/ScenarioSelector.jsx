@@ -2,66 +2,55 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Activity, Cloud, AlertTriangle, Clock, CheckCircle, Play, Loader2, Lock } from 'lucide-react';
 
-// Asegúrate de que coincida con tu backend (localhost o 127.0.0.1)
-const API_URL = 'http://127.0.0.1:8000';
+const API_BASE_URL = 'http://127.0.0.1:8000';
 
-// Recibimos isSystemBusy como prop desde App.jsx para bloquear la UI
 const ScenarioSelector = ({ onScenarioChange, isSystemBusy }) => {
     const [scenarios, setScenarios] = useState([]);
-    const [activeId, setActiveId] = useState(null);
+    const [activeScenarioId, setActiveScenarioId] = useState(null);
     const [error, setError] = useState(null);
 
-    // 1. Cargar escenarios al montar el componente
     useEffect(() => {
         const loadScenarios = async () => {
             try {
-                const res = await axios.get(`${API_URL}/api/escenarios`);
-                setScenarios(res.data);
-            } catch (err) {
-                console.error("Error cargando escenarios:", err);
-                setError("No se pudieron cargar los escenarios del backend.");
+                const response = await axios.get(`${API_BASE_URL}/api/scenarios`);
+                setScenarios(response.data);
+            } catch (requestError) {
+                console.error("Scenario loading error:", requestError);
+                setError("The scenarios could not be loaded from the backend.");
             }
         };
         loadScenarios();
     }, []);
 
-    // 2. Manejar el clic en un escenario
-    const handleSelect = async (id) => {
-        // Bloqueo de seguridad frontend: si está ocupado, no hacemos nada
+    const handleSelect = async (scenarioId) => {
         if (isSystemBusy) return;
 
         try {
-            const res = await axios.post(`${API_URL}/api/seleccionar_escenario`, { id: id });
-            if (res.data.status === 'ok') {
-                setActiveId(id);
-                // Avisamos al componente padre (App) para que refresque el estado
+            const response = await axios.post(`${API_BASE_URL}/api/select-scenario`, { scenario_id: scenarioId });
+            if (response.data.status === 'ok') {
+                setActiveScenarioId(scenarioId);
                 if (onScenarioChange) onScenarioChange();
             }
-        } catch (err) {
-            console.error("Error seleccionando escenario:", err);
-            // Manejamos el error 423 (Locked) específicamente por si el bloqueo visual falla
-            if (err.response && err.response.status === 423) {
-                alert("⚠️ El sistema está ocupado procesando una solicitud. Por favor espera.");
+        } catch (requestError) {
+            console.error("Scenario selection error:", requestError);
+            if (requestError.response && requestError.response.status === 423) {
+                alert("The system is processing an adaptation request. Please wait for the current cycle to finish.");
             } else {
-                alert("Error al cambiar de escenario. Revisa la consola.");
+                alert("The scenario could not be changed. See the browser console for details.");
             }
         }
     };
 
-    // Helper para iconos visuales
-    const getIcon = (id) => {
-        switch (id) {
+    const getIcon = (scenarioId) => {
+        switch (scenarioId) {
             case 1: return <Activity size={20} className="icon-green" />; // Base
-            case 2: return <AlertTriangle size={20} className="icon-orange" />; // Alerta
-            case 3: return <Cloud size={20} className="icon-blue" />; // Qiskit
-            case 4: return <Clock size={20} className="icon-purple" />; // Cirq
-            case 5: case 99: return <AlertTriangle size={20} style={{ color: 'red' }} />; // Caos/Evento X
+            case 2: return <AlertTriangle size={20} className="icon-orange" />; // Alert
+            case 3: return <Cloud size={20} className="icon-blue" />; // Environmental crisis
+            case 4: return <Clock size={20} className="icon-purple" />; // Infrastructure degradation
+            case 5: case 99: return <AlertTriangle size={20} style={{ color: 'red' }} />; // Exceptional event
             default: return <Play size={20} className="icon-gray" />;
         }
     };
-
-    // Helper para formatear el SLA (Manejo de fallback por si la clave cambia en backend)
-    const getSlaLabel = (scenario) => scenario.sla_prioridad || scenario.sla || "N/A";
 
     if (error) return <div className="error-msg">{error}</div>;
 
@@ -69,18 +58,17 @@ const ScenarioSelector = ({ onScenarioChange, isSystemBusy }) => {
         <div className={`scenario-panel ${isSystemBusy ? 'panel-blocked' : ''}`}>
             <div className="scenario-header">
                 <div className="flex items-center gap-2" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                    <h2>🕹️ Panel de Control (Simulación Estocástica)</h2>
+                    <h2>Stochastic Scenario Control</h2>
 
-                    {/* Indicador de Estado del Sistema */}
                     {isSystemBusy ? (
                         <span className="status-badge processing">
                             <Loader2 size={14} className="spin-icon" />
-                            PROCESANDO CICLO MAPE-K...
+                            RUNNING MAPE-K FEEDBACK LOOP...
                         </span>
                     ) : (
                         <span className="status-badge ready pulse-green">
                             <span className="dot-indicator"></span>
-                            SISTEMA ACTIVO
+                            SYSTEM READY
                         </span>
                     )}
                 </div>
@@ -92,20 +80,19 @@ const ScenarioSelector = ({ onScenarioChange, isSystemBusy }) => {
                         key={scenario.id}
                         onClick={() => handleSelect(scenario.id)}
                         className={`scenario-card 
-                            ${activeId === scenario.id ? 'active' : ''} 
+                            ${activeScenarioId === scenario.id ? 'active' : ''}
                             ${isSystemBusy ? 'disabled-card' : ''}
                         `}
                     >
-                        {/* Overlay de bloqueo (Candado) */}
                         {isSystemBusy && (
                             <div className="card-overlay">
                                 <Lock size={32} className="lock-icon" />
                             </div>
                         )}
 
-                        {activeId === scenario.id && !isSystemBusy && (
+                        {activeScenarioId === scenario.id && !isSystemBusy && (
                             <div className="active-badge glow-effect">
-                                <CheckCircle size={14} /> ACTIVO
+                                <CheckCircle size={14} /> ACTIVE
                             </div>
                         )}
 
@@ -114,24 +101,24 @@ const ScenarioSelector = ({ onScenarioChange, isSystemBusy }) => {
                                 <div className={`icon-wrapper icon-wrapper-${scenario.id}`}>
                                     {getIcon(scenario.id)}
                                 </div>
-                                <h3>{scenario.nombre}</h3>
+                                <h3>{scenario.name}</h3>
                             </div>
 
-                            <p className="card-desc">{scenario.descripcion}</p>
+                            <p className="card-desc">{scenario.description}</p>
 
                             <div className="card-footer">
                                 <div className="metrics-row">
                                     <span className="metric-pill">
-                                        <span className="metric-label">ICA</span>
-                                        <span className="metric-val">{scenario.rango_ica ? `${scenario.rango_ica[0]}-${scenario.rango_ica[1]}` : scenario.ica}</span>
+                                        <span className="metric-label">AQI</span>
+                                        <span className="metric-val">{scenario.air_quality_index_range.join('-')}</span>
                                     </span>
                                     <span className="metric-pill">
-                                        <span className="metric-label">CP</span>
-                                        <span className="metric-val">{scenario.rango_cp ? `${scenario.rango_cp[0]}-${scenario.rango_cp[1]}` : scenario.cp}</span>
+                                        <span className="metric-label">Complexity</span>
+                                        <span className="metric-val">{scenario.problem_complexity_range.join('-')}</span>
                                     </span>
                                 </div>
-                                <span className={`sla-badge sla-${getSlaLabel(scenario).toLowerCase()}`}>
-                                    {getSlaLabel(scenario)}
+                                <span className={`sla-badge sla-${scenario.sla_priority.toLowerCase()}`}>
+                                    SLA: {scenario.sla_priority}
                                 </span>
                             </div>
                         </div>
