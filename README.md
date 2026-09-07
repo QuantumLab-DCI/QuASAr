@@ -21,7 +21,7 @@
   <p>
     <a href="#overview">Overview</a> ·
     <a href="#running-scenario">Running Scenario</a> ·
-    <a href="#prototype-architecture">Architecture</a> ·
+    <a href="#hqc-execution-abstraction">HQC Execution Abstraction</a> ·
     <a href="#adaptation-workflow">Adaptation Workflow</a> ·
     <a href="#getting-started">Getting Started</a> ·
     <a href="#scope-and-limitations">Limitations</a>
@@ -56,9 +56,9 @@ Together, these cases exercise infrastructure-, parameter-, and capability-level
 
 The prototype encapsulates SDK-specific quantum execution behind a common abstraction, preventing the MAPE-K controller from depending directly on Qiskit or Cirq. Instead, the controller delegates backend resolution to `HQCModule`, which implements the **Factory Method** pattern.
 
-![HQC execution abstraction](./docs/class_diagram_HQC_execution_abstraction.png)
-
-*Figure 1. Class diagram of the HQC execution abstraction implemented by the prototype.*
+<div align="center">
+  <img src="./docs/class_diagram_HQC_execution_abstraction.png" alt="HQC execution abstraction" />
+</div>
 
 `HQCModule` monitors the available backends and creates an implementation of the `QuantumBackend` interface according to the selected configuration. This interface defines a common execution contract through `execute_job()`, while `QiskitAdapter` and `CirqAdapter` encapsulate the operations required by their respective SDKs.
 
@@ -89,103 +89,48 @@ Each cycle records the following adaptation provenance:
 
 ### Prerequisites
 
-Docker Compose is the recommended setup because it installs the Python, Node.js, and Graphviz dependencies inside the service images.
-
-- Docker with the Compose plugin
-- A Google API key with access to `models/gemini-2.5-flash`
-
-For a manual setup:
-
-- `uv`; Python 3.10 is pinned and installed when required
-- Node.js `^20.19.0` or `>=22.12.0`, with npm
-- [Graphviz](https://graphviz.org/) with `dot` available on `PATH`
-- A Linux x86_64 environment for the required TensorFlow Quantum wheel
-- Optionally, a running Docker daemon for container inspection and reconfiguration
+- **Docker Compose:** Docker with the Compose plugin and a Google API key for `models/gemini-2.5-flash`.
+- **Manual setup:** `uv`, Node.js `^20.19.0` or `>=22.12.0`, npm, Graphviz, a Google API key, and Linux x86_64.
 
 ### Docker Compose
 
-From the repository root, create the backend environment file:
+1. Create `Backend/.env` and set `GOOGLE_API_KEY`:
 
-```bash
-cp Backend/.env.example Backend/.env
-```
+   ```bash
+   cp Backend/.env.example Backend/.env
+   ```
 
-Set a valid Google API key in `Backend/.env`:
+2. Build and start both services:
 
-```dotenv
-GOOGLE_API_KEY=your_api_key
-```
+   ```bash
+   docker compose up --build
+   ```
 
-Build and start the frontend and backend:
-
-```bash
-docker compose up --build
-```
-
-Open the dashboard at `http://localhost:5173`. The backend API is available at `http://localhost:8000`. Stop both services with:
-
-```bash
-docker compose down
-```
+3. Open `http://localhost:5173`. Stop the services with `docker compose down`.
 
 > [!WARNING]
 > The Compose configuration mounts `/var/run/docker.sock` so that the executor can inspect, start, and stop matching containers. This grants the backend control over the host Docker daemon; run only trusted backend code with this configuration.
 
 ### Manual Setup
 
-Start the backend:
+1. Configure `Backend/.env`, set `GOOGLE_API_KEY`, and start the backend:
 
-```bash
-cd Backend
-uv sync --locked
-cp .env.example .env
-uv run --locked python run.py
-```
+   ```bash
+   cd Backend
+   uv sync --locked
+   cp .env.example .env
+   uv run --locked python run.py
+   ```
 
-In a second terminal, start the frontend:
+2. In a second terminal, start the frontend:
 
-```bash
-cd Frontend
-npm ci
-npm run dev
-```
+   ```bash
+   cd Frontend
+   npm ci
+   npm run dev
+   ```
 
-The backend binds to `0.0.0.0:8000`; the frontend connects to `http://127.0.0.1:8000` and is served locally at `http://localhost:5173`.
-
-## Running the Prototype
-
-The dashboard allows a user to select an operating scenario and inspect the monitored context, candidate rationale, validated configuration, configuration graph, execution evidence, logs, and MAPE-K trace.
-
-A cycle can also be initiated through the backend API:
-
-```bash
-curl http://127.0.0.1:8000/api/scenarios
-
-curl -X POST http://127.0.0.1:8000/api/select-scenario \
-  -H 'Content-Type: application/json' \
-  -d '{"scenario_id": 1}'
-
-curl http://127.0.0.1:8000/api/state
-```
-
-The adaptation runs asynchronously. Wait until `is_running` is `false` before interpreting the final configuration and trace. Only one adaptation thread may run at a time; a concurrent request returns HTTP `423`.
-
-Generated logs, configuration graphs, and quantum-execution evidence are written under `Backend/data/`.
-
-### Verification
-
-The repository provides backend architecture checks and frontend static verification:
-
-```bash
-cd Backend
-uv run --locked python verify_backend.py
-
-cd ../Frontend
-npm run lint
-npm run build
-```
-
-`verify_backend.py` checks imports, application initialization, MAPE-K phase construction, and required route registration. It does not execute a complete Gemini or quantum adaptation cycle.
+3. Open `http://localhost:5173`. The backend API is available at `http://127.0.0.1:8000`.
 
 ## Reproducing the Adaptation Cases
 
@@ -199,11 +144,9 @@ The original operational scenarios and the C1–C3 cases represent different vie
 
 ## Scope and Limitations
 
-- The prototype evaluates bounded software-level adaptation in a controlled simulation environment; it does not execute on physical QPUs.
-- Runtime latency, noise, and execution-quality conditions are injected or simulated.
-- Only the runtime-controllable subset exercised by C1–C3 is implemented. Deployment-time decisions are not evaluated independently.
-- Runtime governance assets and Knowledge are partially realized and distributed across configuration, policy, state, and logging structures.
-- The implemented guardrails cover only the variability, compatibility, policy, and parameter constraints required by the three cases.
-- The Qiskit and Cirq adapters encapsulate different optimization workloads: a TSP-oriented QAOA realization and a Max-Cut-oriented VQE realization, respectively. C1 therefore demonstrates adapter rebinding and execution redirection, not semantic-preserving migration of an identical workload.
-- Runtime observations are sampled and candidate adaptations depend on an external Gemini model; repeated executions may produce different results.
-- Docker reconfiguration affects only pre-existing containers whose names match the selected feature keys; the repository does not provision those managed services.
+- **Environment:** quantum execution and runtime degradation are simulated; no physical QPUs are used.
+- **Adaptation scope:** only the runtime decisions exercised by C1–C3 are implemented.
+- **Governance:** Knowledge and governance assets are distributed, and guardrails cover only the constraints required by these cases.
+- **Backend semantics:** Qiskit and Cirq execute different workloads; C1 demonstrates adapter rebinding, not semantic-preserving migration.
+- **Reproducibility:** sampled observations and external Gemini reasoning may produce different results across runs.
+- **Docker services:** reconfiguration affects only matching pre-existing containers; the repository does not provision them.
