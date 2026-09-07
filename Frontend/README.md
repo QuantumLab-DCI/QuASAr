@@ -1,16 +1,55 @@
-# React + Vite
+# FMweb-K-Quantum Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This React dashboard is the observation and control interface for the
+FMweb-K-Quantum research artifact. It starts scenario-driven adaptation through
+the Flask API and presents the MAPE-K phase trace, monitored context, selected
+services, feature-model state, quantum execution evidence, and adaptation logs.
 
-Currently, two official plugins are available:
+See the [project README](../README.md) for the research context, backend setup,
+architecture, Docker Compose quick start, and complete API route reference.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Requirements
 
-## React Compiler
+- Node.js `^20.19.0` or `>=22.12.0`
+- npm
+- FMweb-K-Quantum backend running at `http://127.0.0.1:8000`
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Setup
 
-## Expanding the ESLint configuration
+From `Frontend/`:
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```bash
+npm ci
+npm run dev
+```
+
+Open `http://localhost:5173`. Select a scenario to start an asynchronous MAPE-K
+cycle. The dashboard polls `/api/state` and `/api/logs` every three seconds while
+the backend performs the adaptation.
+
+The API base URL is currently defined in `src/hooks/useSystemStatus.js`,
+`src/components/ScenarioSelector.jsx`, and `src/components/ServiceInspector.jsx`.
+There are no frontend environment variables; changing the backend address requires
+updating those constants.
+
+## Source layout
+
+| Path | Responsibility |
+| --- | --- |
+| `src/App.jsx` | Composes the scenario controls, MAPE-K visualizer, and evidence panels. |
+| `src/hooks/useSystemStatus.js` | Polls system state and logs and downloads generated evidence. |
+| `src/components/ScenarioSelector.jsx` | Loads scenarios and submits scenario selections. |
+| `src/components/PhaseStepper.jsx` | Displays progress through the MAPE-K phases. |
+| `src/components/panels/` | Presents context, services, state graphs, quantum evidence, traces, and logs. |
+
+## Commands
+
+```bash
+npm run dev      # Start the Vite development server on its default port, 5173
+npm run lint     # Run ESLint over the frontend source
+npm run build    # Create a production bundle in dist/
+npm run preview  # Preview a previously built bundle
+```
+
+The repository does not define frontend tests. Its development container is
+orchestrated from the root `docker-compose.yml`.

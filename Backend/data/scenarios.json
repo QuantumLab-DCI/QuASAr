@@ -1,74 +1,38 @@
 [
   {
     "id": 1,
-    "nombre": "Modo: Operación Diaria (Variable)",
-    "descripcion": "Simulación de un día normal. El aire varía entre limpio y regular. La carga de usuarios cambia dinámicamente.",
-    "rango_ica": [
-      20,
-      110
-    ],
-    "rango_cp": [
-      50,
-      120
-    ],
-    "sla_prioridad": "RAPIDEZ",
-    "rango_cola_qiskit": [
-      0,
-      5
-    ]
+    "name": "Routine Operations (Variable Conditions)",
+    "description": "Simulates routine operation with clean-to-moderate air quality and dynamically changing user demand.",
+    "air_quality_index_range": [20, 110],
+    "problem_complexity_range": [50, 120],
+    "sla_priority": "LATENCY",
+    "qiskit_queue_time_range": [0, 5]
   },
   {
     "id": 2,
-    "nombre": "Modo: Alta Demanda (Incertidumbre)",
-    "descripcion": "Picos de complejidad computacional. A veces requiere HQC, a veces no. El sistema decide según el caso.",
-    "rango_ica": [
-      40,
-      80
-    ],
-    "rango_cp": [
-      90,
-      300
-    ],
-    "sla_prioridad": "PRECISION",
-    "rango_cola_qiskit": [
-      10,
-      40
-    ]
+    "name": "High Demand (Computational Uncertainty)",
+    "description": "Introduces computational-complexity peaks for which the system determines whether hybrid quantum-classical execution is warranted.",
+    "air_quality_index_range": [40, 80],
+    "problem_complexity_range": [90, 300],
+    "sla_priority": "ACCURACY",
+    "qiskit_queue_time_range": [10, 40]
   },
   {
     "id": 3,
-    "nombre": "Modo: Crisis Ambiental",
-    "descripcion": "Calidad del aire peligrosa. El sistema debe forzar restricciones aunque el usuario pida deportes.",
-    "rango_ica": [
-      150,
-      300
-    ],
-    "rango_cp": [
-      50,
-      150
-    ],
-    "sla_prioridad": "RAPIDEZ",
-    "rango_cola_qiskit": [
-      0,
-      10
-    ]
+    "name": "Environmental Crisis",
+    "description": "Represents hazardous air quality that requires the system to enforce restrictions despite conflicting user preferences.",
+    "air_quality_index_range": [150, 300],
+    "problem_complexity_range": [50, 150],
+    "sla_priority": "LATENCY",
+    "qiskit_queue_time_range": [0, 10]
   },
   {
     "id": 4,
-    "nombre": "Modo: Fallos de Infraestructura",
-    "descripcion": "La nube es inestable. Las colas oscilan entre rápidas y saturadas. El sistema negocia el backend.",
-    "rango_ica": [
-      50,
-      90
-    ],
-    "rango_cp": [
-      200,
-      400
-    ],
-    "sla_prioridad": "PRECISION",
-    "rango_cola_qiskit": [
-      30,
-      200
-    ]
+    "name": "Infrastructure Degradation",
+    "description": "Models unstable cloud infrastructure with queue times ranging from responsive to saturated, requiring adaptive backend selection.",
+    "air_quality_index_range": [50, 90],
+    "problem_complexity_range": [200, 400],
+    "sla_priority": "ACCURACY",
+    "qiskit_queue_time_range": [30, 200]
   }
 ]

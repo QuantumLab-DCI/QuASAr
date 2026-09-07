@@ -1,185 +1,155 @@
-# app/services/hqc_backends/cirq_adapter.py (Versión Final: SVG -> PNG con CairoSVG)
-from .base_backend import QuantumBackend
-import numpy as np
 import os
 
-# --- Dependencias de Cirq, TFQ y Herramientas Gráficas ---
+import numpy as np
+
+from .base_backend import QuantumBackend
+
+
 try:
+    import cairosvg
     import cirq
+    import sympy
     import tensorflow as tf
     import tensorflow_quantum as tfq
-    import sympy
-    
-    # Herramientas para visualización
-    from cirq.contrib.svg import SVGCircuit # Genera el SVG bonito
-    import cairosvg                         # Convierte SVG a PNG
-    
-    CIRQ_DISPONIBLE = True
-except ImportError as e:
-    print(f"HQC_ERROR: Faltan dependencias (cirq, tfq o cairosvg). Error: {e}")
-    print("HQC_ERROR: Ejecuta: pip install cirq tensorflow==2.15.0 tensorflow-quantum==0.7.3 cairosvg")
-    CIRQ_DISPONIBLE = False
+    from cirq.contrib.svg import SVGCircuit
+
+    CIRQ_AVAILABLE = True
+except ImportError as error:
+    print(f"HQC_ERROR: Required Cirq, TFQ, or CairoSVG dependency is unavailable: {error}")
+    CIRQ_AVAILABLE = False
+
 
 class CirqAdapter(QuantumBackend):
-    """
-    Adaptador Cirq: Resuelve Max-Cut usando TFQ.
-    Genera EVIDENCIA VISUAL DEL CIRCUITO COMO PNG (vía CairoSVG).
-    """
+    """Solve adaptive Max-Cut workloads with Cirq and TensorFlow Quantum."""
 
-    def __init__(self):
-        if not CIRQ_DISPONIBLE:
-            raise ImportError("Dependencias de Cirq/TFQ/CairoSVG no encontradas.")
-        print("   ...Adaptador Cirq inicializado (Salida Visual: PNG de alta calidad).")
+    def __init__(self) -> None:
+        if not CIRQ_AVAILABLE:
+            raise ImportError("Required Cirq, TFQ, or CairoSVG dependencies are unavailable.")
+        print("Cirq adapter initialized with PNG artifact output.")
 
-    def _get_maxcut_hamiltonian_dynamic(self, n_nodos):
-        print(f"   ...Generando Hamiltoniano Max-Cut para {n_nodos} nodos.")
-        qubits = cirq.GridQubit.rect(1, n_nodos)
-        hamiltonian_terms = []
-        
-        for i in range(n_nodos - 1):
-            term = cirq.Z(qubits[i]) * cirq.Z(qubits[i+1])
-            hamiltonian_terms.append(term)
-            
-        if n_nodos > 2:
-            term = cirq.Z(qubits[0]) * cirq.Z(qubits[n_nodos-1])
-            hamiltonian_terms.append(term)
+    def _get_maxcut_hamiltonian(self, node_count: int):
+        print(f"Generating a Max-Cut Hamiltonian for {node_count} nodes.")
+        qubits = cirq.GridQubit.rect(1, node_count)
+        terms = [
+            cirq.Z(qubits[index]) * cirq.Z(qubits[index + 1])
+            for index in range(node_count - 1)
+        ]
+        if node_count > 2:
+            terms.append(cirq.Z(qubits[0]) * cirq.Z(qubits[node_count - 1]))
+        return sum(terms), qubits
 
-        return sum(hamiltonian_terms), qubits
-
-    def _build_qaoa_circuit(self, qubits, hamiltonian, p=1):
-        gamma = [sympy.Symbol(f'gamma_{i}') for i in range(p)]
-        beta = [sympy.Symbol(f'beta_{i}') for i in range(p)]
-        
-        circuit = cirq.Circuit()
-        circuit.append(cirq.H.on_each(qubits))
-        
-        for i in range(p):
+    def _build_qaoa_circuit(self, qubits, hamiltonian, depth: int = 1):
+        gamma = [sympy.Symbol(f"gamma_{index}") for index in range(depth)]
+        beta = [sympy.Symbol(f"beta_{index}") for index in range(depth)]
+        circuit = cirq.Circuit(cirq.H.on_each(qubits))
+        for layer_index in range(depth):
             for term in hamiltonian:
-                q0, q1 = term.qubits
-                circuit.append(cirq.ZZPowGate(exponent=gamma[i] * 2 / np.pi).on(q0, q1))
-            for q in qubits:
-                circuit.append(cirq.rx(2 * beta[i]).on(q))
-            
+                first_qubit, second_qubit = term.qubits
+                circuit.append(
+                    cirq.ZZPowGate(exponent=gamma[layer_index] * 2 / np.pi).on(
+                        first_qubit,
+                        second_qubit,
+                    )
+                )
+            for qubit in qubits:
+                circuit.append(cirq.rx(2 * beta[layer_index]).on(qubit))
         return circuit, gamma + beta
 
-    def _build_vqe_circuit(self, qubits, layers=1):
-        num_params = len(qubits) + (layers * len(qubits))
-        params = [sympy.Symbol(f'th_{i}') for i in range(num_params)]
-        
+    def _build_vqe_circuit(self, qubits, depth: int = 1):
+        parameter_count = len(qubits) + depth * len(qubits)
+        parameters = [sympy.Symbol(f"theta_{index}") for index in range(parameter_count)]
         circuit = cirq.Circuit()
-        idx = 0
-        
-        for q in qubits:
-            circuit.append(cirq.ry(params[idx]).on(q))
-            idx += 1
-            
-        for _ in range(layers):
-            for i in range(len(qubits) - 1):
-                circuit.append(cirq.CNOT(qubits[i], qubits[i+1]))
+        parameter_index = 0
+        for qubit in qubits:
+            circuit.append(cirq.ry(parameters[parameter_index]).on(qubit))
+            parameter_index += 1
+        for _layer in range(depth):
+            for index in range(len(qubits) - 1):
+                circuit.append(cirq.CNOT(qubits[index], qubits[index + 1]))
             if len(qubits) > 2:
                 circuit.append(cirq.CNOT(qubits[-1], qubits[0]))
-            for q in qubits:
-                circuit.append(cirq.ry(params[idx]).on(q))
-                idx += 1
-            
-        return circuit, params
+            for qubit in qubits:
+                circuit.append(cirq.ry(parameters[parameter_index]).on(qubit))
+                parameter_index += 1
+        return circuit, parameters
 
-    def _solve_problem_tfq(self, algoritmo: str, hamiltonian, qubits, depth=1):
-        
-        # 1. Construir circuito
-        if "QAOA" in algoritmo:
-            circuit, symbols = self._build_qaoa_circuit(qubits, hamiltonian, p=depth)
-        else: 
-            circuit, symbols = self._build_vqe_circuit(qubits, layers=depth)
+    def _solve_problem(
+        self,
+        algorithm_id: str,
+        hamiltonian,
+        qubits,
+        depth: int,
+        problem_id: str,
+        problem_complexity: int,
+    ) -> dict:
+        if "QAOA" in algorithm_id:
+            circuit, symbols = self._build_qaoa_circuit(qubits, hamiltonian, depth)
+        else:
+            circuit, symbols = self._build_vqe_circuit(qubits, depth)
 
-        # --- GENERACIÓN DE EVIDENCIA VISUAL (SVG -> PNG) ---
-        print(f"   ...[PRUEBA DE CÓMPUTO] Generando diagrama PNG del circuito {algoritmo}...")
-        evidence_path = "No generado"
+        artifact_url = None
         try:
-            # Ruta base: Backend/data
-            base_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../data'))
-            
-            if not os.path.exists(base_path):
-                os.makedirs(base_path, exist_ok=True)
+            data_path = os.path.abspath(
+                os.path.join(os.path.dirname(__file__), "../../../data")
+            )
+            os.makedirs(data_path, exist_ok=True)
+            svg_filename = "cirq_circuit_artifact.svg"
+            png_filename = "cirq_circuit_artifact.png"
+            svg_path = os.path.join(data_path, svg_filename)
+            png_path = os.path.join(data_path, png_filename)
+            with open(svg_path, "w", encoding="utf-8") as svg_file:
+                svg_file.write(SVGCircuit(circuit)._repr_svg_())
+            cairosvg.svg2png(url=svg_path, write_to=png_path, scale=2.0)
+            artifact_url = f"/api/static/{png_filename}"
+            print(f"Cirq circuit artifact saved to {png_path}.")
+        except Exception as error:
+            print(f"HQC_WARNING: Could not generate the Cirq circuit artifact: {error}")
+            print(circuit)
 
-            # Nombres de archivo
-            svg_filename = "cirq_circuit_evidence.svg"
-            png_filename = "cirq_circuit_evidence.png"
-            
-            full_path_svg = os.path.join(base_path, svg_filename)
-            full_path_png = os.path.join(base_path, png_filename)
-
-            # 1. Generar contenido SVG con Cirq
-            svg_content = SVGCircuit(circuit)._repr_svg_()
-
-            # Guardar SVG temporalmente (útil para debug)
-            with open(full_path_svg, "w", encoding="utf-8") as f:
-                f.write(svg_content)
-
-            # 2. Convertir a PNG usando CairoSVG
-            # scale=2.0 mejora la resolución de la imagen resultante
-            cairosvg.svg2png(url=full_path_svg, write_to=full_path_png, scale=2.0)
-
-            print(f"   ...[EVIDENCIA] Diagrama PNG guardado en: {full_path_png}")
-            evidence_path = f"/api/static/{png_filename}"
-            
-        except Exception as e:
-            print(f"   ...WARN Visualización PNG: {e}")
-            print(circuit) # Fallback a texto en consola
-        # --------------------------------------
-
-        # 2. Ejecución (Optimización)
-        print(f"   ...Inicializando motor TFQ...")
         expectation_layer = tfq.layers.Expectation()
-        
-        input_circuit = cirq.Circuit()
-        input_tensor = tfq.convert_to_tensor([input_circuit])
-        
-        initial_vals = np.random.uniform(0, 2*np.pi, len(symbols))
-        params_var = tf.Variable([initial_vals], dtype=tf.float32)
-        
+        input_tensor = tfq.convert_to_tensor([cirq.Circuit()])
+        initial_values = np.random.uniform(0, 2 * np.pi, len(symbols))
+        parameter_variable = tf.Variable([initial_values], dtype=tf.float32)
         optimizer = tf.keras.optimizers.Adam(learning_rate=0.05)
-
-        print(f"   ...Ejecutando optimización (30 pasos)...")
         losses = []
-        for step in range(30):
+        for _step in range(30):
             with tf.GradientTape() as tape:
                 expectations = expectation_layer(
                     input_tensor,
-                    symbol_names=[s.name for s in symbols],
-                    symbol_values=params_var,
-                    operators=hamiltonian
+                    symbol_names=[symbol.name for symbol in symbols],
+                    symbol_values=parameter_variable,
+                    operators=hamiltonian,
                 )
                 loss = tf.reduce_sum(expectations)
-            
-            grads = tape.gradient(loss, params_var)
-            optimizer.apply_gradients([(grads, params_var)])
+            gradients = tape.gradient(loss, parameter_variable)
+            optimizer.apply_gradients([(gradients, parameter_variable)])
             losses.append(loss.numpy())
 
-        costo_final = losses[-1]
-        print(f"   ...Optimización completada. Energía mínima: {costo_final:.4f}")
-
+        objective_value = float(losses[-1])
+        print(f"Optimization completed with objective value {objective_value:.4f}.")
         return {
             "backend": "Cirq/TensorFlow Quantum",
-            "algoritmo": f"{algoritmo} (Depth={depth})",
-            "problema": f"Max-Cut {len(qubits)} nodos",
-            "costo_optimo": float(costo_final),
-            "parametros_optimos": params_var.numpy().tolist()[0],
-            "evidencia_visual": evidence_path
+            "algorithm_id": f"{algorithm_id} (depth={depth})",
+            "problem_id": problem_id,
+            "problem_complexity": problem_complexity,
+            "objective_value": objective_value,
+            "optimized_parameters": parameter_variable.numpy().tolist()[0],
+            "artifact_url": artifact_url,
         }
 
-    def execute_job(self, algoritmo: str, params: dict) -> dict:
-        print(f"⚛️  CirqAdapter: Ejecutando Job Adaptativo ({algoritmo}).")
-        
-        n_nodos = params.get("size", 3)
-        depth = params.get("depth", 1)
-        
-        print(f"   ...Configuración: Grafo {n_nodos} nodos, Profundidad {depth}.")
-        hamiltonian, qubits = self._get_maxcut_hamiltonian_dynamic(n_nodos)
-        
-        if "QAOA" in algoritmo.upper():
-            return self._solve_problem_tfq("QAOA", hamiltonian, qubits, depth=depth)
-        elif "VQE" in algoritmo.upper():
-            return self._solve_problem_tfq("VQE", hamiltonian, qubits, depth=depth)
-        else:
-            return {"error": f"Algoritmo {algoritmo} no soportado."}
+    def execute_job(self, algorithm_id: str, parameters: dict) -> dict:
+        """Execute a supported QAOA or VQE workload."""
+        print(f"CirqAdapter: Executing adaptive {algorithm_id} job.")
+        node_count = parameters.get("problem_size", 3)
+        depth = parameters.get("circuit_depth", 1)
+        hamiltonian, qubits = self._get_maxcut_hamiltonian(node_count)
+        if algorithm_id.upper() not in {"QAOA", "VQE"}:
+            return {"error": f"Algorithm {algorithm_id} is not supported."}
+        return self._solve_problem(
+            algorithm_id.upper(),
+            hamiltonian,
+            qubits,
+            depth,
+            parameters.get("problem_id", f"maxcut_{node_count}_nodes"),
+            parameters.get("problem_complexity", 0),
+        )
