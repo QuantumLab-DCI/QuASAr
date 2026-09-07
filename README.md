@@ -57,7 +57,7 @@ Together, these cases exercise infrastructure-, parameter-, and capability-level
 The prototype encapsulates SDK-specific quantum execution behind a common abstraction, preventing the MAPE-K controller from depending directly on Qiskit or Cirq. Instead, the controller delegates backend resolution to `HQCModule`, which implements the **Factory Method** pattern.
 
 <div align="center">
-  <img src="./docs/class_diagram_HQC_execution_abstraction.png" alt="HQC execution abstraction" />
+  <img src="./docs/class_diagram_HQC_execution_abstraction.png" alt="Class Diagram" width="350" />
 </div>
 
 `HQCModule` monitors the available backends and creates an implementation of the `QuantumBackend` interface according to the selected configuration. This interface defines a common execution contract through `execute_job()`, while `QiskitAdapter` and `CirqAdapter` encapsulate the operations required by their respective SDKs.
