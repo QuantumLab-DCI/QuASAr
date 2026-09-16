@@ -6,6 +6,30 @@ import google.generativeai as genai
 from app.core.audit_logger import get_logger
 
 
+def _parse_json_response(response_text: str) -> dict:
+    """Parse JSON returned directly or wrapped in a Markdown code fence."""
+    normalized_text = response_text.strip()
+    if normalized_text.startswith("```"):
+        normalized_text = normalized_text.split("\n", 1)[-1]
+        if normalized_text.endswith("```"):
+            normalized_text = normalized_text[:-3].rstrip()
+
+    try:
+        return json.loads(normalized_text)
+    except json.JSONDecodeError as original_error:
+        decoder = json.JSONDecoder()
+        for index, character in enumerate(normalized_text):
+            if character != "{":
+                continue
+            try:
+                data, _ = decoder.raw_decode(normalized_text[index:])
+            except json.JSONDecodeError:
+                continue
+            if isinstance(data, dict):
+                return data
+        raise original_error
+
+
 try:
     genai.configure(api_key=os.environ.get("GOOGLE_API_KEY"))
 except Exception as error:
@@ -77,14 +101,14 @@ def get_llm_configuration(runtime_context: str, feature_model_rules: str) -> dic
             top_k=40,
         )
         model = genai.GenerativeModel(
-            "models/gemini-2.5-flash",
+            "models/gemini-3.5-flash-lite",
             generation_config=generation_config,
         )
         response = model.generate_content(f"{system_prompt}\n\n{user_prompt}")
         if not response.parts:
             return {}
 
-        data = json.loads(response.text)
+        data = _parse_json_response(response.text)
         configuration = data.get("configuration", {})
         if configuration.get("qiskit_simulator") or configuration.get("cirq_simulator"):
             configuration["quantum_backend"] = True
