@@ -24,8 +24,10 @@ const ServicesPanel = ({ systemState }) => {
             )}
 
             <div className="panel services-panel">
-                <h2 className="panel-title"><LayoutGrid className="icon" /> Distributed Micro-Frontends</h2>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1rem' }}>
+                <h2 className="panel-title">
+                    <LayoutGrid className="icon" /> Distributed Micro-Frontends
+                </h2>
+                <div className="services-grid">
 
                     <MicroFrontendCard
                         title="Tourism (:8081)"
