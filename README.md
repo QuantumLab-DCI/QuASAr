@@ -52,6 +52,17 @@ The prototype represents an HSS in which classical services coordinate an optimi
 
 Together, these cases exercise infrastructure-, parameter-, and capability-level adaptation without synthesizing a new workflow at runtime.
 
+### Domain Context and Operational Scenarios
+
+The smart-tourism platform adapts its services as environmental and computational conditions change. It manages tourism, outdoor sports, entertainment, air-quality information, and an optional optimization capability supported by hybrid quantum-classical execution. Decisions consider the visitor profile, Air Quality Index (AQI), problem complexity, Service Level Agreement (SLA) priority, and simulated infrastructure conditions.
+
+These operational scenarios are distinct from cases C1–C3:
+
+- **Routine Operations (Variable Conditions):** clean-to-moderate air quality and changing user demand. AQI 20–110; complexity 50–120; SLA: latency.
+- **High Demand (Computational Uncertainty):** complexity peaks that prompt a decision on whether hybrid quantum-classical execution is warranted. AQI 40–80; complexity 90–300; SLA: accuracy.
+- **Environmental Crisis:** hazardous air quality requiring restrictions despite conflicting user preferences. AQI 150–300; complexity 50–150; SLA: latency.
+- **Infrastructure Degradation:** unstable cloud infrastructure and variable queue times requiring adaptive backend selection. AQI 50–90; complexity 200–400; SLA: accuracy.
+
 ## HQC Execution Abstraction
 
 The prototype encapsulates SDK-specific quantum execution behind a common abstraction, preventing the MAPE-K controller from depending directly on Qiskit or Cirq. Instead, the controller delegates backend resolution to `HQCModule`, which implements the **Factory Method** pattern.
