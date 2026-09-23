@@ -7,6 +7,8 @@ import AdaptationTracePanel from './components/panels/AdaptationTracePanel';
 import MonitoredContextPanel from './components/panels/MonitoredContextPanel';
 import LogsPanel from './components/panels/LogsPanel';
 import StateGraphPanel from './components/panels/StateGraphPanel';
+import InfoTooltip from './components/InfoTooltip';
+import { glossaryByKey } from './data/domainGlossary';
 import { useSystemStatus } from './hooks/useSystemStatus';
 import { Network, RefreshCw, Brain, X } from 'lucide-react';
 import './App.css';
@@ -45,9 +47,11 @@ function App() {
 
       <header className="App-header">
         <div className="header-content">
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <div className="header-brand">
             <Network className="text-blue-600" />
-            <h1 style={{ fontSize: '1.2rem', margin: 0 }}>FMweb-K-Quantum Self-Adaptive HQC Architecture</h1>
+            <h1 style={{ fontSize: '1.2rem', margin: 0 }}>
+              QuASAr
+            </h1>
           </div>
           <div className="header-meta">
             <span>Last updated: {lastUpdate.toLocaleTimeString()}</span>
@@ -68,6 +72,12 @@ function App() {
         </section>
 
         <section className="mapek-visualizer">
+          <div className="mapek-heading">
+            <h2>MAPE-K Feedback Loop</h2>
+            <InfoTooltip label={`${glossaryByKey.mapek.term} - ${glossaryByKey.mapek.expanded}`}>
+              {glossaryByKey.mapek.description}
+            </InfoTooltip>
+          </div>
           <PhaseStepper trace={systemState?.mapek_trace} />
 
           {systemState?.context?.reasoning ? (

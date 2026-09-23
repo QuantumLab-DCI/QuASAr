@@ -1,11 +1,18 @@
 import React from 'react';
 import { Network, Info } from 'lucide-react';
 import LoadingBlock from '../LoadingBlock';
+import InfoTooltip from '../InfoTooltip';
+import { glossaryByKey } from '../../data/domainGlossary';
 
 const StateGraphPanel = ({ systemState, isProcessing, isSystemReady, onOpenModal, apiBaseUrl }) => {
     return (
         <div className="panel graph-panel">
-            <h2 className="panel-title"><Network className="icon" /> Current Configuration (DSPL)</h2>
+            <h2 className="panel-title">
+                <Network className="icon" /> Current Configuration (DSPL)
+                <InfoTooltip label={`${glossaryByKey.dspl.term} - ${glossaryByKey.dspl.expanded}`}>
+                    {glossaryByKey.dspl.description}
+                </InfoTooltip>
+            </h2>
             <LoadingBlock loading={isProcessing} message="Reconfiguring the system architecture...">
                 <div className="image-container state-graph">
                     {isSystemReady && systemState?.state_image_url ? (

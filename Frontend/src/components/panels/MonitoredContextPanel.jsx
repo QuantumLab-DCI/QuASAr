@@ -1,10 +1,17 @@
 import React from 'react';
 import LoadingBlock from '../LoadingBlock';
+import InfoTooltip from '../InfoTooltip';
+import { glossaryByKey } from '../../data/domainGlossary';
 
 const MonitoredContextPanel = ({ context, isProcessing, isSystemReady }) => {
     return (
         <div className="panel context-panel">
-            <h2 className="panel-title">Monitored Context</h2>
+            <h2 className="panel-title">
+                Monitored Context
+                <InfoTooltip label={glossaryByKey.monitoredContext.term}>
+                    {glossaryByKey.monitoredContext.description}
+                </InfoTooltip>
+            </h2>
             <LoadingBlock loading={isProcessing} message="Collecting context observations...">
                 {isSystemReady && context ? (
                     <div>
